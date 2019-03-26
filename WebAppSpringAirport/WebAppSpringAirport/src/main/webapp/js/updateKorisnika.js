@@ -26,7 +26,7 @@ $(document).on('submit', "#updateKorisnikaForma", function(e){
 			window.location.replace("prikazKorisnika.html");
 		}
 			, error: function(XMLHttpRequest,textStatus, errorThrown) 
-				{alert("ERRORR!"+errorThrown);
+				{alert("Ne postoji korisnik sa datom ID-om!"+errorThrown);
 			}
 	});
 });

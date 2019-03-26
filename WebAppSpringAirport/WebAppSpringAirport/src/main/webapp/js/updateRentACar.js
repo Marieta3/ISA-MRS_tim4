@@ -2,11 +2,11 @@
  * 
  */
 
-var update_hotela_url="api/hotels";
+var update_rentacar_url="api/rentACars";
 
-$(document).on('submit', "#updateHotelaForma", function(e){
+$(document).on('submit', "#updateRentACarForma", function(e){
 	e.preventDefault();
-	console.log("update hotel");
+	console.log("update rent-a-car");
 	var id = $('#identifikator').val();
 	var naziv=$('#naziv').val();
 	var adresa=$('#adresa').val();
@@ -16,22 +16,21 @@ $(document).on('submit', "#updateHotelaForma", function(e){
 	console.log("aaaaaaaaa");
 	$.ajax({
 		type:'PUT',
-		url:update_hotela_url+"/"+id,
+		url:update_rentacar_url+"/"+id,
 		contentType:'application/json',
 		dataType:'text',
-		data:hotelToJSON(id,naziv, adresa, opis),
+		data:rentacarToJSON(id,naziv, adresa, opis),
 		success:function(data){
 			console.log(data); 
-			console.log("EVO MEEEEEE")
-			window.location.replace("prikazHotela.html");
+			window.location.replace("prikazRentACar.html");
 		}
 			, error: function(XMLHttpRequest,textStatus, errorThrown) 
-				{alert("Ne postoji hotel sa datom ID-om!"+errorThrown);
+				{alert("Ne postoji rent-a-car sa datom ID-om!"+errorThrown);
 			}
 	});
 });
 
-function hotelToJSON(id,naziv, adresa, opis){
+function rentacarToJSON(id,naziv, adresa, opis){
 	return JSON.stringify({
 		"id":id,
 		"naziv":naziv,
