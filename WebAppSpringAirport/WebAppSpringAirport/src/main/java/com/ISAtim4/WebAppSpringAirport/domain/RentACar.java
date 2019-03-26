@@ -8,7 +8,7 @@ public class RentACar implements Serializable {
 	
 	private Long id;
 	private String naziv;
-	private Adresa adresa;
+	private String adresa;
 	private String opis;
 	private double ocena;
 	private Set<Vozilo> vozila;
@@ -18,14 +18,14 @@ public class RentACar implements Serializable {
 		super();
 		this.id = null;
 		this.naziv = "";
-		this.adresa = new Adresa();
+		this.adresa = "";
 		this.opis = "";
 		this.ocena = 0;
 		this.vozila= new HashSet<Vozilo>();
 		this.filijale = new HashSet<Filijala>();
 	}
 	
-	public RentACar(Long id, String naziv, Adresa adresa, String opis,
+	public RentACar(Long id, String naziv, String adresa, String opis,
 			double ocena, Set<Vozilo> vozila, Set<Filijala> filijale) {
 		super();
 		this.id = id;
@@ -60,10 +60,10 @@ public class RentACar implements Serializable {
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
 	}
-	public Adresa getAdresa() {
+	public String getAdresa() {
 		return adresa;
 	}
-	public void setAdresa(Adresa adresa) {
+	public void setAdresa(String adresa) {
 		this.adresa = adresa;
 	}
 	public String getOpis() {
