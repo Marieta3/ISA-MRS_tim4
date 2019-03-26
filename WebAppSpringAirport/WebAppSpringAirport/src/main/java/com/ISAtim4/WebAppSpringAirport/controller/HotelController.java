@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 
-
-
 @RestController
 public class HotelController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
