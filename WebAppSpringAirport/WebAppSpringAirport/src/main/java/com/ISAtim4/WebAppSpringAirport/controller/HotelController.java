@@ -54,5 +54,18 @@ public class HotelController {
 		logger.info("< createHotel");
 		return new ResponseEntity<Hotel>(savedHotel, HttpStatus.CREATED);
 	}
-
+	
+	@RequestMapping(value = "/api/hotels/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Hotel> updateHotel(
+			@RequestBody Hotel hotel) throws Exception {
+		logger.info("> updateHotel id:{}", hotel.getId());
+		Hotel updatedHotel = hotelService.update(hotel);
+		if (updatedHotel == null) {
+			System.out.println("Usao sam ovde");
+			return new ResponseEntity<Hotel>(
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		logger.info("< updateHotel id:{}", hotel.getId());
+		return new ResponseEntity<Hotel>(updatedHotel, HttpStatus.OK);
+	}
 }

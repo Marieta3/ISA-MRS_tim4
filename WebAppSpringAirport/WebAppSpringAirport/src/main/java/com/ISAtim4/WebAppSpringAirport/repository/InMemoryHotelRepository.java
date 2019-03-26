@@ -36,8 +36,11 @@ public class InMemoryHotelRepository implements HotelRepository{
 
 	@Override
 	public Hotel update(Hotel hotel) {
-		// TODO Auto-generated method stub
-		return null;
+		Long id = hotel.getId();
+		if (id != null) {
+			this.hotels.put(id, hotel);
+		}
+		return hotel;
 	}
 
 	@Override

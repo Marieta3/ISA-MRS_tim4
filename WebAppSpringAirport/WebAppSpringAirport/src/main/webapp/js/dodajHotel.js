@@ -5,7 +5,7 @@ var dodaj_hotel_url="api/hotels";
 
 $(document).on('submit', "#dodajHotelForma", function(e){
 	e.preventDefault();
-	console.log("dodaj hotel");
+	console.log("dodavanje hotela");
 	var naziv=$('#naziv').val();
 	var adresa=$('#adresa').val();
 	var opis=$('#opis').val();

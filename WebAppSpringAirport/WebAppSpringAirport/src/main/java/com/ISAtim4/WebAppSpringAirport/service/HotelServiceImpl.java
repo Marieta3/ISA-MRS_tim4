@@ -11,9 +11,6 @@ import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.repository.InMemoryHotelRepository;
 
 
-
-
-
 @Service
 public class HotelServiceImpl implements HotelService {
 
@@ -54,8 +51,20 @@ public class HotelServiceImpl implements HotelService {
 
 	@Override
 	public Hotel update(Hotel hotel) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+        logger.info("> update id:{}", hotel.getId());
+        Hotel hotelToUpgrade = findOne(hotel.getId());
+        if (hotelToUpgrade == null) {
+            logger.error(
+                    "Pokusaj azuriranja entiteta, ali je on nepostojeci.");
+            throw new Exception("Trazeni entitet nije pronadjen.");
+        }
+        hotelToUpgrade.setNaziv(hotel.getNaziv());
+        hotelToUpgrade.setAdresa(hotel.getAdresa());
+        hotelToUpgrade.setOpis(hotel.getOpis());
+        
+        Hotel updatedHotel = hotelRepository.create(hotelToUpgrade);
+        logger.info("< update id:{}", hotel.getId());
+        return updatedHotel;
 	}
 
 	@Override
