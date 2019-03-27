@@ -3,7 +3,6 @@ package com.ISAtim4.WebAppSpringAirport.domain;
 import java.io.Serializable;
 
 public class Vozilo implements Serializable {
-	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	
