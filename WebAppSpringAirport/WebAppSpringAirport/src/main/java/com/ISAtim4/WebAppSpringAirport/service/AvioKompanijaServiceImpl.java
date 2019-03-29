@@ -59,8 +59,8 @@ public class AvioKompanijaServiceImpl {
             throw new Exception("Trazeni entitet nije pronadjen.");
         }
         avioKompanijaToUpgrade.setNaziv(avioKompanija.getNaziv());
-        avioKompanijaToUpgrade.setAdresa(avioKompanija.getAdresa());
-        avioKompanijaToUpgrade.setOpis(avioKompanija.getOpis());
+        //avioKompanijaToUpgrade.setAdresa(avioKompanija.getAdresa());
+        //avioKompanijaToUpgrade.setOpis(avioKompanija.getOpis());
         
         AvioKompanija updatedavioKompanija = avioKompanijaRepository.create(avioKompanijaToUpgrade);
         logger.info("< update id:{}", avioKompanija.getId());
