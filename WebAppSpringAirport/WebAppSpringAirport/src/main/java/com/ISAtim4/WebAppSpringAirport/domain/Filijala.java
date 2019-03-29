@@ -1,8 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
-import java.io.Serializable;
 
-public class Filijala implements Serializable {
+public class Filijala {
 	
 	private Long id; 
 	

@@ -1,8 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
-import java.io.Serializable;
 
-public class Adresa implements Serializable {
+public class Adresa {
 
 	private Long id;
 

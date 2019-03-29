@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.springframework.stereotype.Repository;
 
-import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 
 @Repository

@@ -1,10 +1,9 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RentACar implements Serializable {
+public class RentACar {
 	
 	private Long id;
 	private String naziv;

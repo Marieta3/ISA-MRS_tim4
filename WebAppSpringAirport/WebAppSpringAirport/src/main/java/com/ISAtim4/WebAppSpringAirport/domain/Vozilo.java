@@ -1,8 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
-import java.io.Serializable;
 
-public class Vozilo implements Serializable {
+public class Vozilo {
 	
 	private Long id;
 	
