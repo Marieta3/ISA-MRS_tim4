@@ -3,7 +3,6 @@ package com.ISAtim4.WebAppSpringAirport.domain;
 import java.io.Serializable;
 
 public class Filijala implements Serializable {
-	private static final long serialVersionUID = 7066774555178048235L;
 	
 	private Long id; 
 	
@@ -14,14 +13,6 @@ public class Filijala implements Serializable {
 	
 	public Filijala(Adresa adresa, String telefon) {
 		super();
-		this.adresa = adresa;
-		this.telefon = telefon;
-	}
-
-
-	public Filijala(Long id, Adresa adresa, String telefon) {
-		super();
-		this.id = id;
 		this.adresa = adresa;
 		this.telefon = telefon;
 	}

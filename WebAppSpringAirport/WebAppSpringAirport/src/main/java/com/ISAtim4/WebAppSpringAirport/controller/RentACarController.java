@@ -36,12 +36,12 @@ public class RentACarController {
 	
 	@RequestMapping(value = "/api/rentACars/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> getrentACar(@PathVariable("id") Long id) {
-		logger.info("> gerentACar id:{}", id);
+		logger.info("> getrentACar id:{}", id);
 		RentACar rentACar = rentACarService.findOne(id);
 		if (rentACar == null) {
 			return new ResponseEntity<RentACar>(HttpStatus.NOT_FOUND);
 		}
-		logger.info("< getGreeting id:{}", id);
+		logger.info("< getrentACar id:{}", id);
 		return new ResponseEntity<RentACar>(rentACar, HttpStatus.OK);
 	}
 	

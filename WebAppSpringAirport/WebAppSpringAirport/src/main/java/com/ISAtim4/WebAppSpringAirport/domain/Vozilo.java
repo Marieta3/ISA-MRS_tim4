@@ -10,7 +10,9 @@ public class Vozilo implements Serializable {
 	private String model;
 	private Integer godina;
 	private String tablica;
+
 	private double cena;
+	private Integer brojMesta;
 	
 	public Vozilo() {
 		super();
@@ -20,10 +22,11 @@ public class Vozilo implements Serializable {
 		this.godina = null;
 		this.tablica = "";
 		this.cena = 0;
+		this.brojMesta = 0;
 	}
 
 	public Vozilo(Long id, String proizvodjac, String model, Integer godina,
-			String tablica, double cena) {
+			String tablica, double cena,Integer brojMesta) {
 		super();
 		this.id = id;
 		this.proizvodjac = proizvodjac;
@@ -31,6 +34,7 @@ public class Vozilo implements Serializable {
 		this.godina = godina;
 		this.tablica = tablica;
 		this.cena = cena;
+		this.brojMesta = brojMesta;
 	}
 
 	public Long getId() {
@@ -80,6 +84,15 @@ public class Vozilo implements Serializable {
 	public void setCena(double cena) {
 		this.cena = cena;
 	}
+	
+	public Integer getBrojMesta() {
+		return brojMesta;
+	}
+
+	public void setBrojMesta(Integer brojMesta) {
+		this.brojMesta = brojMesta;
+	}
+
 
 	@Override
 	public int hashCode() {

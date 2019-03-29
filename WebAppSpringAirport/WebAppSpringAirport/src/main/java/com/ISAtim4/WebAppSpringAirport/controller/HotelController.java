@@ -36,12 +36,12 @@ public class HotelController {
 	
 	@RequestMapping(value = "/api/hotels/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Hotel> getHotel(@PathVariable("id") Long id) {
-		logger.info("> geHotel id:{}", id);
+		logger.info("> getHotel id:{}", id);
 		Hotel hotel = hotelService.findOne(id);
 		if (hotel == null) {
 			return new ResponseEntity<Hotel>(HttpStatus.NOT_FOUND);
 		}
-		logger.info("< getGreeting id:{}", id);
+		logger.info("< getHotel id:{}", id);
 		return new ResponseEntity<Hotel>(hotel, HttpStatus.OK);
 	}
 	

@@ -6,6 +6,7 @@ public class Soba {
 	private double ocena;
 	
 	public Soba() {}
+	
 	public Long getId() {
 		return id;
 	}

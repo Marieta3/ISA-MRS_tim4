@@ -1,12 +1,18 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class AvioKompanija {
 	private Long id;
 	private String naziv;
 	private String adresa;
 	private String opis;
+	private Set<Destinacija> listaDestinacija = new HashSet<>();
+	private Set<Let> listaLetova = new HashSet<>();
 	
 	public AvioKompanija() {}
+	
 	public Long getId() {
 		return id;
 	}
@@ -31,7 +37,20 @@ public class AvioKompanija {
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
-	
-	
-	
+
+	public Set<Destinacija> getListaDestinacija() {
+		return listaDestinacija;
+	}
+
+	public void setListaDestinacija(Set<Destinacija> listaDestinacija) {
+		this.listaDestinacija = listaDestinacija;
+	}
+
+	public Set<Let> getListaLetova() {
+		return listaLetova;
+	}
+
+	public void setListaLetova(Set<Let> listaLetova) {
+		this.listaLetova = listaLetova;
+	}
 }

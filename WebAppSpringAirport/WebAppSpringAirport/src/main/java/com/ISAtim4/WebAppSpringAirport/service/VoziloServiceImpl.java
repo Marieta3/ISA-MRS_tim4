@@ -21,50 +21,50 @@ public class VoziloServiceImpl implements VoziloService {
 	@Override
 	public Collection<Vozilo> findAll() {
 		logger.info("> findAll");
-		Collection<Vozilo> korisnici = VoziloRepository.findAll();
+		Collection<Vozilo> vozila = VoziloRepository.findAll();
         logger.info("< findAll");
-        return korisnici;
+        return vozila;
 	}
 
 	@Override
 	public Vozilo findOne(Long id) {
 		logger.info("> findOne id:{}", id);
-        Vozilo Vozilo = VoziloRepository.findOne(id);
+        Vozilo vozilo = VoziloRepository.findOne(id);
         logger.info("< findOne id:{}", id);
-        return Vozilo;
+        return vozilo;
 	}
 
 	@Override
-	public Vozilo create(Vozilo Vozilo) throws Exception {
+	public Vozilo create(Vozilo vozilo) throws Exception {
 		logger.info("> create");
-        if (Vozilo.getId() != null) {
+        if (vozilo.getId() != null) {
             logger.error(
                     "Pokusaj kreiranja novog entiteta, ali Id nije null.");
             throw new Exception(
                     "Id mora biti null prilikom perzistencije novog entiteta.");
         }
-        Vozilo snimljenVozilo = VoziloRepository.create(Vozilo);
+        Vozilo snimljenVozilo = VoziloRepository.create(vozilo);
         logger.info("< create");
         return snimljenVozilo;
 	}
 
 	@Override
-	public Vozilo update(Vozilo Vozilo) throws Exception {
-        logger.info("> update id:{}", Vozilo.getId());
-        Vozilo VoziloToUpgrade = findOne(Vozilo.getId());
-        if (VoziloToUpgrade == null) {
+	public Vozilo update(Vozilo vozilo) throws Exception {
+        logger.info("> update id:{}", vozilo.getId());
+        Vozilo voziloToUpgrade = findOne(vozilo.getId());
+        if (voziloToUpgrade == null) {
             logger.error(
                     "Pokusaj azuriranja entiteta, ali je on nepostojeci.");
             throw new Exception("Trazeni entitet nije pronadjen.");
         }
-        VoziloToUpgrade.setProizvodjac(Vozilo.getProizvodjac());
-        VoziloToUpgrade.setModel(Vozilo.getModel());;
-        VoziloToUpgrade.setGodina(Vozilo.getGodina());
-        VoziloToUpgrade.setTablica(Vozilo.getTablica());
-        VoziloToUpgrade.setCena(Vozilo.getCena());
+        voziloToUpgrade.setProizvodjac(vozilo.getProizvodjac());
+        voziloToUpgrade.setModel(vozilo.getModel());;
+        voziloToUpgrade.setGodina(vozilo.getGodina());
+        voziloToUpgrade.setTablica(vozilo.getTablica());
+        voziloToUpgrade.setCena(vozilo.getCena());
         
-        Vozilo updatedVozilo = VoziloRepository.create(VoziloToUpgrade);
-        logger.info("< update id:{}", Vozilo.getId());
+        Vozilo updatedVozilo = VoziloRepository.create(voziloToUpgrade);
+        logger.info("< update id:{}", vozilo.getId());
         return updatedVozilo;
 	}
 

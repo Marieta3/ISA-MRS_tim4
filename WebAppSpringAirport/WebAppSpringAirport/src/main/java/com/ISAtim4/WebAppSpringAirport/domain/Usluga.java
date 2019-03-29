@@ -4,9 +4,9 @@ public class Usluga {
 	private Long id;
 	private String opis;
 	private double cena;
-	public Usluga() {
-		super();
-	}
+	
+	public Usluga() {}
+	
 	public Long getId() {
 		return id;
 	}

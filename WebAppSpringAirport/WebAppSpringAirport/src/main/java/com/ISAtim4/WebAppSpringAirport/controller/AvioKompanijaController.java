@@ -22,48 +22,48 @@ public class AvioKompanijaController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private AvioKompanijaServiceImpl hotelService;
+	private AvioKompanijaServiceImpl aviokompanijaService;
 	
 	@RequestMapping(value = "/api/avioKompanije", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<AvioKompanija>> getAvioKompanije() {
-		logger.info("> getHotels");
+		logger.info("> getAviokompanije");
 
-		Collection<AvioKompanija> avioKompanije = hotelService.findAll();
+		Collection<AvioKompanija> avioKompanije = aviokompanijaService.findAll();
 
-		logger.info("< getHotels");
+		logger.info("< getAviokompanije");
 		return new ResponseEntity<Collection<AvioKompanija>>(avioKompanije, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/api/avioKompanije/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> getHotel(@PathVariable("id") Long id) {
-		logger.info("> geHotel id:{}", id);
-		AvioKompanija hotel = hotelService.findOne(id);
-		if (hotel == null) {
+		logger.info("> getAviokompanija id:{}", id);
+		AvioKompanija avioKompanija = aviokompanijaService.findOne(id);
+		if (avioKompanija == null) {
 			return new ResponseEntity<AvioKompanija>(HttpStatus.NOT_FOUND);
 		}
-		logger.info("< getGreeting id:{}", id);
-		return new ResponseEntity<AvioKompanija>(hotel, HttpStatus.OK);
+		logger.info("< getAviokompanija id:{}", id);
+		return new ResponseEntity<AvioKompanija>(avioKompanija, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/api/avioKompanije", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> createHotel(@RequestBody AvioKompanija hotel) throws Exception {
-		logger.info("> createHotel");
-		AvioKompanija savedHotel = hotelService.create(hotel);
-		logger.info("< createHotel");
-		return new ResponseEntity<AvioKompanija>(savedHotel, HttpStatus.CREATED);
+		logger.info("> createAviokompanija");
+		AvioKompanija snimljenaAviokompanija = aviokompanijaService.create(hotel);
+		logger.info("< createAviokompanija");
+		return new ResponseEntity<AvioKompanija>(snimljenaAviokompanija, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/api/avioKompanije/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> updateHotel(
 			@RequestBody AvioKompanija hotel) throws Exception {
-		logger.info("> updateHotel id:{}", hotel.getId());
-		AvioKompanija updatedHotel = hotelService.update(hotel);
-		if (updatedHotel == null) {
+		logger.info("> updateKompanija id:{}", hotel.getId());
+		AvioKompanija updatedAviokompanija = aviokompanijaService.update(hotel);
+		if (updatedAviokompanija == null) {
 			System.out.println("Usao sam ovde");
 			return new ResponseEntity<AvioKompanija>(
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		logger.info("< updateHotel id:{}", hotel.getId());
-		return new ResponseEntity<AvioKompanija>(updatedHotel, HttpStatus.OK);
+		logger.info("< updateKompanija id:{}", hotel.getId());
+		return new ResponseEntity<AvioKompanija>(updatedAviokompanija, HttpStatus.OK);
 	}
 }

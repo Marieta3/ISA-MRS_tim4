@@ -1,6 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class Hotel {
 	private Long id;
@@ -8,8 +8,8 @@ public class Hotel {
 	private String adresa;
 	private String opis;
 	private double ocena;
-	private HashMap<Long, Soba> sobe;
-	private HashMap<Long, Usluga> usluge;
+	private HashSet<Soba> sobe = new HashSet<>();
+	private HashSet<Usluga> usluge = new HashSet<>();
 	
 	public Hotel() {}
 
@@ -53,21 +53,19 @@ public class Hotel {
 		this.ocena = ocena;
 	}
 
-	public HashMap<Long, Soba> getSobe() {
+	public HashSet<Soba> getSobe() {
 		return sobe;
 	}
 
-	public void setSobe(HashMap<Long, Soba> sobe) {
+	public void setSobe(HashSet<Soba> sobe) {
 		this.sobe = sobe;
 	}
 
-	public HashMap<Long, Usluga> getUsluge() {
+	public HashSet<Usluga> getUsluge() {
 		return usluge;
 	}
 
-	public void setUsluge(HashMap<Long, Usluga> usluge) {
+	public void setUsluge(HashSet<Usluga> usluge) {
 		this.usluge = usluge;
 	}
-	
-	
 }
