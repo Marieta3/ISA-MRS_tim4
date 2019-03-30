@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Filijala {
 	@Id
@@ -27,6 +30,7 @@ public class Filijala {
 	private Set<Vozilo> vozila = new HashSet<>();
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference
 	private RentACar rent_a_car;
 
 	public Filijala() {

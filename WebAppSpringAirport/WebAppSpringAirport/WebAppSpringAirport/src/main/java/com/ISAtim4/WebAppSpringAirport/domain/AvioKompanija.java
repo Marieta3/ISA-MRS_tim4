@@ -1,4 +1,5 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -7,7 +8,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class AvioKompanija {
@@ -18,20 +22,64 @@ public class AvioKompanija {
 	@Column(nullable=false)
 	private String naziv;
 
-	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	@JoinColumn(name = "admin_id")
-	private AdminAvio admin;
+	@OneToMany(mappedBy="avio_kompanija",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private Set<AdminAvio> admin= new HashSet<>();
 	
-	/*
+	@OneToMany(mappedBy="avio_kompanija",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private Set<Destinacija> listaDestinacija= new HashSet<>();
+	
+	@OneToMany(mappedBy="avio_kompanija",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private Set<Let> listaLetova= new HashSet<>();
+	
+	@Column(nullable=false)
 	private String adresa;
+	
+	@Column(nullable=false)
 	private String opis;
 	
-	@JsonManagedReference
-	private Set<Destinacija> listaDestinacija;
+	public Set<AdminAvio> getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Set<AdminAvio> admin) {
+		this.admin = admin;
+	}
+
+	public String getAdresa() {
+		return adresa;
+	}
+
+	public void setAdresa(String adresa) {
+		this.adresa = adresa;
+	}
+
+	public String getOpis() {
+		return opis;
+	}
+
+	public void setOpis(String opis) {
+		this.opis = opis;
+	}
+
+	public Set<Destinacija> getListaDestinacija() {
+		return listaDestinacija;
+	}
+
+	public void setListaDestinacija(Set<Destinacija> listaDestinacija) {
+		this.listaDestinacija = listaDestinacija;
+	}
+
+	public Set<Let> getListaLetova() {
+		return listaLetova;
+	}
+
+	public void setListaLetova(Set<Let> listaLetova) {
+		this.listaLetova = listaLetova;
+	}
 	
-	@JsonManagedReference
-	private Set<Let> listaLetova;
-	*/
 	
 	public AvioKompanija() {
 		super();
@@ -45,14 +93,6 @@ public class AvioKompanija {
 		this.id = id;
 	}
 	
-	
-	public AdminAvio getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(AdminAvio admin) {
-		this.admin = admin;
-	}
 
 	public String getNaziv() {
 		return naziv;
@@ -60,6 +100,18 @@ public class AvioKompanija {
 
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
+	}
+
+	public AvioKompanija(Long id, String naziv, Set<AdminAvio> admin, Set<Destinacija> listaDestinacija,
+			Set<Let> listaLetova, String adresa, String opis) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.admin = admin;
+		this.listaDestinacija = listaDestinacija;
+		this.listaLetova = listaLetova;
+		this.adresa = adresa;
+		this.opis = opis;
 	}
 
 	

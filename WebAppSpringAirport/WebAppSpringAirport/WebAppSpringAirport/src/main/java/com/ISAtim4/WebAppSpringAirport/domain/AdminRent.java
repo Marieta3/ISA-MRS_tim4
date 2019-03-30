@@ -7,10 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @DiscriminatorValue("RENT")
 public class AdminRent extends Korisnik {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference
 	private RentACar rent_a_car;
 	@Column(nullable= false)
 	private Boolean UlogovanPrviPut; //da li je prvi put ili ne

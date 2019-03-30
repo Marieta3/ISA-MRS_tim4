@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class RentACar {
 	@Id
@@ -22,28 +24,30 @@ public class RentACar {
 	private String adresa;
 	@Column(nullable = false)
 	private String opis;
-	@Column(nullable = false)
-	private Double ocena;
+	//@Column(nullable = true)
+	//private Double ocena;
 
 	@OneToMany(mappedBy = "rent_a_car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private Set<Vozilo> vozila = new HashSet<Vozilo>();
 	@OneToMany(mappedBy = "rent_a_car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private Set<Filijala> filijale = new HashSet<Filijala>();
 	@OneToMany(mappedBy = "rent_a_car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private Set<AdminRent> admini = new HashSet<AdminRent>();
 
 	public RentACar() {
 	}
 
-	public RentACar(Long id, String naziv, String adresa, String opis,
-			Double ocena, Set<Vozilo> vozila, Set<Filijala> filijale,
+	public RentACar(Long id, String naziv, String adresa, String opis, Set<Vozilo> vozila, Set<Filijala> filijale,
 			Set<AdminRent> admini) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
 		this.adresa = adresa;
 		this.opis = opis;
-		this.ocena = ocena;
+		//this.ocena = ocena;
 		this.vozila = vozila;
 		this.filijale = filijale;
 		this.admini = admini;
@@ -55,7 +59,7 @@ public class RentACar {
 		this.naziv = r.getNaziv();
 		this.adresa = r.getAdresa();
 		this.opis = r.getOpis();
-		this.ocena = r.getOcena();
+		//this.ocena = r.getOcena();
 		this.vozila = r.getVozila();
 		this.filijale = r.getFilijale();
 		this.admini = r.getAdmini();
@@ -93,13 +97,7 @@ public class RentACar {
 		this.opis = opis;
 	}
 
-	public double getOcena() {
-		return ocena;
-	}
-
-	public void setOcena(Double ocena) {
-		this.ocena = ocena;
-	}
+	
 
 	public Set<Vozilo> getVozila() {
 		return vozila;
@@ -128,7 +126,7 @@ public class RentACar {
 	@Override
 	public String toString() {
 		return "RentACar [id=" + id + ", naziv=" + naziv + ", adresa=" + adresa
-				+ ", opis=" + opis + ", ocena=" + ocena + ", vozila=" + vozila
+				+ ", opis=" + opis + ", ocena="  + ", vozila=" + vozila
 				+ ", filijale=" + filijale + ", admini=" + admini + "]";
 	}
 

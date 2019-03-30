@@ -33,16 +33,7 @@ public abstract class Korisnik {
 	
 	public Korisnik() {	}
 	
-	public Korisnik(Long id, String ime, String prezime, String korisnickoIme,
-			String lozinka, String mail) {
-		super();
-		this.id = id;
-		this.ime = ime;
-		this.prezime = prezime;
-		this.korisnickoIme = korisnickoIme;
-		this.lozinka = lozinka;
-		this.mail = mail;
-	}
+	
 		
 	public Long getId() {
 		return id;
@@ -78,6 +69,18 @@ public abstract class Korisnik {
 		return mail;
 	}
 	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+
+
+	public Korisnik(Long id, String ime, String prezime, String korisnickoIme, String lozinka, String mail) {
+		super();
+		this.id = id;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.korisnickoIme = korisnickoIme;
+		this.lozinka = lozinka;
 		this.mail = mail;
 	}
 

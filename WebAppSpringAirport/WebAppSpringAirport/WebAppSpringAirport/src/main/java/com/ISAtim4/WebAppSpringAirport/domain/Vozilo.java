@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Vozilo {
 	@Id
@@ -23,23 +25,24 @@ public class Vozilo {
 	private Integer godina;
 	@Column(nullable = false)
 	private String tablica;
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private Double cena;
 	@Column(nullable = false)
 	private Integer brojMesta;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonBackReference
 	private RentACar rent_a_car;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private RentACar filijala;
+	private Filijala filijala;
 
 	public Vozilo() {
 	}
 
 	public Vozilo(Long id, String proizvodjac, String model, Integer godina,
 			String tablica, Double cena, Integer brojMesta,
-			RentACar rent_a_car, RentACar filijala) {
+			RentACar rent_a_car, Filijala filijala) {
 		super();
 		this.id = id;
 		this.proizvodjac = proizvodjac;
@@ -118,14 +121,14 @@ public class Vozilo {
 		this.rent_a_car = rent_a_car;
 	}
 
-	public RentACar getFilijala() {
+	
+	public Filijala getFilijala() {
 		return filijala;
 	}
 
-	public void setFilijala(RentACar filijala) {
+	public void setFilijala(Filijala filijala) {
 		this.filijala = filijala;
 	}
-
 	public void setCena(Double cena) {
 		this.cena = cena;
 	}
@@ -167,5 +170,6 @@ public class Vozilo {
 				+ model + ", godina=" + godina + ", tablica=" + tablica
 				+ ", cena=" + cena + "]";
 	}
+
 
 }

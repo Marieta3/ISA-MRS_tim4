@@ -1,9 +1,9 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
+
 public class Adresa {
-
+	
 	private Long id;
-
 	private String adresa;
 	private int latitude;
 	private int longitude;

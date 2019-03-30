@@ -19,6 +19,12 @@ public class AdminHotel extends Korisnik {
 	@Column(nullable=false)
 	private Boolean UlogovanPrviPut; //da li je prvi put ili ne
 	
+	public AdminHotel(Hotel hotel, Boolean ulogovanPrviPut) {
+		super();
+		this.hotel = hotel;
+		UlogovanPrviPut = ulogovanPrviPut;
+	}
+
 	public AdminHotel() {
 	}
 
@@ -37,6 +43,8 @@ public class AdminHotel extends Korisnik {
 	public void setUlogovanPrviPut(Boolean ulogovanPrviPut) {
 		UlogovanPrviPut = ulogovanPrviPut;
 	}
+
+	
 	
 	
 }
