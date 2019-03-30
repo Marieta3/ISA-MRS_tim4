@@ -1,6 +1,5 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
-
 public class Adresa {
 
 	private Long id;
@@ -9,13 +8,13 @@ public class Adresa {
 	private int latitude;
 	private int longitude;
 
-	public Adresa (){
+	public Adresa() {
 		this.id = null;
-		this.adresa="";
-		this.latitude=0;
-		this.longitude=0;
+		this.adresa = "";
+		this.latitude = 0;
+		this.longitude = 0;
 	}
-	
+
 	public Adresa(Long id, String adresa, int latitude, int longitude) {
 		super();
 		this.id = id;

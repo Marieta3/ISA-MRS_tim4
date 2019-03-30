@@ -1,31 +1,45 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+@Entity
 public class Vozilo {
-	
+	@Id
+	@GeneratedValue
 	private Long id;
-	
-	private String proizvodjac;
-	private String model;
-	private Integer godina;
-	private String tablica;
 
-	private double cena;
+	@Column(nullable = false)
+	private String proizvodjac;
+	@Column(nullable = false)
+	private String model;
+	@Column(nullable = false)
+	private Integer godina;
+	@Column(nullable = false)
+	private String tablica;
+	@Column(nullable = false)
+	private Double cena;
+	@Column(nullable = false)
 	private Integer brojMesta;
 	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private RentACar rent_a_car;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private RentACar filijala;
+
 	public Vozilo() {
-		super();
-		this.id = null;
-		this.proizvodjac = "";
-		this.model = "";
-		this.godina = null;
-		this.tablica = "";
-		this.cena = 0;
-		this.brojMesta = 0;
 	}
 
 	public Vozilo(Long id, String proizvodjac, String model, Integer godina,
-			String tablica, double cena,Integer brojMesta) {
+			String tablica, Double cena, Integer brojMesta,
+			RentACar rent_a_car, RentACar filijala) {
 		super();
 		this.id = id;
 		this.proizvodjac = proizvodjac;
@@ -34,7 +48,11 @@ public class Vozilo {
 		this.tablica = tablica;
 		this.cena = cena;
 		this.brojMesta = brojMesta;
+		this.rent_a_car = rent_a_car;
+		this.filijala = filijala;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -83,7 +101,7 @@ public class Vozilo {
 	public void setCena(double cena) {
 		this.cena = cena;
 	}
-	
+
 	public Integer getBrojMesta() {
 		return brojMesta;
 	}
@@ -92,6 +110,25 @@ public class Vozilo {
 		this.brojMesta = brojMesta;
 	}
 
+	public RentACar getRent_a_car() {
+		return rent_a_car;
+	}
+
+	public void setRent_a_car(RentACar rent_a_car) {
+		this.rent_a_car = rent_a_car;
+	}
+
+	public RentACar getFilijala() {
+		return filijala;
+	}
+
+	public void setFilijala(RentACar filijala) {
+		this.filijala = filijala;
+	}
+
+	public void setCena(Double cena) {
+		this.cena = cena;
+	}
 
 	@Override
 	public int hashCode() {
@@ -130,5 +167,5 @@ public class Vozilo {
 				+ model + ", godina=" + godina + ", tablica=" + tablica
 				+ ", cena=" + cena + "]";
 	}
-	
+
 }

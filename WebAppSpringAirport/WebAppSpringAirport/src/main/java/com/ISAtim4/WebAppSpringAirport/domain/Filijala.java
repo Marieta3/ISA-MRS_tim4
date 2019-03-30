@@ -1,19 +1,45 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Filijala {
-	
-	private Long id; 
-	
-	private Adresa adresa;
+	@Id
+	@GeneratedValue
+	private Long id;
+
+	@Column(nullable = false)
+	private String adresa;
+	@Column(nullable = false)
 	private String telefon;
 	
-	public Filijala(){}
+	@OneToMany(mappedBy = "filijala", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Vozilo> vozila = new HashSet<>();
 	
-	public Filijala(Adresa adresa, String telefon) {
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private RentACar rent_a_car;
+
+	public Filijala() {
+	}
+
+	public Filijala(Long id, String adresa, String telefon, Set<Vozilo> vozila,
+			RentACar rent_a_car) {
 		super();
+		this.id = id;
 		this.adresa = adresa;
 		this.telefon = telefon;
+		this.vozila = vozila;
+		this.rent_a_car = rent_a_car;
 	}
 
 	public Long getId() {
@@ -24,11 +50,11 @@ public class Filijala {
 		this.id = id;
 	}
 
-	public Adresa getAdresa() {
+	public String getAdresa() {
 		return adresa;
 	}
 
-	public void setAdresa(Adresa adresa) {
+	public void setAdresa(String adresa) {
 		this.adresa = adresa;
 	}
 
@@ -38,6 +64,22 @@ public class Filijala {
 
 	public void setTelefon(String telefon) {
 		this.telefon = telefon;
+	}
+
+	public Set<Vozilo> getVozila() {
+		return vozila;
+	}
+
+	public void setVozila(Set<Vozilo> vozila) {
+		this.vozila = vozila;
+	}
+
+	public RentACar getRent_a_car() {
+		return rent_a_car;
+	}
+
+	public void setRent_a_car(RentACar rent_a_car) {
+		this.rent_a_car = rent_a_car;
 	}
 
 	@Override
@@ -70,7 +112,5 @@ public class Filijala {
 		return "Filijala [id=" + id + ", adresa=" + adresa + ", telefon="
 				+ telefon + "]";
 	}
-	
-	
-	
+
 }
