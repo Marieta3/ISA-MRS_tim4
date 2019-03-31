@@ -21,7 +21,8 @@ function renderCars(data){
 				+ car.model + '</td>' + '<td>'
 				+ car.godina + '</td>' + '<td>'
 				+ car.tablica + '</td>' + '<td>'
-				+ car.cena + '</td>'  );
+				+ car.cena + '</td>' + '<td>'
+				+ car.brojMesta + '</td>'  );
 		$('#prikazVozilaTabela').append(tr);
 		
 	})

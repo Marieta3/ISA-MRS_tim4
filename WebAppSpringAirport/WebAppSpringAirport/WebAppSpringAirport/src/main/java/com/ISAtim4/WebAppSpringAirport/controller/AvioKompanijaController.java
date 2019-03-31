@@ -63,6 +63,8 @@ public class AvioKompanijaController {
 
 		avioKompanija.setNaziv(avioKompanijaDetalji.getNaziv());
 		avioKompanija.setAdmin(avioKompanijaDetalji.getAdmin());
+		avioKompanija.setAdresa(avioKompanijaDetalji.getAdresa());
+		avioKompanija.setOpis(avioKompanijaDetalji.getOpis());
 
 		AvioKompanija updateAviokompanija = aviokompanijaService.save(avioKompanija);
 		return ResponseEntity.ok().body(updateAviokompanija);

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="js/dodajVozilo.js"></script>
-<title>Dodavanje vozila</title>
+<script type="text/javascript" src="js/updateVozilo.js"></script>
+<title>Azuriranje vozila</title>
 <style type="text/css">
 a:VISITED,a:ACTIVE,a:AFTER,a:BEFORE,a:FOCUS,a:HOVER,a:LINK {
 	color: black;
@@ -13,9 +13,13 @@ a:VISITED,a:ACTIVE,a:AFTER,a:BEFORE,a:FOCUS,a:HOVER,a:LINK {
 </style>
 </head>
 <body>
-<h1>Dodaj vozilo </h1>
-	<form id="dodajVoziloForma">
+<h1>Azuriraj vozilo </h1>
+	<form id="updateVoziloForma">
 		<table>
+			<tr> 
+				<td>Id</td>
+				<td> <input type="text" id="identifikator" required> </td>
+			</tr>
 			<tr>
 				<td>Proizvodjac</td>
 				<td><input type="text" id="proizvodjac" required></td>
