@@ -77,7 +77,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 
 	/* brisanje korisnika */
-	@RequestMapping(value = "/api/users/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/users/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Korisnik> deleteKorisnika(
 			@PathVariable(value = "id") Long korisnikId) {
 		Korisnik korisnik = korisnikService.findOne(korisnikId);

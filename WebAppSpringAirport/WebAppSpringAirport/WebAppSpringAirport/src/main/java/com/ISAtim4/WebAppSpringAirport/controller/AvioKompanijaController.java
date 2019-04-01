@@ -71,7 +71,7 @@ public class AvioKompanijaController {
 	}
 
 	/* brisanje avioKompanije */
-	@RequestMapping(value = "/api/avioKompanije/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/avioKompanije/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> deleteAviokompanije(
 			@PathVariable(value = "id") Long avioKompanijaId) {
 		AvioKompanija aviokompanija = aviokompanijaService.findOne(avioKompanijaId);

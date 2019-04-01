@@ -75,7 +75,7 @@ public class RentACarController {
 	}
 
 	/* brisanje RentAcar */
-	@RequestMapping(value = "/api/rentACars/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/rentACars/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> deleteRentAcar(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rentACar = rentACarService.findOne(rentAcarId);

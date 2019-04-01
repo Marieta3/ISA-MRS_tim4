@@ -76,7 +76,7 @@ public class VoziloController {
 	}
 
 	/* brisanje vozila */
-	@RequestMapping(value = "/api/cars/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/cars/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vozilo> deleteCar(
 			@PathVariable(value = "id") Long carId) {
 		Vozilo vozilo = voziloService.findOne(carId);

@@ -21,7 +21,7 @@ public class Soba {
 	private String opis;
 	
 	@Column(nullable = true)
-	private double ocena;
+	private Double ocena;
 	
 	@Column(nullable = false)
 	private Integer brojKreveta;
@@ -71,10 +71,10 @@ public class Soba {
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
-	public double getOcena() {
+	public Double getOcena() {
 		return ocena;
 	}
-	public void setOcena(double ocena) {
+	public void setOcena(Double ocena) {
 		this.ocena = ocena;
 	}
 
