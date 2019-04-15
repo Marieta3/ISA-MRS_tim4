@@ -23,18 +23,16 @@ public abstract class Korisnik {
 	private String ime;
 	@Column(nullable=false)
 	private String prezime;
-	@Column( unique=false,nullable=false)
+	@Column(nullable=false)
 	private String korisnickoIme;
 	@Column(nullable=false)
 	private String lozinka;
 	
-	@Column(unique=false,nullable=false)
+	@Column(nullable=false)
 	private String mail;
 	
 	public Korisnik() {	}
 	
-	
-		
 	public Long getId() {
 		return id;
 	}
@@ -72,8 +70,6 @@ public abstract class Korisnik {
 		this.mail = mail;
 	}
 
-
-
 	public Korisnik(Long id, String ime, String prezime, String korisnickoIme, String lozinka, String mail) {
 		super();
 		this.id = id;
@@ -83,5 +79,4 @@ public abstract class Korisnik {
 		this.lozinka = lozinka;
 		this.mail = mail;
 	}
-
 }
