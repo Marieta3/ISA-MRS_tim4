@@ -30,6 +30,14 @@ public class RentACarService {
 	public RentACar save(RentACar rentACar) {
 		return rentacarRepository.save(rentACar);
 	}
+	
+	public List<RentACar> findByName(String name){
+		return rentacarRepository.findAllByNaziv(name);
+	}
+
+	public List<RentACar> containsName(String name){
+		return rentacarRepository.pronadjiRentacarSadrziNaziv(name);
+	}
 
 	public void remove(Long id) {
 		rentacarRepository.deleteById(id);

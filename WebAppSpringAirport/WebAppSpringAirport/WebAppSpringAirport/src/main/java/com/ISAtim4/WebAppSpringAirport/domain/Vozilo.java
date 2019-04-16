@@ -29,10 +29,6 @@ public class Vozilo {
 	private Double cena;
 	@Column(nullable = false)
 	private Integer brojMesta;
-	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JsonBackReference
-	private RentACar rent_a_car;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Filijala filijala;
@@ -51,7 +47,6 @@ public class Vozilo {
 		this.tablica = tablica;
 		this.cena = cena;
 		this.brojMesta = brojMesta;
-		this.rent_a_car = rent_a_car;
 		this.filijala = filijala;
 	}
 
@@ -113,15 +108,6 @@ public class Vozilo {
 		this.brojMesta = brojMesta;
 	}
 
-	public RentACar getRent_a_car() {
-		return rent_a_car;
-	}
-
-	public void setRent_a_car(RentACar rent_a_car) {
-		this.rent_a_car = rent_a_car;
-	}
-
-	
 	public Filijala getFilijala() {
 		return filijala;
 	}

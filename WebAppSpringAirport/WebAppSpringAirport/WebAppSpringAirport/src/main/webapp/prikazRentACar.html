@@ -14,13 +14,24 @@ a:VISITED,a:ACTIVE,a:AFTER,a:BEFORE,a:FOCUS,a:HOVER,a:LINK {
 </head>
 <body>
 	<table id="prikazRentACarTabela">
-		<tr>
-		<th>Id</th>
-		<th>Naziv</th>
-		<th>Adresa</th>
-		<th>Opis</th>
-		</tr>
+		<thead>
+			<tr>
+			<th>Id</th>
+			<th>Naziv</th>
+			<th>Adresa</th>
+			<th>Opis</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
 	</table>
+	<br><br>
+	<div class="search">
+		<label >Search by name</label>
+		<input type="text" id="searchName">
+		<button id="btnSearch" value="Search">Search</button>
+	</div>
+	
 	<br/><br/>
 	<a href="dodajRentACar.html">Dodaj novi rent-a-car</a> <br/>
 	<a href="updateRentACar.html">Azuriraj postojeci rent-a-car</a> <br/><br/>

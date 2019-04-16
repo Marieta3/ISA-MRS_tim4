@@ -55,6 +55,18 @@ public class RentACarController {
 		}
 		return ResponseEntity.ok().body(rentACar);
 	}
+	
+	/* da uzmemo RentAcar po nazivu */
+	@RequestMapping(value = "/api/rentACars/search/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<RentACar>> getRentAcarByName(
+			@PathVariable(value = "name") String rentACarName) {
+		List<RentACar> rentACars = rentACarService.containsName(rentACarName);
+
+		if (rentACars == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(rentACars);
+	}
 
 	/* update RentAcar po id-u */
 	@RequestMapping(value = "/api/rentACars/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
