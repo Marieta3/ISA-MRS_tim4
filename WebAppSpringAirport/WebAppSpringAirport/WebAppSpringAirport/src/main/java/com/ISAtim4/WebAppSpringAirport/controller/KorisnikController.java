@@ -1,6 +1,5 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,24 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
+import com.ISAtim4.WebAppSpringAirport.dto.KorisnikDTO;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 
 @RestController
 public class KorisnikController {
 private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private KorisnikService korisnikService;
 
@@ -37,6 +32,24 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	public Korisnik createKorisnik(@Valid @RequestBody Korisnik korisnik) {
 		return korisnikService.save(korisnik);
 	}
+	
+	// da prihvatimo korisnika iz ajax-a
+	@RequestMapping(value = "/api/usersDTO", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Korisnik> prihvatanjeKorisnika(@Valid @RequestBody KorisnikDTO korisnikDTO) {
+		logger.warn("\\\\\\\\\\\\\\\\\\\\");
+		logger.warn("---------------------");
+		logger.warn("\\\\\\\\\\\\\\\\\\\\");
+		Korisnik korisnik = korisnikService.findByKorisnickoImeAndLozinka(korisnikDTO.getUsername(), korisnikDTO.getPassword());
+		logger.warn("\\\\\\\\\\\\\\\\\\\\");
+		//logger.warn(korisnik.toString());
+		logger.warn("\\\\\\\\\\\\\\\\\\\\");
+		if (korisnik == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+	}
+	
 
 	/* da uzmemo sve korisnike */
 	@RequestMapping(value = "/api/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

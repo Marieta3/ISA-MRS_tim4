@@ -33,4 +33,9 @@ public class KorisnikService {
 	public void remove(Long id) {
 		korisnikRepository.deleteById(id);
 	}
+	
+	public Korisnik findByKorisnickoImeAndLozinka(String username,
+			String password) {
+		return korisnikRepository.findByKorisnickoImeAndLozinka(username,password);
+	}
 }
