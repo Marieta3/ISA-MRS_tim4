@@ -29,6 +29,8 @@ input[type=text]:focus, input[type=password]:focus {
   opacity: 0.9;
 }
 
+
+
 .signupbtn:hover, .loginSubmitBtn:hover, .cancelbtn:hover {
   opacity: 1;
 }
