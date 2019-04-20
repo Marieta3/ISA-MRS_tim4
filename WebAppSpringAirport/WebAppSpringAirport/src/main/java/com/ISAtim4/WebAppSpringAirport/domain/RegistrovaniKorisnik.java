@@ -5,23 +5,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 import org.springframework.security.core.GrantedAuthority;
 
 /*
  * Milan: vracena diskriminatorska vrednost da se u tabeli korisnik razlikuju tipovi
  */
+@Entity
 @DiscriminatorValue("rk")
 public class RegistrovaniKorisnik extends Korisnik {
+	/*
 	private Set<RegistrovaniKorisnik> listaPrijatelja = new HashSet<>();
 	private Set<Rezervacija> listaRezervacija = new HashSet<>();
 	private Set<ZahtevPrijateljstvo> listaZahtevaPrijateljstvo = new HashSet<>();
 	private Set<Pozivnica> listaPozivnicaLet = new HashSet<>();
-	
+	*/
 	public RegistrovaniKorisnik() {
 		super();
+		/*
+		
+		this.listaPrijatelja = listaPrijatelja;
+		this.listaRezervacija = listaRezervacija;
+		this.listaZahtevaPrijateljstvo = listaZahtevaPrijateljstvo;
+		this.listaPozivnicaLet = listaPozivnicaLet;*/
 	}
-	
+/*
 	public Set<RegistrovaniKorisnik> getListaPrijatelja() {
 		return listaPrijatelja;
 	}
@@ -47,5 +56,7 @@ public class RegistrovaniKorisnik extends Korisnik {
 	public void setListaPozivnicaLet(Set<Pozivnica> listaPozivnicaLet) {
 		this.listaPozivnicaLet = listaPozivnicaLet;
 	}
+*/
+
 	
 }

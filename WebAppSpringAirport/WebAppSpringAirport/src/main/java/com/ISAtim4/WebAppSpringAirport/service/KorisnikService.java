@@ -38,4 +38,8 @@ public class KorisnikService {
 			String password) {
 		return korisnikRepository.findByKorisnickoImeAndLozinka(username,password);
 	}
+	
+	public Korisnik findByKorisnickoIme(String username) {
+		return korisnikRepository.findByKorisnickoIme(username);
+	}
 }

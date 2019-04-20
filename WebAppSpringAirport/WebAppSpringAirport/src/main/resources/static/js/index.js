@@ -5,6 +5,7 @@
  * Milan: promenjena ruta koja se gadja prva kada se radi logovanje
  */
 var users_url="/auth/login";
+var register_url="api/register";
 
 $(document).on('submit', ".modal-content1", function(e){
 	e.preventDefault();
@@ -41,14 +42,52 @@ function userToJSON(username, password){
 	});
 }
 
-
-
-
 $(document).on('submit', '.modal-content2', function(e){
 	e.preventDefault();
+	var username = $('#username1').val();
+	var password = $('#password1').val();
+	var rptpassword = $('#passwordrpt').val();
+	var firstname = $('#firstname').val();
+	var lastname = $('#lastname').val();
+	var email = $('#email').val();
 	
+	console.log(username);
+	console.log(password);
+	console.log(rptpassword);
+	console.log(firstname);
+	console.log(lastname);
+	console.log(email);
+	
+	if (password !== rptpassword){
+		alert('GRESKA! NISU ISTE SIFRE');
+	}
+	
+	$.ajax({
+		type:"POST",
+		url:register_url,
+		contentType:'application/json',
+		data:registeringUserToJSON(username,password,firstname,lastname,email),
+		success:function(data){
+			window.location.replace("index.html");
+		},error:function(XMLHttpRequest,textStatus, errorThrown){
+			console.log("GRESKAAAAAA  ");
+			alert(errorThrown);
+		}	
+	//provera da li vec postoji po korisnickom imenu
+	
+	});
 	console.log("submitovan register");
 })
+
+function registeringUserToJSON(username,password,firstname,lastname,email){
+		return JSON.stringify({
+			"korisnickoIme":username,
+			"lozinka":password,
+			"ime":firstname,
+			"prezime":lastname,
+			"mail":email
+		});
+}
 
 
 

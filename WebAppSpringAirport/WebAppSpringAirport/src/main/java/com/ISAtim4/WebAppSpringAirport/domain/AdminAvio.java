@@ -23,7 +23,7 @@ public class AdminAvio extends Korisnik {
 	@JsonBackReference
 	private AvioKompanija avio_kompanija; //koje avio kompanije
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private Boolean UlogovanPrviPut; //mora prvi put da izmeni lozinku, posle ne
 	
 	public AdminAvio() {}	

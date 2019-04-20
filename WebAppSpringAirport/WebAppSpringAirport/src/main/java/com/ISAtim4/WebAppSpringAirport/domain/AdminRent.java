@@ -19,7 +19,7 @@ public class AdminRent extends Korisnik {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonBackReference
 	private RentACar rent_a_car;
-	@Column(nullable= false)
+	@Column(nullable= true)
 	private Boolean UlogovanPrviPut; //da li je prvi put ili ne
 
 	public AdminRent() {}

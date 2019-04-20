@@ -30,7 +30,7 @@ public class HotelController {
 	@Autowired
 	HotelService hotelService;
 
-	/* da snimimo hotel */
+	/* da dodamo hotel */
 	@RequestMapping(value = "/api/hotels", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	/*
 	 * Milan: trenutno sam dodao proveru da li trenutno

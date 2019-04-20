@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
-import com.ISAtim4.WebAppSpringAirport.dto.KorisnikDTO;
+import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 
 @RestController
@@ -34,20 +35,6 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	public Korisnik createKorisnik(@Valid @RequestBody Korisnik korisnik) {
 		return korisnikService.save(korisnik);
 	}
-	
-	// da prihvatimo korisnika iz ajax-a, ovo msm da ne trb
-	@RequestMapping(value = "/api/usersDTO", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Korisnik> prihvatanjeKorisnika(@Valid @RequestBody KorisnikDTO korisnikDTO) {
-		
-		Korisnik korisnik = korisnikService.findByKorisnickoImeAndLozinka(korisnikDTO.getUsername(), korisnikDTO.getPassword());
-		
-		if (korisnik == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-	}
-	
 
 	/* da uzmemo sve korisnike */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -103,4 +90,27 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+
+	@RequestMapping(value = "/api/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Korisnik> dodavanjeKorisnikaPriRegistraciji(@Valid @RequestBody Korisnik reg_korisnik) {	
+		Korisnik korisnik = korisnikService.findByKorisnickoIme(reg_korisnik.getKorisnickoIme());
+		if (korisnik == null) {
+			RegistrovaniKorisnik reg = new RegistrovaniKorisnik();
+			reg.setIme(reg_korisnik.getIme());
+			reg.setPrezime(reg_korisnik.getPrezime());
+			
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String hashedPassword = passwordEncoder.encode(reg_korisnik.getLozinka());
+			reg.setLozinka(hashedPassword);
+			reg.setKorisnickoIme(reg_korisnik.getKorisnickoIme());
+			reg.setMail(reg_korisnik.getMail());
+			korisnikService.save(reg);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+	}
+	
+	
 }

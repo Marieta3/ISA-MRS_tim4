@@ -40,6 +40,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+	public PasswordEncoder passwordEncoder(int sifra) {
+		return new BCryptPasswordEncoder(sifra);
+	}
+
 	@Autowired
 	private CustomUserDetailsService jwtUserDetailsService;
 
@@ -112,6 +117,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 			.antMatchers("/auth/**").permitAll()
 			//.antMatchers("/login.html").permitAll()
 			//.antMatchers("/index.html").permitAll()
+			.antMatchers("/api/register").permitAll()
+			
 			
 			// svaki zahtev mora biti autorizovan
 			.anyRequest().authenticated().and()

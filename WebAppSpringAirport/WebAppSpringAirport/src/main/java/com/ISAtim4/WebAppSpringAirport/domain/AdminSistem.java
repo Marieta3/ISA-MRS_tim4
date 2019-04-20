@@ -12,16 +12,18 @@ import org.springframework.security.core.GrantedAuthority;
 @DiscriminatorValue("sis")
 public class AdminSistem extends Korisnik {
 	
-	@Column(nullable = false)
-	private Boolean predefinisaniAdmin; //onaj koji moze da dodaje druge sistem admine
+	@Column(nullable = true)
+	private boolean predefinisaniAdmin; //onaj koji moze da dodaje druge sistem admine
 
 	public AdminSistem() {}
 
-	public Boolean getPredefinisaniAdmin() {
+	public boolean isPredefinisaniAdmin() {
 		return predefinisaniAdmin;
 	}
 
-	public void setPredefinisaniAdmin(Boolean predefinisaniAdmin) {
+	public void setPredefinisaniAdmin(boolean predefinisaniAdmin) {
 		this.predefinisaniAdmin = predefinisaniAdmin;
 	}
+
+	
 }

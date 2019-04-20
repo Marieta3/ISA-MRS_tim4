@@ -13,6 +13,7 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
@@ -33,7 +34,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @DiscriminatorColumn(name="uloga", discriminatorType=DiscriminatorType.STRING) 
 public class Korisnik implements UserDetails {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", unique=true, nullable=false)
 	private Long id;
 	@Column(nullable=false)

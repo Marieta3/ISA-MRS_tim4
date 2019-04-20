@@ -20,7 +20,7 @@ public class AdminHotel extends Korisnik {
 	@JsonBackReference
 	private Hotel hotel;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private Boolean UlogovanPrviPut; //da li je prvi put ili ne
 	
 	public AdminHotel(Hotel hotel, Boolean ulogovanPrviPut) {
