@@ -19,6 +19,9 @@ $(document).on('submit', "#dodajVoziloForma", function(e){
 		contentType:'application/json',
 		dataType:'text',
 		data:carToJSON(proizvodjac, model, godina, tablica, cena, brojMesta),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
 		success:function(data){
 			console.log(data); 
 			window.location.replace("prikazVozila.html");

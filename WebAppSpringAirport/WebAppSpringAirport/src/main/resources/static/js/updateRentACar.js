@@ -20,6 +20,9 @@ $(document).on('submit', "#updateRentACarForma", function(e){
 		contentType:'application/json',
 		dataType:'text',
 		data:rentacarToJSON(id,naziv, adresa, opis),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
 		success:function(data){
 			console.log(data); 
 			window.location.replace("prikazRentACar.html");

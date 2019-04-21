@@ -115,10 +115,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 			 * Milan: dozvoljena ruta za sve da pristupe auth/ kako bi se ulogovali
 			 */
 			.antMatchers("/auth/**").permitAll()
-			//.antMatchers("/login.html").permitAll()
-			//.antMatchers("/index.html").permitAll()
 			.antMatchers("/api/register").permitAll()
-			
+			.antMatchers("/api/**").permitAll()
+			.antMatchers("/api/hotels/**").permitAll()
 			
 			// svaki zahtev mora biti autorizovan
 			.anyRequest().authenticated().and()

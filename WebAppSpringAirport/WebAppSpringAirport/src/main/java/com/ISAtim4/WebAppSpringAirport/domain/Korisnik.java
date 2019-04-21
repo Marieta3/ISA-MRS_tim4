@@ -37,13 +37,13 @@ public class Korisnik implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", unique=true, nullable=false)
 	private Long id;
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private String ime;
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private String prezime;
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private String korisnickoIme;
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private String lozinka;
 	
 	@Column(nullable=false)
@@ -60,8 +60,6 @@ public class Korisnik implements UserDetails {
 	
 	public Korisnik() {	}
 	
-
-
 	public Long getId() {
 		return id;
 	}

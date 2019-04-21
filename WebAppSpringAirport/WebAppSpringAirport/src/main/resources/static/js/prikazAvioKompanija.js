@@ -7,6 +7,9 @@ function findAll(){
 		type:'GET',
 		url:'api/avioKompanije',
 		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
 		success:renderAvioKompanije
 	})
 }

@@ -16,6 +16,9 @@ $(document).on('submit', "#dodajAvioKompanijuForma", function(e){
 		contentType:'application/json',
 		dataType:'text',
 		data:avioToJSON(naziv, adresa, opis),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
 		success:function(data){
 			console.log(data); 
 			window.location.replace("prikazAvioKompanija.html");

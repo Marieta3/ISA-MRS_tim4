@@ -22,9 +22,9 @@ insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_ad
 --Milan: trenutno imate samo dve role, treba ubaciti role za razlicite tipove admina
 INSERT INTO AUTHORITY (id, name) VALUES (1, 'ROLE_USER');
 INSERT INTO AUTHORITY (id, name) VALUES (2, 'ROLE_ADMIN');
-INSERT INTO AUTHORITY (id, name) VALUES (3, 'HOTEL_ADMIN');
-INSERT INTO AUTHORITY (id, name) VALUES (4, 'AVIO_ADMIN');
-INSERT INTO AUTHORITY (id, name) VALUES (5, 'RENT_ADMIN');
+INSERT INTO AUTHORITY (id, name) VALUES (3, 'ROLE_HOTEL');
+INSERT INTO AUTHORITY (id, name) VALUES (4, 'ROLE_AVIO');
+INSERT INTO AUTHORITY (id, name) VALUES (5, 'ROLE_RENT');
 
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (1, 2);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (2, 3);

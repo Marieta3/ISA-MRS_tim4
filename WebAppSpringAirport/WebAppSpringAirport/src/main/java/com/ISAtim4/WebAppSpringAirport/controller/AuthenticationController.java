@@ -60,8 +60,8 @@ public class AuthenticationController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		// Kreiraj token
-		Korisnik Korisnik = (Korisnik) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(Korisnik.getUsername(), device);
+		Korisnik korisnik = (Korisnik) authentication.getPrincipal();
+		String jwt = tokenUtils.generateToken(korisnik.getUsername(), device);
 		int expiresIn = tokenUtils.getExpiredIn(device);
 
 		// Vrati token kao odgovor na uspesno autentifikaciju

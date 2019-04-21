@@ -8,6 +8,9 @@ function findAll() {
 		type : 'GET',
 		url : 'api/rentACars',
 		dataType : 'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
 		success : renderRentACars
 	})
 }

@@ -18,8 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ISAtim4.WebAppSpringAirport.domain.AdminAvio;
+import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
+import com.ISAtim4.WebAppSpringAirport.domain.AdminRent;
+import com.ISAtim4.WebAppSpringAirport.domain.AdminSistem;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
+import com.ISAtim4.WebAppSpringAirport.dto.KorisnikDTO;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 
 @RestController
@@ -29,11 +34,48 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private KorisnikService korisnikService;
 
-	/* da snimimo korisnika */
+	/* da dodamo korisnika */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/api/users", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
-	public Korisnik createKorisnik(@Valid @RequestBody Korisnik korisnik) {
-		return korisnikService.save(korisnik);
+	public Korisnik createKorisnik(@Valid @RequestBody KorisnikDTO korisnikDTO) {
+		String uloga = korisnikDTO.getUloga();
+		switch(uloga) {
+			case "avio": {
+				AdminAvio avio = new AdminAvio();
+				avio.setIme(korisnikDTO.getIme());
+				avio.setPrezime(korisnikDTO.getPrezime());
+				avio.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
+				avio.setLozinka(korisnikDTO.getLozinka());
+				avio.setMail(korisnikDTO.getMail());
+				return korisnikService.save(avio);
+			}
+			case "rent": {
+				AdminRent rent = new AdminRent();
+				rent.setIme(korisnikDTO.getIme());
+				rent.setPrezime(korisnikDTO.getPrezime());
+				rent.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
+				rent.setLozinka(korisnikDTO.getLozinka());
+				rent.setMail(korisnikDTO.getMail());
+				return korisnikService.save(rent);
+			}
+			case "hotel": {
+				AdminHotel hotel = new AdminHotel();
+				hotel.setIme(korisnikDTO.getIme());
+				hotel.setPrezime(korisnikDTO.getPrezime());
+				hotel.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
+				hotel.setLozinka(korisnikDTO.getLozinka());
+				hotel.setMail(korisnikDTO.getMail());
+				return korisnikService.save(hotel);
+			}
+			default:
+				AdminSistem sis = new AdminSistem();
+				sis.setIme(korisnikDTO.getIme());
+				sis.setPrezime(korisnikDTO.getPrezime());
+				sis.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
+				sis.setLozinka(korisnikDTO.getLozinka());
+				sis.setMail(korisnikDTO.getMail());
+				return korisnikService.save(sis);
+		}
 	}
 
 	/* da uzmemo sve korisnike */
@@ -70,7 +112,9 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		korisnik.setIme(korisnikDetalji.getIme());
 		korisnik.setPrezime(korisnikDetalji.getPrezime());
 		korisnik.setKorisnickoIme(korisnikDetalji.getKorisnickoIme());
-		korisnik.setLozinka(korisnikDetalji.getLozinka());
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(korisnikDetalji.getLozinka());
+		korisnik.setLozinka(hashedPassword);
 		korisnik.setMail(korisnikDetalji.getMail());
 
 		Korisnik updateKorisnik = korisnikService.save(korisnik);
