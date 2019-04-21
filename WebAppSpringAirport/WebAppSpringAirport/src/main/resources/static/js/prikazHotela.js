@@ -18,7 +18,7 @@ function findAll(){
 }
 
 function renderHoteli(data){
-	console.log(data);
+	//console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	
 	$.each(list, function(index, hotel){

@@ -7,6 +7,100 @@
 var users_url="/auth/login";
 var register_url="api/register";
 
+findAllAvio();
+findAllHotels();
+findAllRent();
+
+function findAllAvio(){
+	$.ajax({
+		type:'GET',
+		url:'api/avioKompanije',
+		dataType:'json',
+		success:renderAvio
+	})
+}
+
+function findAllHotels(){
+	$.ajax({
+		type:'GET',
+		url:'api/hotels',
+		dataType:'json',
+		success:renderHoteli
+	})
+}
+
+function findAllRent(){
+	$.ajax({
+		type:'GET',
+		url:'api/rentACars',
+		dataType:'json',
+		success:renderRent
+	})
+}
+
+function renderAvio(data){
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	
+	$.each(list, function(index, avio){
+		var li=$('<li data-target="#myCarousel1" data-slide-to="'+index+'"></li>');
+		$('#lista1').append(li);
+		
+		var div1=$('<div class="item"></div>');
+		div1.append('<img src="slike/Airplane-1.png" alt="'+avio.naziv+'" style="width:20%;">');
+		var div2=$('<div class="carousel-caption"></div>');
+		div2.append('<h3>'+avio.naziv+'</h3>');
+		div2.append('<p>'+avio.opis+'</br>'+avio.adresa+'</p>');
+		div1.append(div2);
+		
+		$('.container1 .carousel-inner').append(div1);
+	})
+	$('#lista1').find('li:eq(0)').attr("class", "active");
+	$('.container1 .carousel-inner').find('div:eq(0)').attr("class", "item active");
+	$('.container1').attr("style", "background-color:black;");
+}
+
+function renderHoteli(data){
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	
+	$.each(list, function(index, hotel){
+		var li=$('<li data-target="#myCarousel2" data-slide-to="'+index+'"></li>');
+		$('#lista2').append(li);
+		
+		var div1=$('<div class="item"></div>');
+		div1.append('<img src="slike/hotel.jpg" alt="'+hotel.naziv+'" style="width:20%;">');
+		var div2=$('<div class="carousel-caption"></div>');
+		div2.append('<h3>'+hotel.naziv+'</h3>');
+		div2.append('<p>'+hotel.opis+'</br>'+hotel.adresa+'</p>');
+		div1.append(div2);
+		
+		$('.container2 .carousel-inner').append(div1);
+	})
+	$('#lista2').find('li:eq(0)').attr("class", "active");
+	$('.container2 .carousel-inner').find('div:eq(0)').attr("class", "item active");
+	$('.container2').attr("style", "background-color:black;");
+}
+
+function renderRent(data){
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	
+	$.each(list, function(index, rent){
+		var li=$('<li data-target="#myCarousel3" data-slide-to="'+index+'"></li>');
+		$('#lista3').append(li);
+		
+		var div1=$('<div class="item"></div>');
+		div1.append('<img src="slike/rent.jpg" alt="'+rent.naziv+'" style="width:20%;">');
+		var div2=$('<div class="carousel-caption"></div>');
+		div2.append('<h3>'+rent.naziv+'</h3>');
+		div2.append('<p>'+rent.opis+'</br>'+rent.adresa+'</p>');
+		div1.append(div2);
+		
+		$('.container3 .carousel-inner').append(div1);
+	})
+	$('#lista3').find('li:eq(0)').attr("class", "active");
+	$('.container3 .carousel-inner').find('div:eq(0)').attr("class", "item active");
+	$('.container3').attr("style", "background-color:black;");
+}
+
 $(document).on('submit', ".modal-content1", function(e){
 	e.preventDefault();
 	console.log("login uspesan");
