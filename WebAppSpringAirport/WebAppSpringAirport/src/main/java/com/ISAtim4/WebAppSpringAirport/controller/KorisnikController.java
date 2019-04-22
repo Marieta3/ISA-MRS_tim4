@@ -1,6 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -23,9 +24,11 @@ import com.ISAtim4.WebAppSpringAirport.domain.AdminAvio;
 import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
 import com.ISAtim4.WebAppSpringAirport.domain.AdminRent;
 import com.ISAtim4.WebAppSpringAirport.domain.AdminSistem;
+import com.ISAtim4.WebAppSpringAirport.domain.Authority;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.dto.KorisnikDTO;
+import com.ISAtim4.WebAppSpringAirport.service.AuthorityService;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 
 
@@ -35,6 +38,9 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private KorisnikService korisnikService;
+	
+	@Autowired
+	private AuthorityService authorityService;
 
 	/* da dodamo korisnika */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -49,6 +55,10 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 				avio.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
 				avio.setLozinka(korisnikDTO.getLozinka());
 				avio.setMail(korisnikDTO.getMail());
+				Authority authority = authorityService.findByName("ROLE_AVIO");
+				ArrayList<Authority> auth = new ArrayList<Authority>();
+				auth.add(authority);
+				avio.setAuthorities(auth);
 				return korisnikService.save(avio);
 			}
 			case "rent": {
@@ -58,6 +68,10 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 				rent.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
 				rent.setLozinka(korisnikDTO.getLozinka());
 				rent.setMail(korisnikDTO.getMail());
+				Authority authority = authorityService.findByName("ROLE_RENT");
+				ArrayList<Authority> auth = new ArrayList<Authority>();
+				auth.add(authority);
+				rent.setAuthorities(auth);	
 				return korisnikService.save(rent);
 			}
 			case "hotel": {
@@ -67,6 +81,10 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 				hotel.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
 				hotel.setLozinka(korisnikDTO.getLozinka());
 				hotel.setMail(korisnikDTO.getMail());
+				Authority authority = authorityService.findByName("ROLE_HOTEL");
+				ArrayList<Authority> auth = new ArrayList<Authority>();
+				auth.add(authority);
+				hotel.setAuthorities(auth);	
 				return korisnikService.save(hotel);
 			}
 			default:
@@ -76,6 +94,10 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 				sis.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
 				sis.setLozinka(korisnikDTO.getLozinka());
 				sis.setMail(korisnikDTO.getMail());
+				Authority authority = authorityService.findByName("ROLE_ADMIN");
+				ArrayList<Authority> auth = new ArrayList<Authority>();
+				auth.add(authority);
+				sis.setAuthorities(auth);	
 				return korisnikService.save(sis);
 		}
 	}
@@ -101,7 +123,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 
 	/* update korisnika po id-u */
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_AVIO','ROLE_RENT','ROLE_HOTEL')")
 	@RequestMapping(value = "/api/users/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Korisnik> updateKorisnika(
 			@PathVariable(value = "id") Long korisnikId,
@@ -150,10 +172,13 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 			reg.setLozinka(hashedPassword);
 			reg.setKorisnickoIme(reg_korisnik.getKorisnickoIme());
 			reg.setMail(reg_korisnik.getMail());
+			Authority authority = authorityService.findByName("ROLE_USER");
+			ArrayList<Authority> auth = new ArrayList<Authority>();
+			auth.add(authority);
+			reg.setAuthorities(auth);
 			korisnikService.save(reg);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
-			
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}

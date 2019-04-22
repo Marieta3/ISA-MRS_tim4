@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title> Edit profile html </title>
+        
+        <link rel="stylesheet" type="text/css" href="css/editProfile.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="js/editProfile.js"></script>
+    </head>
+    <body>
+        <h1 id=""> Ime Prezime </h1>
+        <form action = "prikazKorisnika.html" id="editProfileForma">
+        <div style="float: left; width: 30%">
+            <div class="imagePicker" style="height: 200px;width:200px;height: inherit;width: inherit;border-radius: 50%">
+                <img src="slike/avatar.png" height="200" alt="Image preview..." style="border-radius: inherit"> <br>    
+            </div>
+             <input type="file" title="Izaberi fajl" onchange="previewFile()" style="margin-left: 50px;margin-bottom: 20px;margin-top: 10px;height: 60px; margin-right: 50px"><br>
+        </div>
+            <div class="grid-container"  style="float: left" >
+              <div class="grid-item">
+                    Ime <br> <input type="text" id="ime" style="margin-top: 10px;border: 1px solid #ccc">
+              </div>
+              <div class="grid-item">
+                    Prezime <br> <input type="text" id="prezime" style="margin-top: 10px">  
+              </div>
+              <div class="grid-item">
+                    Mail <br> <input type="text" id="mail" style="margin-top: 10px"> 
+              </div>  
+              <div class="grid-item">
+                    Korisnicko ime <br> <input type="text" id="username" style="margin-top: 10px">   
+              </div>
+              <div class="grid-item">
+                    Adresa <br> <input type="text" id="address" style="margin-top: 10px"> 
+              </div>
+              <div class="grid-item">
+                    Broj telefona <br> <input type="text" id="telefon" style="margin-top: 10px">
+              </div>
+
+              <div class="grid-item">
+                    
+              </div>
+              <div class="grid-item">
+                    <input type="submit" id="buttonSbm" style="margin-left: 68px; margin-top: 10px" value="Potvrdi izmene">
+              </div>
+              <div class="grid-item">
+                    <input type="hidden" id="identifikator" style="margin-top: 10px">
+              </div>
+               <div class="grid-item">
+                    <input type="hidden" id="lozinka" style="margin-top: 10px">
+              </div>
+     
+            </div>
+        </form>
+    
+    </body>
+</html>
