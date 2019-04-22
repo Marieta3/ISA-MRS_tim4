@@ -20,12 +20,10 @@
 		<li><a href="#home">Home</a></li>
 		<li><button class="loginBtn">Login</button></li>
 		<li><button class="registerBtn">Register</button></li>
+		<li><button class="whoami">WhoAmI</button></li>
 		<li><a href="#contact">Contact</a></li>
 		<li><a href="#about">About</a></li>
-		<!-- 
-  		Milan: dodao sam logout cisto da vam naglasim da trebate obrisati token pri odjavi
-  		-->
-		<li><button class="logout">Logout</button></li>
+		
 		<li><div class="dropdown">
 				<button class="dropbtn">
 					Dropdown <i class="fa fa-caret-down"></i>
@@ -49,7 +47,7 @@
 			</div>
 
 
-			<div class="container">
+			<div class="container-modal" id="div-container-modal">
 				<h1 id="naslov">Login</h1>
 				<label for="uname"><b>Username</b></label> <input type="text"
 					placeholder="Enter Username" name="uname" id="username" required>
@@ -81,7 +79,7 @@
 			<div class="imgcontainer">
 				<span class="close" title="Close Modal">&times;</span>
 			</div>
-			<div class="container">
+			<div class="container-modal" id="div-container-modal">
 				<h1>Register</h1>
 				<p>Please fill in this form to create an account.</p>
 				<hr>

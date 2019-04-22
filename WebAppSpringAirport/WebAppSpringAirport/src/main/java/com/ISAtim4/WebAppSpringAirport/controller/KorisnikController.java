@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -26,6 +27,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.dto.KorisnikDTO;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
+
 
 @RestController
 public class KorisnikController {
@@ -154,6 +156,12 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 			
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
+	}
+	
+	@RequestMapping("/api/whoami")
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
+	public Korisnik korisnik(Principal user) {
+		return this.korisnikService.findByKorisnickoIme(user.getName());
 	}
 	
 	

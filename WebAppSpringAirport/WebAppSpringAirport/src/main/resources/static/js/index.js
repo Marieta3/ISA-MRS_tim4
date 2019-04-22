@@ -6,6 +6,7 @@
  */
 var users_url="/auth/login";
 var register_url="api/register";
+uloga="";
 
 findAllAvio();
 findAllHotels();
@@ -103,7 +104,7 @@ function renderRent(data){
 
 $(document).on('submit', ".modal-content1", function(e){
 	e.preventDefault();
-	console.log("login uspesan");
+	//console.log("login uspesan");
 	var username = $('#username').val();
 	var password = $('#password').val();
 	console.log(password);
@@ -121,7 +122,19 @@ $(document).on('submit', ".modal-content1", function(e){
 			 * sacuvajte token u localStorage da biste ga kasnije slali kroz header u svim zahtevima
 			 */
 			localStorage.setItem("accessToken", data.accessToken);
-			window.location.replace("index.html");
+			//window.location.replace("index.html");
+			$.ajax({
+				type:'GET',
+				url:'api/whoami',
+				beforeSend: function(request) {
+		            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+		        },
+		        success:function(data){
+		        	console.log("get role: "+data.authorities[0].authority);
+		        	uloga= data.authorities[0].authority;
+		        	window.location.replace("profil"+uloga+".html");
+		        }
+			})
 		},error:function(XMLHttpRequest,textStatus, errorThrown){
 			console.log("GRESKAAAAAA  ");
 			alert(errorThrown);
@@ -189,17 +202,20 @@ $(document).on('click', '.loginBtn', function(e){
 	e.preventDefault();
 	console.log("login");
 	$("#id01").css("display", "block");
+	$("body").addClass("modal-open");
 })
 
 $(document).on('click', '.registerBtn', function(e){
 	e.preventDefault();
 	console.log("register");
 	$("#id02").css("display", "block");
+	$("body").addClass("modal-open");
 })
 
 $(document).on('click', '.close', function(e){
 	$("#id01").css("display", "none");
 	$("#id02").css("display", "none");
+	$("body").removeClass("modal-open");
 })
 
 /*
@@ -211,13 +227,45 @@ $(document).on('click', '.logout', function(e){
     document.location.replace("/");
 })
 
+$(document).on('click', '.whoami', function(e){
+	e.preventDefault();
+	$.ajax({
+		type:'GET',
+		url:'api/whoami',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	console.log(data);
+        	console.log(data.authorities[0]);
+        	console.log(data.authorities[0].authority=="ROLE_RENT");
+        	$("title").text(data.authorities[0].authority);
+        }
+	})
+})
 
+function getUserRole(){
+	$.ajax({
+		type:'GET',
+		url:'api/whoami',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	console.log("get role: "+data.authorities[0].authority);
+        	uloga= data.authorities[0].authority;
+        }
+	})
+}
 
 $(window).click(function(e){
 	
 	if(e.target==document.getElementById("id01")){
 		$("#id01").css("display", "none");
+		$("body").removeClass("modal-open");
 	}else if(e.target==document.getElementById("id02")){
 		$("#id02").css("display", "none");
+		$("body").removeClass("modal-open");
 	}
+	
 })
