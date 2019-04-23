@@ -15,7 +15,7 @@ insert into avio_kompanija(naziv,adresa,opis) values ('Turkish Airlines','Istanb
 insert into avio_kompanija(naziv,adresa,opis) values ('Frontier Airlines','Boston, 3th Street 15','Description');
 insert into avio_kompanija(naziv,adresa,opis) values ('Air Serbia','Belgrade, JNA 25','Description');
 insert into avio_kompanija(naziv,adresa,opis) values ('FlySafe','Novi Sad, Partizanska 70','Description');
-insert into avio_kompanija(naziv,adresa,opis) values ('Air Croatioa','Zagreb, Bulevar Oslobodjenja 15','Description');
+insert into avio_kompanija(naziv,adresa,opis) values ('Air Croatia','Zagreb, Bulevar Oslobodjenja 15','Description');
 
 
 insert into rentacar(naziv,adresa,opis) values('Drive safe', 'Novi Sad, Futoska 32','Test1');

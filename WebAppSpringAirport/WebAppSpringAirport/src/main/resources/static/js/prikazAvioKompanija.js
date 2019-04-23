@@ -33,6 +33,7 @@ function renderAvioKompanije(data){
 		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
 		$('#prikazAvioKompanijaTabela').find('tr:eq(0)').append(th_nbsp);
 	}
+	$("#prikazAvioKompanijaTabela tbody").empty();
 	$.each(list, function(index, avioKompanija){
 		var tr=$('<tr id="avio_' + avioKompanija.id + '"></tr>');
 		if (avioKompanija.slika == null){
@@ -220,3 +221,23 @@ $(document).on('click', '.close', function(e){
 	$("#id03").css("display", "none");
 	$("body").removeClass("modal-open");
 })
+
+$('document').ready(function() {
+	$('#btnSearch').bind('click', searchAvioByName);
+});
+
+function searchAvioByName() {
+	var naziv = $('#searchName').val();
+	console.log(naziv);
+
+	if (naziv) {
+		$.ajax({
+			type : 'GET',
+			url : 'api/avioKompanije/search/' + naziv,
+			dataType : 'json',
+			success : renderAvioKompanije
+		});
+	} else{
+		findAll();
+	}
+}

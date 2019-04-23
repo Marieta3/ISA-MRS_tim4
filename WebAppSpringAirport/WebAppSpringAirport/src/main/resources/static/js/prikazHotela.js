@@ -37,6 +37,7 @@ function renderHoteli(data) {
 		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
 		$('#prikazHotelaTabela').find('tr:eq(0)').append(th_nbsp);
 	}
+	$("#prikazHotelaTabela tbody").empty();
 	$.each(list, function(index, hotel) {
 		var tr = $('<tr id="hotel_' + hotel.id + '"></tr>');
 		if (hotel.slika == null) {
@@ -47,7 +48,7 @@ function renderHoteli(data) {
 				'</td>' + '<td>' + hotel.naziv + '</td>'
 				+ '<td>' + hotel.adresa + '</td>' + '<td>' + hotel.opis
 				+ '</td>' + '<td>' + hotel.ocena + '</td>');
-		console.log(uloga);
+
 		if (uloga == "ROLE_ADMIN") {
 			var formaObrisi = $('<form id="formaObrisi"></form>');
 			formaObrisi.append('<input type="hidden" value="' + hotel.id + '">');
@@ -240,4 +241,25 @@ function previewFile(){
       //$('.id03').find('.imgcontainer').find('.imagePicker1').find('img').attr('src', preview.src);
       //console.log($('.id03').find('.imagePicker1').find('img'));
        //previewFile();  //calls the function named previewFile()
+}
+
+$('document').ready(function() {
+	$('#btnSearch').bind('click', searchHotelsByName);
+});
+
+
+function searchHotelsByName() {
+	var naziv = $('#searchName').val();
+	console.log(naziv);
+
+	if (naziv) {
+		$.ajax({
+			type : 'GET',
+			url : 'api/hotels/search/' + naziv,
+			dataType : 'json',
+			success : renderHoteli
+		});
+	} else{
+		findAll();
+	}
 }
