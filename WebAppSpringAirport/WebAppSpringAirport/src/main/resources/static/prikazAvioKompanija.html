@@ -2,11 +2,14 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="js/prikazAvioKompanija.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
-<link rel="stylesheet" type="text/css" href="css/prikazAviokompanije.css">
+<link rel="stylesheet" type="text/css"
+	href="css/prikazAviokompanije.css">
+<link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <title>Airlines</title>
 
 </head>
@@ -16,14 +19,86 @@
 	</ul>
 	<table id="prikazAvioKompanijaTabela" border="1px" width=600px>
 		<tr>
-		<th align="center"> Picture </th>
-		<th align="center"> Name </th>
-		<th align="center"> Address </th>
-		<th align="center"> Description</th>
+			<th align="center">Picture</th>
+			<th align="center">Name</th>
+			<th align="center">Address</th>
+			<th align="center">Description</th>
 		</tr>
 	</table>
-	<br/><br/>
-	
-	 
+	<br />
+	<br />
+	<div id="id02" class="modal">
+		<form class="modal-content2 animate" id="deleteAvioForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal">&times;</span>
+				<!-- slika -->
+			</div>
+			<div class="container-modal" id="div-container-modal">
+				<h1>Are you sure you want to delete Airline:</h1>
+				<h2 id="nazivAdresaAvio"></h2>
+
+				<button class="deleteSubmitBtn" type="submit">Delete</button>
+				<button type="button"
+					onclick="document.getElementById('id02').style.display='none'"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikator">
+			</div>
+		</form>
+	</div>
+
+	<div id="id03" class="modal">
+
+		<form class="modal-content3 animate" id="newAvioForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal">&times;</span>
+
+				<!-- slika -->
+			</div>
+
+			<div class="container-modal" id="div-container-modal">
+
+				<label for="nazivAvio"><b>Name</b></label> <input type="text"
+					name="nazivAvio" id="nazivAvio1"> <label for="adresaAvio"><b>Address</b></label>
+				<input type="text" name="adresaAvio" id="adresaAvio1"> <label
+					for="opisAvio"><b>Description</b></label> <input type="text"
+					name="opisAvio" id="opisAvio1">
+				<button class="addSubmitBtn" type="submit">Add</button>
+				<button type="button"
+					onclick="document.getElementById('id03').style.display='none'"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden"></div>
+		</form>
+	</div>
+
+	<div id="id01" class="modal">
+
+		<form class="modal-content1 animate" id="editAvioForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal">&times;</span>
+
+				<!-- slika -->
+			</div>
+
+			<div class="container-modal" id="div-container-modal">
+				<h1 id="h1NazivAvio">Airline</h1>
+				<label for="nazivAvio"><b>Name</b></label> <input type="text"
+					id="nazivAvio"> <label for="adresaAvio"><b>Address</b></label>
+				<input type="text" id="adresaAvio"> <label for="opisAvio"><b>Description</b></label>
+				<input type="text" id="opisAvio">
+				<button class="updateSubmitBtn" type="submit">Update</button>
+				<button type="button"
+					onclick="document.getElementById('id01').style.display='none'"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikator">
+			</div>
+		</form>
+	</div>
 </body>
 </html>

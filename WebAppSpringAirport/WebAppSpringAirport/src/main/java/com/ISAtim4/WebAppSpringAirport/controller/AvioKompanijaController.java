@@ -66,7 +66,7 @@ public class AvioKompanijaController {
 	}
 
 	/* update avioKompanije po id-u */
-	@PreAuthorize("hasRole('ROLE_AVIO')")
+	@PreAuthorize("hasAnyRole('ROLE_AVIO', 'ROLE_ADMIN')")
 	@RequestMapping(value = "/api/avioKompanije/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> updateAviokompanije(
 			@PathVariable(value = "id") Long aviokompanijaId,
