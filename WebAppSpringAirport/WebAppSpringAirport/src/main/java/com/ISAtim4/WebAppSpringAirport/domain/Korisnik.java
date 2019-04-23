@@ -48,6 +48,8 @@ public class Korisnik implements UserDetails {
 	
 	@Column(nullable=false)
 	private String mail;
+	@Column(nullable=true)
+	private String slika;
 	
 	@Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -97,7 +99,7 @@ public class Korisnik implements UserDetails {
 		this.mail = mail;
 	}
 
-	public Korisnik(Long id, String ime, String prezime, String korisnickoIme, String lozinka, String mail) {
+	public Korisnik(Long id, String ime, String prezime, String korisnickoIme, String lozinka, String mail, String slika) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -105,9 +107,18 @@ public class Korisnik implements UserDetails {
 		this.korisnickoIme = korisnickoIme;
 		this.lozinka = lozinka;
 		this.mail = mail;
+		this.slika=slika;
 	}
 	
-    public Timestamp getLastPasswordResetDate() {
+    public String getSlika() {
+		return slika;
+	}
+
+	public void setSlika(String slika) {
+		this.slika = slika;
+	}
+
+	public Timestamp getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
 

@@ -15,24 +15,26 @@ $(document).on('submit', "#editProfileForma", function(e){
 	var adresa = $('#address').val();
 	var telefon = $('#telefon').val();
 	var lozinka = $('#lozinka').val();
+	var slika = $('#slikaEdit').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
 	
+	console.log(slika);
 	console.log("aaaaaaaaa");
 	console.log(id);
-	console.log(ime);
+	console.log(lozinka);
 	console.log("aaaaaaaaa");
 	$.ajax({
 		type:'PUT',
 		url:update_korisnika_url+"/"+id,
 		contentType:'application/json',
 		dataType:'text',
-		data:korisnikToJSON(id,ime, prezime, lozinka, korisnickoIme, mail),
+		data:korisnikToJSON(id,ime, prezime, lozinka, korisnickoIme, mail, slika),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
 		success:function(data){
 			console.log(data); 
 			console.log("EVO MEEEEEE")
-			window.location.replace("prikazKorisnika.html");
+			//window.location.replace("prikazKorisnika.html");
 		}
 			, error: function(XMLHttpRequest,textStatus, errorThrown) 
 				{alert("Ne postoji korisnik sa datom ID-om!"+errorThrown);
@@ -40,14 +42,15 @@ $(document).on('submit', "#editProfileForma", function(e){
 	});
 });
 
-function korisnikToJSON(id, ime, prezime, lozinka, korisnickoIme, mail){
+function korisnikToJSON(id, ime, prezime, lozinka, korisnickoIme, mail, slika){
 	return JSON.stringify({
 		"id":id,
 		"ime":ime,
 		"prezime":prezime,
 		"lozinka":lozinka,
 		"korisnickoIme":korisnickoIme,
-		"mail":mail 
+		"mail":mail ,
+		"slika":slika
 	});
 }
 
@@ -71,7 +74,10 @@ function dobaviPodatkeKorisnika(){
         	$('#address').val("neka adresa");
         	$('#telefon').val("neki telefon");
         	$('#identifikator').val(data.id);
-        	
+        	console.log(data.slika);
+        	if(data.slika!=null && data.slika!=""){
+        		$('.imagePicker').find('img').attr("src", data.slika);
+        	}
         	uloga= data.authorities[0].authority;
         	//window.location.replace("profil"+uloga+".html");
         }

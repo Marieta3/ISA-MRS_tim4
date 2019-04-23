@@ -29,7 +29,7 @@ public class VoziloController {
 	private VoziloService voziloService;
 
 	/* da snimimo vozilo */
-	@PreAuthorize("hasRole('RENT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_RENT')")
 	@RequestMapping(value = "/api/cars", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Vozilo createCar(@Valid @RequestBody Vozilo vozilo) {
 		return voziloService.save(vozilo);
@@ -54,7 +54,7 @@ public class VoziloController {
 	}
 
 	/* update vozila po id-u */
-	@PreAuthorize("hasRole('RENT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_RENT')")
 	@RequestMapping(value = "/api/cars/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vozilo> updateCar(
 			@PathVariable(value = "id") Long carId,
@@ -77,7 +77,7 @@ public class VoziloController {
 	}
 
 	/* brisanje vozila */
-	@PreAuthorize("hasRole('RENT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_RENT')")
 	@RequestMapping(value = "/api/cars/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vozilo> deleteCar(
 			@PathVariable(value = "id") Long carId) {

@@ -37,7 +37,7 @@ public class HotelController {
 	 * ulogovan korisnik ima rolu ADMIN. Kada sredite model svih korisnika i dodate adekvatne role
 	 * onda ce pretpostavljam ovde biti provera "hasRole('HOTEL_ADMIN')"
 	 */
-	@PreAuthorize("hasRole('ROLE_HOTEL')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Hotel createHotel(@Valid @RequestBody Hotel hotel) {
 		return hotelService.save(hotel);
 	}
@@ -97,7 +97,7 @@ public class HotelController {
 	 * ulogovan korisnik ima rolu ADMIN. Kada sredite model svih korisnika i dodate adekvatne role
 	 * onda ce pretpostavljam ovde biti provera "hasRole('HOTEL_ADMIN')"
 	 */
-	@PreAuthorize("hasRole('ROLE_HOTEL')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Hotel> deleteHotel(
 			@PathVariable(value = "id") Long hotelId) {
 		Hotel hotel = hotelService.findOne(hotelId);

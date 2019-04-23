@@ -136,11 +136,14 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		korisnik.setIme(korisnikDetalji.getIme());
 		korisnik.setPrezime(korisnikDetalji.getPrezime());
 		korisnik.setKorisnickoIme(korisnikDetalji.getKorisnickoIme());
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String hashedPassword = passwordEncoder.encode(korisnikDetalji.getLozinka());
-		korisnik.setLozinka(hashedPassword);
+		//BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		//String hashedPassword = passwordEncoder.encode(korisnikDetalji.getLozinka());
+		/*
+		 * Marieta: posto trenutno nema izmene lozinke u azuriranju profila
+		 */
+		korisnik.setLozinka(korisnikDetalji.getLozinka());
 		korisnik.setMail(korisnikDetalji.getMail());
-
+		korisnik.setSlika(korisnikDetalji.getSlika());
 		Korisnik updateKorisnik = korisnikService.save(korisnik);
 		return ResponseEntity.ok().body(updateKorisnik);
 	}
@@ -184,9 +187,13 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 	
 	@RequestMapping("/api/whoami")
-	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
+	//@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
 	public Korisnik korisnik(Principal user) {
-		return this.korisnikService.findByKorisnickoIme(user.getName());
+		Korisnik k=null;
+		if(user!=null) {
+			k=this.korisnikService.findByKorisnickoIme(user.getName());
+		}
+		return k;
 	}
 	
 	

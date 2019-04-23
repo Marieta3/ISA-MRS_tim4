@@ -1,10 +1,13 @@
 @CHARSET "ISO-8859-1";
+body{
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
 .dropdown {
   float: left;
   overflow: hidden;
 }
 
-.dropdown .dropbtn {
+ul>li>div.dropdown  ul>li>div.dropdown>div.dropbtn {
   
   border: none;
   outline: none;
@@ -15,7 +18,7 @@
   margin: 0;
 }
 
-.dropdown:hover .dropdown-content {
+ul>li>div.dropdown:hover  ul>li>div.dropdown>div.dropdown-content {
   display: block;
 }
 
@@ -74,8 +77,14 @@ li button{
 
 li a:hover{
   background-color: #111;
+  color:white;
+  text-decoration: none;
+  cursor:pointer;
 }
-
+li a:active, li a:visited{
+	color:white;
+	text-decoration: none;
+}
 li button:hover, .dropbtn:hover{
   background-color:#111;
 }

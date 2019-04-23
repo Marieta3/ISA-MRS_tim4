@@ -28,7 +28,7 @@ public class UslugaController {
 	UslugaService uslugaService;
 
 	/* da snimimo uslugu */
-	@PreAuthorize("hasRole('HOTEL_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	@RequestMapping(value = "/api/usluge", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Usluga createUsluga(@Valid @RequestBody Usluga usluga) {
 		return uslugaService.save(usluga);
@@ -53,7 +53,7 @@ public class UslugaController {
 	}
 
 	/* update usluge po id-u */
-	@PreAuthorize("hasRole('HOTEL_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	@RequestMapping(value = "/api/usluge/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Usluga> updateUsluge(
 			@PathVariable(value = "id") Long uslugaId,
@@ -72,7 +72,7 @@ public class UslugaController {
 	}
 
 	/* brisanje usluge */
-	@PreAuthorize("hasRole('HOTEL_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	@RequestMapping(value = "/api/usluge/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Usluga> deleteUsluga(
 			@PathVariable(value = "id") Long uslugaId) {

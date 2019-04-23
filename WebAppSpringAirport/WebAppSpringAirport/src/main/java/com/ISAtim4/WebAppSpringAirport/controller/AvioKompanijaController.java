@@ -28,7 +28,7 @@ public class AvioKompanijaController {
 	private AvioKompanijaService aviokompanijaService;
 
 	/* da snimimo avioKompaniju */
-	@PreAuthorize("hasRole('AVIO_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/api/avioKompanije", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public AvioKompanija createAvioKompanija(@Valid @RequestBody AvioKompanija avioKompanija) {
 		return aviokompanijaService.save(avioKompanija);
@@ -53,7 +53,7 @@ public class AvioKompanijaController {
 	}
 
 	/* update avioKompanije po id-u */
-	@PreAuthorize("hasRole('AVIO_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_AVIO')")
 	@RequestMapping(value = "/api/avioKompanije/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> updateAviokompanije(
 			@PathVariable(value = "id") Long aviokompanijaId,
@@ -74,7 +74,7 @@ public class AvioKompanijaController {
 	}
 
 	/* brisanje avioKompanije */
-	@PreAuthorize("hasRole('AVIO_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/api/avioKompanije/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> deleteAviokompanije(
 			@PathVariable(value = "id") Long avioKompanijaId) {

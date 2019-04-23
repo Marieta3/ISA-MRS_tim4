@@ -8,9 +8,8 @@ var users_url="/auth/login";
 var register_url="api/register";
 uloga="";
 
-findAllAvio();
-findAllHotels();
-findAllRent();
+//findAllRent();
+
 
 function findAllAvio(){
 	$.ajax({
@@ -47,7 +46,7 @@ function renderAvio(data){
 		$('#lista1').append(li);
 		
 		var div1=$('<div class="item"></div>');
-		div1.append('<img src="slike/Airplane-1.png" alt="'+avio.naziv+'" style="width:20%;">');
+		div1.append('<img src="slike/Airplane-1.png" alt="'+avio.naziv+'" style="width:40%;">');
 		var div2=$('<div class="carousel-caption"></div>');
 		div2.append('<h3>'+avio.naziv+'</h3>');
 		div2.append('<p>'+avio.opis+'</br>'+avio.adresa+'</p>');
@@ -85,21 +84,21 @@ function renderRent(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	
 	$.each(list, function(index, rent){
-		var li=$('<li data-target="#myCarousel3" data-slide-to="'+index+'"></li>');
-		$('#lista3').append(li);
+		var li=$('<li data-target="#myCarousel1" data-slide-to="'+index+'"></li>');
+		$('#lista1').append(li);
 		
 		var div1=$('<div class="item"></div>');
-		div1.append('<img src="slike/rent.jpg" alt="'+rent.naziv+'" style="width:20%;">');
+		div1.append('<img src="slike/Airplane-1.png" alt="'+rent.naziv+'" style="width:100%;">');
 		var div2=$('<div class="carousel-caption"></div>');
 		div2.append('<h3>'+rent.naziv+'</h3>');
 		div2.append('<p>'+rent.opis+'</br>'+rent.adresa+'</p>');
 		div1.append(div2);
 		
-		$('.container3 .carousel-inner').append(div1);
+		$('.container1 .carousel-inner').append(div1);
 	})
-	$('#lista3').find('li:eq(0)').attr("class", "active");
-	$('.container3 .carousel-inner').find('div:eq(0)').attr("class", "item active");
-	$('.container3').attr("style", "background-color:black;");
+	$('#lista1').find('li:eq(0)').attr("class", "active");
+	$('.container1 .carousel-inner').find('div:eq(0)').attr("class", "item active");
+	$('.container1').attr("style", "background-color:black;");
 }
 
 $(document).on('submit', ".modal-content1", function(e){
@@ -122,6 +121,7 @@ $(document).on('submit', ".modal-content1", function(e){
 			 * sacuvajte token u localStorage da biste ga kasnije slali kroz header u svim zahtevima
 			 */
 			localStorage.setItem("accessToken", data.accessToken);
+			
 			//window.location.replace("index.html");
 			$.ajax({
 				type:'GET',
@@ -131,7 +131,8 @@ $(document).on('submit', ".modal-content1", function(e){
 		        },
 		        success:function(data){
 		        	console.log("get role: "+data.authorities[0].authority);
-		        	uloga= data.authorities[0].authority;
+		        	localStorage.setItem("uloga", data.authorities[0].authority);
+		        	uloga= localStorage.getItem("uloga");
 		        	window.location.replace("profil"+uloga+".html");
 		        }
 			})
@@ -196,66 +197,15 @@ function registeringUserToJSON(username,password,firstname,lastname,email){
 		});
 }
 
-
-
-$(document).on('click', '.loginBtn', function(e){
-	e.preventDefault();
-	console.log("login");
-	$("#id01").css("display", "block");
-	$("body").addClass("modal-open");
-})
-
-$(document).on('click', '.registerBtn', function(e){
-	e.preventDefault();
-	console.log("register");
-	$("#id02").css("display", "block");
-	$("body").addClass("modal-open");
-})
-
 $(document).on('click', '.close', function(e){
 	$("#id01").css("display", "none");
 	$("#id02").css("display", "none");
 	$("body").removeClass("modal-open");
 })
 
-/*
- * Milan: Dodao sam logout cisto kao primer da kada se korisnik izloguje treba da se ukloni njegov token iz localStorage
- */
-$(document).on('click', '.logout', function(e){
-	e.preventDefault();
-	localStorage.removeItem('accessToken');
-    document.location.replace("/");
-})
-
-$(document).on('click', '.whoami', function(e){
-	e.preventDefault();
-	$.ajax({
-		type:'GET',
-		url:'api/whoami',
-		beforeSend: function(request) {
-            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
-        },
-        success:function(data){
-        	console.log(data);
-        	console.log(data.authorities[0]);
-        	console.log(data.authorities[0].authority=="ROLE_RENT");
-        	$("title").text(data.authorities[0].authority);
-        }
-	})
-})
 
 function getUserRole(){
-	$.ajax({
-		type:'GET',
-		url:'api/whoami',
-		beforeSend: function(request) {
-            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
-        },
-        success:function(data){
-        	console.log("get role: "+data.authorities[0].authority);
-        	uloga= data.authorities[0].authority;
-        }
-	})
+	uloga=localStorage.getItem("uloga");
 }
 
 $(window).click(function(e){

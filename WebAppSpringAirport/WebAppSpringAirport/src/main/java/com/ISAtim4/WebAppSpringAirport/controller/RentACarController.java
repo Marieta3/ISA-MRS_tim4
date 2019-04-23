@@ -34,7 +34,7 @@ public class RentACarController {
 	private RentACarService rentACarService;
 	
 	/* da snimimo RentAcar */
-	@PreAuthorize("hasRole('RENT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/api/rentACars", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public RentACar createRentAcar(@Valid @RequestBody RentACar rentACar) {
 		return rentACarService.save(rentACar);
@@ -73,7 +73,7 @@ public class RentACarController {
 	}
 
 	/* update RentAcar po id-u */
-	@PreAuthorize("hasRole('RENT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_RENT')")
 	@RequestMapping(value = "/api/rentACars/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> updateRentAcar(
 			@PathVariable(value = "id") Long rentAcarId,
@@ -92,7 +92,7 @@ public class RentACarController {
 	}
 
 	/* brisanje RentAcar */
-	@PreAuthorize("hasRole('RENT_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/api/rentACars/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> deleteRentAcar(
 			@PathVariable(value = "id") Long rentAcarId) {

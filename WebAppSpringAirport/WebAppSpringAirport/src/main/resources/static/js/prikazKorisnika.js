@@ -1,6 +1,14 @@
 /**
  * 
  */
+uloga="";
+
+$(document).ready(function(){
+	uloga=localStorage.getItem("uloga");
+	if(uloga=="ROLE_ADMIN"){
+		$("#nav-bar").append('<li><a href="dodajKorisnika.html">New Admin</a></li>');
+	}
+});
 findAll();
 function findAll(){
 	$.ajax({

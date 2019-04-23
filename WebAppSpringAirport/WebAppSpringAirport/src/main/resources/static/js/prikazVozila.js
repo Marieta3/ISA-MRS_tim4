@@ -1,6 +1,14 @@
 /**
  * 
  */
+uloga="";
+
+$(document).ready(function(){
+	uloga=localStorage.getItem("uloga");
+	if(uloga=="ROLE_RENT"){
+		$("#nav-bar").append('<li><a href="dodajVozilo.html">New Vehicle</a></li>');
+	}
+});
 findAll();
 function findAll(){
 	$.ajax({

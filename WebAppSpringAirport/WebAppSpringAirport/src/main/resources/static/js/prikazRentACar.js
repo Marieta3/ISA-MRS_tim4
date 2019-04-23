@@ -1,6 +1,14 @@
 /**
  * 
  */
+uloga="";
+
+$(document).ready(function(){
+	uloga=localStorage.getItem("uloga");
+	if(uloga=="ROLE_ADMIN"){
+		$("#nav-bar").append('<li><a href="dodajRentACar.html">New Rent-A-Car</a></li>');
+	}
+});
 
 findAll();
 function findAll() {

@@ -28,7 +28,7 @@ public class SobaController {
 	SobaService sobaService;
 
 	/* da snimimo sobu */
-	@PreAuthorize("hasRole('HOTEL_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	@RequestMapping(value = "/api/sobe", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Soba createSoba(@Valid @RequestBody Soba soba) {
 		
@@ -54,7 +54,7 @@ public class SobaController {
 	}
 
 	/* update sobe po id-u */
-	@PreAuthorize("hasRole('HOTEL_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	@RequestMapping(value = "/api/sobe/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Soba> updateSobe(
 			@PathVariable(value = "id") Long sobaId,
@@ -74,7 +74,7 @@ public class SobaController {
 	}
 
 	/* brisanje sobe */
-	@PreAuthorize("hasRole('HOTEL_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	@RequestMapping(value = "/api/sobe/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Soba> deleteSoba(
 			@PathVariable(value = "id") Long sobaId) {

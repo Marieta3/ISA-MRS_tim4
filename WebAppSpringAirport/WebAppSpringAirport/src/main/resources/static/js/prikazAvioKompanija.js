@@ -1,6 +1,15 @@
 /**
  * 
  */
+uloga="";
+
+$(document).ready(function(){
+	uloga=localStorage.getItem("uloga");
+	if(uloga=="ROLE_ADMIN"){
+		$("#nav-bar").append('<li><a href="dodajAvioKompaniju.html">New Airline</a></li>');
+	}
+});
+
 findAll();
 function findAll(){
 	$.ajax({
