@@ -51,6 +51,19 @@ public class AvioKompanijaController {
 		}
 		return ResponseEntity.ok().body(aviokompanija);
 	}
+	
+	/* da uzmemo avioKompaniju po nazivu, svima dozvoljeno */
+	
+	@RequestMapping(value = "/api/avioKompanije/search/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AvioKompanija>> getAvioKompanijaByName(
+			@PathVariable(value = "name") String avioKompanijaName) {
+		List<AvioKompanija> avioKompanije = aviokompanijaService.containsName(avioKompanijaName);
+
+		if (avioKompanije == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(avioKompanije);
+	}
 
 	/* update avioKompanije po id-u */
 	@PreAuthorize("hasRole('ROLE_AVIO')")

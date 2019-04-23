@@ -29,6 +29,14 @@ public class AvioKompanijaService {
 	public Page<AvioKompanija> findAll(Pageable page) {
 		return avioKompanijaRepository.findAll(page);
 	}
+	
+	public List<AvioKompanija> findByName(String name){
+		return avioKompanijaRepository.findAllByNaziv(name);
+	}
+
+	public List<AvioKompanija> containsName(String name){
+		return avioKompanijaRepository.pronadjiAvioSadrziNaziv(name);
+	}
 
 	public void remove(Long id) {
 		avioKompanijaRepository.deleteById(id);

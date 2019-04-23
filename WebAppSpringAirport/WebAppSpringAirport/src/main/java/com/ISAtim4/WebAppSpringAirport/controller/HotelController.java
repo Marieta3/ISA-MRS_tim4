@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,11 +47,6 @@ public class HotelController {
 
 	/* da uzmemo hotel po id-u, svima dozvoljeno */
 	@RequestMapping(value = "/api/hotels/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	/*
-	 * Milan: trenutno sam dodao proveru da li trenutno
-	 * ulogovan korisnik ima rolu ADMIN. Kada sredite model svih korisnika i dodate adekvatne role
-	 * onda ce pretpostavljam ovde biti provera "hasRole('HOTEL_ADMIN')"
-	 */
 	public ResponseEntity<Hotel> getHotel(
 			@PathVariable(value = "id") Long hotelId) {
 		Hotel hotel = hotelService.findOne(hotelId);
@@ -64,14 +56,22 @@ public class HotelController {
 		}
 		return ResponseEntity.ok().body(hotel);
 	}
+	
+	/* da uzmemo RentAcar po nazivu, svima dozvoljeno */
+	
+	@RequestMapping(value = "/api/hotels/search/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Hotel>> getHotelsByName(
+			@PathVariable(value = "name") String hotelName) {
+		List<Hotel> hotels = hotelService.containsName(hotelName);
+
+		if (hotels == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(hotels);
+	}
 
 	/* update hotela po id-u */
 	@RequestMapping(value = "/api/hotels/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
-	/*
-	 * Milan: trenutno sam dodao proveru da li trenutno
-	 * ulogovan korisnik ima rolu ADMIN. Kada sredite model svih korisnika i dodate adekvatne role
-	 * onda ce pretpostavljam ovde biti provera "hasRole('HOTEL_ADMIN')"
-	 */
 	@PreAuthorize("hasAnyRole('ROLE_HOTEL', 'ROLE_ADMIN')")
 	public ResponseEntity<Hotel> updateHotela(
 			@PathVariable(value = "id") Long hotelId,
@@ -92,11 +92,6 @@ public class HotelController {
 
 	/* brisanje hotela */
 	@RequestMapping(value = "/api/hotels/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	/*
-	 * Milan: trenutno sam dodao proveru da li trenutno
-	 * ulogovan korisnik ima rolu ADMIN. Kada sredite model svih korisnika i dodate adekvatne role
-	 * onda ce pretpostavljam ovde biti provera "hasRole('HOTEL_ADMIN')"
-	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Hotel> deleteHotel(
 			@PathVariable(value = "id") Long hotelId) {
