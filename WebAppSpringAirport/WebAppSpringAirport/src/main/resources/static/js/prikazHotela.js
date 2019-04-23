@@ -6,7 +6,8 @@ uloga="";
 $(document).ready(function(){
 	uloga=localStorage.getItem("uloga");
 	if(uloga=="ROLE_ADMIN"){
-		$("#nav-bar").append('<li><a href="dodajHotel.html">New Hotel</a></li>');
+		//$("#nav-bar").append('<li><a href="dodajHotel.html">New Hotel</a></li>');
+		$("#nav-bar").append('<li><button class="dodajHotelBtn">New Hotel</button></li>');
 	}
 });
 findAll();
@@ -66,7 +67,7 @@ function renderHoteli(data) {
 $(document).on('click', '.dodajHotelBtn', function(e){
 	e.preventDefault();
 	console.log("dodaj hotel btn");
-	$("#id01").css("display", "block");
+	$("#id03").css("display", "block");
 	$("body").addClass("modal-open");
 })
 
@@ -156,6 +157,39 @@ $(document).on('submit', ".modal-content2", function(e){
 	
 })
 
+$(document).on('submit', ".modal-content3", function(e){
+	e.preventDefault();
+	console.log("dodavanje hotela");
+	var naziv=$("#nazivHotela1").val();
+	var adresa=$("#adresaHotela1").val();
+	var opis=$("#opisHotela1").val();
+	console.log("aaa"+opis);
+	console.log("sss"+naziv);
+	console.log("cccc"+adresa);
+	$.ajax({
+		type:'POST',
+		url:"api/hotels",
+		contentType:'application/json',
+		dataType:'json',
+		data:hotelToJSONadd(naziv, adresa, opis),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:function(data){
+			console.log(data); 
+			//$("#id03").css("display", "none");
+			//$("body").removeClass("modal-open");
+			window.location.replace("prikazHotela.html");
+		}
+	});
+})
+function hotelToJSONadd(naziv, adresa, opis){
+	return JSON.stringify({
+		"naziv":naziv,
+		"adresa":adresa,
+		"opis":opis
+	});
+}
 function hotelToJSON(id, naziv, adresa, opis, ocena){
 	return JSON.stringify({
 		"id":id,
@@ -173,6 +207,9 @@ $(window).click(function(e){
 	}else if(e.target==document.getElementById("id02")){
 		$("#id02").css("display", "none");
 		$("body").removeClass("modal-open");
+	}else if(e.target==document.getElementById("id03")){
+		$("#id03").css("display", "none");
+		$("body").removeClass("modal-open");
 	}
 	
 })
@@ -180,6 +217,7 @@ $(window).click(function(e){
 $(document).on('click', '.close', function(e){
 	$("#id01").css("display", "none");
 	$("#id02").css("display", "none");
+	$("#id03").css("display", "none");
 	$("body").removeClass("modal-open");
 })
 
