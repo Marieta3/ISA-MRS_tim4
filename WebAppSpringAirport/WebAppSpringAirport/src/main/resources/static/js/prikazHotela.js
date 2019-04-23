@@ -39,9 +39,14 @@ function renderHoteli(data) {
 	}
 	$.each(list, function(index, hotel) {
 		var tr = $('<tr id="hotel_' + hotel.id + '"></tr>');
-		tr.append('<td>' + hotel.id + '</td>' + '<td>' + hotel.naziv + '</td>'
+		if (hotel.slika == null) {
+			hotel.slika = "../slike/hotel.jpg";
+		}
+		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divHotel">' +
+				'<img src=" ' + hotel.slika +' " id="imgProfilnaHotel"> ' + '</div>' +
+				'</td>' + '<td>' + hotel.naziv + '</td>'
 				+ '<td>' + hotel.adresa + '</td>' + '<td>' + hotel.opis
-				+ '</td>');
+				+ '</td>' + '<td>' + hotel.ocena + '</td>');
 		console.log(uloga);
 		if (uloga == "ROLE_ADMIN") {
 			var formaObrisi = $('<form id="formaObrisi"></form>');
@@ -101,7 +106,6 @@ $(document).on('submit', '#formaUpdate', function(e) {
         	$("#nazivHotela").val(data.naziv);
         	$("#adresaHotela").val(data.adresa);
         	$("#opisHotela").val(data.opis);
-        	$("#ocenaHotela").val(data.ocena);
         	$("#identifikator").val(data.id);
         }
 		
@@ -113,14 +117,13 @@ $(document).on('submit', ".modal-content1", function(e){
 	var naziv=$("#nazivHotela").val();
 	var adresa=$("#adresaHotela").val();
 	var opis=$("#opisHotela").val();
-	var ocena=$("#ocenaHotela").val();
 	var id=$("#identifikator").val();
 	$.ajax({
 		type:"PUT",
 		url:"api/hotels/"+id,
 		contentType:'application/json',
 		dataType:'text',
-		data:hotelToJSON(id, naziv, adresa, opis, ocena),
+		data:hotelToJSON(id, naziv, adresa, opis),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -190,13 +193,12 @@ function hotelToJSONadd(naziv, adresa, opis){
 		"opis":opis
 	});
 }
-function hotelToJSON(id, naziv, adresa, opis, ocena){
+function hotelToJSON(id, naziv, adresa, opis){
 	return JSON.stringify({
 		"id":id,
 		"naziv":naziv,
 		"adresa":adresa,
 		"opis":opis,
-		"ocena":ocena
 	});
 }
 $(window).click(function(e){
@@ -221,3 +223,21 @@ $(document).on('click', '.close', function(e){
 	$("body").removeClass("modal-open");
 })
 
+function previewFile(){
+      var preview = document.querySelector('img'); //selects the query named img
+      var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+      var reader  = new FileReader();
+ 
+      reader.onloadend = function () {
+           preview.src = reader.result;
+      }
+
+      if (file) {
+           reader.readAsDataURL(file); //reads the data as a URL
+      } else {
+           preview.src = "";
+      }
+      //$('.id03').find('.imgcontainer').find('.imagePicker1').find('img').attr('src', preview.src);
+      //console.log($('.id03').find('.imagePicker1').find('img'));
+       //previewFile();  //calls the function named previewFile()
+}

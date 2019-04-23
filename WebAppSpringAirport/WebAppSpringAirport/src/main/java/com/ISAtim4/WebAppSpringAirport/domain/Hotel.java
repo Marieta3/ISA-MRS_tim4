@@ -28,6 +28,9 @@ public class Hotel {
 	@Column(nullable = true)
 	private double ocena;
 	
+	@Column(nullable = true)
+	private String slika;
+	
 	@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private Set<Soba> sobe = new HashSet<>();
@@ -51,7 +54,7 @@ public class Hotel {
 	public Hotel() {}
 	
 	public Hotel(Long id, String naziv, String adresa, String opis,
-			double ocena, Set<Soba> sobe, Set<Usluga> usluge, Set<AdminHotel> admini_hotela) {
+			double ocena, Set<Soba> sobe, Set<Usluga> usluge, Set<AdminHotel> admini_hotela, String slika) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -61,6 +64,15 @@ public class Hotel {
 		this.sobe = sobe;
 		this.usluge = usluge;
 		this.admini_hotela=admini_hotela;
+		this.slika = slika;
+	}
+
+	public String getSlika() {
+		return slika;
+	}
+
+	public void setSlika(String slika) {
+		this.slika = slika;
 	}
 
 	public Long getId() {

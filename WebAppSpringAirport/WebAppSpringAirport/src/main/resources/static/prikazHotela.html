@@ -8,6 +8,7 @@
 <script type="text/javascript" src="js/navBar.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
+<link rel="stylesheet" type = "text/css" href="css/prikazHotela.css">
 <title>Hotels</title>
 
 </head>
@@ -17,12 +18,13 @@
 	</ul>
 
 
-	<table id="prikazHotelaTabela" border="1">
+	<table id="prikazHotelaTabela" width = 600px border= 1px>
 		<tr>
-			<th>Id</th>
-			<th>Naziv</th>
-			<th>Adresa</th>
-			<th>Opis</th>
+			<th>Picture</th>
+			<th>Name</th>
+			<th>Address</th>
+			<th>Description</th>
+			<th> Rating </th>
 		</tr>
 	</table>
 	<br />
@@ -67,8 +69,7 @@
 					for="adresaHotela"><b>Address</b></label> <input type="text"
 					name="adresaHotela" id="adresaHotela"> <label
 					for="opisHotela"><b>Description</b></label> <input type="text"
-					name="opisHotela" id="opisHotela"> <label for="ocenaHotela"><b>Rating</b></label>
-				<input type="text" disabled name="ocenaHotela" id="ocenaHotela">
+					name="opisHotela" id="opisHotela"> 
 				<button class="updateSubmitBtn" type="submit">Update</button>
 				<button type="button"
 					onclick="document.getElementById('id01').style.display='none'"
@@ -86,11 +87,16 @@
 			<div class="imgcontainer">
 				<span class="close" title="Close Modal">&times;</span>
 					
-				<!-- slika -->
+				<!-- slika
+				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
+                	<img src="slike/avatar.png"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
+            	</div>
+             	<input id="slikaEdit" type="file" accept="image/*" title="Izaberi fajl" onchange="previewFile()" ><br>
+				 -->
 			</div>
 
 			<div class="container-modal" id="div-container-modal">
-			
+				<h1> Add new hotel </h1>
 				<label for="nazivHotela"><b>Name</b></label> <input type="text"
 					name="nazivHotela" id="nazivHotela1"> <label
 					for="adresaHotela"><b>Address</b></label> <input type="text"
