@@ -42,7 +42,7 @@ input[type=text]:focus, input[type=password]:focus {
 }
 
 /* Set a style for all buttons */
-.signupbtn, .loginSubmitBtn, .cancelbtn {
+.signupbtn, .loginSubmitBtn, .cancelbtn, .updateSubmitBtn, .deleteSubmitBtn {
   background-color: #4CAF50;
   color: white;
   padding: 14px 20px;
@@ -55,7 +55,7 @@ input[type=text]:focus, input[type=password]:focus {
 
 
 
-.signupbtn:hover, .loginSubmitBtn:hover, .cancelbtn:hover {
+.signupbtn:hover, .loginSubmitBtn:hover, .cancelbtn:hover, .updateSubmitBtn:hover, .deleteSubmitBtn:hover {
   opacity: 1;
 }
 
@@ -66,7 +66,7 @@ input[type=text]:focus, input[type=password]:focus {
 }
 
 /* Float cancel and signup buttons and add an equal width */
-.cancelbtn, .signupbtn, .loginSubmitBtn {
+.cancelbtn, .signupbtn, .loginSubmitBtn, .updateSubmitBtn, .deleteSubmitBtn {
   float: left;
   width: 50%;
 }
@@ -79,14 +79,18 @@ input[type=text]:focus, input[type=password]:focus {
 }
 
 img.avatar {
-  width: 40%;
+  width: 30%;
   border-radius: 50%;
 }
 
 #div-container-modal {
   padding: 16px;
+  padding-bottom:16px;
 }
 
+.hidden{
+	padding: 26px;
+}
 span.psw {
   float: right;
   padding-top: 16px;

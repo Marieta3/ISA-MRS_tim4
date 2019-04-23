@@ -32,27 +32,28 @@ function renderHoteli(data) {
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
 	//sta ako ne postoji uloga u local storage?
-	
+	if(uloga=="ROLE_ADMIN"){
+		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
+		$('#prikazHotelaTabela').find('tr:eq(0)').append(th_nbsp);
+	}
 	$.each(list, function(index, hotel) {
 		var tr = $('<tr id="hotel_' + hotel.id + '"></tr>');
 		tr.append('<td>' + hotel.id + '</td>' + '<td>' + hotel.naziv + '</td>'
 				+ '<td>' + hotel.adresa + '</td>' + '<td>' + hotel.opis
 				+ '</td>');
 		console.log(uloga);
-		var th_nbsp=$('<th>&nbsp;</th>');
 		if (uloga == "ROLE_ADMIN") {
-			$('#prikazHotelaTabela').find('tr:eq(0)').append(th_nbsp);
 			var formaObrisi = $('<form id="formaObrisi"></form>');
 			formaObrisi.append('<input type="hidden" value="' + hotel.id + '">');
-			formaObrisi.append('<input type="submit" value="Obriši">');
+			formaObrisi.append('<input id="hiddenNazivAdresa" type="hidden" value="' + hotel.naziv+", "+hotel.adresa + '">');
+			formaObrisi.append('<input type="submit" value="Delete">');
 			var td = $('<td></td>');
 			td.append(formaObrisi);
 			tr.append(td);
-		}else if(uloga=="ROLE_HOTEL"){
-			$('#prikazHotelaTabela').find('tr:eq(0)').append(th_nbsp);
+		
 			var formaUpdate = $('<form id="formaUpdate"></form>');
 			formaUpdate.append('<input type="hidden" value="' + hotel.id + '">');
-			formaUpdate.append('<input type="submit" value="Ažuriraj">');
+			formaUpdate.append('<input type="submit" value="Update">');
 			var td1 = $('<td></td>');
 			td1.append(formaUpdate);
 			tr.append(td1);
@@ -62,13 +63,78 @@ function renderHoteli(data) {
 	
 }
 
+$(document).on('click', '.dodajHotelBtn', function(e){
+	e.preventDefault();
+	console.log("dodaj hotel btn");
+	$("#id01").css("display", "block");
+	$("body").addClass("modal-open");
+})
+
 $(document).on('submit', '#formaObrisi', function(e) {
 	e.preventDefault();
 	var id_hotela = $(this).find('input[type=hidden]').val();
+	var naziv_adresa=$(this).find("#hiddenNazivAdresa").val();
+	console.log(id_hotela);
+	$("#id02").css("display", "block");
+	$("body").addClass("modal-open");
+	$("#identifikator").val(id_hotela);
+	$("#nazivAdresaHotela").text(naziv_adresa+"?");
+	
+
+})
+
+$(document).on('submit', '#formaUpdate', function(e) {
+	e.preventDefault();
+	$("#id01").css("display", "block");
+	$("body").addClass("modal-open");
+	var id_hotela = $(this).find('input[type=hidden]').val();
 	console.log(id_hotela);
 	$.ajax({
+		type:"GET",
+		url:"api/hotels/"+id_hotela,
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	$("#h1NazivHotela").text(data.naziv+", "+data.adresa);
+        	$("#nazivHotela").val(data.naziv);
+        	$("#adresaHotela").val(data.adresa);
+        	$("#opisHotela").val(data.opis);
+        	$("#ocenaHotela").val(data.ocena);
+        	$("#identifikator").val(data.id);
+        }
+		
+	})
+})
+
+$(document).on('submit', ".modal-content1", function(e){
+	e.preventDefault();
+	var naziv=$("#nazivHotela").val();
+	var adresa=$("#adresaHotela").val();
+	var opis=$("#opisHotela").val();
+	var ocena=$("#ocenaHotela").val();
+	var id=$("#identifikator").val();
+	$.ajax({
+		type:"PUT",
+		url:"api/hotels/"+id,
+		contentType:'application/json',
+		dataType:'text',
+		data:hotelToJSON(id, naziv, adresa, opis, ocena),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	window.location.replace("prikazHotela.html");
+        }
+	})
+	
+})
+$(document).on('submit', ".modal-content2", function(e){
+	e.preventDefault();
+	var id=$("#identifikator").val();
+	$.ajax({
 		type : 'DELETE',
-		url : '/api/hotels/' + id_hotela,
+		url : '/api/hotels/' + id,
 		/*
 		 * Milan: drugi nacin da token posaljete u zahtevu kroz ajax poziv kroz
 		 * header
@@ -78,24 +144,42 @@ $(document).on('submit', '#formaObrisi', function(e) {
 		},
 		success : function() {
 			console.log('blaa');
-			$('#hotel_' + id_hotela).remove();
+			$('#hotel_' + id).remove();
+			$("#id02").css("display", "none");
+			$("body").removeClass("modal-open");
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("okdosdkaasdd");
 			alert(errorThrown);
 		}
 	})
-
+	
 })
 
-$(document).on('submit', '#formaUpdate', function(e) {
-	e.preventDefault();
-	var id_hotela = $(this).find('input[type=hidden]').val();
-	console.log(id_hotela);
-	$.ajax({
-		type:"GET",
-		url:"api/hotels/"+id_hotela,
-		
-	})
+function hotelToJSON(id, naziv, adresa, opis, ocena){
+	return JSON.stringify({
+		"id":id,
+		"naziv":naziv,
+		"adresa":adresa,
+		"opis":opis,
+		"ocena":ocena
+	});
+}
+$(window).click(function(e){
+	
+	if(e.target==document.getElementById("id01")){
+		$("#id01").css("display", "none");
+		$("body").removeClass("modal-open");
+	}else if(e.target==document.getElementById("id02")){
+		$("#id02").css("display", "none");
+		$("body").removeClass("modal-open");
+	}
+	
+})
+
+$(document).on('click', '.close', function(e){
+	$("#id01").css("display", "none");
+	$("#id02").css("display", "none");
+	$("body").removeClass("modal-open");
 })
 

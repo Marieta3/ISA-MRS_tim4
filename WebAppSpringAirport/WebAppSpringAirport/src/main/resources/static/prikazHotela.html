@@ -2,10 +2,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="js/prikazHotela.js" charset="UTF-8"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
+<link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <title>Hotels</title>
 
 </head>
@@ -13,18 +15,71 @@
 	<ul id="nav-bar">
 		<li><a href="index.html">Home</a></li>
 	</ul>
-	
-	
+
+
 	<table id="prikazHotelaTabela" border="1">
 		<tr>
-		<th>Id</th>
-		<th>Naziv</th>
-		<th>Adresa</th>
-		<th>Opis</th>
+			<th>Id</th>
+			<th>Naziv</th>
+			<th>Adresa</th>
+			<th>Opis</th>
 		</tr>
 	</table>
-	<br/><br/>
+	<br />
+	<br />
 	
+	<div id="id02" class="modal">
+		<form class="modal-content2 animate" id="editHotelForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal">&times;</span>
+				<!-- slika -->
+			</div>
+			<div class="container-modal" id="div-container-modal">
+				<h1>Are you sure you want to delete hotel: </h1>
+				<h2 id="nazivAdresaHotela"></h2>
+				
+				<button class="deleteSubmitBtn" type="submit">Delete</button>
+				<button type="button"
+					onclick="document.getElementById('id02').style.display='none'"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikator">
+			</div>
+		</form>
+	</div>
 	
+	<div id="id01" class="modal">
+
+		<form class="modal-content1 animate" id="editHotelForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal">&times;</span>
+					<img
+					src="slike/avatar.png" alt="Avatar" class="avatar">
+				<!-- slika -->
+			</div>
+
+			<div class="container-modal" id="div-container-modal">
+			<h1 id="h1NazivHotela">Hotel</h1>
+				<label for="nazivHotela"><b>Name</b></label> <input type="text"
+					name="nazivHotela" id="nazivHotela"> <label
+					for="adresaHotela"><b>Address</b></label> <input type="text"
+					name="adresaHotela" id="adresaHotela"> <label
+					for="opisHotela"><b>Description</b></label> <input type="text"
+					name="opisHotela" id="opisHotela"> <label for="ocenaHotela"><b>Rating</b></label>
+				<input type="text" disabled name="ocenaHotela" id="ocenaHotela">
+				<button class="updateSubmitBtn" type="submit">Update</button>
+				<button type="button"
+					onclick="document.getElementById('id01').style.display='none'"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikator">
+			</div>
+		</form>
+	</div>
+
 </body>
 </html>

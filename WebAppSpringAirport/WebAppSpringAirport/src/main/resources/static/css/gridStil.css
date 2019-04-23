@@ -1,0 +1,10 @@
+@CHARSET "ISO-8859-1";
+
+input[type=text]{
+	margin-top: 10px;
+}
+
+#buttonSbm{
+	margin-left: 68px;
+	margin-top: 10px
+}

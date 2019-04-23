@@ -44,6 +44,8 @@ $(document).on('click', '.loginBtn', function(e){
 	$("body").addClass("modal-open");
 })
 
+
+
 $(document).on('click', '.profileBtn', function(e){
 	e.preventDefault();
 	uloga=localStorage.getItem("uloga");
