@@ -4,6 +4,12 @@
 
 var update_korisnika_url="api/users";
 
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+
 $(document).on('submit', "#editProfileForma", function(e){
 	e.preventDefault();
 	console.log("update korisnika");
@@ -22,6 +28,12 @@ $(document).on('submit', "#editProfileForma", function(e){
 	console.log(id);
 	console.log(lozinka);
 	console.log("aaaaaaaaa");
+	
+	if  (!validateEmail(mail)){
+		alert("Bad email format");
+		return;
+	}
+	
 	$.ajax({
 		type:'PUT',
 		url:update_korisnika_url+"/"+id,

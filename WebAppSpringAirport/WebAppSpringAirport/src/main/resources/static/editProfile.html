@@ -13,7 +13,7 @@
             <div class="imagePicker" style="height: 200px;width:200px;border-radius: 50%">
                 <img src="slike/avatar.png"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
             </div>
-             <input id="slikaEdit" type="file" title="Izaberi fajl" onchange="previewFile()" style="margin-left: 50px;margin-bottom: 20px;margin-top: 10px;height: 60px; margin-right: 50px"><br>
+             <input id="slikaEdit" type="file" accept="image/*" title="Izaberi fajl" onchange="previewFile()" style="margin-left: 50px;margin-bottom: 20px;margin-top: 10px;height: 60px; margin-right: 50px"><br>
         </div>
             <div class="grid-container"  style="float: left" >
               <div class="grid-item">
@@ -23,7 +23,7 @@
                     Prezime <br> <input type="text" id="prezime" style="margin-top: 10px">  
               </div>
               <div class="grid-item">
-                    Mail <br> <input type="text" id="mail" style="margin-top: 10px"> 
+                    Mail <br> <input type="email" id="mail" style="margin-top: 10px"> 
               </div>  
               <div class="grid-item">
                     Korisnicko ime <br> <input type="text" id="username" style="margin-top: 10px">   
