@@ -1,0 +1,23 @@
+@CHARSET "ISO-8859-1";
+
+#divKorisnik{
+	height:100px; 
+	width:100px;
+	border-radius: 50%;
+}
+#imgProfilnaKorisnici{
+	height:inherit;
+	width:inherit; 
+	object-fit: cover;
+	border-radius: inherit;
+}
+#prikazKorisnikaTabela{
+	margin-top: 100px;
+	margin-left:auto;
+	margin-right:auto;
+}
+tr:nth-child(even) {background: #CCC}
+tr:nth-child(odd) {background: #FFF}
+th{
+	background: #787c82;
+}

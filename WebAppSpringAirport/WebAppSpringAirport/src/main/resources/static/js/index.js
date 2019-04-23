@@ -150,6 +150,11 @@ function userToJSON(username, password){
 	});
 }
 
+function validateEmail(email) {
+    var re = /^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 $(document).on('submit', '.modal-content2', function(e){
 	e.preventDefault();
 	var username = $('#username1').val();
@@ -166,10 +171,15 @@ $(document).on('submit', '.modal-content2', function(e){
 	console.log(lastname);
 	console.log(email);
 	
+	//if  (!validateEmail(email)){
+	//	alert("Bad format email");
+	//	return;
+	//}
 	if (password !== rptpassword){
-		alert('GRESKA! NISU ISTE SIFRE');
+		alert('Error! The passwords are not identical');
+		return;
 	}
-	
+
 	$.ajax({
 		type:"POST",
 		url:register_url,
