@@ -27,6 +27,9 @@ public class RentACar {
 	private String opis;
 	// @Column(nullable = true)
 	// private Double ocena;
+	
+	@Column(nullable=true)
+	public String slika;
 
 	@OneToMany(mappedBy = "rent_a_car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonManagedReference
@@ -39,7 +42,7 @@ public class RentACar {
 	}
 
 	public RentACar(Long id, String naziv, String adresa, String opis,
-			Set<Vozilo> vozila, Set<Filijala> filijale, Set<AdminRent> admini) {
+			Set<Vozilo> vozila, Set<Filijala> filijale, Set<AdminRent> admini,String slika) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -48,6 +51,7 @@ public class RentACar {
 		// this.ocena = ocena;
 		this.filijale = filijale;
 		this.admini = admini;
+		this.slika = slika;
 	}
 
 	public RentACar(RentACar r) {
@@ -59,6 +63,15 @@ public class RentACar {
 		// this.ocena = r.getOcena();
 		this.filijale = r.getFilijale();
 		this.admini = r.getAdmini();
+		this.slika = r.getSlika();
+	}
+
+	public String getSlika() {
+		return slika;
+	}
+
+	public void setSlika(String slika) {
+		this.slika = slika;
 	}
 
 	public Long getId() {

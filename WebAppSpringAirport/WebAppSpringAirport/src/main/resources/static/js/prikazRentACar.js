@@ -35,8 +35,13 @@ function renderRentACars(data) {
 	$("#prikazRentACarTabela tbody").empty();
 	$.each(list, function(index, rentACar) {
 		var tr = $('<tr></tr>');
-		tr.append('<td>' + rentACar.id + '</td>' + '<td>' + rentACar.naziv
-				+ '</td>' + '<td>' + rentACar.adresa + '</td>' + '<td>'
+		if (rentACar.slika == null) {
+			rentACar.slika = "../slike/rent_car.jpg"
+		}
+		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divRent">' +
+				'<img src=" ' + rentACar.slika +' " id="imgProfilnaRent"> ' + '</div>' +
+				'</td>' +'<td>'+ rentACar.naziv
+				+ '</td>' + '<td>' + rentACar.adresa + '</td>' + '<td width=100px>'
 				+ rentACar.opis + '</td>');
 		$('#prikazRentACarTabela tbody').append(tr);
 

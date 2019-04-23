@@ -29,7 +29,12 @@ function renderAvioKompanije(data){
 	
 	$.each(list, function(index, avioKompanija){
 		var tr=$('<tr></tr>');
-		tr.append('<td>' + avioKompanija.id + '</td>'+'<td>' + avioKompanija.naziv + '</td>' + '<td>'
+		if (avioKompanija.slika == null){
+			avioKompanija.slika = "../slike/aereo2.jpg";
+		}
+		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divAviokompanija">' +
+				'<img src=" ' + avioKompanija.slika +' " id="imgProfilnaAviokompanija"> ' + '</div>' +
+				'</td>'+'<td>' + avioKompanija.naziv + '</td>' + '<td>'
 				+ avioKompanija.adresa + '</td>' + '<td>'
 				+ avioKompanija.opis + '</td>'  );
 		$('#prikazAvioKompanijaTabela').append(tr);

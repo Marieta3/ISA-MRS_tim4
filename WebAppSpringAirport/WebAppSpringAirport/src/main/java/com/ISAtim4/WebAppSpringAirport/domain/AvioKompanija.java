@@ -40,6 +40,17 @@ public class AvioKompanija {
 	@Column(nullable=false)
 	private String opis;
 	
+	@Column(nullable=true)
+	private String slika;
+	
+	public String getSlika() {
+		return slika;
+	}
+
+	public void setSlika(String slika) {
+		this.slika = slika;
+	}
+
 	public Set<AdminAvio> getAdmin() {
 		return admin;
 	}
@@ -103,7 +114,7 @@ public class AvioKompanija {
 	}
 
 	public AvioKompanija(Long id, String naziv, Set<AdminAvio> admin, Set<Destinacija> listaDestinacija,
-			Set<Let> listaLetova, String adresa, String opis) {
+			Set<Let> listaLetova, String adresa, String opis,String slika) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -112,6 +123,7 @@ public class AvioKompanija {
 		this.listaLetova = listaLetova;
 		this.adresa = adresa;
 		this.opis = opis;
+		this.slika = slika;
 	}
 
 	

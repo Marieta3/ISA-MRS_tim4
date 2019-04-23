@@ -6,6 +6,7 @@
 <script type="text/javascript" src="js/prikazRentACar.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
+<link rel="stylesheet" type="text/css" href="css/prikazRentacar.css">
 <title>Rent-A-Car</title>
 
 </head>
@@ -13,10 +14,15 @@
 	<ul id="nav-bar">
 		<li><a href="index.html">Home</a></li>
 	</ul>
-	<table id="prikazRentACarTabela">
+	<div class="search" style="margin-top: 100px;text-align: center">
+		<label >Search by name</label>
+		<input type="text" id="searchName">
+		<button id="btnSearch" value="Search">Search</button>
+	</div>
+	<table id="prikazRentACarTabela" width = 600px border= 1px>
 		<thead>
 			<tr>
-			<th>Id</th>
+			<th>Picture</th>
 			<th>Naziv</th>
 			<th>Adresa</th>
 			<th>Opis</th>
@@ -26,11 +32,7 @@
 		</tbody>
 	</table>
 	<br><br>
-	<div class="search">
-		<label >Search by name</label>
-		<input type="text" id="searchName">
-		<button id="btnSearch" value="Search">Search</button>
-	</div>
+
 	
 	<br/><br/>
 	
