@@ -51,6 +51,9 @@ public class Korisnik implements UserDetails {
 	@Column(nullable=true)
 	private String slika;
 	
+	@Column(nullable=true)
+	private boolean enabled;
+	
 	@Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
 	
@@ -99,7 +102,7 @@ public class Korisnik implements UserDetails {
 		this.mail = mail;
 	}
 
-	public Korisnik(Long id, String ime, String prezime, String korisnickoIme, String lozinka, String mail, String slika) {
+	public Korisnik(Long id, String ime, String prezime, String korisnickoIme, String lozinka, String mail, String slika,boolean enabled) {
 		super();
 		this.id = id;
 		this.ime = ime;
@@ -108,9 +111,14 @@ public class Korisnik implements UserDetails {
 		this.lozinka = lozinka;
 		this.mail = mail;
 		this.slika=slika;
+		this.enabled = false;
 	}
 	
-    public String getSlika() {
+    public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getSlika() {
 		return slika;
 	}
 

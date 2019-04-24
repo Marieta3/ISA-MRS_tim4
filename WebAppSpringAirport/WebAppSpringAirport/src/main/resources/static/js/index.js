@@ -155,6 +155,7 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+//za registraciju korisnika modal
 $(document).on('submit', '.modal-content2', function(e){
 	e.preventDefault();
 	var username = $('#username1').val();
@@ -186,7 +187,7 @@ $(document).on('submit', '.modal-content2', function(e){
 		contentType:'application/json',
 		data:registeringUserToJSON(username,password,firstname,lastname,email),
 		success:function(data){
-			window.location.replace("index.html");
+			window.location.replace("thanksForRegistration.html");
 		},error:function(XMLHttpRequest,textStatus, errorThrown){
 			console.log("GRESKAAAAAA  ");
 			alert(errorThrown);

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.dto.KorisnikDTO;
 import com.ISAtim4.WebAppSpringAirport.service.AuthorityService;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
+import com.ISAtim4.WebAppSpringAirport.service.NotificationService;
 
 
 @RestController
@@ -41,6 +43,9 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private AuthorityService authorityService;
+	
+	@Autowired
+	NotificationService notificationService;
 
 	/* da dodamo korisnika */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -180,6 +185,14 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 			auth.add(authority);
 			reg.setAuthorities(auth);
 			korisnikService.save(reg);
+			
+			//send a notification
+			try{
+				notificationService.sendNotification(reg);
+			} catch(MailException ex) {
+				logger.info("Error sending mail: "+ex.getMessage());
+			}
+			
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
