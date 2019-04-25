@@ -131,9 +131,11 @@ $(document).on('submit', ".modal-content1", function(e){
 		        },
 		        success:function(data){
 		        	console.log("get role: "+data.authorities[0].authority);
-		        	localStorage.setItem("uloga", data.authorities[0].authority);
-		        	uloga= localStorage.getItem("uloga");
-		        	window.location.replace("profil"+uloga+".html");
+			        localStorage.setItem("uloga", data.authorities[0].authority);
+			        uloga= localStorage.getItem("uloga");
+			        window.location.replace("profil"+uloga+".html");
+		        	}
+		        	
 		        }
 			})
 		},error:function(XMLHttpRequest,textStatus, errorThrown){

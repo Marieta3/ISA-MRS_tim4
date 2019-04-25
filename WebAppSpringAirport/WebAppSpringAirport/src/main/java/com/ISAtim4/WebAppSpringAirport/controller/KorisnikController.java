@@ -2,6 +2,7 @@ package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -191,6 +192,9 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 				notificationService.sendNotification(reg);
 			} catch(MailException ex) {
 				logger.info("Error sending mail: "+ex.getMessage());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -208,6 +212,30 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		}
 		return k;
 	}
+	
+	
+	/* da registrujemo korisnika sa verifikacionog linka */
+	@RequestMapping(value = "/api/users/enabled/{korIme}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Korisnik> getKorisnikRegistracija(
+			@PathVariable(value = "korIme") String korisnickoIme) {
+		
+		//BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+		byte[] decodedBytes = Base64.getDecoder().decode(korisnickoIme);
+		String decodedKorisnickoIme = new String(decodedBytes);
+		Korisnik korisnik = korisnikService.findByKorisnickoIme(decodedKorisnickoIme);
+		
+		if (korisnik == null) {
+			logger.info("Dati korisnik ne postoji!");
+			return ResponseEntity.notFound().build();
+		} 
+		else {
+			logger.info("Dati korisnik je enabled i moze da se loginuje sad");
+			korisnik.setEnabled(true);
+			korisnikService.save(korisnik);
+			return ResponseEntity.ok().body(korisnik);
+		}
+	}
+
 	
 	
 }
