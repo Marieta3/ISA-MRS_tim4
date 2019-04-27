@@ -23,6 +23,7 @@ public class RegistrovaniKorisnik extends Korisnik {
 	*/
 	public RegistrovaniKorisnik() {
 		super();
+		super.setUlogovanPrviPut(true);
 		/*
 		
 		this.listaPrijatelja = listaPrijatelja;

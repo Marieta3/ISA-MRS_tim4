@@ -81,7 +81,7 @@ $(document).on('click', '.dodajKorisnikaBtn', function(e){
 	$("body").addClass("modal-open");
 })
 
-$(document).on('submit', '#formaObrisiggg', function(e) {
+$(document).on('submit', '#formaObrisi', function(e) {
 	e.preventDefault();
 	var id = $(this).find('input[type=hidden]').val();
 	var naziv=$(this).find("#hiddenKorisnik").val();

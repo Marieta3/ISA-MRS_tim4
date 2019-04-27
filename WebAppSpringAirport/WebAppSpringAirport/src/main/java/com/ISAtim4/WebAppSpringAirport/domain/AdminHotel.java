@@ -20,17 +20,17 @@ public class AdminHotel extends Korisnik {
 	@JsonBackReference
 	private Hotel hotel;
 	
-	@Column(nullable=true)
-	private Boolean UlogovanPrviPut=false; //da li je prvi put ili ne
 	
-	public AdminHotel(Hotel hotel, Boolean ulogovanPrviPut) {
+	
+	public AdminHotel(Hotel hotel) {
 		super();
 		this.hotel = hotel;
-		UlogovanPrviPut = ulogovanPrviPut;
+		super.setUlogovanPrviPut(false);
+		
 	}
 
 	public AdminHotel() {
-		this.UlogovanPrviPut=false;
+		super.setUlogovanPrviPut(false);
 		super.setEnabled(true);
 	}
 
@@ -42,13 +42,7 @@ public class AdminHotel extends Korisnik {
 		this.hotel = hotel;
 	}
 
-	public Boolean getUlogovanPrviPut() {
-		return UlogovanPrviPut;
-	}
-
-	public void setUlogovanPrviPut(Boolean ulogovanPrviPut) {
-		UlogovanPrviPut = ulogovanPrviPut;
-	}
+	
 	
 	
 	

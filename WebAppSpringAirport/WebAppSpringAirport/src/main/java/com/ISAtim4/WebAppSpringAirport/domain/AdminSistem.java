@@ -15,10 +15,9 @@ public class AdminSistem extends Korisnik {
 	@Column(nullable = true)
 	private boolean predefinisaniAdmin; //onaj koji moze da dodaje druge sistem admine
 
-	@Column(nullable= true)
-	private Boolean UlogovanPrviPut=false; //da li je prvi put ili ne
+	
 
-	public AdminSistem() {this.UlogovanPrviPut=false;super.setEnabled(true);}
+	public AdminSistem() {super.setUlogovanPrviPut(false);super.setEnabled(true);}
 	
 
 	public boolean isPredefinisaniAdmin() {
@@ -30,14 +29,7 @@ public class AdminSistem extends Korisnik {
 	}
 
 
-	public Boolean getUlogovanPrviPut() {
-		return UlogovanPrviPut;
-	}
-
-
-	public void setUlogovanPrviPut(Boolean ulogovanPrviPut) {
-		UlogovanPrviPut = ulogovanPrviPut;
-	}
+	
 
 	
 	
