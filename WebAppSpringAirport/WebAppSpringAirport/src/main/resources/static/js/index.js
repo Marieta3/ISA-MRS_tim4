@@ -131,12 +131,23 @@ $(document).on('submit', ".modal-content1", function(e){
 		        },
 		        success:function(data){
 		        	console.log("get role: "+data.authorities[0].authority);
-			        localStorage.setItem("uloga", data.authorities[0].authority);
-			        uloga= localStorage.getItem("uloga");
-			        window.location.replace("profil"+uloga+".html");
+		        	console.log(data.enabled==0);
+		        	console.log(data);
+		        	if(data.enabled){
+		        		if(!data.UlogovanPrviPut){
+		        			localStorage.setItem("uloga", data.authorities[0].authority);
+		        			uloga= localStorage.getItem("uloga");
+		        			window.location.replace("profil"+uloga+".html");
+		        		}else{
+		        			window.location.replace("prvaPromenaLozinke.html");
+		        		}
+		        	}else{
+		        		localStorage.removeItem("accessToken");
+		        		alert("Check your e-mail for verification!");
 		        	}
-		        	
 		        }
+		        	
+		        
 			})
 		},error:function(XMLHttpRequest,textStatus, errorThrown){
 			console.log("GRESKAAAAAA  ");

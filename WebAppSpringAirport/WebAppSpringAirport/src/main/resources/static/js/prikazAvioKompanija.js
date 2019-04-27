@@ -33,7 +33,9 @@ function renderAvioKompanije(data){
 		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
 		$('#prikazAvioKompanijaTabela').find('tr:eq(0)').append(th_nbsp);
 	}
-	$("#prikazAvioKompanijaTabela tbody").empty();
+	//$("#prikazAvioKompanijaTabela tbody").empty();
+	$("#prikazAvioKompanijaTabela").find("tr:gt(0)").remove();
+	$("#prikazAvioKompanijaTabela").find("th:gt(4)").remove();
 	$.each(list, function(index, avioKompanija){
 		var tr=$('<tr id="avio_' + avioKompanija.id + '"></tr>');
 		if (avioKompanija.slika == null){

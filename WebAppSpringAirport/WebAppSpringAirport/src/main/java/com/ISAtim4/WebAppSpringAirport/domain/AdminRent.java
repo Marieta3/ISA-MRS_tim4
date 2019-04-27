@@ -20,9 +20,9 @@ public class AdminRent extends Korisnik {
 	@JsonBackReference
 	private RentACar rent_a_car;
 	@Column(nullable= true)
-	private Boolean UlogovanPrviPut; //da li je prvi put ili ne
+	private Boolean UlogovanPrviPut=false; //da li je prvi put ili ne
 
-	public AdminRent() {}
+	public AdminRent() {this.UlogovanPrviPut=false;}
 
 	public AdminRent(RentACar rent_a_car, Boolean ulogovanPrviPut) {
 		super();

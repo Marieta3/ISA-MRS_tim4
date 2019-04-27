@@ -21,7 +21,7 @@ public class AdminHotel extends Korisnik {
 	private Hotel hotel;
 	
 	@Column(nullable=true)
-	private Boolean UlogovanPrviPut; //da li je prvi put ili ne
+	private Boolean UlogovanPrviPut=false; //da li je prvi put ili ne
 	
 	public AdminHotel(Hotel hotel, Boolean ulogovanPrviPut) {
 		super();
@@ -30,6 +30,7 @@ public class AdminHotel extends Korisnik {
 	}
 
 	public AdminHotel() {
+		this.UlogovanPrviPut=false;
 	}
 
 	public Hotel getHotel() {

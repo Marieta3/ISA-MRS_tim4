@@ -53,59 +53,39 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@RequestMapping(value = "/api/users", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Korisnik createKorisnik(@Valid @RequestBody KorisnikDTO korisnikDTO) {
 		String uloga = korisnikDTO.getUloga();
+		Korisnik k=null;
+		Authority a=null;
 		switch(uloga) {
 			case "avio": {
-				AdminAvio avio = new AdminAvio();
-				avio.setIme(korisnikDTO.getIme());
-				avio.setPrezime(korisnikDTO.getPrezime());
-				avio.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
-				avio.setLozinka(korisnikDTO.getLozinka());
-				avio.setMail(korisnikDTO.getMail());
-				Authority authority = authorityService.findByName("ROLE_AVIO");
-				ArrayList<Authority> auth = new ArrayList<Authority>();
-				auth.add(authority);
-				avio.setAuthorities(auth);
-				return korisnikService.save(avio);
+				k=new AdminAvio();
+				a=authorityService.findByName("ROLE_AVIO");
+				break;
 			}
 			case "rent": {
-				AdminRent rent = new AdminRent();
-				rent.setIme(korisnikDTO.getIme());
-				rent.setPrezime(korisnikDTO.getPrezime());
-				rent.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
-				rent.setLozinka(korisnikDTO.getLozinka());
-				rent.setMail(korisnikDTO.getMail());
-				Authority authority = authorityService.findByName("ROLE_RENT");
-				ArrayList<Authority> auth = new ArrayList<Authority>();
-				auth.add(authority);
-				rent.setAuthorities(auth);	
-				return korisnikService.save(rent);
+				k=new AdminRent();
+				a=authorityService.findByName("ROLE_RENT");
+				break;
 			}
 			case "hotel": {
-				AdminHotel hotel = new AdminHotel();
-				hotel.setIme(korisnikDTO.getIme());
-				hotel.setPrezime(korisnikDTO.getPrezime());
-				hotel.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
-				hotel.setLozinka(korisnikDTO.getLozinka());
-				hotel.setMail(korisnikDTO.getMail());
-				Authority authority = authorityService.findByName("ROLE_HOTEL");
-				ArrayList<Authority> auth = new ArrayList<Authority>();
-				auth.add(authority);
-				hotel.setAuthorities(auth);	
-				return korisnikService.save(hotel);
+				k=new AdminHotel();
+				a=authorityService.findByName("ROLE_HOTEL");
+				break;
 			}
 			default:
-				AdminSistem sis = new AdminSistem();
-				sis.setIme(korisnikDTO.getIme());
-				sis.setPrezime(korisnikDTO.getPrezime());
-				sis.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
-				sis.setLozinka(korisnikDTO.getLozinka());
-				sis.setMail(korisnikDTO.getMail());
-				Authority authority = authorityService.findByName("ROLE_ADMIN");
-				ArrayList<Authority> auth = new ArrayList<Authority>();
-				auth.add(authority);
-				sis.setAuthorities(auth);	
-				return korisnikService.save(sis);
+				k=new AdminSistem();
+				a=authorityService.findByName("ROLE_ADMIN");
+				break;
 		}
+		k.setIme(korisnikDTO.getIme());
+		k.setPrezime(korisnikDTO.getPrezime());
+		k.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
+		k.setLozinka(korisnikDTO.getLozinka());
+		k.setMail(korisnikDTO.getMail());
+		ArrayList<Authority> auth = new ArrayList<Authority>();
+		auth.add(a);
+		k.setAuthorities(auth);
+		
+		return korisnikService.save(k);
 	}
 
 	/* da uzmemo sve korisnike */
@@ -209,6 +189,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		Korisnik k=null;
 		if(user!=null) {
 			k=this.korisnikService.findByKorisnickoIme(user.getName());
+			System.out.println("----------------------------enabled: "+k.isEnabled());
 		}
 		return k;
 	}

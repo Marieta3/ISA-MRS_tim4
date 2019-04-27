@@ -25,7 +25,7 @@ h1 .link:hover{
 	object-fit:cover;
 }
 /* Full-width input fields */
-.container-modal input[type=text],.container-modal input[type=password] {
+.container-modal input[type=text],.container-modal input[type=password], .container-modal select {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -36,7 +36,7 @@ h1 .link:hover{
 }
 
 /* Add a background color when the inputs get focus */
-input[type=text]:focus, input[type=password]:focus {
+input[type=text]:focus, input[type=password]:focus, .container-modal select:focus {
   background-color: #ddd;
   outline: none;
 }

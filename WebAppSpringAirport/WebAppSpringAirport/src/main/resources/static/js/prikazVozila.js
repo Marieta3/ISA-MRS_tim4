@@ -25,7 +25,8 @@ function findAll(){
 function renderCars(data){
 	console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
-	
+	//$("#prikazRentACarTabela").find("tr:gt(0)").remove();
+	//$("#prikazRentACarTabela").find("th:gt(4)").remove();
 	$.each(list, function(index, car){
 		var tr=$('<tr></tr>');
 		tr.append('<td>' + car.id + '</td>'+'<td>' + car.proizvodjac + '</td>' + '<td>'

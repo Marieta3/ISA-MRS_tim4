@@ -24,9 +24,9 @@ public class AdminAvio extends Korisnik {
 	private AvioKompanija avio_kompanija; //koje avio kompanije
 	
 	@Column(nullable=true)
-	private Boolean UlogovanPrviPut; //mora prvi put da izmeni lozinku, posle ne
+	private Boolean UlogovanPrviPut=false; //mora prvi put da izmeni lozinku, posle ne
 	
-	public AdminAvio() {}	
+	public AdminAvio() {this.UlogovanPrviPut=false;}	
 	
 	
 	

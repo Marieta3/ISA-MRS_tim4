@@ -52,7 +52,7 @@ public class Korisnik implements UserDetails {
 	private String slika;
 	
 	@Column(nullable=true)
-	private boolean enabled;
+	private Boolean enabled=false;
 	
 	@Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -192,7 +192,7 @@ public class Korisnik implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return this.enabled;
 	}
     
     

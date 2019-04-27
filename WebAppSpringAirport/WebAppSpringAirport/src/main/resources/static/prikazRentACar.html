@@ -2,11 +2,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="js/prikazRentACar.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
 <link rel="stylesheet" type="text/css" href="css/prikazRentacar.css">
+<link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <title>Rent-A-Car</title>
 
 </head>
@@ -14,28 +16,99 @@
 	<ul id="nav-bar">
 		<li><a href="index.html">Home</a></li>
 	</ul>
-	<div class="search" style="margin-top: 100px;text-align: center">
-		<label >Search by name</label>
-		<input type="text" id="searchName">
+	<div class="search" style="margin-top: 100px; text-align: center">
+		<label>Search by name</label> <input type="text" id="searchName">
 		<button id="btnSearch" value="Search">Search</button>
 	</div>
-	<table id="prikazRentACarTabela" width = 600px border= 1px>
+	<table id="prikazRentACarTabela" width=600px border=1px>
 		<thead>
 			<tr>
-			<th>Picture</th>
-			<th>Name</th>
-			<th>Address</th>
-			<th>Description</th>
+				<th>Picture</th>
+				<th>Name</th>
+				<th>Address</th>
+				<th>Description</th>
 			</tr>
 		</thead>
 		<tbody>
 		</tbody>
 	</table>
-	<br><br>
+	<br>
+	<br>
 
-	
-	<br/><br/>
-	
-	
+	<div id="id02" class="modal">
+		<form class="modal-content2 animate" id="deleteRentForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal">&times;</span>
+				<!-- slika -->
+			</div>
+			<div class="container-modal" id="div-container-modal">
+				<h1>Are you sure you want to delete Rent-A-Car:</h1>
+				<h2 id="nazivAdresaRent"></h2>
+
+				<button class="deleteSubmitBtn" type="submit">Delete</button>
+				<button type="button"
+					onclick="document.getElementById('id02').style.display='none'"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikator">
+			</div>
+		</form>
+	</div>
+
+	<div id="id03" class="modal">
+
+		<form class="modal-content3 animate" id="newRentForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal">&times;</span>
+
+				<!-- slika -->
+			</div>
+
+			<div class="container-modal" id="div-container-modal">
+				<h1> Add new rent-a-car </h1>
+				<label for="nazivRent"><b>Name</b></label> <input type="text"
+					name="nazivRent" id="nazivRent1"> <label for="adresaRent"><b>Address</b></label>
+				<input type="text" name="adresaRent" id="adresaRent1"> <label
+					for="opisRent"><b>Description</b></label> <input type="text"
+					name="opisRent" id="opisRent1">
+				<button class="addSubmitBtn" type="submit">Add</button>
+				<button type="button"
+					onclick="document.getElementById('id03').style.display='none'"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden"></div>
+		</form>
+	</div>
+
+	<div id="id01" class="modal">
+
+		<form class="modal-content1 animate" id="editRentForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal">&times;</span>
+
+				<!-- slika -->
+			</div>
+
+			<div class="container-modal" id="div-container-modal">
+				<h1 id="h1NazivRent">Rent-A-Car</h1>
+				<label for="nazivRent"><b>Name</b></label> <input type="text"
+					id="nazivRent"> <label for="adresaRent"><b>Address</b></label>
+				<input type="text" id="adresaRent"> <label for="opisRent"><b>Description</b></label>
+				<input type="text" id="opisRent">
+				<button class="updateSubmitBtn" type="submit">Update</button>
+				<button type="button"
+					onclick="document.getElementById('id01').style.display='none'"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikator">
+			</div>
+		</form>
+	</div>
+
+
 </body>
 </html>
