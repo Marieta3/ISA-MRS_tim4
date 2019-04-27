@@ -137,13 +137,13 @@ $(document).on('submit', ".modal-content1", function(e){
 		        	//alert(data.ulogovanPrviPut);
 		        	
 		        	if(data.enabled){
+		        		localStorage.setItem("uloga", data.authorities[0].authority);
+	        			uloga= localStorage.getItem("uloga");
+	        			console.log(data.UlogovanPrviPut);
+	        			console.log(data.ulogovanPrviPut);
 		        		if(data.ulogovanPrviPut){
-		        			localStorage.setItem("uloga", data.authorities[0].authority);
-		        			uloga= localStorage.getItem("uloga");
 		        			window.location.replace("profil"+uloga+".html");
 		        		}else{
-		        			localStorage.setItem("uloga", data.authorities[0].authority);
-		        			uloga= localStorage.getItem("uloga");
 		        			window.location.replace("prvaPromenaLozinke.html");
 		        		}
 		        	}else{

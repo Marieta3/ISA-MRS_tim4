@@ -23,10 +23,9 @@ public class AdminAvio extends Korisnik {
 	@JsonBackReference
 	private AvioKompanija avio_kompanija; //koje avio kompanije
 	
-	@Column(nullable=true)
-	private Boolean UlogovanPrviPut=false; //mora prvi put da izmeni lozinku, posle ne
 	
-	public AdminAvio() {this.UlogovanPrviPut=false;super.setEnabled(true);}	
+	
+	public AdminAvio() {super.setUlogovanPrviPut(false);super.setEnabled(true);}	
 	
 	
 	
@@ -45,12 +44,7 @@ public class AdminAvio extends Korisnik {
 
 
 
-	public Boolean getUlogovanPrviPut() {
-		return UlogovanPrviPut;
-	}
-	public void setUlogovanPrviPut(Boolean ulogovanPrviPut) {
-		UlogovanPrviPut = ulogovanPrviPut;
-	}
+	
 	
 	
 	

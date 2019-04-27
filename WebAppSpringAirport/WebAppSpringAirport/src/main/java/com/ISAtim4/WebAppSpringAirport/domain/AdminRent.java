@@ -19,15 +19,16 @@ public class AdminRent extends Korisnik {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonBackReference
 	private RentACar rent_a_car;
-	@Column(nullable= true)
-	private Boolean UlogovanPrviPut=false; //da li je prvi put ili ne
+	
 
-	public AdminRent() {this.UlogovanPrviPut=false;super.setEnabled(true);}
+	public AdminRent() {super.setUlogovanPrviPut(false);super.setEnabled(true);}
 
-	public AdminRent(RentACar rent_a_car, Boolean ulogovanPrviPut) {
+	public AdminRent(RentACar rent_a_car) {
 		super();
+		super.setEnabled(true);
+		super.setUlogovanPrviPut(false);
 		this.rent_a_car = rent_a_car;
-		UlogovanPrviPut = ulogovanPrviPut;
+		
 	}
 
 	public RentACar getRent_a_car() {
@@ -38,13 +39,7 @@ public class AdminRent extends Korisnik {
 		this.rent_a_car = rent_a_car;
 	}
 
-	public Boolean getUlogovanPrviPut() {
-		return UlogovanPrviPut;
-	}
-
-	public void setUlogovanPrviPut(Boolean ulogovanPrviPut) {
-		UlogovanPrviPut = ulogovanPrviPut;
-	}
+	
 
 	
 }

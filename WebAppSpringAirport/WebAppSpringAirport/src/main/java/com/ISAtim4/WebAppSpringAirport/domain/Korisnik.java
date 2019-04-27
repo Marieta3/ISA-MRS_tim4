@@ -62,7 +62,18 @@ public class Korisnik implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
     private List<Authority> authorities;
+    
+    @Column(nullable=true)
+	private Boolean UlogovanPrviPut; //mora prvi put da izmeni lozinku, posle ne
 	
+	public Boolean getUlogovanPrviPut() {
+		return UlogovanPrviPut;
+	}
+
+	public void setUlogovanPrviPut(Boolean ulogovanPrviPut) {
+		UlogovanPrviPut = ulogovanPrviPut;
+	}
+
 	public Korisnik() {	}
 	
 	public Long getId() {
