@@ -116,6 +116,7 @@ $(document).on('submit', ".modal-content1", function(e){
 		data:userToJSON(username,password),
 		success:function(data){
 			console.log(data.accessToken);
+			console.log("hello")
 			/*
 			 * Milan: Kada vam createAuthenticationToken metoda iz AuthenticationController klase vrati jwt token kao objekat UserTokenState iz domain paketa
 			 * sacuvajte token u localStorage da biste ga kasnije slali kroz header u svim zahtevima
