@@ -22,7 +22,7 @@ public class AdminRent extends Korisnik {
 	@Column(nullable= true)
 	private Boolean UlogovanPrviPut=false; //da li je prvi put ili ne
 
-	public AdminRent() {this.UlogovanPrviPut=false;}
+	public AdminRent() {this.UlogovanPrviPut=false;super.setEnabled(true);}
 
 	public AdminRent(RentACar rent_a_car, Boolean ulogovanPrviPut) {
 		super();

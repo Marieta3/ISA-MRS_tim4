@@ -31,6 +31,7 @@ public class AdminHotel extends Korisnik {
 
 	public AdminHotel() {
 		this.UlogovanPrviPut=false;
+		super.setEnabled(true);
 	}
 
 	public Hotel getHotel() {
