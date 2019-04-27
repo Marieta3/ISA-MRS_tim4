@@ -26,7 +26,7 @@ public class AdminAvio extends Korisnik {
 	@Column(nullable=true)
 	private Boolean UlogovanPrviPut=false; //mora prvi put da izmeni lozinku, posle ne
 	
-	public AdminAvio() {this.UlogovanPrviPut=false;}	
+	public AdminAvio() {this.UlogovanPrviPut=false;super.setEnabled(true);}	
 	
 	
 	

@@ -133,12 +133,16 @@ $(document).on('submit', ".modal-content1", function(e){
 		        	console.log("get role: "+data.authorities[0].authority);
 		        	console.log(data.enabled==0);
 		        	console.log(data);
+		        	//alert(data.ulogovanPrviPut);
+		        	
 		        	if(data.enabled){
-		        		if(!data.UlogovanPrviPut){
+		        		if(data.ulogovanPrviPut){
 		        			localStorage.setItem("uloga", data.authorities[0].authority);
 		        			uloga= localStorage.getItem("uloga");
 		        			window.location.replace("profil"+uloga+".html");
 		        		}else{
+		        			localStorage.setItem("uloga", data.authorities[0].authority);
+		        			uloga= localStorage.getItem("uloga");
 		        			window.location.replace("prvaPromenaLozinke.html");
 		        		}
 		        	}else{

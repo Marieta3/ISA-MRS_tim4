@@ -5,14 +5,14 @@
 <title>Change your password</title>
 </head>
 <body>
-
+	<script type="text/javascript">console.log(localStorage.getItem("uloga"));</script>
 	<form id="changePswForma">
 		<label>Old password</label>
-		<input type="password" id="oldPsw" placeholder="Enter old password">
+		<input type="password" id="oldPsw" placeholder="Enter old password" required>
 		<label>New password</label>
-		<input id="newPsw" placeholder="Enter new password" type="password">
+		<input id="newPsw" placeholder="Enter new password" type="password" required>
 		<label>Confirm password</label>
-		<input id="confirmPsw" placeholder="Confirm new password" type="password">
+		<input id="confirmPsw" placeholder="Confirm new password" type="password" required>
 		<input type="submit" value="Change password">
 	</form>
 </body>
