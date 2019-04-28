@@ -232,19 +232,32 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	}
 	@RequestMapping(value="/api/updatePassword", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
-	public ResponseEntity<Korisnik> updatePassword(Principal user, @Valid @RequestBody ChangePswDTO dto ){
+	public String updatePassword(Principal user, @Valid @RequestBody ChangePswDTO dto ){
 		Korisnik k=null;
 		if(user!=null) {
 			k=this.korisnikService.findByKorisnickoIme(user.getName());
-			//da li je dobra stara lozinka
-			//provera lozinke(nije jednaka staroj i dve lozinke se poklapaju)
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			String hashedPassword = passwordEncoder.encode(dto.getNewPsw());
+			String oldPsw = passwordEncoder.encode(dto.getOldPsw());
+			//da li je dobra stara lozinka?
+			/*if(!k.getLozinka().equals(oldPsw)) {
+				return "Old password: "+k.getLozinka()+", uneta lozinka: "+oldPsw;
+			}else */
+			if(dto.getOldPsw().equals(dto.getNewPsw())) {
+				return "New and old password should not match!";
+			}else if(!dto.getNewPsw().equals(dto.getConfirmPsw())) {
+				return "Passwords do not match!";
+			}else if(dto.getOldPsw().equals("") || dto.getNewPsw().equals("") || dto.getConfirmPsw().equals("")) {
+				return "Password should not be empty!";
+			}
+			//provera lozinke(nije jednaka staroj i dve lozinke se poklapaju)
+			
 			k.setLozinka(hashedPassword);
 			k.setUlogovanPrviPut(true);
-			return ResponseEntity.ok().body(korisnikService.save(k));
+			korisnikService.save(k);
+			return "OK";
 		}else {
-			return ResponseEntity.notFound().build();
+			return "User not found.";
 		}
 		
 		

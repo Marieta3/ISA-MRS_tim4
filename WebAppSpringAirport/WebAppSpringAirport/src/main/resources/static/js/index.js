@@ -144,6 +144,7 @@ $(document).on('submit', ".modal-content1", function(e){
 		        		if(data.ulogovanPrviPut){
 		        			window.location.replace("profil"+uloga+".html");
 		        		}else{
+		        			localStorage.setItem("prvaPromena", "prvaPromena");
 		        			window.location.replace("prvaPromenaLozinke.html");
 		        		}
 		        	}else{
