@@ -5,10 +5,15 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="js/prvaPromenaLozinke.js"></script>
+<script type="text/javascript" src="js/navBar.js"></script>
+<link rel="stylesheet" type="text/css" href="css/navBar.css">
 <title>Change your password</title>
 </head>
 <body>
-	<script type="text/javascript">console.log(localStorage.getItem("uloga"));</script>
+	<ul id="nav-bar">
+		<li><a href="index.html" id="chgPswLink">Home</a></li>
+		
+	</ul>
 	<form id="changePsw1Forma">
 		<label>Old password</label>
 		<input type="password" id="oldPsw" placeholder="Enter old password" required>

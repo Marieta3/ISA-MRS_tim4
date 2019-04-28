@@ -13,8 +13,10 @@ $(document).ready(function(){
 		$("#nav-bar").append(li1);
 		$("#nav-bar").append('<li><button class="registerBtn">Register</button></li>');
 	}else{
-		$("#nav-bar").append('<li><button class="profileBtn">Profile</button></li>');
-		$("#nav-bar").append('<li><button class="logout">Logout</button></li>');
+		//ovo dugme ce biti disabled dok se ne promeni lozinka prvi put
+		$("#nav-bar").append('<li><button class="profileBtn" id="chgPswBtn">Profile</button></li>');
+		//ovo dugme ce jedino biti enabled 
+		$("#nav-bar").append('<li><button class="logout" >Logout</button></li>');
 	}
 })
 
@@ -22,6 +24,7 @@ $(document).on('click', '.logout', function(e){
 	e.preventDefault();
 	localStorage.removeItem('accessToken');
 	localStorage.removeItem('uloga');
+	localStorage.removeItem("prvaPromena");
     document.location.replace("/");
 })
 
