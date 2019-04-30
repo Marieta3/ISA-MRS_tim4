@@ -206,9 +206,18 @@ public class KorisnikController {
 	/* brisanje korisnika */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/api/users/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Korisnik> deleteKorisnika(
+	public ResponseEntity<Korisnik> deleteKorisnika(Principal user,
 			@PathVariable(value = "id") Long korisnikId) {
 		Korisnik korisnik = korisnikService.findOne(korisnikId);
+		
+		Korisnik ulogovanKorisnik = null;
+		if (user != null) {
+			ulogovanKorisnik = this.korisnikService.findByKorisnickoIme(user.getName());
+			if(korisnikId == ulogovanKorisnik.getId()){
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
+		}
+		
 		if (korisnik != null) {
 			korisnikService.remove(korisnikId);
 			return new ResponseEntity<>(HttpStatus.OK);
