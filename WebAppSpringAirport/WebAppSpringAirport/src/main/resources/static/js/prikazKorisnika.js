@@ -121,6 +121,11 @@ $(document).on('submit', ".modal-content2", function(e){
 	
 })
 
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 $(document).on('submit', ".modal-content3", function(e){
 	e.preventDefault();
 	console.log("dodavanje admina");
@@ -129,15 +134,20 @@ $(document).on('submit', ".modal-content3", function(e){
 	var korisnickoIme=$('#userName').val();
 	var lozinka="$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra"; //sifra je 123
 	var mail=$('#email').val();
+	if  (!validateEmail(mail)){
+		alert("Bad email format");
+		return;
+	}
 	var e = document.getElementById("ulogeDDL");
 	var uloga = e.options[e.selectedIndex].value;
+	var adminOf = $("#adminOfSel option:selected").val();
 
 	$.ajax({
 		type:'POST',
 		url:"api/users",
 		contentType:'application/json',
 		dataType:'json',
-		data:korisnikToJSONadd(ime,prezime,korisnickoIme, lozinka, mail, uloga),
+		data:korisnikToJSONadd(ime,prezime,korisnickoIme, lozinka, mail, uloga, adminOf),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -149,14 +159,15 @@ $(document).on('submit', ".modal-content3", function(e){
 		}
 	});
 })
-function korisnikToJSONadd(ime,prezime,korisnickoIme, lozinka, mail, uloga){
+function korisnikToJSONadd(ime,prezime,korisnickoIme, lozinka, mail, uloga, adminOf){
 	return JSON.stringify({
 		"ime":ime,
 		"prezime":prezime,
 		"korisnickoIme":korisnickoIme,
 		"lozinka":lozinka,
 		"mail":mail,
-		"uloga":uloga
+		"uloga":uloga,
+		"adminOf":adminOf
 	});
 }
 
@@ -181,3 +192,114 @@ $(document).on('click', '.close', function(e){
 	$("#id03").css("display", "none");
 	$("body").removeClass("modal-open");
 })
+
+$(document).ready(function(){
+	//If parent option is changed
+	$("#ulogeDDL").change(function() {
+	        var parent = $(this).val(); //get option value from parent
+	       
+	        switch(parent){ //using switch compare selected option and populate child
+	              case 'avio':
+	                renderAvioOptions();
+	                break;
+	              case 'rent':
+	            	renderRentOptions();
+	                break;             
+	              case 'hotel':
+	            	renderHotelOptions();
+	                break;
+	              case 'sis':
+	            	renderSisOptions();
+	                break;
+	            default: //default child option is blank
+	                $("#child_selection").html('');  
+	                break;
+	           }
+	});
+	
+	function renderSisOptions()
+	{
+	    $("#adminOfSel").html(""); //reset child options
+	    $("#adminOfSel").prop('disabled', true);
+        $("#adminOfSel").append("<option value=System>System</option>");
+	    
+	}
+	function renderAvioOptions()
+	{
+	    $("#adminOfSel").html(""); //reset child options
+	    $("#adminOfSel").prop('disabled', false);
+	    $.ajax({
+			type : 'GET',
+			url : 'api/avioKompanije',
+			dataType : 'json',
+			/*
+			 * Milan: jedan nacin da token koji ste dobili prilikom logina posaljete
+			 * kroz ajax zahtev kroz header
+			 */
+			beforeSend : function(request) {
+				request.setRequestHeader("Authorization", "Bearer "
+						+ localStorage.getItem("accessToken"));
+			},
+			success : function (data){
+				var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+				$.each(list, function(index, avio) {
+					$("#adminOfSel").append("<option value=\"avio_"+avio.id+"\">"+avio.naziv+"</option>");
+					console.log("avio_" + avio.id);
+				})
+			}
+		})
+	    
+	}
+	function renderRentOptions()
+	{
+	    $("#adminOfSel").html(""); //reset child options
+	    $("#adminOfSel").prop('disabled', false);
+	    $.ajax({
+			type : 'GET',
+			url : 'api/rentACars',
+			dataType : 'json',
+			/*
+			 * Milan: jedan nacin da token koji ste dobili prilikom logina posaljete
+			 * kroz ajax zahtev kroz header
+			 */
+			beforeSend : function(request) {
+				request.setRequestHeader("Authorization", "Bearer "
+						+ localStorage.getItem("accessToken"));
+			},
+			success : function (data){
+				var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+				$.each(list, function(index, rent) {
+					$("#adminOfSel").append("<option value=\"rent_"+rent.id+"\">"+rent.naziv+"</option>");
+					console.log("rent_" + rent.id);
+				})
+			}
+		})
+	    
+	}
+	function renderHotelOptions()
+	{
+	    $("#adminOfSel").html(""); //reset child options
+	    $("#adminOfSel").prop('disabled', false);
+	    $.ajax({
+			type : 'GET',
+			url : 'api/hotels',
+			dataType : 'json',
+			/*
+			 * Milan: jedan nacin da token koji ste dobili prilikom logina posaljete
+			 * kroz ajax zahtev kroz header
+			 */
+			beforeSend : function(request) {
+				request.setRequestHeader("Authorization", "Bearer "
+						+ localStorage.getItem("accessToken"));
+			},
+			success : function (data){
+				var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+				$.each(list, function(index, hotel) {
+					$("#adminOfSel").append("<option value=\"hotel_"+hotel.id+"\">"+hotel.naziv+"</option>");
+					console.log("hotel_" + hotel.id);
+				})
+			}
+		})    
+	}
+})
+

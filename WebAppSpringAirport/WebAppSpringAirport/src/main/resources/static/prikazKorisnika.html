@@ -17,7 +17,7 @@
 		<li><a href="index.html">Home</a></li>
 	</ul>
 	
-	<table id="prikazKorisnikaTabela" border="1px">
+	<table id="prikazKorisnikaTabela" border="1">
 		<tr>
 		<th  align="center"> Picture </th>
 		<th  align="center">First Name</th>
@@ -30,7 +30,7 @@
 	<br/><br/>
 	
 	<div id="id02" class="modal">
-		<form class="modal-content2 animate" id="deleteRentForma">
+		<form class="modal-content2 animate" id="deleteUserForma">
 			<div class="imgcontainer">
 				<span class="close" title="Close Modal">&times;</span>
 				<!-- slika -->
@@ -53,7 +53,7 @@
 
 	<div id="id03" class="modal">
 
-		<form class="modal-content3 animate" id="newRentForma">
+		<form class="modal-content3 animate" id="newUserForma">
 			<div class="imgcontainer">
 				<span class="close" title="Close Modal">&times;</span>
 
@@ -64,23 +64,27 @@
 				<h1> Add new user </h1>
 				
 				<label>First Name</label>
-				<input type="text" id="firstName">
+				<input type="text" id="firstName" required>
 				
 				<label>Last Name</label>
-				<input type="text" id="lastName">
+				<input type="text" id="lastName" required>
 				
 				<label>UserName</label>
-				<input type="text" id="userName">
+				<input type="text" id="userName" required>
 				
 				<label>E-mail</label>
-				<input type="text" id="email">
+				<input type="email" id="email" required>
 				
 				<label>Type</label>
-				<select id="ulogeDDL">
+				<select id="ulogeDDL" required>
    							 <option value="avio">Admin aviokompanije </option>
     						 <option value="rent">Admin rent-a-car </option>
     						 <option value="hotel">Admin hotela </option>
-     						 <option value="sis">Admin sistema </option>
+     						 <option value="sis" selected>Admin sistema </option>
+  				</select>
+  				<label>Admin of</label>
+  				<select id="adminOfSel" disabled>
+  					<option value="system">System</option>
   				</select>
 				
 				<button class="addSubmitBtn" type="submit">Add</button>
