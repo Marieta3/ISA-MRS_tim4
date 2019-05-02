@@ -1,11 +1,74 @@
 .grid-container {
-  display: grid;
-  align-self: right;
-  grid-template-columns: 200px 200px;
-  margin-left: 100px;
+	display: grid;
+	align-self: right;
+	grid-template-columns: 400px 400px;
+	margin-left: 100px;
+	float: left;
 }
+
 .grid-item {
-  padding: 10px;
-  font-size: 18px;
-  text-align: left;
+	padding: 10px;
+	font-size: 18px;
+	text-align: left;
+	margin-top: 10px;
 }
+
+div.imagePicker {
+	height: 200px;
+	width: 200px;
+	border-radius: 50%
+}
+
+img {
+	height: inherit;
+	width: inherit;
+	object-fit: cover;
+	border-radius: inherit
+}
+
+#imgContainer {
+	float: left;
+	width: 30%
+}
+
+
+input[type=submit] {
+	margin-left: 68px;
+	margin-top: 10px
+}
+
+input[type=text], input[type=email], input[type=password], textarea {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	background: #f1f1f1;
+}
+
+#textarea {
+	grid-column: 1/-1;
+}
+
+.cancelBtn, #editHotelSbm, #buttonSbm {
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	opacity: 0.9;
+}
+
+#buttonSbm:hover, #editHotelSbm:hover, .cancelBtn:hover{
+  opacity: 1;
+}
+
+/* Extra styles for the cancel button */
+.cancelBtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+

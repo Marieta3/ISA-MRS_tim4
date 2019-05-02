@@ -74,10 +74,15 @@ li button{
   cursor:pointer;
 }
 
+li button.active{
+	background-color: #80ff80;
+}
+
 
 li a:hover{
-  background-color: #111;
+  background-color: #80ff80;
   color:white;
+  opacity:0.9;
   text-decoration: none;
   cursor:pointer;
 }
@@ -86,5 +91,22 @@ li a:active, li a:visited{
 	text-decoration: none;
 }
 li button:hover, .dropbtn:hover{
-  background-color:#111;
+  background-color:#80ff80;
+  opacity:0.9;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  
+}
+
+.tabcontent {
+  animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }

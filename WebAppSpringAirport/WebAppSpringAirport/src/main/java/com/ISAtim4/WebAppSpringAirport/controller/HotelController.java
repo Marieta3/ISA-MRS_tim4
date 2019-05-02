@@ -85,7 +85,7 @@ public class HotelController {
 		hotel.setNaziv(hotelDetalji.getNaziv());
 		hotel.setAdresa(hotelDetalji.getAdresa());
 		hotel.setOpis(hotelDetalji.getOpis());
-
+		hotel.setSlika(hotelDetalji.getSlika());
 		Hotel updateHotel = hotelService.save(hotel);
 		return ResponseEntity.ok().body(updateHotel);
 	}

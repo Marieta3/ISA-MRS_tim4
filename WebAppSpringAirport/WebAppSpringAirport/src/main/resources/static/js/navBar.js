@@ -3,15 +3,14 @@
  */
 
 $(document).ready(function(){
+	
+	$("#defaultOpen").click();
 	var role=localStorage.getItem("uloga");
 	console.log(role);
 	if(role==null){
 		console.log($("#nav-bar"));
 		console.log($("#lista1"));
-		var li1=$('<li><button class="loginBtn">Login</button></li>');
-		console.log(li1);
-		$("#nav-bar").append(li1);
-		$("#nav-bar").append('<li><button class="registerBtn">Register</button></li>');
+		
 	}else{
 		//ovo dugme ce biti disabled dok se ne promeni lozinka prvi put
 		$("#nav-bar").append('<li><button class="profileBtn" id="chgPswBtn">Profile</button></li>');
@@ -19,6 +18,29 @@ $(document).ready(function(){
 		$("#nav-bar").append('<li><button class="logout" >Logout</button></li>');
 	}
 })
+
+function openTab(evt, tab_id) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = $(".tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = $(".tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tab_id).style.display = "block";
+  //$("#"+tab_id).css("display", "block");
+  
+  evt.target.className += " active";
+}
 
 $(document).on('click', '.logout', function(e){
 	e.preventDefault();

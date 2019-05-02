@@ -9,7 +9,12 @@ var register_url="api/register";
 uloga="";
 
 //findAllRent();
-
+$(document).ready(function(){
+	var li1=$('<li><button class="loginBtn">Login</button></li>');
+	console.log(li1);
+	$("#nav-bar").append(li1);
+	$("#nav-bar").append('<li><button class="registerBtn">Register</button></li>');
+})
 
 function findAllAvio(){
 	$.ajax({
