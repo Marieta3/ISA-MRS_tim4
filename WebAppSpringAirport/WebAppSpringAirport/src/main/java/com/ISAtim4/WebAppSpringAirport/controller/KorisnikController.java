@@ -267,14 +267,37 @@ public class KorisnikController {
 	// @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
 	public Korisnik korisnik(Principal user) {
 		Korisnik k = null;
+		
 		if (user != null) {
 			k = this.korisnikService.findByKorisnickoIme(user.getName());
 			System.out.println("----------------------------enabled: "
 					+ k.isEnabled());
+			
 		}
 		return k;
 	}
-
+	
+	@RequestMapping("/api/hotel_admin")
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
+	public AdminHotel adminHotel(Principal user) {
+		AdminHotel ah=null;
+		if(user!=null) {
+			ah=(AdminHotel) this.korisnikService.findByKorisnickoIme(user.getName());
+			System.out.println("********"+ah.getHotel().getNaziv());
+		}
+		return ah;
+	}
+	
+	@RequestMapping("/api/myhotel")
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
+	public Hotel getMyHotel(Principal user) {
+		AdminHotel ah=null;
+		if(user!=null) {
+			ah=(AdminHotel) this.korisnikService.findByKorisnickoIme(user.getName());
+			System.out.println("********"+ah.getHotel().getNaziv());
+		}
+		return ah.getHotel();
+	}
 	@RequestMapping(value = "/api/updatePassword", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
 	public String updatePassword(Principal user,

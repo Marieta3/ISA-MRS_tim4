@@ -8,8 +8,13 @@ function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
-
-
+$(document).ready(function(){
+	dobaviPodatkeKorisnika();
+})
+$(document).on('click', '#cancel_profile', function(e){
+	e.preventDefault();
+	dobaviPodatkeKorisnika();
+})
 $(document).on('submit', "#editProfileForma", function(e){
 	e.preventDefault();
 	console.log("update korisnika");
@@ -22,8 +27,13 @@ $(document).on('submit', "#editProfileForma", function(e){
 	var telefon = $('#telefon').val();
 	var lozinka = $('#lozinka').val();
 	var slika = $('#slikaEdit').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
+	console.log("["+slika+"]");
+	if(slika=="" || slika==null){
+		console.log("slika je null");
+		slika=$("#profile_img").attr("src");
+		console.log("["+slika+"]");
+	}
 	
-	console.log(slika);
 	console.log("aaaaaaaaa");
 	console.log(id);
 	console.log(lozinka);
@@ -46,10 +56,12 @@ $(document).on('submit', "#editProfileForma", function(e){
 		success:function(data){
 			console.log(data); 
 			console.log("EVO MEEEEEE")
+			dobaviPodatkeKorisnika();
+			alert("Successfully saved changes!");
 			//window.location.replace("prikazKorisnika.html");
 		}
 			, error: function(XMLHttpRequest,textStatus, errorThrown) 
-				{alert("Ne postoji korisnik sa datom ID-om!"+errorThrown);
+				{alert("No such user!!"+errorThrown);
 			}
 	});
 });
@@ -66,7 +78,7 @@ function korisnikToJSON(id, ime, prezime, lozinka, korisnickoIme, mail, slika){
 	});
 }
 
-dobaviPodatkeKorisnika()
+
 function dobaviPodatkeKorisnika(){
 	//ovde treba da se dobave podaci o trenutno ulogovanom korisniku
 	$.ajax({
@@ -86,20 +98,26 @@ function dobaviPodatkeKorisnika(){
         	$('#address').val("neka adresa");
         	$('#telefon').val("neki telefon");
         	$('#identifikator').val(data.id);
-        	console.log(data.slika);
+        	
         	if(data.slika!=null && data.slika!=""){
-        		$('.imagePicker').find('img').attr("src", data.slika);
+        		$("#profile_img").attr("src", data.slika);
+        	}else{
+        		$("#profile_img").attr("src", '../slike/avatar.png');
         	}
-        	uloga= data.authorities[0].authority;
+        	//uloga= data.authorities[0].authority;
         	//window.location.replace("profil"+uloga+".html");
         }
 	})
 	
 	
 }
-function previewFile(){
+function previewFile(src, dest){
+	var putanja=$("#"+src).val().replace(/C:\\fakepath\\/i,'..\\slike\\');
+	$("#"+dest).attr("src", putanja);
+}
+/*function previewFile(){
       var preview = document.querySelector('img'); //selects the query named img
-      var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+      var file    = document.querySelector('input[type=file]').files[0]; //sames as here 
       var reader  = new FileReader();
       
 
@@ -112,7 +130,7 @@ function previewFile(){
       } else {
            preview.src = "";
       }
-      }          
+      }         */ 
      
       
        //previewFile();  //calls the function named previewFile()
