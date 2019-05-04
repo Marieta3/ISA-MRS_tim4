@@ -12,8 +12,11 @@ uloga="";
 $(document).ready(function(){
 	var li1=$('<li><button class="loginBtn">Login</button></li>');
 	console.log(li1);
-	$("#nav-bar").append(li1);
-	$("#nav-bar").append('<li><button class="registerBtn">Register</button></li>');
+	uloga= localStorage.getItem("uloga");
+	if (uloga == null || uloga == ""){
+		$("#nav-bar").append(li1);
+		$("#nav-bar").append('<li><button class="registerBtn">Register</button></li>');
+	}
 })
 
 function findAllAvio(){

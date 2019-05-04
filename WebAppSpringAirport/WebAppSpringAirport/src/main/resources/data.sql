@@ -18,12 +18,12 @@ insert into avio_kompanija(naziv,adresa,opis) values ('FlySafe','Novi Sad, Parti
 insert into avio_kompanija(naziv,adresa,opis) values ('Air Croatia','Zagreb, Bulevar Oslobodjenja 15','Description');
 
 
-insert into rentacar(naziv,adresa,opis) values('Drive safe', 'Novi Sad, Futoska 32','Test1');
-insert into rentacar(naziv,adresa,opis) values('Mitsubishi rent', 'Temerin, Asd street 2','Test2');
-insert into rentacar(naziv,adresa,opis) values('TestDrive.eu', 'Novi sad, Asd 66','Test3');
-insert into rentacar(naziv,adresa,opis) values('FoglaljonMost', 'Dubai, Oil street 4','Test1');
-insert into rentacar(naziv,adresa,opis) values('Lamborghini Test Drive', 'Kosut Lajosa 4','Test2');
-insert into rentacar(naziv,adresa,opis) values('Rent-a-car Belgrade', 'Belgrade, Novosadska 50.','Test3');
+insert into rentacar(naziv,adresa,opis,ocena) values('Drive safe', 'Novi Sad, Futoska 32','Test1',4.8);
+insert into rentacar(naziv,adresa,opis,ocena) values('Mitsubishi rent', 'Temerin, Asd street 2','Test2',4.2);
+insert into rentacar(naziv,adresa,opis,ocena) values('TestDrive.eu', 'Novi sad, Asd 66','Test3',4.4);
+insert into rentacar(naziv,adresa,opis,ocena) values('FoglaljonMost', 'Dubai, Oil street 4','Test1',4.3);
+insert into rentacar(naziv,adresa,opis,ocena) values('Lamborghini Test Drive', 'Kosut Lajosa 4','Test2',2.8);
+insert into rentacar(naziv,adresa,opis,ocena) values('Rent-a-car Belgrade', 'Belgrade, Novosadska 50.','Test3',3.8);
 
 
 --Milan: trenutno imate jednog korisnika kojeg sam oznacio kao 'sis' sistemskog, nije vezan za hotel, rent-a-car ili aviokompaniju i zato je prosledjeno null za te kolone

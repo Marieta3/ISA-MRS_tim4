@@ -288,6 +288,17 @@ public class KorisnikController {
 		return ah;
 	}
 	
+	@RequestMapping("/api/rent_admin")
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
+	public AdminRent adminRent(Principal user) {
+		AdminRent ah=null;
+		if(user!=null) {
+			ah=(AdminRent) this.korisnikService.findByKorisnickoIme(user.getName());
+			System.out.println("********"+ah.getRent_a_car().getNaziv());
+		}
+		return ah;
+	}
+	
 	@RequestMapping("/api/myhotel")
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	public Hotel getMyHotel(Principal user) {
@@ -298,6 +309,19 @@ public class KorisnikController {
 		}
 		return ah.getHotel();
 	}
+	
+	@RequestMapping("/api/myrent")
+	@PreAuthorize("hasRole('ROLE_RENT')")
+	public RentACar getMyRent(Principal user) {
+		AdminRent ah=null;
+		if(user!=null) {
+			ah=(AdminRent) this.korisnikService.findByKorisnickoIme(user.getName());
+			System.out.println("********"+ah.getRent_a_car().getNaziv());
+		}
+		return ah.getRent_a_car();
+	}
+	
+	
 	@RequestMapping(value = "/api/updatePassword", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
 	public String updatePassword(Principal user,
