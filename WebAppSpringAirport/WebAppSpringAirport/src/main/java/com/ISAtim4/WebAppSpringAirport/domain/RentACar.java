@@ -25,10 +25,10 @@ public class RentACar {
 	private String adresa;
 	@Column(nullable = false)
 	private String opis;
-	// @Column(nullable = true)
-	// private Double ocena;
-	
-	@Column(nullable=true)
+	@Column(nullable = true)
+	private Double ocena;
+
+	@Column(nullable = true)
 	public String slika;
 
 	@OneToMany(mappedBy = "rent_a_car", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -42,13 +42,14 @@ public class RentACar {
 	}
 
 	public RentACar(Long id, String naziv, String adresa, String opis,
-			Set<Vozilo> vozila, Set<Filijala> filijale, Set<AdminRent> admini,String slika) {
+			Set<Vozilo> vozila, Set<Filijala> filijale, Set<AdminRent> admini,
+			String slika, Double ocena) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
 		this.adresa = adresa;
 		this.opis = opis;
-		// this.ocena = ocena;
+		this.ocena = ocena;
 		this.filijale = filijale;
 		this.admini = admini;
 		this.slika = slika;
@@ -60,7 +61,7 @@ public class RentACar {
 		this.naziv = r.getNaziv();
 		this.adresa = r.getAdresa();
 		this.opis = r.getOpis();
-		// this.ocena = r.getOcena();
+		this.ocena = r.getOcena();
 		this.filijale = r.getFilijale();
 		this.admini = r.getAdmini();
 		this.slika = r.getSlika();
@@ -106,6 +107,14 @@ public class RentACar {
 		this.opis = opis;
 	}
 
+	public Double getOcena() {
+		return ocena;
+	}
+
+	public void setOcena(Double ocena) {
+		this.ocena = ocena;
+	}
+
 	public Set<Filijala> getFilijale() {
 		return filijale;
 	}
@@ -121,12 +130,4 @@ public class RentACar {
 	public void setAdmini(Set<AdminRent> admini) {
 		this.admini = admini;
 	}
-
-	@Override
-	public String toString() {
-		return "RentACar [id=" + id + ", naziv=" + naziv + ", adresa=" + adresa
-				+ ", opis=" + opis
-				+ ", filijale=" + filijale + ", admini=" + admini + "]";
-	}
-
 }

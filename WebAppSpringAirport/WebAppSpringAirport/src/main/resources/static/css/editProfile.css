@@ -51,7 +51,7 @@ input[type=text], input[type=email], input[type=password], textarea {
 	grid-column: 1/-1;
 }
 
-.cancelBtn, #editHotelSbm, #buttonSbm {
+.cancelBtn, #editHotelSbm, #buttonSbm,#editRentSbm,#editAvioSbm {
 	background-color: #4CAF50;
 	color: white;
 	padding: 14px 20px;
@@ -62,7 +62,7 @@ input[type=text], input[type=email], input[type=password], textarea {
 	opacity: 0.9;
 }
 
-#buttonSbm:hover, #editHotelSbm:hover, .cancelBtn:hover{
+#buttonSbm:hover, #editHotelSbm:hover, .cancelBtn:hover ,#editRentSbm:hover,#editAvioSbm:hover{
   opacity: 1;
 }
 

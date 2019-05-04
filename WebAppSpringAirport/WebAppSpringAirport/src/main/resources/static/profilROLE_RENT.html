@@ -2,18 +2,153 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <script type="text/javascript" src="js/navBar.js"></script>
+<script type="text/javascript" src="js/profilRentAdmin.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
+<script type="text/javascript" src="js/editProfile.js"></script>
+<script type="text/javascript" src="js/updateRentACar.js"></script>
+<script type="text/javascript" src="js/imagePreview.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
+<link rel="stylesheet" type="text/css" href="css/indexLogin.css">
+<link rel="stylesheet" type="text/css" href="css/editProfile.css">
+<link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
+<link rel="stylesheet" type="text/css" href="css/prikazHotela.css">
 <title>RENT ADMIN</title>
 </head>
 <body>
 	<ul id="nav-bar">
 		<li><a href="index.html">Home</a></li>
-		<li><a href="editProfile.html">Edit Profile</a></li>
-		<li><a href="prikazRentACar.html">Rent-A-Car</a></li>
+		<li><button class="tablinks"
+				onclick="openTab(event, 'EditProfile')">Edit Profile</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Rent')"
+				id="defaultOpen">Rent-a-car</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Branches')">Branches</button></li>
 	</ul>
+	
+	<div id="EditProfile" class="tabcontent">
+	
+		<h1 id="imePrezime">Ime Prezime</h1>
+		<form id="editProfileForma">
+			<div id="imgContainer">
+				<div class="imagePicker">
+					<img id="profile_img" src="slike/avatar.png" alt="Image preview..."> <br>
+				</div>
+				<div class="upload-btn-wrapper">
+					<button class="upload-file-btn">Upload a file</button>
+					<input id="slikaEdit" type="file" accept="image/*" title="Choose file"
+						onchange="previewFile('slikaEdit', 'profile_img')" name="myfile" />
+				</div><br>
+			</div>
+			<div class="grid-container">
+				<div class="grid-item">
+					First Name <br> <input type="text" id="ime">
+				</div>
+				<div class="grid-item">
+					Last Name <br> <input type="text" id="prezime">
+				</div>
+				<div class="grid-item">
+					E-mail <br> <input type="email" id="mail">
+				</div>
+				<div class="grid-item">
+					Username <br> <input type="text" id="username">
+				</div>
+				<div class="grid-item">
+					Address <br> <input type="text" id="address">
+				</div>
+				<div class="grid-item">
+					Phone number <br> <input type="text" id="telefon">
+				</div>
+
+				<div class="grid-item">
+					<input type="submit" id="buttonSbm" value="Confirm changes">
+				</div>
+				<div class="grid-item">
+					<button id="cancel_profile" class="cancelBtn" >Cancel</button>
+				</div>
+				<div class="grid-item">
+					<input type="hidden" id="identifikator">
+				</div>
+				<div class="grid-item">
+					<input type="hidden" id="lozinka">
+				</div>
+
+			</div>
+		</form>
+	</div>
+	
+	<div id="Rent" class="tabcontent">
+
+		<h1 id="rentNazivAdmin">Rent, Admin</h1>
+		<form id="updateRentForma">
+			<div id="imgContainer">
+				<div class="imagePicker">
+					<img id="rent_img" src="slike/avatar.png" alt="Image preview..."> <br>
+
+				</div>
+				<div class="upload-btn-wrapper">
+					<button class="upload-file-btn">Upload a file</button>
+					<input id="slika_rent" type="file" accept="image/*" title="Choose file"
+						onchange="previewFile('slika_rent', 'rent_img')" name="myfile" />
+				</div>
+				<br>
+				<span>Rating:</span>
+				<span id="rating_rent"></span>
+				<span class="fa fa-star " id="star1"></span>
+				<span class="fa fa-star " id="star2"></span>
+				<span class="fa fa-star " id="star3"></span>
+				<span class="fa fa-star " id="star4"></span>
+				<span class="fa fa-star" id="star5"></span>
+				
+				
+				<div class="containerdiv">
+    				<div>
+    					<img class="zvezde" src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
+    				</div>
+    				<div class="cornerimage" >
+    					<img class="zvezde" src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
+    				</div>
+				</div>
+			</div>
+			
+			<div class="grid-container">
+				<div class="grid-item">
+					Name <br> <input type="text" id="naziv">
+				</div>
+				<div class="grid-item">
+					Address <br> <input type="text" id="adresa">
+				</div>
+				<div class="grid-item" id="textarea">
+					Description <br>
+					<textarea id="opis" rows="5" cols="60"></textarea>
+				</div>
+
+
+				<div class="grid-item">
+					<input type="submit" id="editRentSbm" value="Confirm changes">
+				</div>
+				<div class="grid-item">
+					<button id="cancel_rent" class="cancelBtn">Cancel</button>
+				</div>
+				<div class="grid-item">
+					<input type="hidden" id="identifikator_rent">
+				</div>
+
+
+			</div>
+		</form>
+	</div>
+	
+	<div id="Branches" class="tabcontent">
+		<h1>Branches</h1>
+		<button class="newBranchBtn" value="New Branch">New Branch</button>
+
+	</div>
+
+	<div id="Cars" class="tabcontent">
+		<h1>Cars</h1>
+	</div>
 </body>
 </html>
