@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @DiscriminatorValue("hotel")
 public class AdminHotel extends Korisnik {
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JsonBackReference
 	private Hotel hotel;
 	

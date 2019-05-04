@@ -90,7 +90,7 @@ public class KorisnikController {
 
 			Long id = Long.parseLong(korisnikDTO.adminOf.split("_")[1]);
 			RentACar rent = rentACarService.findOne(id);
-			((AdminRent) k).setRent_a_car(rent);
+			((AdminRent) k).setrentACar(rent);
 			
 			a = authorityService.findByName("ROLE_RENT");
 			break;
@@ -294,7 +294,7 @@ public class KorisnikController {
 		AdminRent ah=null;
 		if(user!=null) {
 			ah=(AdminRent) this.korisnikService.findByKorisnickoIme(user.getName());
-			System.out.println("********"+ah.getRent_a_car().getNaziv());
+			System.out.println("********"+ah.getrentACar().getNaziv());
 		}
 		return ah;
 	}
@@ -316,9 +316,9 @@ public class KorisnikController {
 		AdminRent ah=null;
 		if(user!=null) {
 			ah=(AdminRent) this.korisnikService.findByKorisnickoIme(user.getName());
-			System.out.println("********"+ah.getRent_a_car().getNaziv());
+			System.out.println("********"+ah.getrentACar().getNaziv());
 		}
-		return ah.getRent_a_car();
+		return ah.getrentACar();
 	}
 	
 	

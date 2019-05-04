@@ -19,12 +19,19 @@ import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Entity
+@Table(name="korisnik", uniqueConstraints = {
+		@UniqueConstraint(columnNames= "id"),
+		@UniqueConstraint(columnNames= "mail"),
+		@UniqueConstraint(columnNames= "korisnickoIme")
+})
 @Inheritance(strategy=SINGLE_TABLE)
 /*
  * Milan: vracena je diskriminatorska kolona koju ste zakomentarisali
@@ -37,16 +44,16 @@ public class Korisnik implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", unique=true, nullable=false)
 	private Long id;
-	@Column(nullable=true)
+	@Column(name = "ime", nullable=false, length= 50)
 	private String ime;
-	@Column(nullable=true)
+	@Column(name = "prezime", nullable=false, length= 50)
 	private String prezime;
-	@Column(nullable=true)
+	@Column(name= "korisnickoIme", unique= true,nullable = false, length = 50)
 	private String korisnickoIme;
-	@Column(nullable=true)
+	@Column(name ="lozinka", nullable=false,length=100)
 	private String lozinka;
 	
-	@Column(nullable=false)
+	@Column(name = "mail", unique = true,nullable=true, length = 80)
 	private String mail;
 	@Column(nullable=true)
 	private String slika;
