@@ -6,6 +6,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="js/prikazHotela.js" charset="UTF-8"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
+<script type="text/javascript" src="js/imagePreview.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
@@ -91,12 +92,12 @@
 			<div class="imgcontainer">
 				<span class="close" title="Close Modal">&times;</span>
 					
-				<!-- slika
+				<!-- slika-->
 				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
-                	<img src="slike/avatar.png"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
+                	<img id="new-hotel-img" src="slike/avatar.png"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
             	</div>
-             	<input id="slikaEdit" type="file" accept="image/*" title="Izaberi fajl" onchange="previewFile()" ><br>
-				 -->
+             	<input id="slikaEdit" type="file" accept="image/*" title="Izaberi fajl" onchange="previewFile('slikaEdit', 'new-hotel-img')" ><br>
+				 
 			</div>
 
 			<div class="container-modal" id="div-container-modal">

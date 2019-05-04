@@ -234,7 +234,9 @@ function registeringUserToJSON(username,password,firstname,lastname,email){
 
 $(document).on('click', '.close', function(e){
 	$("#id01").css("display", "none");
+	ponistavanjeLogin();
 	$("#id02").css("display", "none");
+	ponistavanjeRegister();
 	$("body").removeClass("modal-open");
 })
 
@@ -247,10 +249,26 @@ $(window).click(function(e){
 	
 	if(e.target==document.getElementById("id01")){
 		$("#id01").css("display", "none");
+		ponistavanjeLogin();
 		$("body").removeClass("modal-open");
 	}else if(e.target==document.getElementById("id02")){
 		$("#id02").css("display", "none");
+		ponistavanjeRegister();
 		$("body").removeClass("modal-open");
 	}
 	
 })
+
+function ponistavanjeLogin(){
+	$('#username').val('');
+	$('#password').val('');
+}
+
+function ponistavanjeRegister(){
+	$('#username1').val('');
+	$('#password1').val('');
+	$('#passwordrpt').val('');
+	$('#firstname').val('');
+	$('#lastname').val('');
+	$('#email').val('');
+}

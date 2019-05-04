@@ -1,4 +1,26 @@
-
+.containerdiv {
+  border: 0;
+  float: left;
+  position: relative;
+  width: 200px;
+} 
+.cornerimage {
+  border: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+ } 
+ .zvezde{
+   max-width: 200px;
+ }
+.fa.fa-star {
+  font-size: 25px;
+  color:#c0c0c0;
+}
+.fa.fa-star.checked{
+	color:gold;
+}
 body .modal-open{
 	overflow: hidden;
 }
@@ -25,7 +47,7 @@ h1 .link:hover{
 	object-fit:cover;
 }
 /* Full-width input fields */
-.container-modal input[type=text],.container-modal input[type=email],.container-modal input[type=password], .container-modal select {
+.container-modal input[type=text],.container-modal input[type=email],.container-modal input[type=password], .container-modal select, input[type=number] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -36,7 +58,7 @@ h1 .link:hover{
 }
 
 /* Add a background color when the inputs get focus */
-input[type=text]:focus,input[type=email]:focus, input[type=password]:focus, .container-modal select:focus {
+input[type=text]:focus,input[type=email]:focus, input[type=password]:focus, .container-modal select:focus, input[type=number]:focus, textarea:focus {
   background-color: #ddd;
   outline: none;
 }

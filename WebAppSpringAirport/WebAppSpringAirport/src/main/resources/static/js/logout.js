@@ -6,5 +6,6 @@ $(document).on('click', '.logout', function(e){
 	localStorage.removeItem('accessToken');
 	localStorage.removeItem("uloga");
 	localStorage.removeItem("prvaPromena");
+	localStorage.removeItem("hotel_id");
     document.location.replace("/");
 })

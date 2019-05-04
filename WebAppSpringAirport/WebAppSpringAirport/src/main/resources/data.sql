@@ -1,9 +1,9 @@
-insert into hotel(naziv,adresa,ocena,opis) values ('Sole Mio','Rome, Roman Road 22',10,'Description');
-insert into hotel(naziv,adresa,ocena,opis) values ('The Plaza Hotel','Dublin, Belgard Road 4',8,'Description');
-insert into hotel(naziv,adresa,ocena,opis) values ('Butlers Townhouse','Dublin, 44 Lansdowne Road',7,'Description');
-insert into hotel(naziv,adresa,ocena,opis) values ('The Plaza Hotel','Novi Sad, Ilije Ognjanovica 16',8,'Description');
-insert into hotel(naziv,adresa,ocena,opis) values ('Hotel Park','Novi Sad, Bulevar Jase Tomica 15,',10,'Description');
-insert into hotel(naziv,adresa,ocena,opis) values ('Prenociste Stojic Novi Sad','Novi Sad, Partizanska 47',4,'Description');
+insert into hotel(naziv,adresa,ocena,opis) values ('Sole Mio','Rome, Roman Road 22',4.8,'Description');
+insert into hotel(naziv,adresa,ocena,opis) values ('The Plaza Hotel','Dublin, Belgard Road 4',3.2,'Description');
+insert into hotel(naziv,adresa,ocena,opis) values ('Butlers Townhouse','Dublin, 44 Lansdowne Road',4.5,'Description');
+insert into hotel(naziv,adresa,ocena,opis) values ('The Plaza Hotel','Novi Sad, Ilije Ognjanovica 16',2.0,'Description');
+insert into hotel(naziv,adresa,ocena,opis) values ('Hotel Park','Novi Sad, Bulevar Jase Tomica 15,',4.6,'Description');
+insert into hotel(naziv,adresa,ocena,opis) values ('Prenociste Stojic Novi Sad','Novi Sad, Partizanska 47',3.1,'Description');
 
 insert into usluga(id,cena,opis,hotel_id) values (1,100,'opis',1);
 insert into usluga(id,cena,opis,hotel_id) values (2,200,'opis2',2);

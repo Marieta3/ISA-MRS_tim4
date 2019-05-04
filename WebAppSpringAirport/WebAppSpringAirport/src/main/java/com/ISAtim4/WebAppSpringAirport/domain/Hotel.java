@@ -26,7 +26,7 @@ public class Hotel {
 	@Column(nullable = false)
 	private String opis;
 	@Column(nullable = true)
-	private double ocena;
+	private Double ocena;
 	
 	@Column(nullable = true)
 	private String slika;
@@ -54,7 +54,7 @@ public class Hotel {
 	public Hotel() {}
 	
 	public Hotel(Long id, String naziv, String adresa, String opis,
-			double ocena, Set<Soba> sobe, Set<Usluga> usluge, Set<AdminHotel> admini_hotela, String slika) {
+			Double ocena, Set<Soba> sobe, Set<Usluga> usluge, Set<AdminHotel> admini_hotela, String slika) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -107,11 +107,11 @@ public class Hotel {
 		this.opis = opis;
 	}
 
-	public double getOcena() {
+	public Double getOcena() {
 		return ocena;
 	}
 
-	public void setOcena(double ocena) {
+	public void setOcena(Double ocena) {
 		this.ocena = ocena;
 	}
 

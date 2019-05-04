@@ -1,4 +1,4 @@
-package com.ISAtim4.WebAppSpringAirport.domain;
+package com.ISAtim4.WebAppSpringAirport.dto;
 
 public class ChangePswDTO {
 	private String oldPsw;
