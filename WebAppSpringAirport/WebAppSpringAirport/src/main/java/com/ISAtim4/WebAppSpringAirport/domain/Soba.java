@@ -14,17 +14,20 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class Soba {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(nullable = false)
 	private String opis;
 	
 	@Column(nullable = true)
-	private Double ocena;
+	private Double ocena=0.0;
 	
 	@Column(nullable = false)
 	private Integer brojKreveta;
+	
+	@Column(nullable=true)
+	private String slika;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonBackReference
@@ -33,15 +36,24 @@ public class Soba {
 	public Soba() {}
 	
 	public Soba(Long id, String opis, double ocena, Integer brojKreveta,
-			Hotel hotel) {
+			Hotel hotel, String slika) {
 		super();
 		this.id = id;
 		this.opis = opis;
-		this.ocena = ocena;
+		this.ocena = 0.0;
 		this.brojKreveta = brojKreveta;
 		this.hotel = hotel;
+		this.slika=slika;
 	}
 	
+	public String getSlika() {
+		return slika;
+	}
+
+	public void setSlika(String slika) {
+		this.slika = slika;
+	}
+
 	public Long getId() {
 		return id;
 	}

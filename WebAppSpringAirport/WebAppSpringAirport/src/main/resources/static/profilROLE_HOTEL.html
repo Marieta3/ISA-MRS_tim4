@@ -2,16 +2,21 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 <script type="text/javascript" src="js/navBar.js"></script>
+<script type="text/javascript" src="js/profilHotelAdmin.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/editProfile.js"></script>
 <script type="text/javascript" src="js/updateHotela.js"></script>
+<script type="text/javascript" src="js/imagePreview.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
+<link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
+<link rel="stylesheet" type="text/css" href="css/prikazHotela.css">
 <title>HOTEL ADMIN</title>
 </head>
 <body>
@@ -91,8 +96,25 @@
 						onchange="previewFile('slika_hotel', 'hotel_img')" name="myfile" />
 				</div>
 				<br>
-				<p id="rating_hotel">Rating:</p>
+				<span>Rating:</span>
+				<span id="rating_hotel"></span>
+				<span class="fa fa-star " id="star1"></span>
+				<span class="fa fa-star " id="star2"></span>
+				<span class="fa fa-star " id="star3"></span>
+				<span class="fa fa-star " id="star4"></span>
+				<span class="fa fa-star" id="star5"></span>
+				
+				
+				<div class="containerdiv">
+    				<div>
+    					<img class="zvezde" src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
+    				</div>
+    				<div class="cornerimage" >
+    					<img class="zvezde" src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
+    				</div>
+				</div>
 			</div>
+			
 			<div class="grid-container">
 				<div class="grid-item">
 					Name <br> <input type="text" id="naziv">
@@ -123,6 +145,49 @@
 
 	<div id="Rooms" class="tabcontent">
 		<h1>Rooms</h1>
+		<button class="newRoomBtn" value="New Room">New Room</button>
+		
+		<table id="prikazSobaTabela">
+			<tr>
+				<th>&nbsp;</th>
+				<th>Bed count</th>
+				<th>Description</th>
+				<th>Rating</th>
+			</tr>
+		</table>
+		
+		<div id="id03" class="modal">
+		<form class="modal-content3 animate" id="newRoomForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal">&times;</span>
+					
+				<!-- slika-->
+				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
+                	<img id="room_img" src="slike/avatar.png"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
+            	</div>
+             	<input id="slika_room" type="file" accept="image/*" title="Choose file" onchange="previewFile('slika_room', 'room_img')" ><br>
+				 
+			</div>
+
+			<div class="container-modal" id="div-container-modal">
+				<h1> Add new room </h1>
+				<label for="opisSobe"><b>Description</b></label> 
+				<input type="text" name="opisSobe" id="opisSobe">
+				
+				<label for="brojKreveta"><b>Bed count</b></label> 
+				<input type="number" name="brojKreveta" id="brojKreveta" value="0">
+				
+				<button class="addSubmitBtn" type="submit">Add</button>
+				<button type="button"
+					onclick="document.getElementById('id03').style.display='none', ponistavanje()"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				
+			</div>
+		</form>
+	</div>
 	</div>
 
 	<div id="Services" class="tabcontent">

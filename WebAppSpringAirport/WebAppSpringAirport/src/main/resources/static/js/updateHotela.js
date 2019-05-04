@@ -18,13 +18,36 @@ function dobaviPodatkeHotela(){
         },
         success:function(data){
         	console.log(data);
+        	localStorage.setItem("hotel_id", data.id);
         	$("#hotelNazivAdmin").text(data.naziv);
         	if(data.slika!=null && data.slika!=""){
         		$("#hotel_img").attr("src", data.slika);
         	}else{
         		$("#hotel_img").attr("src", '../slike/hotel.jpg');
         	}
-        	$("#rating_hotel").text("Rating: "+data.ocena);
+        	//$("#rating_hotel").text("Rating: "+data.ocena);
+        	var rating=data.ocena;
+        	var stars=$('.fa');
+        	$.each(stars, function(index, star){
+        		$('#star'+(index+1)).removeClass('checked');
+        	})
+        	if(rating>=1){
+        		$('#star1').addClass('checked');
+        	}
+        	if(rating>=2){
+        		$('#star2').addClass('checked');
+        	}
+        	if(rating>=3){
+        		$('#star3').addClass('checked');
+        	}
+        	if(rating>=4){
+        		$('#star4').addClass('checked');
+        	}
+        	if(rating>=5){
+        		$('#star5').addClass('checked');
+        	}
+        	$('.cornerimage').css("width", (rating/5)*100+"%");
+        	$('#rating_hotel').text(rating);
         	$("#naziv").val(data.naziv);
         	$("#adresa").val(data.adresa);
         	$("#opis").val(data.opis);

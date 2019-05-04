@@ -32,7 +32,7 @@ function renderHoteli(data) {
 	// console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
-	//sta ako ne postoji uloga u local storage?
+	
 	if(uloga=="ROLE_ADMIN"){
 		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
 		$('#prikazHotelaTabela').find('tr:eq(0)').append(th_nbsp);
@@ -40,6 +40,7 @@ function renderHoteli(data) {
 	$("#prikazHotelaTabela").find("tr:gt(0)").remove();
 	$("#prikazHotelaTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, hotel) {
+		
 		var tr = $('<tr id="hotel_' + hotel.id + '"></tr>');
 		if (hotel.slika == null) {
 			hotel.slika = "../slike/hotel.jpg";
@@ -168,6 +169,7 @@ $(document).on('submit', ".modal-content3", function(e){
 	var naziv=$("#nazivHotela1").val();
 	var adresa=$("#adresaHotela1").val();
 	var opis=$("#opisHotela1").val();
+	var slika=$('#slikaEdit').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
 	console.log("aaa"+opis);
 	console.log("sss"+naziv);
 	console.log("cccc"+adresa);
@@ -176,7 +178,7 @@ $(document).on('submit', ".modal-content3", function(e){
 		url:"api/hotels",
 		contentType:'application/json',
 		dataType:'json',
-		data:hotelToJSONadd(naziv, adresa, opis),
+		data:hotelToJSONadd(naziv, adresa, opis, slika),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -188,11 +190,12 @@ $(document).on('submit', ".modal-content3", function(e){
 		}
 	});
 })
-function hotelToJSONadd(naziv, adresa, opis){
+function hotelToJSONadd(naziv, adresa, opis, slika){
 	return JSON.stringify({
 		"naziv":naziv,
 		"adresa":adresa,
-		"opis":opis
+		"opis":opis,
+		"slika":slika
 	});
 }
 function hotelToJSON(id, naziv, adresa, opis){
@@ -225,24 +228,7 @@ $(document).on('click', '.close', function(e){
 	$("body").removeClass("modal-open");
 })
 
-function previewFile(){
-      var preview = document.querySelector('img'); //selects the query named img
-      var file    = document.querySelector('input[type=file]').files[0]; //sames as here
-      var reader  = new FileReader();
- 
-      reader.onloadend = function () {
-           preview.src = reader.result;
-      }
 
-      if (file) {
-           reader.readAsDataURL(file); //reads the data as a URL
-      } else {
-           preview.src = "";
-      }
-      //$('.id03').find('.imgcontainer').find('.imagePicker1').find('img').attr('src', preview.src);
-      //console.log($('.id03').find('.imagePicker1').find('img'));
-       //previewFile();  //calls the function named previewFile()
-}
 
 $('document').ready(function() {
 	$('#btnSearch').bind('click', searchHotelsByName);

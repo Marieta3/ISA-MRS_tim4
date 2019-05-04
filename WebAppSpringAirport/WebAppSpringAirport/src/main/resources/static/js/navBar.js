@@ -12,9 +12,7 @@ $(document).ready(function(){
 		console.log($("#lista1"));
 		
 	}else{
-		//ovo dugme ce biti disabled dok se ne promeni lozinka prvi put
-		$("#nav-bar").append('<li><button class="profileBtn" id="chgPswBtn">Profile</button></li>');
-		//ovo dugme ce jedino biti enabled 
+		$("#nav-bar").append('<li><a href="profil'+role+'.html">Profile</a></li>');
 		$("#nav-bar").append('<li><button class="logout" >Logout</button></li>');
 	}
 })
@@ -47,6 +45,7 @@ $(document).on('click', '.logout', function(e){
 	localStorage.removeItem('accessToken');
 	localStorage.removeItem('uloga');
 	localStorage.removeItem("prvaPromena");
+	localStorage.removeItem("hotel_id");
     document.location.replace("/");
 })
 

@@ -19,7 +19,7 @@ div.imagePicker {
 	border-radius: 50%
 }
 
-img {
+img:not(.zvezde) {
 	height: inherit;
 	width: inherit;
 	object-fit: cover;
