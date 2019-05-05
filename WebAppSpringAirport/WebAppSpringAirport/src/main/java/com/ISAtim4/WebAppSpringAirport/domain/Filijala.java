@@ -14,38 +14,43 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Filijala {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id", unique=true, nullable=false)
+	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 100)
 	private String adresa;
-	@Column(nullable = false)
+	@Column(nullable = false, length = 50)
 	private String telefon;
-	
+	@Column(nullable = false)
+	private String opis;
+	@Column(nullable = true)
+	private String slika;
+
 	@OneToMany(mappedBy = "filijala", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Vozilo> vozila = new HashSet<>();
-	
+
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JsonBackReference
-	private RentACar rent_a_car;
+	private RentACar rentACar;
 
 	public Filijala() {
 	}
 
 	public Filijala(Long id, String adresa, String telefon, Set<Vozilo> vozila,
-			RentACar rent_a_car) {
+			RentACar rent_a_car, String opis, String slika) {
 		super();
 		this.id = id;
 		this.adresa = adresa;
 		this.telefon = telefon;
 		this.vozila = vozila;
-		this.rent_a_car = rent_a_car;
+		this.rentACar = rent_a_car;
+		this.opis = opis;
+		this.slika = slika;
 	}
 
 	public Long getId() {
@@ -80,43 +85,28 @@ public class Filijala {
 		this.vozila = vozila;
 	}
 
-	public RentACar getRent_a_car() {
-		return rent_a_car;
+	public RentACar getRentACar() {
+		return rentACar;
 	}
 
-	public void setRent_a_car(RentACar rent_a_car) {
-		this.rent_a_car = rent_a_car;
+	public void setRentACar(RentACar rentACar) {
+		this.rentACar = rentACar;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public String getOpis() {
+		return opis;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Filijala other = (Filijala) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
+	public void setOpis(String opis) {
+		this.opis = opis;
 	}
 
-	@Override
-	public String toString() {
-		return "Filijala [id=" + id + ", adresa=" + adresa + ", telefon="
-				+ telefon + "]";
+	public String getSlika() {
+		return slika;
+	}
+
+	public void setSlika(String slika) {
+		this.slika = slika;
 	}
 
 }

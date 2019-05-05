@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @DiscriminatorValue("avio")
 public class AdminAvio extends Korisnik {
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JsonBackReference
 	private AvioKompanija avio_kompanija; //koje avio kompanije
 	
