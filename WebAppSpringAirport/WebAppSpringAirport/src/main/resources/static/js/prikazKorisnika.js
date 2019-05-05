@@ -146,6 +146,9 @@ $(document).on('submit', ".modal-content3", function(e){
 		success:function(data){
 			console.log(data); 
 			window.location.replace("prikazKorisnika.html");
+		},
+		error:function(){
+			alert("Username or email is taken");
 		}
 	});
 })

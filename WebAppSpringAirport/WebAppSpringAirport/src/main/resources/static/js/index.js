@@ -166,7 +166,7 @@ $(document).on('submit', ".modal-content1", function(e){
 			})
 		},error:function(XMLHttpRequest,textStatus, errorThrown){
 			console.log("GRESKAAAAAA  ");
-			alert(errorThrown);
+			alert("Wrong username or password!");
 		}
 	});
 })
@@ -218,7 +218,7 @@ $(document).on('submit', '.modal-content2', function(e){
 			window.location.replace("thanksForRegistration.html");
 		},error:function(XMLHttpRequest,textStatus, errorThrown){
 			console.log("GRESKAAAAAA  ");
-			alert(errorThrown);
+			alert("Username or email already used!");
 		}	
 	//provera da li vec postoji po korisnickom imenu
 	

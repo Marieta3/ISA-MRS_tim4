@@ -6,16 +6,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script type="text/javascript" src="js/navBar.js"></script>
-<script type="text/javascript" src="js/profilRentAdmin.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/editProfile.js"></script>
 <script type="text/javascript" src="js/updateRentACar.js"></script>
 <script type="text/javascript" src="js/imagePreview.js"></script>
+<script type="text/javascript" src="js/profilRentAdmin.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
-<link rel="stylesheet" type="text/css" href="css/prikazHotela.css">
+<link rel="stylesheet" type="text/css" href="css/prikazRentacar.css">
 <title>RENT ADMIN</title>
 </head>
 <body>
@@ -25,7 +25,7 @@
 				onclick="openTab(event, 'EditProfile')">Edit Profile</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Rent')"
 				id="defaultOpen">Rent-a-car</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'Branches')">Branches</button></li>
+		<li><button id="btnBranchList" class="tablinks" onclick="openTab(event, 'Branches')">Branches</button></li>
 	</ul>
 	
 	<div id="EditProfile" class="tabcontent">
@@ -144,7 +144,52 @@
 	<div id="Branches" class="tabcontent">
 		<h1>Branches</h1>
 		<button class="newBranchBtn" value="New Branch">New Branch</button>
+		
+		<table id="prikazBranchTabela">
+			<tr>
+				<th>&nbsp;</th>
+				<th>Adresa</th>
+				<th>Phone Number</th>
+				<th>Opis</th>
+			</tr>
+		</table>
+		
+		<div id="id03" class="modal">
+		<form class="modal-content3 animate" id="newBranchForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal">&times;</span>
+					
+				<!-- slika-->
+				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
+                	<img id="branch_img" src="slike/avatar.png"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
+            	</div>
+             	<input id="slika_branch" type="file" accept="image/*" title="Choose file" onchange="previewFile('slika_branch', 'branch_img')" ><br>
+				 
+			</div>
 
+			<div class="container-modal" id="div-container-modal">
+				<h1> Add new branch </h1>
+				<label for="adresaFilijale"><b>Adress</b></label> 
+				<input type="text" name="adresaFilijale" id="adresaFilijale" required>
+	
+				<label for="telefonFilijale"><b>Phone number</b></label> 
+				<input type="text" name="telefonFilijale" id="telefonFilijale" required>
+				
+				<label for="opisFilijale"><b>Description</b></label> 
+				<input type="text" name="opisFilijale" id="opisFilijale" required>
+				
+				<button class="addSubmitBtn" type="submit">Add</button>
+				<button type="button"
+					onclick="document.getElementById('id03').style.display='none', ponistavanje()"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				
+			</div>
+		</form>
+
+		</div>
 	</div>
 
 	<div id="Cars" class="tabcontent">
