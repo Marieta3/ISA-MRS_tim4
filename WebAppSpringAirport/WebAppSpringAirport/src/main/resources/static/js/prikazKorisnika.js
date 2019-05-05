@@ -6,7 +6,7 @@ uloga="";
 $(document).ready(function(){
 	uloga=localStorage.getItem("uloga");
 	if(uloga=="ROLE_ADMIN"){
-		$("#nav-bar").append('<li><button class="dodajKorisnikaBtn">New Admin</button></li>');
+		$("#nav-bar").append('<li><button class="dodajKorisnikaBtn" onclick="otvoriModal(\'id03\')">New Admin</button></li>');
 	}
 });
 findAll();
@@ -62,7 +62,7 @@ function renderKorisnici(data){
 			var formaObrisi = $('<form id="formaObrisi"></form>');
 			formaObrisi.append('<input type="hidden" value="' + korisnik.id + '">');
 			formaObrisi.append('<input id="hiddenKorisnik" type="hidden" value="' + korisnik.ime+" "+korisnik.prezime + ", "+korisnik.korisnickoIme+'">');
-			formaObrisi.append('<input type="submit" value="Delete">');
+			formaObrisi.append('<input type="submit" value="Delete" onclick="otvoriModal(\'id02\')">');
 			var td = $('<td></td>');
 			td.append(formaObrisi);
 			tr.append(td);
@@ -74,20 +74,12 @@ function renderKorisnici(data){
 	})
 }
 
-$(document).on('click', '.dodajKorisnikaBtn', function(e){
-	e.preventDefault();
-	console.log("dodaj korisnika btn");
-	$("#id03").css("display", "block");
-	$("body").addClass("modal-open");
-})
 
 $(document).on('submit', '#formaObrisi', function(e) {
 	e.preventDefault();
 	var id = $(this).find('input[type=hidden]').val();
 	var naziv=$(this).find("#hiddenKorisnik").val();
 	console.log(id);
-	$("#id02").css("display", "block");
-	$("body").addClass("modal-open");
 	$("#identifikator").val(id);
 	$("#imePrezimeUsername").text(naziv+"?");
 	
@@ -153,8 +145,6 @@ $(document).on('submit', ".modal-content3", function(e){
         },
 		success:function(data){
 			console.log(data); 
-			//$("#id03").css("display", "none");
-			//$("body").removeClass("modal-open");
 			window.location.replace("prikazKorisnika.html");
 		}
 	});
@@ -171,27 +161,7 @@ function korisnikToJSONadd(ime,prezime,korisnickoIme, lozinka, mail, uloga, admi
 	});
 }
 
-$(window).click(function(e){
-	
-	if(e.target==document.getElementById("id01")){
-		$("#id01").css("display", "none");
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id02")){
-		$("#id02").css("display", "none");
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id03")){
-		$("#id03").css("display", "none");
-		$("body").removeClass("modal-open");
-	}
-	
-})
 
-$(document).on('click', '.close', function(e){
-	$("#id01").css("display", "none");
-	$("#id02").css("display", "none");
-	$("#id03").css("display", "none");
-	$("body").removeClass("modal-open");
-})
 
 $(document).ready(function(){
 	//If parent option is changed

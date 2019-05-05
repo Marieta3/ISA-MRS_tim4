@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
+import com.ISAtim4.WebAppSpringAirport.repository.HotelRepository;
 import com.ISAtim4.WebAppSpringAirport.repository.SobaRepository;
 
 @Service
@@ -32,5 +33,9 @@ public class SobaService {
 
 	public void remove(Long id) {
 		sobaRepository.deleteById(id);
+	}
+	
+	public List<Soba> findAllByHotel(Long id) {
+		return sobaRepository.findAllByHotel(id);
 	}
 }

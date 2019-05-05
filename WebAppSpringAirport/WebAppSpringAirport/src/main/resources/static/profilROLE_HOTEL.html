@@ -7,6 +7,7 @@
 
 
 <script type="text/javascript" src="js/navBar.js"></script>
+<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/profilHotelAdmin.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/editProfile.js"></script>
@@ -23,7 +24,7 @@
 	<ul id="nav-bar">
 		<li><a href="index.html">Home</a></li>
 		<li><button class="tablinks"
-				onclick="openTab(event, 'EditProfile')">Edit Profile</button></li>
+				onclick="openTab(event, 'EditProfile'), findAllByHotel()">Edit Profile</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Hotel')"
 				id="defaultOpen">Hotel</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Rooms')">Rooms</button></li>
@@ -145,7 +146,7 @@
 
 	<div id="Rooms" class="tabcontent">
 		<h1>Rooms</h1>
-		<button class="newRoomBtn" value="New Room">New Room</button>
+		<button class="newRoomBtn" value="New Room" onclick="otvoriModal('id03')">New Room</button>
 		
 		<table id="prikazSobaTabela">
 			<tr>
@@ -159,7 +160,7 @@
 		<div id="id03" class="modal">
 		<form class="modal-content3 animate" id="newRoomForma">
 			<div class="imgcontainer">
-				<span class="close" title="Close Modal">&times;</span>
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id03')">&times;</span>
 					
 				<!-- slika-->
 				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
@@ -179,7 +180,7 @@
 				
 				<button class="addSubmitBtn" type="submit">Add</button>
 				<button type="button"
-					onclick="document.getElementById('id03').style.display='none', ponistavanje()"
+					onclick="zatvoriModal('id03')"
 					class="cancelbtn">Cancel</button>
 			</div>
 			<div class="hidden">

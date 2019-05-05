@@ -10,12 +10,12 @@ insert into usluga(id,cena,opis,hotel_id) values (2,200,'opis2',2);
 insert into soba(id,broj_kreveta,ocena,opis,hotel_id) values (1,3,9.9,'nekiOpisss',1);
 insert into soba(id,broj_kreveta,ocena,opis,hotel_id) values (2,5,8.8,'nekiOpisss2',2);
 
-insert into avio_kompanija(naziv,adresa,opis) values ('United Airlines','Chicago, 5th Avenue 20','Description');
-insert into avio_kompanija(naziv,adresa,opis) values ('Turkish Airlines','Istanbul, Asd 20','Description');
-insert into avio_kompanija(naziv,adresa,opis) values ('Frontier Airlines','Boston, 3th Street 15','Description');
-insert into avio_kompanija(naziv,adresa,opis) values ('Air Serbia','Belgrade, JNA 25','Description');
-insert into avio_kompanija(naziv,adresa,opis) values ('FlySafe','Novi Sad, Partizanska 70','Description');
-insert into avio_kompanija(naziv,adresa,opis) values ('Air Croatia','Zagreb, Bulevar Oslobodjenja 15','Description');
+insert into avio_kompanija(naziv,adresa,opis, ocena) values ('United Airlines','Chicago, 5th Avenue 20','Description', 4.5);
+insert into avio_kompanija(naziv,adresa,opis, ocena) values ('Turkish Airlines','Istanbul, Asd 20','Description', 3.6);
+insert into avio_kompanija(naziv,adresa,opis, ocena) values ('Frontier Airlines','Boston, 3th Street 15','Description', 2.6);
+insert into avio_kompanija(naziv,adresa,opis, ocena) values ('Air Serbia','Belgrade, JNA 25','Description', 4.48);
+insert into avio_kompanija(naziv,adresa,opis, ocena) values ('FlySafe','Novi Sad, Partizanska 70','Description', 4.33);
+insert into avio_kompanija(naziv,adresa,opis, ocena) values ('Air Croatia','Zagreb, Bulevar Oslobodjenja 15','Description', 3.98);
 
 
 insert into rentacar(naziv,adresa,opis,ocena) values('Drive safe', 'Novi Sad, Futoska 32','Test1',4.8);
@@ -31,6 +31,7 @@ insert into rentacar(naziv,adresa,opis,ocena) values('Rent-a-car Belgrade', 'Bel
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rent_a_car_id,avio_kompanija_id,hotel_id,uloga,enabled) values (1,'Nikola','sis','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','123@gmail.com','Maksimovic',true,true,null,null,null,'sis',true);
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rent_a_car_id,avio_kompanija_id,hotel_id,uloga, slika,enabled) values (2,'Marieta','hotel','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','lollipop@gmail.com','Rakos',false,true,null,null,1,'hotel', '../slike/marieta.jpg',true);
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rent_a_car_id,avio_kompanija_id,hotel_id,uloga,enabled) values (3,'Arpad','rent','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','arpadVS@gmail.com','Varga Somodji',false,true,1,null,null,'rent',true);
+insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rent_a_car_id,avio_kompanija_id,hotel_id,uloga,slika,enabled) values (4,'Sreten','avio','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','bozic.sreten@gmail.com','Bozic',false,true,null,4,null,'avio','../slike/Airplane-1.png',true);
 --Milan: trenutno imate samo dve role, treba ubaciti role za razlicite tipove adm3ina
 INSERT INTO AUTHORITY (id, name) VALUES (1, 'ROLE_USER');
 INSERT INTO AUTHORITY (id, name) VALUES (2, 'ROLE_ADMIN');
@@ -41,5 +42,6 @@ INSERT INTO AUTHORITY (id, name) VALUES (5, 'ROLE_RENT');
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (1, 2);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (2, 3);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (3, 5);
+INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (4, 4);
 
 

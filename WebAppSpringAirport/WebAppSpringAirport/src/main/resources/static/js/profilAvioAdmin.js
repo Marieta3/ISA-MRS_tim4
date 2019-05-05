@@ -3,11 +3,10 @@
  */
 
 
-findAll();
-function findAll(){
+function findAllByHotel(){
 	$.ajax({
 		type:'GET',
-		url:'api/sobe/'+localStorage.getItem('hotel_id'),
+		url:'api/sobe',
 		dataType:'json',
 		beforeSend : function(request) {
 			request.setRequestHeader("Authorization", "Bearer "
@@ -72,6 +71,4 @@ function sobaToJSONadd(opis, slika, broj_kreveta, id_hotela){
 		"idHotela":id_hotela
 	});
 }
-
-
 

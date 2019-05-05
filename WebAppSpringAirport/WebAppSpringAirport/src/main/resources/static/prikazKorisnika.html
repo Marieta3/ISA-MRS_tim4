@@ -6,6 +6,7 @@
 <script type="text/javascript" src="js/prikazKorisnika.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
+<script type="text/javascript" src="js/modali.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
 <link rel="stylesheet" type="text/css" href="css/prikazKorisnika.css">
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
@@ -32,7 +33,7 @@
 	<div id="id02" class="modal">
 		<form class="modal-content2 animate" id="deleteUserForma">
 			<div class="imgcontainer">
-				<span class="close" title="Close Modal">&times;</span>
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id02')">&times;</span>
 				<!-- slika -->
 			</div>
 			<div class="container-modal" id="div-container-modal">
@@ -41,7 +42,7 @@
 
 				<button class="deleteSubmitBtn" type="submit">Delete</button>
 				<button type="button"
-					onclick="document.getElementById('id02').style.display='none'"
+					onclick="zatvoriModal('id02')"
 					class="cancelbtn">Cancel</button>
 			</div>
 			<div class="hidden">
@@ -55,7 +56,7 @@
 
 		<form class="modal-content3 animate" id="newUserForma">
 			<div class="imgcontainer">
-				<span class="close" title="Close Modal">&times;</span>
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id03')">&times;</span>
 
 				<!-- slika -->
 			</div>
@@ -89,7 +90,7 @@
 				
 				<button class="addSubmitBtn" type="submit">Add</button>
 				<button type="button"
-					onclick="document.getElementById('id03').style.display='none'"
+					onclick="zatvoriModal('id03')"
 					class="cancelbtn">Cancel</button>
 			</div>
 			<div class="hidden"></div>

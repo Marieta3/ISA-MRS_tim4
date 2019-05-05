@@ -40,6 +40,9 @@ public class AvioKompanija {
 	@Column(nullable=false)
 	private String opis;
 	
+	@Column(nullable=false)
+	private Double ocena=0.0;
+	
 	@Column(nullable=true)
 	private String slika;
 	
@@ -114,7 +117,7 @@ public class AvioKompanija {
 	}
 
 	public AvioKompanija(Long id, String naziv, Set<AdminAvio> admin, Set<Destinacija> listaDestinacija,
-			Set<Let> listaLetova, String adresa, String opis,String slika) {
+			Set<Let> listaLetova, String adresa, String opis,String slika, Double ocena) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
@@ -124,6 +127,15 @@ public class AvioKompanija {
 		this.adresa = adresa;
 		this.opis = opis;
 		this.slika = slika;
+		this.ocena=ocena;
+	}
+
+	public Double getOcena() {
+		return ocena;
+	}
+
+	public void setOcena(Double ocena) {
+		this.ocena = ocena;
 	}
 
 	

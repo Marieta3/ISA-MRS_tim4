@@ -7,7 +7,7 @@ $(document).ready(function(){
 	uloga=localStorage.getItem("uloga");
 	if(uloga=="ROLE_ADMIN"){
 		//$("#nav-bar").append('<li><a href="dodajAvioKompaniju.html">New Airline</a></li>');
-		$("#nav-bar").append('<li><button class="dodajAvioBtn">New Airline</button></li>');
+		$("#nav-bar").append('<li><button class="dodajAvioBtn" onclick="otvoriModal(\'id03\')">New Airline</button></li>');
 	}
 });
 
@@ -51,14 +51,14 @@ function renderAvioKompanije(data){
 			var formaObrisi = $('<form id="formaObrisi"></form>');
 			formaObrisi.append('<input type="hidden" value="' + avioKompanija.id + '">');
 			formaObrisi.append('<input id="hiddenNazivAdresa" type="hidden" value="' + avioKompanija.naziv+", "+avioKompanija.adresa + '">');
-			formaObrisi.append('<input type="submit" value="Delete">');
+			formaObrisi.append('<input type="submit" value="Delete" onclick="otvoriModal(\'id02\')">');
 			var td = $('<td></td>');
 			td.append(formaObrisi);
 			tr.append(td);
 		
 			var formaUpdate = $('<form id="formaUpdate"></form>');
 			formaUpdate.append('<input type="hidden" value="' + avioKompanija.id + '">');
-			formaUpdate.append('<input type="submit" value="Update">');
+			formaUpdate.append('<input type="submit" value="Update" onclick="otvoriModal(\'id01\')">');
 			var td1 = $('<td></td>');
 			td1.append(formaUpdate);
 			tr.append(td1);
@@ -68,20 +68,13 @@ function renderAvioKompanije(data){
 	})
 }
 
-$(document).on('click', '.dodajAvioBtn', function(e){
-	e.preventDefault();
-	console.log("dodaj avio btn");
-	$("#id03").css("display", "block");
-	$("body").addClass("modal-open");
-})
+
 
 $(document).on('submit', '#formaObrisi', function(e) {
 	e.preventDefault();
 	var id = $(this).find('input[type=hidden]').val();
 	var naziv_adresa=$(this).find("#hiddenNazivAdresa").val();
 	console.log(id);
-	$("#id02").css("display", "block");
-	$("body").addClass("modal-open");
 	$("#identifikator").val(id);
 	$("#nazivAdresaAvio").text(naziv_adresa+"?");
 	
@@ -90,8 +83,6 @@ $(document).on('submit', '#formaObrisi', function(e) {
 
 $(document).on('submit', '#formaUpdate', function(e) {
 	e.preventDefault();
-	$("#id01").css("display", "block");
-	$("body").addClass("modal-open");
 	var id = $(this).find('input[type=hidden]').val();
 	console.log(id);
 	$.ajax({
@@ -181,8 +172,6 @@ $(document).on('submit', ".modal-content3", function(e){
         },
 		success:function(data){
 			console.log(data); 
-			//$("#id03").css("display", "none");
-			//$("body").removeClass("modal-open");
 			window.location.replace("prikazAvioKompanija.html");
 		}
 	});
@@ -202,27 +191,8 @@ function avioToJSON(id, naziv, adresa, opis){
 		"opis":opis
 	});
 }
-$(window).click(function(e){
-	
-	if(e.target==document.getElementById("id01")){
-		$("#id01").css("display", "none");
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id02")){
-		$("#id02").css("display", "none");
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id03")){
-		$("#id03").css("display", "none");
-		$("body").removeClass("modal-open");
-	}
-	
-})
 
-$(document).on('click', '.close', function(e){
-	$("#id01").css("display", "none");
-	$("#id02").css("display", "none");
-	$("#id03").css("display", "none");
-	$("body").removeClass("modal-open");
-})
+
 
 $('document').ready(function() {
 	$('#btnSearch').bind('click', searchAvioByName);
