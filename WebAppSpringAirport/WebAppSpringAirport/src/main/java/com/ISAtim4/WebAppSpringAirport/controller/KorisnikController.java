@@ -310,6 +310,17 @@ public class KorisnikController {
 		return ah.getHotel();
 	}
 	
+	@RequestMapping("/api/myavio")
+	@PreAuthorize("hasRole('ROLE_AVIO')")
+	public AvioKompanija getMyAvio(Principal user) {
+		AdminAvio aa=null;
+		if(user!=null) {
+			aa=(AdminAvio) this.korisnikService.findByKorisnickoIme(user.getName());
+			
+		}
+		return aa.getAvio_kompanija();
+	}
+	
 	@RequestMapping("/api/myrent")
 	@PreAuthorize("hasRole('ROLE_RENT')")
 	public RentACar getMyRent(Principal user) {

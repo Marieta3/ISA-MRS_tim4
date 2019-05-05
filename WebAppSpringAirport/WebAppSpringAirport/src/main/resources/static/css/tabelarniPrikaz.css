@@ -1,16 +1,16 @@
 @CHARSET "ISO-8859-1";
-#divHotel, #divSoba{
+.divEntitet{
 	height:100px; 
 	width:100px;
 	border-radius: 50%;
 }
-#imgProfilnaHotel, #imgProfilnaSoba{
+.imgEntitet{
 	height:inherit;
 	width:inherit; 
 	object-fit: cover;
 	border-radius: inherit;
 }
-#prikazHotelaTabela, #prikazSobaTabela{
+.prikazEntitetaTbl{
 	margin-top: 100px;
 	margin-left:auto;
 	margin-right:auto;

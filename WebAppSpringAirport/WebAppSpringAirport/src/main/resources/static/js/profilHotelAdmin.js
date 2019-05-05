@@ -2,17 +2,11 @@
  * 
  */
 
-$(document).on('click', '.newRoomBtn', function(e){
-	e.preventDefault();
-	console.log("dodaj sobu btn");
-	$("#id03").css("display", "block");
-	$("body").addClass("modal-open");
-})
-findAll();
-function findAll(){
+
+function findAllByHotel(){
 	$.ajax({
 		type:'GET',
-		url:'api/sobe',
+		url:'api/sobe/'+localStorage.getItem('hotel_id'),
 		dataType:'json',
 		beforeSend : function(request) {
 			request.setRequestHeader("Authorization", "Bearer "
@@ -31,8 +25,8 @@ function renderSobe(data){
 		if(slika==null){
 			slika = "../slike/hotel.jpg";
 		}
-		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divSoba">' +
-				'<img src=" ' + slika +' " id="imgProfilnaSoba"> ' + '</div>' +
+		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divSoba" class="divEntitet">' +
+				'<img src=" ' + slika +' " id="imgProfilnaSoba" class="imgEntitet"> ' + '</div>' +
 				'</td>' + '<td>' + soba.brojKreveta + '</td>'
 				+ '<td>' + soba.opis + '</td>' + '<td>' + soba.ocena + '</td>');
 		$('#prikazSobaTabela').append(tr);
@@ -40,7 +34,7 @@ function renderSobe(data){
 }
 $(document).on('submit', ".modal-content3", function(e){
 	e.preventDefault();
-	console.log("dodavanje sobe");
+	console.log("dodavanje dest");
 	var opis=$("#opisSobe").val();
 	var broj_kreveta=$("#brojKreveta").val();
 	var slika=$('#slika_room').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
@@ -78,33 +72,5 @@ function sobaToJSONadd(opis, slika, broj_kreveta, id_hotela){
 	});
 }
 
-$(window).click(function(e){
-	
-	if(e.target==document.getElementById("id01")){
-		$("#id01").css("display", "none");
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id02")){
-		$("#id02").css("display", "none");
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id03")){
-		$("#id03").css("display", "none");
-		ponistavanje();
-		$("body").removeClass("modal-open");
-	}
-	
-})
 
-$(document).on('click', '.close', function(e){
-	$("#id01").css("display", "none");
-	$("#id02").css("display", "none");
-	$("#id03").css("display", "none");
-	ponistavanje();
-	$("body").removeClass("modal-open");
-})
 
-function ponistavanje(){
-	$("#opisSobe").val("");
-	$("#brojKreveta").val(0);
-	$('#room_img').attr("src", "../slike/avatar.png");
-	$('#slika_room').val('');
-}

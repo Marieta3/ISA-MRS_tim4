@@ -13,6 +13,7 @@ $(document).ready(function(){
 	var li1=$('<li><button class="loginBtn">Login</button></li>');
 	console.log(li1);
 	uloga= localStorage.getItem("uloga");
+	console.log("index ready uloga: "+uloga);
 	if (uloga == null || uloga == ""){
 		$("#nav-bar").append(li1);
 		$("#nav-bar").append('<li><button class="registerBtn">Register</button></li>');
@@ -235,43 +236,12 @@ function registeringUserToJSON(username,password,firstname,lastname,email){
 		});
 }
 
-$(document).on('click', '.close', function(e){
-	$("#id01").css("display", "none");
-	ponistavanjeLogin();
-	$("#id02").css("display", "none");
-	ponistavanjeRegister();
-	$("body").removeClass("modal-open");
-})
+
 
 
 function getUserRole(){
 	uloga=localStorage.getItem("uloga");
 }
 
-$(window).click(function(e){
-	
-	if(e.target==document.getElementById("id01")){
-		$("#id01").css("display", "none");
-		ponistavanjeLogin();
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id02")){
-		$("#id02").css("display", "none");
-		ponistavanjeRegister();
-		$("body").removeClass("modal-open");
-	}
-	
-})
 
-function ponistavanjeLogin(){
-	$('#username').val('');
-	$('#password').val('');
-}
 
-function ponistavanjeRegister(){
-	$('#username1').val('');
-	$('#password1').val('');
-	$('#passwordrpt').val('');
-	$('#firstname').val('');
-	$('#lastname').val('');
-	$('#email').val('');
-}

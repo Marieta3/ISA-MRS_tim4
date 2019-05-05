@@ -6,11 +6,12 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="js/prikazHotela.js" charset="UTF-8"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
+<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/imagePreview.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
-<link rel="stylesheet" type = "text/css" href="css/prikazHotela.css">
+<link rel="stylesheet" type = "text/css" href="css/tabelarniPrikaz.css">
 <title>Hotels</title>
 
 </head>
@@ -23,7 +24,7 @@
 		<input type="text" id="searchName">
 		<button id="btnSearch" value="Search">Search</button>
 	</div>
-	<table id="prikazHotelaTabela" width = 600px border= 1px>
+	<table id="prikazHotelaTabela" class="prikazEntitetaTbl" width = 600px border= 1px>
 		<tr>
 			<th>Picture</th>
 			<th>Name</th>
@@ -38,7 +39,7 @@
 	<div id="id02" class="modal">
 		<form class="modal-content2 animate" id="editHotelForma">
 			<div class="imgcontainer">
-				<span class="close" title="Close Modal">&times;</span>
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id02')">&times;</span>
 				<!-- slika -->
 			</div>
 			<div class="container-modal" id="div-container-modal">
@@ -47,7 +48,7 @@
 				
 				<button class="deleteSubmitBtn" type="submit">Delete</button>
 				<button type="button"
-					onclick="document.getElementById('id02').style.display='none'"
+					onclick="zatvoriModal('id02')"
 					class="cancelbtn">Cancel</button>
 			</div>
 			<div class="hidden">
@@ -61,7 +62,7 @@
 
 		<form class="modal-content1 animate" id="editHotelForma">
 			<div class="imgcontainer">
-				<span class="close" title="Close Modal">&times;</span>
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id01')">&times;</span>
 					<img
 					src="slike/avatar.png" alt="Avatar" class="avatar">
 				<!-- slika -->
@@ -77,7 +78,7 @@
 					name="opisHotela" id="opisHotela"> 
 				<button class="updateSubmitBtn" type="submit">Update</button>
 				<button type="button"
-					onclick="document.getElementById('id01').style.display='none'"
+					onclick="zatvoriModal('id01')"
 					class="cancelbtn">Cancel</button>
 			</div>
 			<div class="hidden">
@@ -90,7 +91,7 @@
 
 		<form class="modal-content3 animate" id="newHotelForma">
 			<div class="imgcontainer">
-				<span class="close" title="Close Modal">&times;</span>
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id03')">&times;</span>
 					
 				<!-- slika-->
 				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
@@ -110,7 +111,7 @@
 					name="opisHotela" id="opisHotela1">
 				<button class="addSubmitBtn" type="submit">Add</button>
 				<button type="button"
-					onclick="document.getElementById('id03').style.display='none'"
+					onclick="zatvoriModal('id03')"
 					class="cancelbtn">Cancel</button>
 			</div>
 			<div class="hidden">

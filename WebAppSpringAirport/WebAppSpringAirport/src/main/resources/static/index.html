@@ -5,6 +5,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
@@ -24,9 +25,9 @@
 
 	<div id="id01" class="modal">
 
-		<form class="modal-content1 animate">
+		<form class="modal-content1 animate" id="loginForma">
 			<div class="imgcontainer">
-				<span class="close" title="Close Modal">&times;</span> <img
+				<span class="close" title="Close Modal", onClick="zatvoriModal('id01')">&times;</span> <img
 					src="slike/avatar.png" alt="Avatar" class="avatar">
 
 			</div>
@@ -42,7 +43,7 @@
 
 				<button class="loginSubmitBtn" type="submit">Login</button>
 				<button type="button"
-					onclick="document.getElementById('id01').style.display='none', ponistavanjeLogin()"
+					onclick="zatvoriModal('id01')"
 					class="cancelbtn">Cancel</button>
 				<label> <input type="hidden" checked="checked"
 					name="remember">
@@ -62,7 +63,7 @@
 
 		<form class="modal-content2 animate">
 			<div class="imgcontainer">
-				<span class="close" title="Close Modal">&times;</span>
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id02')">&times;</span>
 			</div>
 			<div class="container-modal" id="div-container-modal">
 				<h1>Register</h1>
@@ -85,7 +86,7 @@
 				<div class="clearfix">
 					<button type="submit" class="signupbtn">Sign Up</button>
 					<button type="button"
-						onclick="document.getElementById('id02').style.display='none', ponistavanjeRegister()"
+						onclick="zatvoriModal('id02')"
 						class="cancelbtn">Cancel</button>
 
 				</div>

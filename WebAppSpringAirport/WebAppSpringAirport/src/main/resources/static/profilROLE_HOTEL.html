@@ -7,6 +7,7 @@
 
 
 <script type="text/javascript" src="js/navBar.js"></script>
+<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/profilHotelAdmin.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/editProfile.js"></script>
@@ -16,7 +17,7 @@
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
-<link rel="stylesheet" type="text/css" href="css/prikazHotela.css">
+<link rel="stylesheet" type="text/css" href="css/tabelarniPrikaz.css">
 <title>HOTEL ADMIN</title>
 </head>
 <body>
@@ -26,7 +27,7 @@
 				onclick="openTab(event, 'EditProfile')">Edit Profile</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Hotel')"
 				id="defaultOpen">Hotel</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'Rooms')">Rooms</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Rooms'), findAllByHotel()">Rooms</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Services')">Services</button></li>
 	</ul>
 
@@ -145,9 +146,9 @@
 
 	<div id="Rooms" class="tabcontent">
 		<h1>Rooms</h1>
-		<button class="newRoomBtn" value="New Room">New Room</button>
+		<button class="newRoomBtn" value="New Room" onclick="otvoriModal('id03')">New Room</button>
 		
-		<table id="prikazSobaTabela">
+		<table id="prikazSobaTabela" class="prikazEntitetaTbl">
 			<tr>
 				<th>&nbsp;</th>
 				<th>Bed count</th>
@@ -159,7 +160,7 @@
 		<div id="id03" class="modal">
 		<form class="modal-content3 animate" id="newRoomForma">
 			<div class="imgcontainer">
-				<span class="close" title="Close Modal">&times;</span>
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id03')">&times;</span>
 					
 				<!-- slika-->
 				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
@@ -179,7 +180,7 @@
 				
 				<button class="addSubmitBtn" type="submit">Add</button>
 				<button type="button"
-					onclick="document.getElementById('id03').style.display='none', ponistavanje()"
+					onclick="zatvoriModal('id03')"
 					class="cancelbtn">Cancel</button>
 			</div>
 			<div class="hidden">

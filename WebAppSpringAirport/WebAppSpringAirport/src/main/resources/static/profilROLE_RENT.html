@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script type="text/javascript" src="js/navBar.js"></script>
+<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/editProfile.js"></script>
 <script type="text/javascript" src="js/updateRentACar.js"></script>
@@ -15,7 +16,7 @@
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
-<link rel="stylesheet" type="text/css" href="css/prikazRentacar.css">
+<link rel="stylesheet" type="text/css" href="css/tabelarniPrikaz.css">
 <title>RENT ADMIN</title>
 </head>
 <body>
@@ -143,9 +144,9 @@
 	
 	<div id="Branches" class="tabcontent">
 		<h1>Branches</h1>
-		<button class="newBranchBtn" value="New Branch">New Branch</button>
+		<button class="newBranchBtn" value="New Branch" onclick="otvoriModal('id03')">New Branch</button>
 		
-		<table id="prikazBranchTabela">
+		<table id="prikazBranchTabela" class="prikazEntitetaTbl">
 			<tr>
 				<th>&nbsp;</th>
 				<th>Adresa</th>
@@ -157,7 +158,7 @@
 		<div id="id03" class="modal">
 		<form class="modal-content3 animate" id="newBranchForma">
 			<div class="imgcontainer">
-				<span class="close" title="Close Modal">&times;</span>
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id03')">&times;</span>
 					
 				<!-- slika-->
 				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
@@ -180,7 +181,7 @@
 				
 				<button class="addSubmitBtn" type="submit">Add</button>
 				<button type="button"
-					onclick="document.getElementById('id03').style.display='none', ponistavanje()"
+					onclick="zatvoriModal('id03')"
 					class="cancelbtn">Cancel</button>
 			</div>
 			<div class="hidden">

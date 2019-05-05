@@ -19,6 +19,7 @@ function dobaviPodatkeHotela(){
         success:function(data){
         	console.log(data);
         	localStorage.setItem("hotel_id", data.id);
+        	console.log("myhotel, hotel id: "+localStorage.getItem('hotel_id'));
         	$("#hotelNazivAdmin").text(data.naziv);
         	if(data.slika!=null && data.slika!=""){
         		$("#hotel_img").attr("src", data.slika);
