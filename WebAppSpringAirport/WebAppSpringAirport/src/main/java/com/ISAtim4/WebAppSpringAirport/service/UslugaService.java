@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Usluga;
 import com.ISAtim4.WebAppSpringAirport.repository.UslugaRepository;
 
@@ -33,5 +34,9 @@ public class UslugaService {
 
 	public void remove(Long id) {
 		uslugaRepository.deleteById(id);
+	}
+	
+	public List<Usluga> findAllByHotel(Hotel hotel) {
+		return uslugaRepository.findAllByHotel(hotel);
 	}
 }

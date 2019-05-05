@@ -15,14 +15,33 @@
 	margin-left:auto;
 	margin-right:auto;
 }
-tr:nth-child(even) {background: #CCC}
-tr:nth-child(odd) {background: #FFF}
+.opisEntitet{
+	width:150px;
+}
+tr:nth-child(even):not(.highlight) {background: #CCC}
+tr:nth-child(odd):not(.highlight) {background: #FFF}
 th{
 	background: #787c82;
 }
 tr {
 	text-align: center;
 }
+table, td, th{
+	border: 1px solid black;
+	
+}
+
+.anim {  
+  transition: background 2s linear;
+}
+.highlight{
+  background: #5092fe; 
+}
+.normal {  
+  background: transparent;  
+}
+
+
 #slikaEdit{
 	margin-left: 50px;
 	margin-bottom:20px;

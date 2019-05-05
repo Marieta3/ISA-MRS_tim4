@@ -38,7 +38,7 @@ function renderHoteli(data) {
 		$('#prikazHotelaTabela').find('tr:eq(0)').append(th_nbsp);
 	}
 	$("#prikazHotelaTabela").find("tr:gt(0)").remove();
-	$("#prikazHotelaTabela").find("th:gt(5)").remove();
+	$("#prikazHotelaTabela").find("th:gt(4)").remove();
 	$.each(list, function(index, hotel) {
 		
 		var tr = $('<tr id="hotel_' + hotel.id + '"></tr>');

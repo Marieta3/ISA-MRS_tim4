@@ -9,5 +9,5 @@ import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 
 
 public interface SobaRepository extends JpaRepository<Soba, Long>{
-	List<Soba> findAllByHotel(Long id);
+	List<Soba> findAllByHotel(Hotel hotel);
 }
