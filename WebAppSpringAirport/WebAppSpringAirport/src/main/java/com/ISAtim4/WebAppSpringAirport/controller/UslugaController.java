@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Usluga;
+import com.ISAtim4.WebAppSpringAirport.dto.UslugaDTO;
+import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.UslugaService;
 
 @RestController
@@ -26,11 +29,18 @@ public class UslugaController {
 
 	@Autowired
 	UslugaService uslugaService;
-
+	
+	@Autowired
+	HotelService hotelService;
 	/* da snimimo uslugu */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	@RequestMapping(value = "/api/usluge", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
-	public Usluga createUsluga(@Valid @RequestBody Usluga usluga) {
+	public Usluga createUsluga(@Valid @RequestBody UslugaDTO uslugaDTO) {
+		Usluga usluga=new Usluga();
+		usluga.setCena(uslugaDTO.getCena());
+		usluga.setOpis(uslugaDTO.getOpis());
+		Hotel hotel=hotelService.findOne(uslugaDTO.getHotel_id());
+		usluga.setHotel(hotel);
 		return uslugaService.save(usluga);
 	}
 
@@ -39,7 +49,12 @@ public class UslugaController {
 	public List<Usluga> getAllUsluge() {
 		return uslugaService.findAll();
 	}
-
+	
+	@RequestMapping(value = "/api/uslugeHotela/{hotel_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Usluga> getSobeByHotel(@PathVariable(value = "hotel_id") Long hotel_id) {
+		Hotel hotel=hotelService.findOne(hotel_id);
+		return uslugaService.findAllByHotel(hotel);
+	}
 	/* da uzmemo uslugu po id-u, svima dozvoljeno */
 	@RequestMapping(value = "/api/usluge/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Usluga> getUsluga(

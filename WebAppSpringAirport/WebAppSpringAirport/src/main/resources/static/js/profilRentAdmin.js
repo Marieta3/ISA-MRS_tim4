@@ -21,7 +21,7 @@ function renderFilijale(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$("#prikazBranchTabela").find("tr:gt(0)").remove();
 	$.each(list, function(index, filijala){
-		var tr=$('<tr id="filijala_"'+filijala.id+'></tr>');
+		var tr=$('<tr id="filijala_'+filijala.id+'"></tr>');
 		var slika=filijala.slika;
 		if(slika==null){
 			slika = "../slike/rent_car.jpg";

@@ -27,8 +27,8 @@
 				onclick="openTab(event, 'EditProfile')">Edit Profile</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Hotel')"
 				id="defaultOpen">Hotel</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'Rooms'), findAllByHotel()">Rooms</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'Services')">Services</button></li>
+		<li><button id="tabRoomsLink" class="tablinks" onclick="openTab(event, 'Rooms'), findAllByHotel()">Rooms</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Services'), findAllUslugeByHotel()">Services</button></li>
 	</ul>
 
 	<div id="EditProfile" class="tabcontent">
@@ -99,13 +99,7 @@
 				<br>
 				<span>Rating:</span>
 				<span id="rating_hotel"></span>
-				<span class="fa fa-star " id="star1"></span>
-				<span class="fa fa-star " id="star2"></span>
-				<span class="fa fa-star " id="star3"></span>
-				<span class="fa fa-star " id="star4"></span>
-				<span class="fa fa-star" id="star5"></span>
-				
-				
+				<br>
 				<div class="containerdiv">
     				<div>
     					<img class="zvezde" src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
@@ -157,6 +151,28 @@
 			</tr>
 		</table>
 		
+		<div id="id01" class="modal">
+		<form class="modal-content1 animate" id="deleteSobaForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id01')">&times;</span>
+				<!-- slika -->
+			</div>
+			<div class="container-modal" id="div-container-modal">
+				<h1>Are you sure you want to delete room: </h1>
+				<h2 id="soba"></h2>
+				
+				<button class="deleteSubmitBtn" type="submit">Delete</button>
+				<button type="button"
+					onclick="zatvoriModal('id01')"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikatorSoba">
+			</div>
+		</form>
+	</div>
+	
 		<div id="id03" class="modal">
 		<form class="modal-content3 animate" id="newRoomForma">
 			<div class="imgcontainer">
@@ -193,6 +209,64 @@
 
 	<div id="Services" class="tabcontent">
 		<h1>Services</h1>
+		<button class="newServiceBtn" value="New Service" onclick="otvoriModal('id02')">New Service</button>
+		<table id="prikazUslugaTabela" class="prikazEntitetaTbl">
+			<thead>
+			<tr>
+				<th>Description</th>
+				<th>Price</th>
+			</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		
+		<div id="id05" class="modal">
+		<form class="modal-content1 animate" id="deleteUslugaForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id05')">&times;</span>
+				<!-- slika -->
+			</div>
+			<div class="container-modal" id="div-container-modal">
+				<h1>Are you sure you want to delete service: </h1>
+				<h2 id="usluga"></h2>
+				
+				<button class="deleteSubmitBtn" type="submit">Delete</button>
+				<button type="button"
+					onclick="zatvoriModal('id05')"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikatorUsluga">
+			</div>
+		</form>
+	</div>
+		<div id="id02" class="modal">
+		<form class="modal-content2 animate" id="newUslugaForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id02')">&times;</span>
+				
+			</div>
+			<div class="container-modal" id="div-container-modal">
+				<h1> Add new service </h1>
+				<label for="opisUsluge"><b>Description</b></label> 
+				<input type="text" name="opisUsluge" id="opisUsluge">
+				
+				<label for="cenaUsluge"><b>Price</b></label> 
+				<input type="number" name="cenaUsluge" id="cenaUsluge" value="0">
+				
+				<!-- valuta?? -->
+				<button class="addSubmitBtn" type="submit">Add</button>
+				<button type="button"
+					onclick="zatvoriModal('id02')"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				
+			</div>
+		</form>
+	</div>
 	</div>
 </body>
 </html>

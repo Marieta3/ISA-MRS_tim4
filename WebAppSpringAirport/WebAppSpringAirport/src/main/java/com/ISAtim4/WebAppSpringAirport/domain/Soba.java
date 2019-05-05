@@ -29,7 +29,7 @@ public class Soba {
 	@Column(nullable=true)
 	private String slika;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JsonBackReference
 	private Hotel hotel;
 	

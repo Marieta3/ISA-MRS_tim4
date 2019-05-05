@@ -68,3 +68,12 @@ function formaObrisi(e, forma, id_delete, txt_delete){
 	$("#"+id_delete).val(id);
 	$("#"+txt_delete).text(txt+"?");
 }
+
+function dodajNoviEntitet(tabela, tr){
+	$(tr)
+    .hide()
+    .prependTo($('#'+tabela+' tbody'))
+    .fadeIn("slow")
+    .addClass('normal')
+    .removeClass('highlight');
+}

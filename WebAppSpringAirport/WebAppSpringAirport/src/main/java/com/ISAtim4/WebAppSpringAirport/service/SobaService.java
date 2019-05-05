@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.repository.HotelRepository;
 import com.ISAtim4.WebAppSpringAirport.repository.SobaRepository;
@@ -35,7 +37,7 @@ public class SobaService {
 		sobaRepository.deleteById(id);
 	}
 	
-	public List<Soba> findAllByHotel(Long id) {
-		return sobaRepository.findAllByHotel(id);
+	public List<Soba> findAllByHotel(Hotel hotel) {
+		return sobaRepository.findAllByHotel(hotel);
 	}
 }

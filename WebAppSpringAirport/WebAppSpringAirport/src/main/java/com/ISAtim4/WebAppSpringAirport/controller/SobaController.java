@@ -52,9 +52,11 @@ public class SobaController {
 	public List<Soba> getAllSobe() {
 		return sobaService.findAll();
 	}
-	@RequestMapping(value = "/api/sobe{hotel_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/sobeHotela/{hotel_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Soba> getSobeByHotel(@PathVariable(value = "hotel_id") Long hotel_id) {
-		return sobaService.findAllByHotel(hotel_id);
+		
+		Hotel hotel=hotelService.findOne(hotel_id);
+		return sobaService.findAllByHotel(hotel);
 	}
 	/* da uzmemo sobu po id-u, svima dozvoljeno */
 	@RequestMapping(value = "/api/sobe/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

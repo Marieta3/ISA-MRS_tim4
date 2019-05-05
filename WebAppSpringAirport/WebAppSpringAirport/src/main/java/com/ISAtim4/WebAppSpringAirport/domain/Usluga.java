@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class Usluga {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(nullable = false)
@@ -23,7 +23,7 @@ public class Usluga {
 	@Column(nullable = true)
 	private double cena;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JsonBackReference
 	private Hotel hotel;
 	
