@@ -2,19 +2,20 @@
  * 
  */
 function otvoriModal(modal){
+	console.log('otvoren modal: '+modal);
 	$("#"+modal).css("display", "block");
 	$("body").addClass("modal-open");
 }
 
 function zatvoriModal(modal){
+	console.log('zatvoren modal: '+modal);
 	$("#"+modal).css("display", "none");
-	console.log($("#"+modal).find('form').attr('id'));
 	ponistavanje($("#"+modal).find('form').attr('id'));
 	$("body").removeClass("modal-open");
 }
 
 $(window).click(function(e){
-	
+	//console.log('zatvoren modallll ');
 	if(e.target==document.getElementById("id01")){
 		$("#id01").css("display", "none");
 		ponistavanje($("#id01").find('form').attr('id'));
@@ -53,4 +54,17 @@ function ponistavanje(forma){
 	            break;
 	    }
 	  });
+}
+
+function formaObrisi(e, forma, id_delete, txt_delete){
+	//id_delete: id input taga koji je hidden i koji sadrzi id onoga sto se brise
+	//txt_delete: id polja gde stoji naziv onoga sto se brise
+	e.preventDefault();
+	var id, txt; 
+	$(forma).find('input[type=hidden]').each(function(index){
+		if(index==0) id=this.value;
+		else if(index==1) txt=this.value;
+	})
+	$("#"+id_delete).val(id);
+	$("#"+txt_delete).text(txt+"?");
 }

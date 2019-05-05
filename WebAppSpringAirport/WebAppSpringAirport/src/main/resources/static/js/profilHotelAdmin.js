@@ -3,8 +3,7 @@
  */
 
 
-findAll();
-function findAll(){
+function findAllByHotel(){
 	$.ajax({
 		type:'GET',
 		url:'api/sobe/'+localStorage.getItem('hotel_id'),
@@ -26,8 +25,8 @@ function renderSobe(data){
 		if(slika==null){
 			slika = "../slike/hotel.jpg";
 		}
-		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divSoba">' +
-				'<img src=" ' + slika +' " id="imgProfilnaSoba"> ' + '</div>' +
+		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divSoba" class="divEntitet">' +
+				'<img src=" ' + slika +' " id="imgProfilnaSoba" class="imgEntitet"> ' + '</div>' +
 				'</td>' + '<td>' + soba.brojKreveta + '</td>'
 				+ '<td>' + soba.opis + '</td>' + '<td>' + soba.ocena + '</td>');
 		$('#prikazSobaTabela').append(tr);

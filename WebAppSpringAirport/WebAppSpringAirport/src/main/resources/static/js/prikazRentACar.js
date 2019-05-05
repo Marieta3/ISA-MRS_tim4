@@ -6,7 +6,7 @@ uloga="";
 $(document).ready(function(){
 	uloga=localStorage.getItem("uloga");
 	if(uloga=="ROLE_ADMIN"){
-		$("#nav-bar").append('<li><button class="dodajRentBtn">New Rent-A-Car</button></li>');
+		$("#nav-bar").append('<li><button class="dodajRentBtn" onclick="otvoriModal(\'id03\')">New Rent-A-Car</button></li>');
 	}
 });
 
@@ -45,23 +45,23 @@ function renderRentACars(data) {
 		if (rentACar.slika == null) {
 			rentACar.slika = "../slike/rent_car.jpg"
 		}
-		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divRent">' +
-				'<img src=" ' + rentACar.slika +' " id="imgProfilnaRent"> ' + '</div>' +
+		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divRent" class="divEntitet">' +
+				'<img src=" ' + rentACar.slika +' " id="imgProfilnaRent" class="imgEntitet"> ' + '</div>' +
 				'</td>' +'<td>'+ rentACar.naziv
 				+ '</td>' + '<td>' + rentACar.adresa + '</td>' + '<td width=100px>'
 				+ rentACar.opis + '</td>');
 		if (uloga == "ROLE_ADMIN") {
-			var formaObrisi = $('<form id="formaObrisi"></form>');
+			var formaObrisi = $('<form id="formaObrisi" onsubmit="formaObrisi(event, this, \'identifikator\', \'nazivAdresaRent\')"></form>');
 			formaObrisi.append('<input type="hidden" value="' + rentACar.id + '">');
 			formaObrisi.append('<input id="hiddenNazivAdresa" type="hidden" value="' + rentACar.naziv+", "+rentACar.adresa + '">');
-			formaObrisi.append('<input type="submit" value="Delete">');
+			formaObrisi.append('<input type="submit" value="Delete" onclick="otvoriModal(\'id02\')">');
 			var td = $('<td></td>');
 			td.append(formaObrisi);
 			tr.append(td);
 		
 			var formaUpdate = $('<form id="formaUpdate"></form>');
 			formaUpdate.append('<input type="hidden" value="' + rentACar.id + '">');
-			formaUpdate.append('<input type="submit" value="Update">');
+			formaUpdate.append('<input type="submit" value="Update" onclick="otvoriModal(\'id01\')">');
 			var td1 = $('<td></td>');
 			td1.append(formaUpdate);
 			tr.append(td1);
@@ -71,30 +71,10 @@ function renderRentACars(data) {
 	})
 }
 
-$(document).on('click', '.dodajRentBtn', function(e){
-	e.preventDefault();
-	console.log("dodaj rent btn");
-	$("#id03").css("display", "block");
-	$("body").addClass("modal-open");
-})
 
-$(document).on('submit', '#formaObrisi', function(e) {
-	e.preventDefault();
-	var id = $(this).find('input[type=hidden]').val();
-	var naziv_adresa=$(this).find("#hiddenNazivAdresa").val();
-	console.log(id);
-	$("#id02").css("display", "block");
-	$("body").addClass("modal-open");
-	$("#identifikator").val(id);
-	$("#nazivAdresaRent").text(naziv_adresa+"?");
-	
-
-})
 
 $(document).on('submit', '#formaUpdate', function(e) {
 	e.preventDefault();
-	$("#id01").css("display", "block");
-	$("body").addClass("modal-open");
 	var id = $(this).find('input[type=hidden]').val();
 	console.log(id);
 	$.ajax({
@@ -184,8 +164,6 @@ $(document).on('submit', ".modal-content3", function(e){
         },
 		success:function(data){
 			console.log(data); 
-			//$("#id03").css("display", "none");
-			//$("body").removeClass("modal-open");
 			window.location.replace("prikazRentACar.html");
 		}
 	});
@@ -205,27 +183,7 @@ function rentToJSON(id, naziv, adresa, opis){
 		"opis":opis
 	});
 }
-$(window).click(function(e){
-	
-	if(e.target==document.getElementById("id01")){
-		$("#id01").css("display", "none");
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id02")){
-		$("#id02").css("display", "none");
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id03")){
-		$("#id03").css("display", "none");
-		$("body").removeClass("modal-open");
-	}
-	
-})
 
-$(document).on('click', '.close', function(e){
-	$("#id01").css("display", "none");
-	$("#id02").css("display", "none");
-	$("#id03").css("display", "none");
-	$("body").removeClass("modal-open");
-})
 
 $('document').ready(function() {
 	$('#btnSearch').bind('click', searchCars);

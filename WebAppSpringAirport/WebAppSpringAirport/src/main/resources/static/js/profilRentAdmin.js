@@ -1,12 +1,6 @@
 /**
  * 
  */
-$(document).on('click', '.newBranchBtn', function(e){
-	e.preventDefault();
-	console.log("dodaj branch btn");
-	$("#id03").css("display", "block");
-	$("body").addClass("modal-open");
-})
 
 $(document).on('click', '#btnBranchList', findAllBranchesByRent)
 
@@ -32,8 +26,8 @@ function renderFilijale(data){
 		if(slika==null){
 			slika = "../slike/rent_car.jpg";
 		}
-		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divFilijala">' +
-				'<img src=" ' + slika +' " id="imgProfilnaBranch"> ' + '</div>' +
+		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divFilijala" class="divEntitet">' +
+				'<img src=" ' + slika +' " id="imgProfilnaBranch" class="imgEntitet"> ' + '</div>' +
 				'</td>' + '<td>' + filijala.adresa + '</td>'
 				+ '<td>' + filijala.telefon + '</td>' + '<td>' + filijala.opis + '</td>');
 		$('#prikazBranchTabela').append(tr);
@@ -90,33 +84,4 @@ function filijalaToJSONadd(opis, slika, telefon, id_rent, adresa){
 	});
 }
 
-$(window).click(function(e){
-	
-	if(e.target==document.getElementById("id01")){
-		$("#id01").css("display", "none");
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id02")){
-		$("#id02").css("display", "none");
-		$("body").removeClass("modal-open");
-	}else if(e.target==document.getElementById("id03")){
-		$("#id03").css("display", "none");
-		ponistavanje();
-		$("body").removeClass("modal-open");
-	}
-	
-})
 
-$(document).on('click', '.close', function(e){
-	$("#id01").css("display", "none");
-	$("#id02").css("display", "none");
-	$("#id03").css("display", "none");
-	ponistavanje();
-	$("body").removeClass("modal-open");
-})
-
-function ponistavanje(){
-	$("#adresaFilijale").val("");
-	$("#telefonFilijale").val("");
-	$('#branch_img').attr("src", "../slike/avatar.png");
-	$('#slika_branch').val('');
-}

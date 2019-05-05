@@ -41,14 +41,14 @@ function renderAvioKompanije(data){
 		if (avioKompanija.slika == null){
 			avioKompanija.slika = "../slike/aereo2.jpg";
 		}
-		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divAviokompanija">' +
-				'<img src=" ' + avioKompanija.slika +' " id="imgProfilnaAviokompanija"> ' + '</div>' +
+		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divAviokompanija", class="divEntitet">' +
+				'<img src=" ' + avioKompanija.slika +' " id="imgProfilnaAviokompanija" class="imgEntitet"> ' + '</div>' +
 				'</td>'+'<td>' + avioKompanija.naziv + '</td>' + '<td>'
 				+ avioKompanija.adresa + '</td>' + '<td>'
 				+ avioKompanija.opis + '</td>'  );
 		
 		if (uloga == "ROLE_ADMIN") {
-			var formaObrisi = $('<form id="formaObrisi"></form>');
+			var formaObrisi = $('<form id="formaObrisi" onsubmit="formaObrisi(event, this, \'identifikator\', \'nazivAdresaAvio\')"></form>');
 			formaObrisi.append('<input type="hidden" value="' + avioKompanija.id + '">');
 			formaObrisi.append('<input id="hiddenNazivAdresa" type="hidden" value="' + avioKompanija.naziv+", "+avioKompanija.adresa + '">');
 			formaObrisi.append('<input type="submit" value="Delete" onclick="otvoriModal(\'id02\')">');
@@ -69,17 +69,6 @@ function renderAvioKompanije(data){
 }
 
 
-
-$(document).on('submit', '#formaObrisi', function(e) {
-	e.preventDefault();
-	var id = $(this).find('input[type=hidden]').val();
-	var naziv_adresa=$(this).find("#hiddenNazivAdresa").val();
-	console.log(id);
-	$("#identifikator").val(id);
-	$("#nazivAdresaAvio").text(naziv_adresa+"?");
-	
-
-})
 
 $(document).on('submit', '#formaUpdate', function(e) {
 	e.preventDefault();

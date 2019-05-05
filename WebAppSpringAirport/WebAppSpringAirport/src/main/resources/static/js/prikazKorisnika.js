@@ -52,14 +52,14 @@ function renderKorisnici(data){
         } else {
             ul = "ADMIN AVIOCOMPANY";
         }
-		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divKorisnik">' +
-				'<img src=" ' + korisnik.slika +' " id="imgProfilnaKorisnici"> ' + '</div>' +
+		tr.append('<td align="center" width=100px height=100px>'+ '<div class="divEntitet" id="divKorisnik">' +
+				'<img src=" ' + korisnik.slika +' " id="imgProfilnaKorisnici" class="imgEntitet"> ' + '</div>' +
 				'</td>'+ '<td align="center">' + korisnik.ime + '</td>'+ '<td align="center">' + 
 				korisnik.prezime + '</td>'+'<td align="center">' + korisnik.korisnickoIme + '</td>' + '<td>'
 				+ korisnik.mail + '</td>' + '<td align="center">' + ul + '</td>');
 		
 		if (uloga == "ROLE_ADMIN") {
-			var formaObrisi = $('<form id="formaObrisi"></form>');
+			var formaObrisi = $('<form id="formaObrisi" onsubmit="formaObrisi(event, this, \'identifikator\', \'imePrezimeUsername\')"></form>');
 			formaObrisi.append('<input type="hidden" value="' + korisnik.id + '">');
 			formaObrisi.append('<input id="hiddenKorisnik" type="hidden" value="' + korisnik.ime+" "+korisnik.prezime + ", "+korisnik.korisnickoIme+'">');
 			formaObrisi.append('<input type="submit" value="Delete" onclick="otvoriModal(\'id02\')">');
@@ -75,16 +75,6 @@ function renderKorisnici(data){
 }
 
 
-$(document).on('submit', '#formaObrisi', function(e) {
-	e.preventDefault();
-	var id = $(this).find('input[type=hidden]').val();
-	var naziv=$(this).find("#hiddenKorisnik").val();
-	console.log(id);
-	$("#identifikator").val(id);
-	$("#imePrezimeUsername").text(naziv+"?");
-	
-
-})
 
 $(document).on('submit', ".modal-content2", function(e){
 	e.preventDefault();
