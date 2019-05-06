@@ -35,9 +35,9 @@ function renderAvioKompanije(data){
 	}
 	//$("#prikazAvioKompanijaTabela tbody").empty();
 	$("#prikazAvioKompanijaTabela").find("tr:gt(0)").remove();
-	$("#prikazAvioKompanijaTabela").find("th:gt(4)").remove();
+	$("#prikazAvioKompanijaTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, avioKompanija){
-		var tr=$('<tr id="avio_' + avioKompanija.id + '"></tr>');
+		/*var tr=$('<tr id="avio_' + avioKompanija.id + '"></tr>');
 		if (avioKompanija.slika == null){
 			avioKompanija.slika = "../slike/aereo2.jpg";
 		}
@@ -62,8 +62,9 @@ function renderAvioKompanije(data){
 			var td1 = $('<td></td>');
 			td1.append(formaUpdate);
 			tr.append(td1);
-		}
-		$('#prikazAvioKompanijaTabela').append(tr);
+		}*/
+		
+		$('#prikazAvioKompanijaTabela').append(get_row(avioKompanija, "airline", localStorage.getItem('uloga'), 'id02', 'id01'));
 		
 	})
 }
@@ -129,7 +130,7 @@ $(document).on('submit', ".modal-content2", function(e){
 		},
 		success : function() {
 			console.log('blaa');
-			$('#avio_' + id).remove();
+			$('#airline_' + id).remove();
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
 		},
@@ -141,7 +142,7 @@ $(document).on('submit', ".modal-content2", function(e){
 	
 })
 
-$(document).on('submit', ".modal-content3", function(e){
+$(document).on('submit', "#newAvioForma", function(e){
 	e.preventDefault();
 	console.log("dodavanje avio kompanije");
 	var naziv=$("#nazivAvio1").val();
@@ -160,8 +161,11 @@ $(document).on('submit', ".modal-content3", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
 		success:function(data){
-			console.log(data); 
-			window.location.replace("prikazAvioKompanija.html");
+			$("#id03").css("display", "none");
+			$("body").removeClass("modal-open");
+			ponistavanje('newAvioForma');
+			//get_row(data);
+			dodajNoviEntitet('prikazAvioKompanijaTabela', get_row(data, "airline", localStorage.getItem('uloga'), 'id02', 'id01'));
 		}
 	});
 })

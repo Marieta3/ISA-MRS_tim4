@@ -33,7 +33,7 @@ function renderKorisnici(data){
 	$("#prikazKorisnikaTabela").find("tr:gt(0)").remove();
 	$("#prikazKorisnikaTabela").find("th:gt(6)").remove();
 	$.each(list, function(index, korisnik){
-		var tr=$('<tr id="korisnik_' + korisnik.id + '"></tr>');
+		/*var tr=$('<tr id="korisnik_' + korisnik.id + '"></tr>');
 		console.log(korisnik.ime);
 		console.log(korisnik.authorities);
         var prom = korisnik.authorities[0].authority;
@@ -67,9 +67,9 @@ function renderKorisnici(data){
 			td.append(formaObrisi);
 			tr.append(td);
 		
-		}
+		}*/
 		
-		$('#prikazKorisnikaTabela').append(tr);
+		$('#prikazKorisnikaTabela').append(get_row(korisnik, "user", localStorage.getItem('uloga'), 'id02', 'nema'));
 		
 	})
 }
@@ -91,7 +91,7 @@ $(document).on('submit', ".modal-content2", function(e){
 		},
 		success : function() {
 			console.log('blaa');
-			$('#korisnik_' + id).remove();
+			$('#user_' + id).remove();
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
 		},
@@ -108,7 +108,7 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-$(document).on('submit', ".modal-content3", function(e){
+$(document).on('submit', "#newUserForma", function(e){
 	e.preventDefault();
 	console.log("dodavanje admina");
 	var ime = $('#firstName').val();
@@ -134,8 +134,11 @@ $(document).on('submit', ".modal-content3", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
 		success:function(data){
-			console.log(data); 
-			window.location.replace("prikazKorisnika.html");
+			$("#id03").css("display", "none");
+			$("body").removeClass("modal-open");
+			ponistavanje('newUserForma');
+			//get_row(data);
+			dodajNoviEntitet('prikazKorisnikaTabela', get_row(data, "user", localStorage.getItem('uloga'), 'id02', 'id01'));
 		},
 		error:function(){
 			alert("Username or email is taken");

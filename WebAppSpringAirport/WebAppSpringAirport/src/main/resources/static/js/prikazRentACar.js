@@ -39,9 +39,9 @@ function renderRentACars(data) {
 	}
 
 	$("#prikazRentACarTabela").find("tr:gt(0)").remove();
-	$("#prikazRentACarTabela").find("th:gt(4)").remove();
+	$("#prikazRentACarTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, rentACar) {
-		var tr = $('<tr id="rent_' + rentACar.id + '"></tr>');
+		/*var tr = $('<tr id="rent_' + rentACar.id + '"></tr>');
 		if (rentACar.slika == null) {
 			rentACar.slika = "../slike/rent_car.jpg"
 		}
@@ -65,8 +65,8 @@ function renderRentACars(data) {
 			var td1 = $('<td></td>');
 			td1.append(formaUpdate);
 			tr.append(td1);
-		}
-		$('#prikazRentACarTabela tbody').append(tr);
+		}*/
+		$('#prikazRentACarTabela tbody').append(get_row(rentACar, "rent-a-car", localStorage.getItem('uloga'), 'id02', 'id01'));
 
 	})
 }
@@ -132,7 +132,7 @@ $(document).on('submit', ".modal-content2", function(e){
 		},
 		success : function() {
 			console.log('blaa');
-			$('#rent_' + id).remove();
+			$('#rent-a-car_' + id).remove();
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
 		},
@@ -144,7 +144,7 @@ $(document).on('submit', ".modal-content2", function(e){
 	
 })
 
-$(document).on('submit', ".modal-content3", function(e){
+$(document).on('submit', "#newRentForma", function(e){
 	e.preventDefault();
 	console.log("dodavanje rent kompanije");
 	var naziv=$("#nazivRent1").val();
@@ -163,8 +163,11 @@ $(document).on('submit', ".modal-content3", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
 		success:function(data){
-			console.log(data); 
-			window.location.replace("prikazRentACar.html");
+			$("#id03").css("display", "none");
+			$("body").removeClass("modal-open");
+			ponistavanje('newRentForma');
+			//get_row(data);
+			dodajNoviEntitet('prikazRentACarTabela', get_row(data, "rent-a-car", localStorage.getItem('uloga'), 'id02', 'id01'));
 		}
 	});
 })

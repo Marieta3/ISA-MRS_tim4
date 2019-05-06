@@ -26,7 +26,7 @@ public class Hotel {
 	@Column(nullable = false)
 	private String opis;
 	@Column(nullable = true)
-	private Double ocena;
+	private Double ocena=0.0;
 	
 	@Column(nullable = true)
 	private String slika;
