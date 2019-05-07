@@ -28,6 +28,18 @@ $(window).click(function(e){
 		$("#id03").css("display", "none");
 		ponistavanje($("#id03").find('form').attr('id'));
 		$("body").removeClass("modal-open");
+	}else if(e.target==document.getElementById("id04")){
+		$("#id04").css("display", "none");
+		ponistavanje($("#id04").find('form').attr('id'));
+		$("body").removeClass("modal-open");
+	}else if(e.target==document.getElementById("id05")){
+		$("#id05").css("display", "none");
+		ponistavanje($("#id05").find('form').attr('id'));
+		$("body").removeClass("modal-open");
+	}else if(e.target==document.getElementById("id06")){
+		$("#id06").css("display", "none");
+		ponistavanje($("#id06").find('form').attr('id'));
+		$("body").removeClass("modal-open");
 	}
 	
 })
@@ -74,6 +86,10 @@ function formaObrisi1(e, id_entiteta, id_modala, txt_delete){
 	$('#'+id_modala+' h1').text(txt_delete);
 }
 
+function formaUpdate1(e, data, upd_modal){
+	e.preventDefault();
+	
+}
 function dodajNoviEntitet(tabela, tr){
 	$(tr).addClass('anim highlight')
     .hide()
@@ -94,14 +110,14 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 	var tr=$('<tr id="'+entitet+'_'+data.id+'"></tr>');
 	if(entitet!="service"){
 		var slika=data.slika;
-		if(slika==null){
+		if(slika==null || slika==""){
 			if(entitet=="user"){
 				slika = "../slike/avatar.png";
 			}else if(entitet=="room"){
 				slika = "../slike/pic1.jpg";
 			}else if(entitet=="hotel"){
 				slika = "../slike/hotel.jpg";
-			}else if(entitet=="rent-a-car"){
+			}else if(entitet=="rent"){
 				slika = "../slike/rent_car.jpg";
 			}else if(entitet=="airline"){
 				slika = "../slike/aereo2.jpg";
@@ -144,6 +160,7 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 	}/*
 	 * Dodati za ostale entitete
 	 */
+	
 	txt_delete=txt_delete+text+"?";
 	var formaObrisi = $('<form id="formaObrisi" onsubmit="formaObrisi1(event, '+data.id+', \''+del_modal+'\', \''+txt_delete+'\')"></form>');
 
@@ -153,13 +170,14 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 	var td = $('<td></td>');
 	td.append(formaObrisi);
 	tr.append(td);
-
-	var formaUpdate = $('<form id="formaUpdateUsluga"></form>');
+	
+	var formaUpdate = $('<form id="formaUpdate'+entitet+'" onsubmit="formaUpdate'+entitet+'(event, this)"></form>');
 	formaUpdate.append('<input type="hidden" value="' + data.id + '">');
 	formaUpdate.append('<input type="submit" value="Update" onclick="otvoriModal(\''+upd_modal+'\')">');
 	var td1 = $('<td></td>');
 	td1.append(formaUpdate);
 	tr.append(td1);
+	
 	return tr;
 }
 

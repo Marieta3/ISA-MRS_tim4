@@ -16,7 +16,7 @@
 	margin-right:auto;
 }
 .opisEntitet{
-	width:150px;
+	max-width:150px;
 }
 tr:nth-child(even):not(.highlight) {background: #CCC}
 tr:nth-child(odd):not(.highlight) {background: #e9e9e9}

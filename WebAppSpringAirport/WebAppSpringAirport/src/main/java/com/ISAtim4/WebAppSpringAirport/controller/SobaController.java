@@ -83,7 +83,7 @@ public class SobaController {
 		}
 
 		soba.setOpis(sobaDetalji.getOpis());
-		soba.setHotel(sobaDetalji.getHotel());
+		soba.setSlika(sobaDetalji.getSlika());
 		soba.setBrojKreveta(sobaDetalji.getBrojKreveta());
 		
 		Soba updateSoba = sobaService.save(soba);

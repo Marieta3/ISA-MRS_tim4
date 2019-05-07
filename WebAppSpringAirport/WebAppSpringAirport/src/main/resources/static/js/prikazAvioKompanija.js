@@ -71,9 +71,9 @@ function renderAvioKompanije(data){
 
 
 
-$(document).on('submit', '#formaUpdate', function(e) {
+function formaUpdateairline(e, forma){
 	e.preventDefault();
-	var id = $(this).find('input[type=hidden]').val();
+	var id = $(forma).find('input[type=hidden]').val();
 	console.log(id);
 	$.ajax({
 		type:"GET",
@@ -91,7 +91,7 @@ $(document).on('submit', '#formaUpdate', function(e) {
         }
 		
 	})
-})
+}
 
 $(document).on('submit', ".modal-content1", function(e){
 	e.preventDefault();

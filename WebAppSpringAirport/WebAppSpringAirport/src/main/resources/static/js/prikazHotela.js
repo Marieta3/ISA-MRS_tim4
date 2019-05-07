@@ -73,9 +73,14 @@ function renderHoteli(data) {
 }
 
 
-$(document).on('submit', '#formaUpdate', function(e) {
+function formaUpdatehotel(e, forma){
 	e.preventDefault();
-	var id_hotela = $(this).find('input[type=hidden]').val();
+	console.log("***************");
+	console.log(forma);
+	console.log(this);
+	console.log($(forma));
+	console.log("***************");
+	var id_hotela = $(forma).find('input[type=hidden]').val();
 	console.log(id_hotela);
 	$.ajax({
 		type:"GET",
@@ -92,7 +97,7 @@ $(document).on('submit', '#formaUpdate', function(e) {
         }
 		
 	})
-})
+}
 
 $(document).on('submit', ".modal-content1", function(e){
 	e.preventDefault();

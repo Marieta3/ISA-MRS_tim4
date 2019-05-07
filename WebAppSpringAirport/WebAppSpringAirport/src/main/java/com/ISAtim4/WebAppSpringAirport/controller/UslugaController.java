@@ -79,11 +79,11 @@ public class UslugaController {
 			return ResponseEntity.notFound().build();
 		}
 
-		usluga.setHotel(uslugaDetalji.getHotel());
+		usluga.setCena(uslugaDetalji.getCena());
 		usluga.setOpis(uslugaDetalji.getOpis());
 
-		Usluga updateHotel = uslugaService.save(usluga);
-		return ResponseEntity.ok().body(updateHotel);
+		Usluga updateUsluga = uslugaService.save(usluga);
+		return ResponseEntity.ok().body(updateUsluga);
 	}
 
 	/* brisanje usluge */

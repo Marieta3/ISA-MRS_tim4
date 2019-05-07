@@ -106,6 +106,131 @@ function renderSobe(data){
 		$('#prikazSobaTabela').append(get_row(soba, "room", localStorage.getItem('uloga'), 'id01', 'id04'));
 	})
 }
+
+function formaUpdateservice(e, forma){
+	e.preventDefault();
+	var id_usluge = $(forma).find('input[type=hidden]').val();
+	
+	$.ajax({
+		type:"GET",
+		url:"api/usluge/"+id_usluge,
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	
+        	$("#opisUsluge1").val(data.opis);
+        	$("#cenaUsluge1").val(data.cena);
+        	$("#identifikatorUslugaUpd").val(data.id);
+        }
+		
+	})
+}
+
+$(document).on('submit', "#editServiceForma", function(e){
+	e.preventDefault();
+	var opis=$("#opisUsluge1").val();
+	var cena=$("#cenaUsluge1").val();
+	var id=$("#identifikatorUslugaUpd").val();
+	
+	$.ajax({
+		type:"PUT",
+		url:"api/usluge/"+id,
+		contentType:'application/json',
+		dataType:'text',
+		data:uslugaToJSON(id, opis, cena),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	//window.location.replace("profilROLE_HOTEL.html");
+        	$("#id06").css("display", "none");
+			$("body").removeClass("modal-open");
+			ponistavanje('editServiceForma');
+			$('#service_'+id).remove();
+			//get_row(data);
+			console.log(data);
+			dodajNoviEntitet('prikazUslugaTabela', get_row($.parseJSON(data), "service", localStorage.getItem('uloga'), 'id05', 'id06'));
+
+        }
+	})
+	
+})
+
+function uslugaToJSON(id, opis, cena){
+	return JSON.stringify({
+		"id":id,
+		"opis":opis,
+		"cena":cena
+	});
+}
+
+function formaUpdateroom(e, forma){
+	e.preventDefault();
+	var id_sobe = $(forma).find('input[type=hidden]').val();
+	console.log(id_sobe);
+	$.ajax({
+		type:"GET",
+		url:"api/sobe/"+id_sobe,
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	if(data.slika!=null && data.slika!=""){
+        		$('#room_img1').attr("src", data.slika);
+        	}
+        	console.log("["+data.slika+"]");
+        	$("#opisSobe1").val(data.opis);
+        	$("#brojKreveta1").val(data.brojKreveta);
+        	$("#identifikatorSobaUpd").val(data.id);
+        }
+		
+	})
+}
+
+$(document).on('submit', "#editRoomForma", function(e){
+	e.preventDefault();
+	var opis=$("#opisSobe1").val();
+	var broj_kreveta=$("#brojKreveta1").val();
+	var id=$("#identifikatorSobaUpd").val();
+	var slika = $('#slika_room1').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
+	
+	if(slika=="" || slika==null){
+		console.log("slika je null");
+		slika=$("#room_img1").attr("src");
+		console.log("["+slika+"]");
+	}
+	$.ajax({
+		type:"PUT",
+		url:"api/sobe/"+id,
+		contentType:'application/json',
+		dataType:'text',
+		data:sobaToJSON(id, opis, slika, broj_kreveta),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	//window.location.replace("profilROLE_HOTEL.html");
+        	$("#id04").css("display", "none");
+			$("body").removeClass("modal-open");
+			ponistavanje('editRoomForma');
+			$('#room_'+id).remove();
+			//get_row(data);
+			console.log(data);
+			dodajNoviEntitet('prikazSobaTabela', get_row($.parseJSON(data), "room", localStorage.getItem('uloga'), 'id01', 'id04'));
+
+        }
+	})
+	
+})
+function sobaToJSON(id, opis, slika, broj_kreveta){
+	return JSON.stringify({
+		"id":id,
+		"slika":slika,
+		"opis":opis,
+		"brojKreveta":broj_kreveta
+	});
+}
 $(document).on('submit', ".modal-content3", function(e){
 	e.preventDefault();
 	console.log("dodavanje sobe");
