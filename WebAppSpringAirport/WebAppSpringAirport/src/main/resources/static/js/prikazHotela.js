@@ -115,7 +115,9 @@ $(document).on('submit', ".modal-content1", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
         success:function(data){
-        	window.location.replace("prikazHotela.html");
+        	zatvoriModal('id01')
+			$('#hotel_'+id).remove();
+			dodajNoviEntitet('prikazHotelaTabela', get_row($.parseJSON(data), "hotel", localStorage.getItem('uloga'), 'id02', 'id01'));
         }
 	})
 	

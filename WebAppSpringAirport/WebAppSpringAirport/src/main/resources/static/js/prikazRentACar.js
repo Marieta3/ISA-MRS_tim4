@@ -112,7 +112,9 @@ $(document).on('submit', ".modal-content1", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
         success:function(data){
-        	window.location.replace("prikazRentACar.html");
+        	zatvoriModal('id01')
+			$('#rent_'+id).remove();
+			dodajNoviEntitet('prikazRentACarTabela', get_row($.parseJSON(data), "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
         }
 	})
 	
@@ -132,7 +134,7 @@ $(document).on('submit', ".modal-content2", function(e){
 		},
 		success : function() {
 			console.log('blaa');
-			$('#rent-a-car_' + id).remove();
+			$('#rent_' + id).remove();
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
 		},

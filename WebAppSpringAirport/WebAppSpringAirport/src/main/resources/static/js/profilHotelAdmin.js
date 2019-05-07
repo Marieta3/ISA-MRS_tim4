@@ -143,13 +143,10 @@ $(document).on('submit', "#editServiceForma", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
         success:function(data){
-        	//window.location.replace("profilROLE_HOTEL.html");
-        	$("#id06").css("display", "none");
+        	$("#id01").css("display", "none");
 			$("body").removeClass("modal-open");
 			ponistavanje('editServiceForma');
 			$('#service_'+id).remove();
-			//get_row(data);
-			console.log(data);
 			dodajNoviEntitet('prikazUslugaTabela', get_row($.parseJSON(data), "service", localStorage.getItem('uloga'), 'id05', 'id06'));
 
         }
