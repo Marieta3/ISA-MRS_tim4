@@ -147,7 +147,7 @@
 			<tr>
 				<th>&nbsp;</th>
 				<th>Bed count</th>
-				<th>Description</th>
+				<th class="opisEntitet">Description</th>
 				<th>Rating</th>
 				<th>Reserved</th>
 			</tr>
@@ -155,6 +155,39 @@
 			<tbody></tbody>
 		</table>
 		
+		<div id="id04" class="modal">
+
+		<form class="modal-content1 animate" id="editRoomForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id04')">&times;</span>
+					
+				<!-- slika-->
+				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
+                	<img id="room_img1" src="slike/pic1.jpg"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
+            	</div>
+             	<input id="slika_room1" type="file" accept="image/*" title="Choose file" onchange="previewFile('slika_room1', 'room_img1')" ><br>
+				 
+			</div>
+
+			<div class="container-modal" id="div-container-modal">
+			<h1 id="h1soba">Soba</h1>
+				<label for="opisSobe"><b>Description</b></label> 
+				<input type="text" name="opisSobe" id="opisSobe1">
+				
+				<label for="brojKreveta"><b>Bed count</b></label> 
+				<input type="number" name="brojKreveta" id="brojKreveta1" min="1">
+				<button class="updateSubmitBtn" type="submit">Update</button>
+				<button type="button"
+					onclick="zatvoriModal('id04')"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikatorSobaUpd">
+			</div>
+		</form>
+	</div>
+	
 		<div id="id01" class="modal">
 		<form class="modal-content1 animate" id="deleteSobaForma">
 			<div class="imgcontainer">
@@ -196,7 +229,7 @@
 				<input type="text" name="opisSobe" id="opisSobe">
 				
 				<label for="brojKreveta"><b>Bed count</b></label> 
-				<input type="number" name="brojKreveta" id="brojKreveta" value="0">
+				<input type="number" name="brojKreveta" id="brojKreveta" min="1">
 				
 				<button class="addSubmitBtn" type="submit">Add</button>
 				<button type="button"
@@ -224,6 +257,33 @@
 			<tbody></tbody>
 		</table>
 		
+		<div id="id06" class="modal">
+
+		<form class="modal-content1 animate" id="editServiceForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id06')">&times;</span>
+					
+			</div>
+
+			<div class="container-modal" id="div-container-modal">
+			<h1 id="h1usluga">Service</h1>
+				<label for="opisUsluge"><b>Description</b></label> 
+				<input type="text" name="opisUsluge" id="opisUsluge1">
+				<label for="cenaUsluge"><b>Price</b></label> 
+				<input type="number" name="cenaUsluge" id="cenaUsluge1" min="0">
+				
+				<button class="updateSubmitBtn" type="submit">Update</button>
+				<button type="button"
+					onclick="zatvoriModal('id06')"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikatorUslugaUpd">
+			</div>
+		</form>
+	</div>
+	
 		<div id="id05" class="modal">
 		<form class="modal-content1 animate" id="deleteUslugaForma">
 			<div class="imgcontainer">
@@ -272,5 +332,7 @@
 		</form>
 	</div>
 	</div>
+	
+	
 </body>
 </html>

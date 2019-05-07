@@ -66,7 +66,7 @@ public class RentACarController {
 	}
 
 	/* update RentAcar po id-u */
-	@PreAuthorize("hasRole('ROLE_RENT')")
+	@PreAuthorize("hasAnyRole('ROLE_RENT', 'ROLE_ADMIN')")
 	@RequestMapping(value = "/api/rentACars/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> updateRentAcar(
 			@PathVariable(value = "id") Long rentAcarId,

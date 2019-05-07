@@ -40,6 +40,7 @@ h1 .link:hover{
 	margin-left:80px;
 	margin-right:80px;
 }
+
 .item{
 	height:400px;
 }
@@ -96,7 +97,7 @@ input[type=text]:focus,input[type=email]:focus, input[type=password]:focus, .con
 /* Center the image and position the close button */
 .imgcontainer {
   text-align: center;
-  margin: 24px 0 12px 0;
+  margin: 24px 8px 12px 8px;
   position: relative;
 }
 

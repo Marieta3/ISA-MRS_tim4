@@ -66,16 +66,16 @@ function renderRentACars(data) {
 			td1.append(formaUpdate);
 			tr.append(td1);
 		}*/
-		$('#prikazRentACarTabela tbody').append(get_row(rentACar, "rent-a-car", localStorage.getItem('uloga'), 'id02', 'id01'));
+		$('#prikazRentACarTabela tbody').append(get_row(rentACar, "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
 
 	})
 }
 
 
 
-$(document).on('submit', '#formaUpdate', function(e) {
+function formaUpdaterent(e, forma) {
 	e.preventDefault();
-	var id = $(this).find('input[type=hidden]').val();
+	var id = $(forma).find('input[type=hidden]').val();
 	console.log(id);
 	$.ajax({
 		type:"GET",
@@ -93,7 +93,7 @@ $(document).on('submit', '#formaUpdate', function(e) {
         }
 		
 	})
-})
+}
 
 $(document).on('submit', ".modal-content1", function(e){
 	e.preventDefault();
@@ -112,7 +112,9 @@ $(document).on('submit', ".modal-content1", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
         success:function(data){
-        	window.location.replace("prikazRentACar.html");
+        	zatvoriModal('id01')
+			$('#rent_'+id).remove();
+			dodajNoviEntitet('prikazRentACarTabela', get_row($.parseJSON(data), "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
         }
 	})
 	
@@ -132,7 +134,7 @@ $(document).on('submit', ".modal-content2", function(e){
 		},
 		success : function() {
 			console.log('blaa');
-			$('#rent-a-car_' + id).remove();
+			$('#rent_' + id).remove();
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
 		},
@@ -167,7 +169,7 @@ $(document).on('submit', "#newRentForma", function(e){
 			$("body").removeClass("modal-open");
 			ponistavanje('newRentForma');
 			//get_row(data);
-			dodajNoviEntitet('prikazRentACarTabela', get_row(data, "rent-a-car", localStorage.getItem('uloga'), 'id02', 'id01'));
+			dodajNoviEntitet('prikazRentACarTabela', get_row(data, "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
 		}
 	});
 })

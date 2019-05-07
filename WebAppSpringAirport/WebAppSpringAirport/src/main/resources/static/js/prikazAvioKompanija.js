@@ -71,9 +71,9 @@ function renderAvioKompanije(data){
 
 
 
-$(document).on('submit', '#formaUpdate', function(e) {
+function formaUpdateairline(e, forma){
 	e.preventDefault();
-	var id = $(this).find('input[type=hidden]').val();
+	var id = $(forma).find('input[type=hidden]').val();
 	console.log(id);
 	$.ajax({
 		type:"GET",
@@ -91,7 +91,7 @@ $(document).on('submit', '#formaUpdate', function(e) {
         }
 		
 	})
-})
+}
 
 $(document).on('submit', ".modal-content1", function(e){
 	e.preventDefault();
@@ -110,7 +110,9 @@ $(document).on('submit', ".modal-content1", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
         success:function(data){
-        	window.location.replace("prikazAvioKompanija.html");
+        	zatvoriModal('id01')
+			$('#airline_'+id).remove();
+			dodajNoviEntitet('prikazAvioKompanijaTabela', get_row($.parseJSON(data), "airline", localStorage.getItem('uloga'), 'id02', 'id01'));
         }
 	})
 	

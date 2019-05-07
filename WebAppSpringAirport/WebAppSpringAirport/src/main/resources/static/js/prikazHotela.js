@@ -73,9 +73,14 @@ function renderHoteli(data) {
 }
 
 
-$(document).on('submit', '#formaUpdate', function(e) {
+function formaUpdatehotel(e, forma){
 	e.preventDefault();
-	var id_hotela = $(this).find('input[type=hidden]').val();
+	console.log("***************");
+	console.log(forma);
+	console.log(this);
+	console.log($(forma));
+	console.log("***************");
+	var id_hotela = $(forma).find('input[type=hidden]').val();
 	console.log(id_hotela);
 	$.ajax({
 		type:"GET",
@@ -92,7 +97,7 @@ $(document).on('submit', '#formaUpdate', function(e) {
         }
 		
 	})
-})
+}
 
 $(document).on('submit', ".modal-content1", function(e){
 	e.preventDefault();
@@ -110,7 +115,9 @@ $(document).on('submit', ".modal-content1", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
         success:function(data){
-        	window.location.replace("prikazHotela.html");
+        	zatvoriModal('id01')
+			$('#hotel_'+id).remove();
+			dodajNoviEntitet('prikazHotelaTabela', get_row($.parseJSON(data), "hotel", localStorage.getItem('uloga'), 'id02', 'id01'));
         }
 	})
 	
