@@ -1,6 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -43,14 +47,16 @@ public class Soba {
 	@JsonBackReference
 	private Hotel hotel;
 	
-	@OneToMany(mappedBy="soba", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference(value="soba-usluga")
-	private Set<Usluga> usluge=new HashSet<>();
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(name = "soba_usluga",
+            joinColumns = @JoinColumn(name = "soba_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "usluga_id", referencedColumnName = "id"))
+	private List<Usluga> usluge;
 	
 	public Soba() {}
 	
 	public Soba(Long id, String opis, double ocena, Integer brojKreveta,
-			Hotel hotel, String slika, Set<Usluga> usluge, boolean rezervisana) {
+			Hotel hotel, String slika, List<Usluga> usluge, boolean rezervisana) {
 		super();
 		this.id = id;
 		this.opis = opis;
@@ -62,6 +68,14 @@ public class Soba {
 		this.rezervisana=rezervisana;
 	}
 	
+	public List<Usluga> getUsluge() {
+		return usluge;
+	}
+
+	public void setUsluge(List<Usluga> usluge) {
+		this.usluge = usluge;
+	}
+
 	public boolean isRezervisana() {
 		return rezervisana;
 	}

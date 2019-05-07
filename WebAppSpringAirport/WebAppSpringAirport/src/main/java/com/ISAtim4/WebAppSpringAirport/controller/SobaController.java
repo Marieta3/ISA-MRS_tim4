@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
+import com.ISAtim4.WebAppSpringAirport.domain.Usluga;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.SobaService;
+import com.ISAtim4.WebAppSpringAirport.service.UslugaService;
 
 @RestController
 public class SobaController {
@@ -32,7 +35,10 @@ public class SobaController {
 	
 	@Autowired
 	HotelService hotelService;
-
+	
+	@Autowired
+	UslugaService uslugaService;
+	
 	/* da snimimo sobu */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	@RequestMapping(value = "/api/sobe", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
@@ -44,6 +50,14 @@ public class SobaController {
 		
 		Hotel hotel=hotelService.findOne(sobaDTO.getIdHotela());
 		soba.setHotel(hotel);
+		
+		//ne trb pristupati bazi kroz for petlju!!!
+		ArrayList<Usluga> usluge=new ArrayList<>();
+		for(Long id : sobaDTO.getUsluge()) {
+			Usluga u=uslugaService.findOne(id);
+			usluge.add(u);
+		}
+		soba.setUsluge(usluge);
 		return sobaService.save(soba);
 	}
 
