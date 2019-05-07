@@ -27,19 +27,16 @@ public class Usluga {
 	@JsonBackReference
 	private Hotel hotel;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	@JsonBackReference(value="soba-usluga")
-	private Soba soba;
+	
 	
 	public Usluga() {}
 	
-	public Usluga(Long id, String opis, double cena, Hotel hotel, Soba soba) {
+	public Usluga(Long id, String opis, double cena, Hotel hotel) {
 		super();
 		this.id = id;
 		this.opis = opis;
 		this.cena = cena;
 		this.hotel = hotel;
-		this.soba=soba;
 	}
 	
 	public Long getId() {

@@ -1,7 +1,36 @@
 /**
  * 
  */
-
+function dodajUslugeUModalAdd(){
+	$.ajax({
+		type:'GET',
+		url:'api/uslugeHotela/'+localStorage.getItem('hotel_id'),
+		dataType:'json',
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success:function(data){
+			var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+			$('.grid-container').remove();
+			var grid_container=$('<div class="grid-container"></div>');
+			var padding=0;
+			$.each(list, function(index, usluga){
+				if(index%2==0){
+					padding=padding+80;
+				}
+				var grid_item=$('<div class="grid-item">'+usluga.opis+'<br><input type="checkbox" value="'+usluga.id+'"></div>');
+				grid_container.append(grid_item);
+			})
+			console.log("padding: "+padding);
+			console.log($('#newRoomForma'));
+			console.log($('#newRoomForma').css);
+			//$('#lblServices').append(grid_container);
+			$('#newRoomForma').css("padding-bottom", padding+'px');
+			grid_container.insertAfter('#lblServices');
+		}
+	});
+}
 function findAllUslugeByHotel(){
 	$.ajax({
 		type:'GET',
@@ -143,7 +172,7 @@ $(document).on('submit', "#editServiceForma", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
         success:function(data){
-        	$("#id01").css("display", "none");
+        	$("#id06").css("display", "none");
 			$("body").removeClass("modal-open");
 			ponistavanje('editServiceForma');
 			$('#service_'+id).remove();
@@ -234,17 +263,19 @@ $(document).on('submit', ".modal-content3", function(e){
 	var opis=$("#opisSobe").val();
 	var broj_kreveta=$("#brojKreveta").val();
 	var slika=$('#slika_room').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
-	console.log("aaa"+opis);
-	console.log("sss"+naziv);
-	console.log("cccc"+adresa);
+	//pokupiti sve usluge koje su checked
 	
+	var checkedVals = $('input[type=checkbox]:checked').map(function() {
+		return this.value;
+	}).get();
+	console.log((checkedVals.join(",")));
 	var id_hotela=localStorage.getItem("hotel_id");
 	$.ajax({
 		type:'POST',
 		url:"api/sobe",
 		contentType:'application/json',
 		dataType:'json',
-		data:sobaToJSONadd(opis, slika, broj_kreveta, id_hotela),
+		data:sobaToJSONadd(opis, slika, broj_kreveta, id_hotela, checkedVals),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -362,12 +393,13 @@ $(document).on('submit', "#deleteUslugaForma", function(e){
 	
 })
 
-function sobaToJSONadd(opis, slika, broj_kreveta, id_hotela){
+function sobaToJSONadd(opis, slika, broj_kreveta, id_hotela, usluge){
 	return JSON.stringify({
 		"opis":opis,
 		"slika":slika,
 		"brojKreveta":broj_kreveta,
-		"idHotela":id_hotela
+		"idHotela":id_hotela,
+		"usluge":usluge
 	});
 }
 function uslugaToJSONadd(opis, cena, id_hotela){

@@ -27,7 +27,7 @@
 				onclick="openTab(event, 'EditProfile')">Edit Profile</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Hotel')"
 				id="defaultOpen">Hotel</button></li>
-		<li><button id="tabRoomsLink" class="tablinks" onclick="openTab(event, 'Rooms'), findAllByHotel()">Rooms</button></li>
+		<li><button id="tabRoomsLink" class="tablinks" onclick="openTab(event, 'Rooms'), findAllByHotel(), dodajUslugeUModalAdd()">Rooms</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Services'), findAllUslugeByHotel()">Services</button></li>
 	</ul>
 
@@ -230,6 +230,8 @@
 				
 				<label for="brojKreveta"><b>Bed count</b></label> 
 				<input type="number" name="brojKreveta" id="brojKreveta" min="1">
+				
+				<label for="services" id="lblServices"><b>Services:</b></label> <br>
 				
 				<button class="addSubmitBtn" type="submit">Add</button>
 				<button type="button"
