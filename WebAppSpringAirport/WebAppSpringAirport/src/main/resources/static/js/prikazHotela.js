@@ -38,9 +38,9 @@ function renderHoteli(data) {
 		$('#prikazHotelaTabela').find('tr:eq(0)').append(th_nbsp);
 	}
 	$("#prikazHotelaTabela").find("tr:gt(0)").remove();
-	$("#prikazHotelaTabela").find("th:gt(4)").remove();
+	$("#prikazHotelaTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, hotel) {
-		
+		/*
 		var tr = $('<tr id="hotel_' + hotel.id + '"></tr>');
 		if (hotel.slika == null) {
 			hotel.slika = "../slike/hotel.jpg";
@@ -66,8 +66,8 @@ function renderHoteli(data) {
 			var td1 = $('<td></td>');
 			td1.append(formaUpdate);
 			tr.append(td1);
-		}
-		$('#prikazHotelaTabela').append(tr);
+		}*/
+		$('#prikazHotelaTabela').append(get_row(hotel, "hotel", localStorage.getItem('uloga'), 'id02', 'id01'));
 	})
 	
 }
@@ -142,7 +142,7 @@ $(document).on('submit', ".modal-content2", function(e){
 	
 })
 
-$(document).on('submit', ".modal-content3", function(e){
+$(document).on('submit', "#newHotelForma", function(e){
 	e.preventDefault();
 	console.log("dodavanje hotela");
 	var naziv=$("#nazivHotela1").val();
@@ -163,9 +163,11 @@ $(document).on('submit', ".modal-content3", function(e){
         },
 		success:function(data){
 			console.log(data); 
-			//$("#id03").css("display", "none");
-			//$("body").removeClass("modal-open");
-			window.location.replace("prikazHotela.html");
+			$("#id03").css("display", "none");
+			$("body").removeClass("modal-open");
+			ponistavanje('newHotelForma');
+			//get_row(data);
+			dodajNoviEntitet('prikazHotelaTabela', get_row(data, "hotel", localStorage.getItem('uloga'), 'id02', 'id01'));
 		}
 	});
 })

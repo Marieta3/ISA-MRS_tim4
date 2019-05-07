@@ -1,5 +1,8 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Soba {
@@ -18,25 +23,34 @@ public class Soba {
 	private Long id;
 	
 	@Column(nullable = false)
+	private Integer brojKreveta;
+	
+	@Column(nullable = false)
 	private String opis;
 	
 	@Column(nullable = true)
 	private Double ocena=0.0;
 	
-	@Column(nullable = false)
-	private Integer brojKreveta;
+	
 	
 	@Column(nullable=true)
 	private String slika;
+	
+	@Column(nullable=false)
+	private boolean rezervisana=false;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JsonBackReference
 	private Hotel hotel;
 	
+	@OneToMany(mappedBy="soba", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonManagedReference(value="soba-usluga")
+	private Set<Usluga> usluge=new HashSet<>();
+	
 	public Soba() {}
 	
 	public Soba(Long id, String opis, double ocena, Integer brojKreveta,
-			Hotel hotel, String slika) {
+			Hotel hotel, String slika, Set<Usluga> usluge, boolean rezervisana) {
 		super();
 		this.id = id;
 		this.opis = opis;
@@ -44,8 +58,18 @@ public class Soba {
 		this.brojKreveta = brojKreveta;
 		this.hotel = hotel;
 		this.slika=slika;
+		this.usluge=usluge;
+		this.rezervisana=rezervisana;
 	}
 	
+	public boolean isRezervisana() {
+		return rezervisana;
+	}
+
+	public void setRezervisana(boolean rezervisana) {
+		this.rezervisana = rezervisana;
+	}
+
 	public String getSlika() {
 		return slika;
 	}

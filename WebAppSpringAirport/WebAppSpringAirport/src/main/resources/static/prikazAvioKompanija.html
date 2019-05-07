@@ -4,9 +4,9 @@
 <meta charset="ISO-8859-1">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prikazAvioKompanija.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
-<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
 <link rel="stylesheet" type="text/css"
@@ -25,12 +25,16 @@
 		<button id="btnSearch" value="Search">Search</button>
 	</div>
 	<table id="prikazAvioKompanijaTabela" class="prikazEntitetaTbl" border="1px" width=600px>
-		<tr>
+	<thead>
+		<tr id="avioHead">
 			<th align="center">Picture</th>
 			<th align="center">Name</th>
 			<th align="center">Address</th>
 			<th align="center">Description</th>
+			<th align="center">Rating</th>
 		</tr>
+		</thead>
+		<tbody></tbody>
 	</table>
 	<br />
 	<br />

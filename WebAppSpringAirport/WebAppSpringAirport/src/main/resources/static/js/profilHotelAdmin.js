@@ -42,7 +42,7 @@ function renderUsluge(data){
 	$("#prikazUslugaTabela").find("tr:gt(0)").remove();
 	$("#prikazUslugaTabela").find("th:gt(2)").remove();
 	$.each(list, function(index, usluga){
-		var tr=$('<tr id="usluga_'+usluga.id+'"></tr>');
+		/*var tr=$('<tr id="usluga_'+usluga.id+'"></tr>');
 		tr.append('<td>' + usluga.opis + '</td>' + '<td>' + usluga.cena + '</td>');
 		if (uloga == "ROLE_HOTEL") {
 			var formaObrisi = $('<form id="formaObrisiUslugu" onsubmit="formaObrisi(event, this, \'identifikatorUsluga\', \'usluga\')"></form>');
@@ -59,8 +59,8 @@ function renderUsluge(data){
 			var td1 = $('<td></td>');
 			td1.append(formaUpdate);
 			tr.append(td1);
-		}
-		$('#prikazUslugaTabela tbody').append(tr);
+		}*/
+		$('#prikazUslugaTabela tbody').append(get_row(usluga, "service", localStorage.getItem('uloga'), 'id05', 'id06'));
 	})
 }
 function renderSobe(data){
@@ -74,9 +74,9 @@ function renderSobe(data){
 		$('#prikazSobaTabela').find('tr:eq(0)').append(th_nbsp);
 	}
 	$("#prikazSobaTabela").find("tr:gt(0)").remove();
-	$("#prikazSobaTabela").find("th:gt(4)").remove();
+	$("#prikazSobaTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, soba){
-		var tr=$('<tr id="soba_'+soba.id+'"></tr>');
+		/*var tr=$('<tr id="soba_'+soba.id+'"></tr>');
 		var slika=soba.slika;
 		if(slika==null){
 			slika = "../slike/hotel.jpg";
@@ -100,8 +100,10 @@ function renderSobe(data){
 			var td1 = $('<td></td>');
 			td1.append(formaUpdate);
 			tr.append(td1);
-		}
-		$('#prikazSobaTabela').append(tr);
+		}*/
+		console.log("render sobe.....")
+		console.log(soba.slika)
+		$('#prikazSobaTabela').append(get_row(soba, "room", localStorage.getItem('uloga'), 'id01', 'id04'));
 	})
 }
 $(document).on('submit', ".modal-content3", function(e){
@@ -128,10 +130,9 @@ $(document).on('submit', ".modal-content3", function(e){
 			console.log(data); 
 			$("#id03").css("display", "none");
 			$("body").removeClass("modal-open");
-			//vizuelno prikazati dodatu sobu
 			ponistavanje('newRoomForma');
-			findAllByHotel();
-			//window.location.replace("profilROLE_HOTEL.html");
+			//get_row(data);
+			dodajNoviEntitet('prikazSobaTabela', get_row(data, "room", localStorage.getItem('uloga'), 'id01', 'id04'));
 			
 		}
 	});
@@ -158,26 +159,25 @@ $(document).on('submit', ".modal-content2", function(e){
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
 			ponistavanje('newUslugaForma');
-			
-			dodajNoviEntitet('prikazUslugaTabela', get_trow(data));
+			dodajNoviEntitet('prikazUslugaTabela', get_row(data, "service", localStorage.getItem('uloga'), 'id05', 'id06'));
 			//findAllUslugeByHotel();
 			
 		}
 	});
 })
 function get_trow(data){
-	var tr=$('<tr class="anim highlight"></tr>');
+	var tr=$('<tr></tr>');
 	tr.append('<td>' + data.opis + '</td>' + '<td>' + data.cena + '</td>');
 	var formaObrisi = $('<form id="formaObrisiUslugu" onsubmit="formaObrisi(event, this, \'identifikatorUsluga\', \'usluga\')"></form>');
-	formaObrisi.append('<input type="hidden" value="' + usluga.id + '">');
-	formaObrisi.append('<input id="hiddenUsluga" type="hidden" value="' + usluga.opis+ '">');
+	formaObrisi.append('<input type="hidden" value="' + data.id + '">');
+	formaObrisi.append('<input id="hiddenUsluga" type="hidden" value="' + data.opis+ '">');
 	formaObrisi.append('<input type="submit" value="Delete" onclick="otvoriModal(\'id05\')">');
 	var td = $('<td></td>');
 	td.append(formaObrisi);
 	tr.append(td);
 
 	var formaUpdate = $('<form id="formaUpdateUsluga"></form>');
-	formaUpdate.append('<input type="hidden" value="' + usluga.id + '">');
+	formaUpdate.append('<input type="hidden" value="' + data.id + '">');
 	formaUpdate.append('<input type="submit" value="Update" onclick="otvoriModal(\'id06\')">');
 	var td1 = $('<td></td>');
 	td1.append(formaUpdate);
@@ -199,7 +199,7 @@ $(document).on('submit', "#deleteSobaForma", function(e){
 		},
 		success : function() {
 			console.log('blaa');
-			$('#soba_' + id).remove();
+			$('#room_' + id).remove();
 			$("#id01").css("display", "none");
 			$("body").removeClass("modal-open");
 			//findAllByHotel();
@@ -227,7 +227,7 @@ $(document).on('submit', "#deleteUslugaForma", function(e){
 		},
 		success : function() {
 			console.log('blaa');
-			$('#usluga_' + id).remove();
+			$('#service_' + id).remove();
 			$("#id05").css("display", "none");
 			$("body").removeClass("modal-open");
 			//findAllByHotel();
