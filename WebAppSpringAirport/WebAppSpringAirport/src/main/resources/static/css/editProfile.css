@@ -1,4 +1,4 @@
-.grid-container {
+.grid-container, .grid-container1 {
 	display: grid;
 	align-self: right;
 	grid-template-columns: 400px 400px;
