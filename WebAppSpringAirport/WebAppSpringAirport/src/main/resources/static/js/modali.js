@@ -121,6 +121,10 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 				slika = "../slike/rent_car.jpg";
 			}else if(entitet=="airline"){
 				slika = "../slike/aereo2.jpg";
+			}else if(entitet=="branch"){
+				slika = "../slike/branch.jpg";
+			}else if(entitet=="car"){
+				slika = "../slike/rent_car.jpg";
 			}else{
 				slika = "../slike/logo.png";
 			}
@@ -129,17 +133,20 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 	}
 	$.each(data, function(attr, val){
 		if(attr=="naziv" || attr=="adresa" || attr=="opis" || attr=="ocena" || attr=="cena" || attr=="brojKreveta"
-			|| attr=="rezervisana" || attr=="ime" || attr=="prezime" || attr=="korisnickoIme" || attr=="main"){
+			|| attr=="rezervisana" || attr=="ime" || attr=="prezime" || attr=="korisnickoIme" || attr=="main"
+			|| attr=="telefon" || attr=="proizvodjac" || attr=="godina" || attr=="tablica" || attr=="cena" || attr=="brojMesta"){
 			var td=$('<td>'+val+'</td>');
 			console.log(td);
 			tr.append(td);
-				
 		}
 	})
 	if(uloga=="ROLE_USER" || uloga==null){
 		return tr;
 	}else if(uloga=="ROLE_HOTEL" && (entitet!="room" && entitet!="service")){
-		console.log("blaa "+uloga+", "+entitet);
+		console.log("Bad entity "+uloga+", "+entitet);
+		return tr;
+	}else if(uloga=="ROLE_RENT" && (entitet!="branch" && entitet!="car")){
+		console.log("Bad entity "+uloga+", "+entitet);
 		return tr;
 	}/*
 	 * Dopuniti za ostale korisnike
@@ -154,6 +161,10 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 		text=data.opis;
 	}else if(entitet=="user"){
 		text=data.ime+" "+data.prezime+", "+data.korisnickoIme;
+	}else if(entitet=="branch"){
+		text=data.opis;
+	}else if(entitet=="car"){
+		text=data.proizvodjac+" "+data.model+", "+data.godina;
 	}
 	else{
 		text=data.naziv;
