@@ -8,29 +8,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
+@Table(name = "vozilo", uniqueConstraints = {
+		@UniqueConstraint(columnNames = "id"),
+		@UniqueConstraint(columnNames = "tablica") })
 public class Vozilo {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = false , length= 50)
 	private String proizvodjac;
-	@Column(nullable = false)
+	@Column(nullable = false , length= 50)
 	private String model;
-	@Column(nullable = false)
+	@Column(nullable = false, length= 10)
 	private Integer godina;
-	@Column(nullable = false)
+	@Column(name = "tablica", nullable = false, unique = true, length= 30)
 	private String tablica;
 	@Column(nullable = true)
 	private Double cena;
 	@Column(nullable = false)
 	private Integer brojMesta;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Filijala filijala;
 
 	public Vozilo() {
@@ -49,8 +52,6 @@ public class Vozilo {
 		this.brojMesta = brojMesta;
 		this.filijala = filijala;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -92,11 +93,11 @@ public class Vozilo {
 		this.tablica = tablica;
 	}
 
-	public double getCena() {
+	public Double getCena() {
 		return cena;
 	}
 
-	public void setCena(double cena) {
+	public void setCena(Double cena) {
 		this.cena = cena;
 	}
 
@@ -114,9 +115,6 @@ public class Vozilo {
 
 	public void setFilijala(Filijala filijala) {
 		this.filijala = filijala;
-	}
-	public void setCena(Double cena) {
-		this.cena = cena;
 	}
 
 	@Override
@@ -156,6 +154,5 @@ public class Vozilo {
 				+ model + ", godina=" + godina + ", tablica=" + tablica
 				+ ", cena=" + cena + "]";
 	}
-
 
 }
