@@ -5,8 +5,12 @@ insert into hotel(naziv,adresa,ocena,opis) values ('The Plaza Hotel','Novi Sad, 
 insert into hotel(naziv,adresa,ocena,opis) values ('Hotel Park','Novi Sad, Bulevar Jase Tomica 15,',4.6,'Description');
 insert into hotel(naziv,adresa,ocena,opis) values ('Prenociste Stojic Novi Sad','Novi Sad, Partizanska 47',3.1,'Description');
 
-insert into usluga(id,cena,opis,hotel_id) values (1,100,'opis',1);
-insert into usluga(id,cena,opis,hotel_id) values (2,200,'opis2',2);
+insert into usluga(id,cena,opis,hotel_id) values (1,100,'ventilator',1);
+insert into usluga(id,cena,opis,hotel_id) values (2,56,'opisanie',1);
+insert into usluga(id,cena,opis,hotel_id) values (3,999,'wifi',1);
+insert into usluga(id,cena,opis,hotel_id) values (4,600,'wc',1);
+insert into usluga(id,cena,opis,hotel_id) values (5,566,'hrana',1);
+insert into usluga(id,cena,opis,hotel_id) values (2,200,'kupatilo',2);
 insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana) values (1,3,9.9,'nekiOpisss',1, false);
 insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana) values (2,5,8.8,'nekiOpisss2',2, false);
 
