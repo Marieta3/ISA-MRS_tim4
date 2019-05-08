@@ -132,11 +132,17 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 		tr.append('<td align="center" width=100px height=100px><div class="divEntitet"><img class="imgEntitet" src="'+slika+'"></div></td>');
 	}
 	$.each(data, function(attr, val){
+		console.log(attr+': '+val);
 		if(attr=="naziv" || attr=="adresa" || attr=="opis" || attr=="ocena" || attr=="cena" || attr=="brojKreveta"
 			|| attr=="rezervisana" || attr=="ime" || attr=="prezime" || attr=="korisnickoIme" || attr=="main"
-			|| attr=="telefon" || attr=="proizvodjac" || attr=="godina" || attr=="tablica" || attr=="cena" || attr=="brojMesta"){
+			|| attr=="telefon" || attr=="proizvodjac" || attr=="godina" || attr=="tablica" || attr=="brojMesta"
+			||attr=="model"){
 			var td=$('<td>'+val+'</td>');
 			console.log(td);
+			tr.append(td);
+		}else if(attr=="filijala"){
+			var td=$('<td>'+val.adresa+'</td>');
+			console.log("filijalaaa");
 			tr.append(td);
 		}
 	})

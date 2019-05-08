@@ -116,13 +116,13 @@ function renderVozila(data){
 		$('#prikazVoziloTabela').find('tr:eq(0)').append(th_nbsp);
 	}
 	$("#prikazVoziloTabela").find("tr:gt(0)").remove();
-	$("#prikazVoziloTabela").find("th:gt(9)").remove();
+	$("#prikazVoziloTabela").find("th:gt(8)").remove();
 	$.each(list, function(index, car){
 		console.log("render vozila.....")
 		console.log(car)
 		$('#prikazVoziloTabela tbody').append(get_row(car, "car", localStorage.getItem('uloga'), 'id05', 'id06'));
 	})
-	alert("There are no cars!");
+	//alert("There are no cars!");
 }
 
 //dodavanje filijala
@@ -285,7 +285,7 @@ $(document).on('submit', ".modal-content2", function(e){
 	var seats=$("#seatsCar").val();
 	var adresa=$("#branchCar option:selected").val();
 	
-	alert(adresa);
+	//alert(adresa);
 	//format branch_1
 	var selBranch = $("#branchCar option:selected").attr("value");
 	var filijala_id = selBranch.split("_")[1];
@@ -359,7 +359,7 @@ $(document).on('submit', "#editVoziloForma", function(e){
 	var seats=$("#seatsCar1").val();
 	var adresa=$("#branchCar1 option:selected").val();
 	
-	alert(adresa);
+	//alert(adresa);
 	//format branch_1
 	var selBranch = $("#branchCar1 option:selected").attr("value");
 	var filijala_id = selBranch.split("_")[1];
@@ -367,6 +367,7 @@ $(document).on('submit', "#editVoziloForma", function(e){
 	var id_rent=localStorage.getItem("rent_id");
 	
 	var id = $("identifikatorVoziloUpd").val();
+	alert(id);
 	$.ajax({
 		type:"PUT",
 		url:"api/cars/"+id,

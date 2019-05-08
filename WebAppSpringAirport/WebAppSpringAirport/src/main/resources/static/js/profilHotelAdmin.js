@@ -34,8 +34,9 @@ function getUslugeSobe(add, upd){
 			//grid_container.insertAfter("#lblServices");
 			//grid_container1.insertAfter("#lblServices1");
 			//return grid_container;
-			dodajUslugeUModalAdd(grid_container);
+			
 			dodajUslugeUModalUpd(grid_container);
+			dodajUslugeUModalAdd(grid_container);
 			
 			
 		}
