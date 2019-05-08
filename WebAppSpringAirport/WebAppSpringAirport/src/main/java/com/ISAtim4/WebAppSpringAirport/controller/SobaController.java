@@ -89,17 +89,23 @@ public class SobaController {
 	@RequestMapping(value = "/api/sobe/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Soba> updateSobe(
 			@PathVariable(value = "id") Long sobaId,
-			@Valid @RequestBody Soba sobaDetalji) {
+			@Valid @RequestBody SobaDTO sobaDTO) {
 
 		Soba soba = sobaService.findOne(sobaId);
 		if (soba == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		soba.setOpis(sobaDetalji.getOpis());
-		soba.setSlika(sobaDetalji.getSlika());
-		soba.setBrojKreveta(sobaDetalji.getBrojKreveta());
-		
+		soba.setOpis(sobaDTO.getOpis());
+		soba.setSlika(sobaDTO.getSlika());
+		soba.setBrojKreveta(sobaDTO.getBrojKreveta());
+		//ne trb pristupati bazi kroz for petlju!!!
+		ArrayList<Usluga> usluge=new ArrayList<>();
+		for(Long id : sobaDTO.getUsluge()) {
+			Usluga u=uslugaService.findOne(id);
+			usluge.add(u);
+		}
+		soba.setUsluge(usluge);		
 		Soba updateSoba = sobaService.save(soba);
 		return ResponseEntity.ok().body(updateSoba);
 	}

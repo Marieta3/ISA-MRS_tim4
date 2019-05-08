@@ -1,7 +1,7 @@
 /**
  * 
  */
-function dodajUslugeUModalAdd(){
+function getUslugeSobe(add, upd){
 	$.ajax({
 		type:'GET',
 		url:'api/uslugeHotela/'+localStorage.getItem('hotel_id'),
@@ -12,8 +12,13 @@ function dodajUslugeUModalAdd(){
 		},
 		success:function(data){
 			var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
-			$('.grid-container').remove();
-			var grid_container=$('<div class="grid-container"></div>');
+			//$('#'+add+' .grid-container').remove();
+			//$('#'+upd+' .grid-container').remove();
+			$('#grid-'+add).remove();
+			//$('#grid-'+upd).remove();
+			//$('.grid-container').remove();
+			var grid_container=$('<div class="grid-container" id="grid-'+add+'"></div>');
+			//var grid_container1=$('<div class="grid-container" id="grid-'+upd+'"></div>');
 			var padding=0;
 			$.each(list, function(index, usluga){
 				if(index%2==0){
@@ -21,15 +26,32 @@ function dodajUslugeUModalAdd(){
 				}
 				var grid_item=$('<div class="grid-item">'+usluga.opis+'<br><input type="checkbox" value="'+usluga.id+'"></div>');
 				grid_container.append(grid_item);
+				//grid_container1.append(grid_item);
 			})
-			console.log("padding: "+padding);
-			console.log($('#newRoomForma'));
-			console.log($('#newRoomForma').css);
-			//$('#lblServices').append(grid_container);
+			
 			$('#newRoomForma').css("padding-bottom", padding+'px');
-			grid_container.insertAfter('#lblServices');
+			$('#editRoomForma').css("padding-bottom", padding+'px');
+			//grid_container.insertAfter("#lblServices");
+			//grid_container1.insertAfter("#lblServices1");
+			//return grid_container;
+			
+			dodajUslugeUModalUpd(grid_container);
+			dodajUslugeUModalAdd(grid_container);
+			
+			
 		}
-	});
+		})
+}
+function dodajUslugeUModalAdd(grid_container){
+	//var grid_container=getUslugeSobe("id03");
+	grid_container.insertAfter('#lblServices');
+	//$('#id03 .container-modal').append(grid_container);
+}
+
+function dodajUslugeUModalUpd(grid_container){
+	//var grid_container=getUslugeSobe("id04");
+	grid_container.insertAfter('#lblServices1');
+	//$('#id04 .container-modal').append(grid_container);
 }
 function findAllUslugeByHotel(){
 	$.ajax({
@@ -209,6 +231,7 @@ function formaUpdateroom(e, forma){
         	$("#opisSobe1").val(data.opis);
         	$("#brojKreveta1").val(data.brojKreveta);
         	$("#identifikatorSobaUpd").val(data.id);
+        	//cekiranje postojecih usluga sobe
         }
 		
 	})
@@ -219,6 +242,11 @@ $(document).on('submit', "#editRoomForma", function(e){
 	var opis=$("#opisSobe1").val();
 	var broj_kreveta=$("#brojKreveta1").val();
 	var id=$("#identifikatorSobaUpd").val();
+	//povuci selektovane usluge
+	var checkedVals = $('input[type=checkbox]:checked').map(function() {
+		return this.value;
+	}).get();
+	console.log(checkedVals);
 	var slika = $('#slika_room1').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
 	
 	if(slika=="" || slika==null){
@@ -231,7 +259,7 @@ $(document).on('submit', "#editRoomForma", function(e){
 		url:"api/sobe/"+id,
 		contentType:'application/json',
 		dataType:'text',
-		data:sobaToJSON(id, opis, slika, broj_kreveta),
+		data:sobaToJSON(id, opis, slika, broj_kreveta, checkedVals),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -249,12 +277,13 @@ $(document).on('submit', "#editRoomForma", function(e){
 	})
 	
 })
-function sobaToJSON(id, opis, slika, broj_kreveta){
+function sobaToJSON(id, opis, slika, broj_kreveta, usluge){
 	return JSON.stringify({
 		"id":id,
 		"slika":slika,
 		"opis":opis,
-		"brojKreveta":broj_kreveta
+		"brojKreveta":broj_kreveta,
+		"usluge":usluge
 	});
 }
 $(document).on('submit', ".modal-content3", function(e){
