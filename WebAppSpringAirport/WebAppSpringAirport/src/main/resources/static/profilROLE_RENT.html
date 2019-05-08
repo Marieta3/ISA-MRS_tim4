@@ -27,6 +27,7 @@
 		<li><button class="tablinks" onclick="openTab(event, 'Rent')"
 				id="defaultOpen">Rent-a-car</button></li>
 		<li><button id="btnBranchList" class="tablinks" onclick="openTab(event, 'Branches')">Branches</button></li>
+		<li><button id="btnCarList" class="tablinks" onclick="openTab(event, 'Cars')">Cars</button></li>
 	</ul>
 	
 	<div id="EditProfile" class="tabcontent">
@@ -97,13 +98,7 @@
 				<br>
 				<span>Rating:</span>
 				<span id="rating_rent"></span>
-				<span class="fa fa-star " id="star1"></span>
-				<span class="fa fa-star " id="star2"></span>
-				<span class="fa fa-star " id="star3"></span>
-				<span class="fa fa-star " id="star4"></span>
-				<span class="fa fa-star" id="star5"></span>
-				
-				
+				<br>
 				<div class="containerdiv">
     				<div>
     					<img class="zvezde" src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
@@ -147,14 +142,18 @@
 		<button class="newBranchBtn" value="New Branch" onclick="otvoriModal('id03')">New Branch</button>
 		
 		<table id="prikazBranchTabela" class="prikazEntitetaTbl">
+			<thead>
 			<tr>
 				<th>&nbsp;</th>
 				<th>Adresa</th>
 				<th>Phone Number</th>
 				<th>Opis</th>
 			</tr>
+			</thead>
+			<tbody></tbody>
 		</table>
 		
+		<!--Add branch modal -->
 		<div id="id03" class="modal">
 		<form class="modal-content3 animate" id="newBranchForma">
 			<div class="imgcontainer">
@@ -184,17 +183,198 @@
 					onclick="zatvoriModal('id03')"
 					class="cancelbtn">Cancel</button>
 			</div>
-			<div class="hidden">
-
-				
+			<div class="hidden">	
 			</div>
 		</form>
+		</div>
+		
+		<!-- Update branch modal (id04) -->
+		<div id="id04" class="modal">
 
+		<form class="modal-content1 animate" id="editBranchForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id04')">&times;</span>
+					
+				<!-- slika-->
+				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
+                	<img id="branch_img1" src="slike/branch.jpg"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
+            	</div>
+             	<input id="slika_branch1" type="file" accept="image/*" title="Choose file" onchange="previewFile('slika_branch1', 'branch_img1')" ><br>
+				 
+			</div>
+
+			<div class="container-modal" id="div-container-modal">
+				<h1> Update branch </h1>
+				<label for="adresaFilijale"><b>Adress</b></label> 
+				<input type="text" name="adresaFilijale" id="adresaFilijale1" required>
+	
+				<label for="telefonFilijale"><b>Phone number</b></label> 
+				<input type="text" name="telefonFilijale" id="telefonFilijale1" required>
+				
+				<label for="opisFilijale"><b>Description</b></label> 
+				<input type="text" name="opisFilijale" id="opisFilijale1" required>
+				
+				
+				<button class="updateSubmitBtn" type="submit">Update</button>
+				<button type="button"
+					onclick="zatvoriModal('id04')"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikatorFilijalaUpd">
+			</div>
+		</form>
+	</div>
+		
+		<!-- Delete branch modal (id01)-->
+		<div id="id01" class="modal">
+		<form class="modal-content1 animate" id="deleteBranchForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id01')">&times;</span>
+				<!-- slika -->
+			</div>
+			<div class="container-modal" id="div-container-modal">
+				<h1>Are you sure you want to delete branch?: </h1>
+				<h2 id="branch"></h2>
+				
+				<button class="deleteSubmitBtn" type="submit">Delete</button>
+				<button type="button"
+					onclick="zatvoriModal('id01')"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+				<input type="hidden" id="identifikatorFilijala">
+			</div>
+		</form>
 		</div>
 	</div>
 
 	<div id="Cars" class="tabcontent">
 		<h1>Cars</h1>
+		<button class="newCarBtn" value="New Car" onclick="otvoriModal('id02')">New Car</button>
+		
+		<table id="prikazVoziloTabela" class="prikazEntitetaTbl">
+			<thead>
+			<tr>
+				<th>Manufacturer</th>
+				<th>Model</th>
+				<th>Year</th>
+				<th>License</th>
+				<th>Price</th>
+				<th>Seats</th>
+				<th>Branch</th>
+			</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		
+		<div id="id02" class="modal">
+		<form class="modal-content2 animate" id="newCarForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id02')">&times;</span>
+				
+			</div>
+			<div class="container-modal" id="div-container-modal">
+				<h1> Add new car </h1>
+				<label for="carManufacturer"><b>Manufacturer</b></label> 
+				<input type="text" name="carManufacturer" id="carManufacturer" required>
+				
+				<label for="modelCar"><b>Model</b></label> 
+				<input type="text" name="modelCar" id="modelCar" required>
+				
+				<label for="yearCar"><b>Production year </b></label> 
+				<input type="number" name="yearCar" id="yearCar" min="1950" max="2020" required>
+				
+				<label for="licenseCar"><b>License plate</b></label> 
+				<input type="text" name="licenseCar" id="licenseCar" required>
+				
+				<label for="priceCar"><b>Price per day </b></label> 
+				<input type="number" name="priceCar" id="priceCar" min="0" required>
+				
+				<label for="seatsCar"><b>Number of seats </b></label> 
+				<input type="number" name="seatsCar" id="seatsCar" min="2" max="20" required>
+				
+				<label for="branchCar"><b>Branch address </b></label> 
+				<select name="branchCar" id="branchCar" required>
+					<option value=""></option>
+				</select>
+				
+				<button class="addSubmitBtn" type="submit">Add</button>
+				<button type="button"
+					onclick="zatvoriModal('id02')"
+					class="cancelbtn">Cancel</button>
+			</div>
+		</form>
+		</div>
+		
+		<div id="id06" class="modal">
+
+		<form class="modal-content1 animate" id="editVoziloForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id06')">&times;</span>
+					
+			</div>
+
+			<div class="container-modal" id="div-container-modal">
+			<h1 id="h1vozilo">Update car</h1>
+				<label for="carManufacturer"><b>Manufacturer</b></label> 
+				<input type="text" name="carManufacturer" id="carManufacturer1" required>
+				
+				<label for="modelCar"><b>Model</b></label> 
+				<input type="text" name="modelCar" id="modelCar1" required>
+				
+				<label for="yearCar"><b>Production year </b></label> 
+				<input type="number" name="yearCar" id="yearCar1" min="1950" max="2020" required>
+				
+				<label for="licenseCar"><b>License plate</b></label> 
+				<input type="text" name="licenseCar" id="licenseCar1" required>
+				
+				<label for="priceCar"><b>Price per day </b></label> 
+				<input type="number" name="priceCar" id="priceCar1" min="0" required>
+				
+				<label for="seatsCar"><b>Number of seats </b></label> 
+				<input type="number" name="seatsCar" id="seatsCar1" min="2" max="20" required>
+				
+				<label for="branchCar"><b>Branch address </b></label> 
+				<select name="branchCar" id="branchCar1" required>
+					<option value=""></option>
+				</select>
+				<button class="updateSubmitBtn" type="submit">Update</button>
+				<button type="button"
+					onclick="zatvoriModal('id06')"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikatorVoziloUpd">
+			</div>
+		</form>
 	</div>
+	
+		<div id="id05" class="modal">
+		<form class="modal-content1 animate" id="deleteVoziloForma">
+			<div class="imgcontainer">
+				<span class="close" title="Close Modal" onclick="zatvoriModal('id05')">&times;</span>
+				<!-- slika -->
+			</div>
+			<div class="container-modal" id="div-container-modal">
+				<h1>Are you sure you want to delete car: </h1>
+				<h2 id="car"></h2>
+				
+				<button class="deleteSubmitBtn" type="submit">Delete</button>
+				<button type="button"
+					onclick="zatvoriModal('id05')"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikatorVozilo">
+			</div>
+		</form>
+	</div>
+		
+	</div>
+		
 </body>
 </html>

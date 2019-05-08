@@ -34,6 +34,12 @@ insert into filijala(adresa,opis,telefon,rentacar_id) values('Temerin, Adresa 2'
 insert into filijala(adresa,opis,telefon,rentacar_id) values('Novi Sad, Adresa 1', 'TestDrive.eu 1','+1-202-555-6666',3);
 insert into filijala(adresa,opis,telefon,rentacar_id) values('Novi Sad, Adresa 2', 'TestDrive.eu 2','+1-203-555-0128',3);
 
+--insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id) values(5,2000,2002,'Astra','Opel','NS-XXX-05',1);
+--insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id) values(5,3000,2008,'Corolla','Toyota','NS-XXX-06',1);
+--insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id) values(5,5000,2004,'Xtrail','Nissan','NS-XXX-07',1);
+--insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id) values(8,500,1999,'Vectra','Opel','NS-XXX-08',2);
+--insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id) values(5,2000,2010,'Civic','Honda','NS-XXX-09',2);
+
 
 
 --Milan: trenutno imate jednog korisnika kojeg sam oznacio kao 'sis' sistemskog, nije vezan za hotel, rent-a-car ili aviokompaniju i zato je prosledjeno null za te kolone
