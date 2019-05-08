@@ -27,7 +27,7 @@
 				onclick="openTab(event, 'EditProfile')">Edit Profile</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Hotel')"
 				id="defaultOpen">Hotel</button></li>
-		<li><button id="tabRoomsLink" class="tablinks" onclick="openTab(event, 'Rooms'), findAllByHotel(),getUslugeSobe('id03', 'id04')">Rooms</button></li>
+		<li><button id="tabRoomsLink" class="tablinks" onclick="openTab(event, 'Rooms'), findAllByHotel(),dodajUslugeUModalAdd('id03'), dodajUslugeUModalUpd('id04')">Rooms</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Services'), findAllUslugeByHotel()">Services</button></li>
 	</ul>
 
@@ -179,7 +179,7 @@
 				
 				<label for="services1" id="lblServices1"><b>Services:</b></label> <br>
 				
-				<button class="updateSubmitBtn" type="submit">Update</button>
+				<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
 				<button type="button"
 					onclick="zatvoriModal('id04')"
 					class="cancelbtn">Cancel</button>
@@ -236,7 +236,7 @@
 				
 				<label for="services" id="lblServices"><b>Services:</b></label> <br>
 				
-				<button class="addSubmitBtn" type="submit">Add</button>
+				<button class="addSubmitBtn addSobaBtn" type="submit">Add</button>
 				<button type="button"
 					onclick="zatvoriModal('id03')"
 					class="cancelbtn">Cancel</button>

@@ -15,10 +15,10 @@ function getUslugeSobe(add, upd){
 			//$('#'+add+' .grid-container').remove();
 			//$('#'+upd+' .grid-container').remove();
 			$('#grid-'+add).remove();
-			//$('#grid-'+upd).remove();
+			$('#grid-'+upd).remove();
 			//$('.grid-container').remove();
 			var grid_container=$('<div class="grid-container" id="grid-'+add+'"></div>');
-			//var grid_container1=$('<div class="grid-container" id="grid-'+upd+'"></div>');
+			var grid_container1=$('<div class="grid-container" id="grid-'+upd+'"></div>');
 			var padding=0;
 			$.each(list, function(index, usluga){
 				if(index%2==0){
@@ -26,7 +26,7 @@ function getUslugeSobe(add, upd){
 				}
 				var grid_item=$('<div class="grid-item">'+usluga.opis+'<br><input type="checkbox" value="'+usluga.id+'"></div>');
 				grid_container.append(grid_item);
-				//grid_container1.append(grid_item);
+				grid_container1.append(grid_item);
 			})
 			
 			$('#newRoomForma').css("padding-bottom", padding+'px');
@@ -34,24 +34,76 @@ function getUslugeSobe(add, upd){
 			//grid_container.insertAfter("#lblServices");
 			//grid_container1.insertAfter("#lblServices1");
 			//return grid_container;
-			
-			dodajUslugeUModalUpd(grid_container);
 			dodajUslugeUModalAdd(grid_container);
-			
-			
+			dodajUslugeUModalUpd(grid_container1);
+			console.log("add: "+$('#grid-'+add).val());
+			console.log("upd: "+$('#grid-'+upd));
 		}
-		})
+		});
 }
-function dodajUslugeUModalAdd(grid_container){
+function dodajUslugeUModalAdd(add, upd){
 	//var grid_container=getUslugeSobe("id03");
-	grid_container.insertAfter('#lblServices');
+	//grid_container.insertAfter('#lblServices');
 	//$('#id03 .container-modal').append(grid_container);
+	//$('.addSobaBtn').prepend(grid_container);
+	//grid_container.insertBefore('.addSobaBtn');
+	$.ajax({
+		type:'GET',
+		url:'api/uslugeHotela/'+localStorage.getItem('hotel_id'),
+		dataType:'json',
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success:function(data){
+			var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+			$('#grid-'+add).remove();
+			var grid_container=$('<div class="grid-container" id="grid-'+add+'"></div>');
+			var padding=0;
+			$.each(list, function(index, usluga){
+				if(index%2==0){
+					padding=padding+80;
+				}
+				var grid_item=$('<div class="grid-item">'+usluga.opis+'<br><input type="checkbox" value="'+usluga.id+'"></div>');
+				grid_container.append(grid_item);
+			})
+			
+			$('#newRoomForma').css("padding-bottom", padding+'px');
+			grid_container.insertBefore('.addSobaBtn');
+		}
+	});
 }
 
-function dodajUslugeUModalUpd(grid_container){
+function dodajUslugeUModalUpd(upd){
 	//var grid_container=getUslugeSobe("id04");
-	grid_container.insertAfter('#lblServices1');
+	//grid_container.insertAfter('#lblServices1');
 	//$('#id04 .container-modal').append(grid_container);
+	//grid_container.insertBefore('.updSobaBtn');
+	$.ajax({
+		type:'GET',
+		url:'api/uslugeHotela/'+localStorage.getItem('hotel_id'),
+		dataType:'json',
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success:function(data){
+			var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+			$('#grid-'+upd).remove();
+			var grid_container=$('<div class="grid-container" id="grid-'+upd+'"></div>');
+			var padding=0;
+			$.each(list, function(index, usluga){
+				if(index%2==0){
+					padding=padding+80;
+				}
+				var grid_item=$('<div class="grid-item">'+usluga.opis+'<br><input type="checkbox" id="usluga_soba_upd'+usluga.id+'" value="'+usluga.id+'"></div>');
+				grid_container.append(grid_item);
+			})
+			
+			$('#editRoomForma').css("padding-bottom", padding+'px');
+			grid_container.insertBefore('.updSobaBtn');
+		}
+	});
 }
 function findAllUslugeByHotel(){
 	$.ajax({
@@ -93,24 +145,6 @@ function renderUsluge(data){
 	$("#prikazUslugaTabela").find("tr:gt(0)").remove();
 	$("#prikazUslugaTabela").find("th:gt(2)").remove();
 	$.each(list, function(index, usluga){
-		/*var tr=$('<tr id="usluga_'+usluga.id+'"></tr>');
-		tr.append('<td>' + usluga.opis + '</td>' + '<td>' + usluga.cena + '</td>');
-		if (uloga == "ROLE_HOTEL") {
-			var formaObrisi = $('<form id="formaObrisiUslugu" onsubmit="formaObrisi(event, this, \'identifikatorUsluga\', \'usluga\')"></form>');
-			formaObrisi.append('<input type="hidden" value="' + usluga.id + '">');
-			formaObrisi.append('<input id="hiddenUsluga" type="hidden" value="' + usluga.opis+ '">');
-			formaObrisi.append('<input type="submit" value="Delete" onclick="otvoriModal(\'id05\')">');
-			var td = $('<td></td>');
-			td.append(formaObrisi);
-			tr.append(td);
-		
-			var formaUpdate = $('<form id="formaUpdateUsluga"></form>');
-			formaUpdate.append('<input type="hidden" value="' + usluga.id + '">');
-			formaUpdate.append('<input type="submit" value="Update" onclick="otvoriModal(\'id06\')">');
-			var td1 = $('<td></td>');
-			td1.append(formaUpdate);
-			tr.append(td1);
-		}*/
 		$('#prikazUslugaTabela tbody').append(get_row(usluga, "service", localStorage.getItem('uloga'), 'id05', 'id06'));
 	})
 }
@@ -127,33 +161,6 @@ function renderSobe(data){
 	$("#prikazSobaTabela").find("tr:gt(0)").remove();
 	$("#prikazSobaTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, soba){
-		/*var tr=$('<tr id="soba_'+soba.id+'"></tr>');
-		var slika=soba.slika;
-		if(slika==null){
-			slika = "../slike/hotel.jpg";
-		}
-		tr.append('<td align="center" width=100px height=100px>'+ '<div id="divSoba" class="divEntitet">' +
-				'<img src=" ' + slika +' " id="imgProfilnaSoba" class="imgEntitet"> ' + '</div>' +
-				'</td>' + '<td>' + soba.brojKreveta + '</td>'
-				+ '<td class="opisEntitet">' + soba.opis + '</td>' + '<td>' + soba.ocena + '</td>');
-		if (uloga == "ROLE_HOTEL") {
-			var formaObrisi = $('<form id="formaObrisiSobu" onsubmit="formaObrisi(event, this, \'identifikatorSoba\', \'soba\')"></form>');
-			formaObrisi.append('<input type="hidden" value="' + soba.id + '">');
-			formaObrisi.append('<input id="hiddenSoba" type="hidden" value="' + soba.opis+ '">');
-			formaObrisi.append('<input type="submit" value="Delete" onclick="otvoriModal(\'id01\')">');
-			var td = $('<td></td>');
-			td.append(formaObrisi);
-			tr.append(td);
-		
-			var formaUpdate = $('<form id="formaUpdateSoba"></form>');
-			formaUpdate.append('<input type="hidden" value="' + soba.id + '">');
-			formaUpdate.append('<input type="submit" value="Update" onclick="otvoriModal(\'id04\')">');
-			var td1 = $('<td></td>');
-			td1.append(formaUpdate);
-			tr.append(td1);
-		}*/
-		console.log("render sobe.....")
-		console.log(soba.slika)
 		$('#prikazSobaTabela').append(get_row(soba, "room", localStorage.getItem('uloga'), 'id01', 'id04'));
 	})
 }
@@ -232,6 +239,10 @@ function formaUpdateroom(e, forma){
         	$("#brojKreveta1").val(data.brojKreveta);
         	$("#identifikatorSobaUpd").val(data.id);
         	//cekiranje postojecih usluga sobe
+        	$.each(data.usluge, function(index, usluga){
+        		//console.log(index+':::: '+j.opis);
+        		$('#usluga_soba_upd'+usluga.id).prop('checked', true);
+        	})
         }
 		
 	})
