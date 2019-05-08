@@ -325,7 +325,7 @@ function carsToJSONadd(manufacturer, model, year, license, price, seats, filijal
 }
 
 
-function formaUpdatebranch(e, forma){
+function formaUpdatecar(e, forma){
 	e.preventDefault();
 	var id_car = $(forma).find('input[type=hidden]').val();
 	
@@ -348,7 +348,7 @@ function formaUpdatebranch(e, forma){
 	})
 }
 
-$(document).on('submit', "#editServiceForma", function(e){
+$(document).on('submit', "#editVoziloForma", function(e){
 	e.preventDefault();
 	console.log("dodavanje vozilo");
 	var manufacturer=$("#carManufacturer1").val();
