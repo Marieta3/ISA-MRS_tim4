@@ -39,4 +39,8 @@ public class UslugaService {
 	public List<Usluga> findAllByHotel(Hotel hotel) {
 		return uslugaRepository.findAllByHotel(hotel);
 	}
+	
+	public List<Usluga> findAllSelected(List<Long> ids){
+		return uslugaRepository.findAllSelected(ids);
+	}
 }
