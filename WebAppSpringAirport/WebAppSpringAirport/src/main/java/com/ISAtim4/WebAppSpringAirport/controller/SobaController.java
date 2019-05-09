@@ -52,11 +52,7 @@ public class SobaController {
 		soba.setHotel(hotel);
 		
 		//ne trb pristupati bazi kroz for petlju!!!
-		ArrayList<Usluga> usluge=new ArrayList<>();
-		for(Long id : sobaDTO.getUsluge()) {
-			Usluga u=uslugaService.findOne(id);
-			usluge.add(u);
-		}
+		ArrayList<Usluga> usluge=(ArrayList<Usluga>) uslugaService.findAllSelected(sobaDTO.getUsluge());
 		soba.setUsluge(usluge);
 		return sobaService.save(soba);
 	}
@@ -99,12 +95,8 @@ public class SobaController {
 		soba.setOpis(sobaDTO.getOpis());
 		soba.setSlika(sobaDTO.getSlika());
 		soba.setBrojKreveta(sobaDTO.getBrojKreveta());
-		//ne trb pristupati bazi kroz for petlju!!!
-		ArrayList<Usluga> usluge=new ArrayList<>();
-		for(Long id : sobaDTO.getUsluge()) {
-			Usluga u=uslugaService.findOne(id);
-			usluge.add(u);
-		}
+		
+		ArrayList<Usluga> usluge=(ArrayList<Usluga>) uslugaService.findAllSelected(sobaDTO.getUsluge());
 		soba.setUsluge(usluge);		
 		Soba updateSoba = sobaService.save(soba);
 		return ResponseEntity.ok().body(updateSoba);
