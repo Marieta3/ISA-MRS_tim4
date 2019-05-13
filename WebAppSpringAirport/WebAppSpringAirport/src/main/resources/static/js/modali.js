@@ -154,6 +154,9 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 	}else if(uloga=="ROLE_RENT" && (entitet!="branch" && entitet!="car")){
 		console.log("Bad entity "+uloga+", "+entitet);
 		return tr;
+	}else if (uloga =="ROLE_AVIO" &&(entitet!= "destination")){
+		console.log("Bad entity!");
+		return tr;
 	}/*
 	 * Dopuniti za ostale korisnike
 	 */
@@ -171,6 +174,8 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 		text=data.opis;
 	}else if(entitet=="car"){
 		text=data.proizvodjac+" "+data.model+", "+data.godina;
+	} else if (entitet=="destination"){
+		text = data.adresa;
 	}
 	else{
 		text=data.naziv;

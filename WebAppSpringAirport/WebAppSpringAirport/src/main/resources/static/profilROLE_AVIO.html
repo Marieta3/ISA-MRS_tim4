@@ -2,14 +2,15 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/editProfile.js"></script>
 <script type="text/javascript" src="js/updateAvioKompanija.js"></script>
 <script type="text/javascript" src="js/imagePreview.js"></script>
 <script type="text/javascript" src="js/profilAvioAdmin.js"></script>
-<script type="text/javascript" src="js/modali.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
@@ -22,25 +23,29 @@
 		<li><a href="index.html">Home</a></li>
 		<li><button class="tablinks"
 				onclick="openTab(event, 'EditProfile')">Edit Profile</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'AvioKompanija')"
-				id="defaultOpen">Airline</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'Destinations')">Destinations</button></li>
+		<li><button class="tablinks"
+				onclick="openTab(event, 'AvioKompanija')" id="defaultOpen">Airline</button></li>
+		<li><button class="tablinks"
+				onclick="openTab(event, 'Destinations')">Destinations</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Flights')">Flights</button></li>
 	</ul>
-	
+
 	<div id="EditProfile" class="tabcontent">
 
 		<h1 id="imePrezime">Ime Prezime</h1>
 		<form id="editProfileForma">
 			<div id="imgContainer">
 				<div class="imagePicker">
-					<img id="profile_img" src="slike/avatar.png" alt="Image preview..."> <br>
+					<img id="profile_img" src="slike/avatar.png" alt="Image preview...">
+					<br>
 				</div>
 				<div class="upload-btn-wrapper">
 					<button class="upload-file-btn">Upload a file</button>
-					<input id="slikaEdit" type="file" accept="image/*" title="Choose file"
+					<input id="slikaEdit" type="file" accept="image/*"
+						title="Choose file"
 						onchange="previewFile('slikaEdit', 'profile_img')" name="myfile" />
-				</div><br>
+				</div>
+				<br>
 			</div>
 			<div class="grid-container">
 				<div class="grid-item">
@@ -66,7 +71,7 @@
 					<input type="submit" id="buttonSbm" value="Confirm changes">
 				</div>
 				<div class="grid-item">
-					<button id="cancel_profile" class="cancelBtn" >Cancel</button>
+					<button id="cancel_profile" class="cancelBtn">Cancel</button>
 				</div>
 				<div class="grid-item">
 					<input type="hidden" id="identifikator">
@@ -85,28 +90,29 @@
 		<form id="updateAvioKompanijuForma">
 			<div id="imgContainer">
 				<div class="imagePicker">
-					<img id="avio_img" src="slike/avatar.png" alt="Image preview..."> <br>
+					<img id="avio_img" src="slike/avatar.png" alt="Image preview...">
+					<br>
 
 				</div>
 				<div class="upload-btn-wrapper">
 					<button class="upload-file-btn">Upload a file</button>
-					<input id="slika_avio" type="file" accept="image/*" title="Choose file"
+					<input id="slika_avio" type="file" accept="image/*"
+						title="Choose file"
 						onchange="previewFile('slika_avio', 'avio_img')" name="myfile" />
 				</div>
-				<br>
-				<span>Rating:</span>
-				<span id="rating_avio"></span>
-				<br>
+				<br> <span>Rating:</span> <span id="rating_avio"></span> <br>
 				<div class="containerdiv">
-    				<div>
-    					<img class="zvezde" src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
-    				</div>
-    				<div class="cornerimage" >
-    					<img class="zvezde" src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
-    				</div>
+					<div>
+						<img class="zvezde"
+							src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
+					</div>
+					<div class="cornerimage">
+						<img class="zvezde"
+							src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
+					</div>
 				</div>
 			</div>
-			
+
 			<div class="grid-container">
 				<div class="grid-item">
 					Name <br> <input type="text" id="naziv">
@@ -137,49 +143,112 @@
 
 	<div id="Destinations" class="tabcontent">
 		<h1>Destinations</h1>
-		<button class="newDestinationBtn" value="New Destination" onClick="otvoriModal('id03')">New Destination</button>
-		
+		<button class="newDestinationBtn" value="New Destination"
+			onClick="otvoriModal('id03')">New Destination</button>
+
 		<table id="prikazDestinacijaTabela" class="prikazEntitetaTbl">
-			<tr>
-				<th>&nbsp;</th>
-				<th>---</th>
-				<th>Description</th>
-				<th>Rating</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th class="opisEntitet">Destination</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
 		</table>
+
+		<!-- za BRISANJE destinacije -->
+		<div id="id01" class="modal">
+			<form class="modal-content1 animate" id="deleteDestinacijaForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id01')">&times;</span>
+					<!-- slika -->
+				</div>
+				<div class="container-modal" id="div-container-modal">
+					<h1>Are you sure you want to delete destination:</h1>
+
+					<button class="deleteSubmitBtn" type="submit">Delete</button>
+					<button type="button" onclick="zatvoriModal('id01')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="identifikatorDestinacija">
+				</div>
+			</form>
+		</div>
+
+		<!-- za AZURIRANJE destinacije -->
+		<div id="id02" class="modal">
+
+			<form class="modal-content1 animate" id="editDestinationForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id02')">&times;</span>
+
+					<!-- slika-->
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="destinacija_img1" src="slike/pic1.jpg" alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+					<input id="slika_destinacija1" type="file" accept="image/*"
+						title="Choose file"
+						onchange="previewFile('slika_destinacija1', 'destinacija_img1')"><br>
+
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1 id="h1Destinacija">Destination</h1>
+					<label for="mesto"><b>Destination</b></label>
+						 <input type="text" name="mesto" id="mestoDestinacije1">
+					<br>
+
+					<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
+					<button type="button" onclick="zatvoriModal('id02')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="identifikatorDestinacijeUpd">
+				</div>
+			</form>
+		</div>
 		
+		<!-- za DODAVANJE nove destinacije -->
 		<div id="id03" class="modal">
-		<form class="modal-content3 animate" id="newDestinationForma">
-			<div class="imgcontainer">
-				<span class="close" title="Close Modal" onClick="zatvoriModal('id03')">&times;</span>
-					
-				<!-- slika-->
-				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
-                	<img id="dest_img" src="slike/avatar.png"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
-            	</div>
-             	<input id="slika_dest" type="file" accept="image/*" title="Choose file" onchange="previewFile('slika_dest', 'dest_img')" ><br>
-				 
-			</div>
+			<form class="modal-content3 animate" id="newDestinationForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onClick="zatvoriModal('id03')">&times;</span>
 
-			<div class="container-modal" id="div-container-modal">
-				<h1> Add new destination </h1>
-				<label for="opisSobe"><b>Description</b></label> 
-				<input type="text" name="opisSobe" id="opisSobe">
-				
-				<label for="brojKreveta"><b>Bed count</b></label> 
-				<input type="number" name="brojKreveta" id="brojKreveta" value="0">
-				
-				<button class="addSubmitBtn" type="submit">Add</button>
-				<button type="button"
-					onclick="document.getElementById('id03').style.display='none', ponistavanje('newDestinationForma')"
-					class="cancelbtn">Cancel</button>
-			</div>
-			<div class="hidden">
+					<!-- slika-->
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="dest_img" src="slike/avatar.png" alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+					<input id="slika_dest" type="file" accept="image/*"
+						title="Choose file"
+						onchange="previewFile('slika_dest', 'dest_img')"><br>
 
-				
-			</div>
-		</form>
-	</div>
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1>Add new destination</h1>
+					<label for="mesto"><b>Destination</b></label> <input type="text"
+						name="mesto" id="mestoDestinacije">
+
+					<button class="addSubmitBtn" type="submit">Add</button>
+					<button type="button"
+						onclick="document.getElementById('id03').style.display='none', ponistavanje('newDestinationForma')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden"></div>
+			</form>
+		</div>
 	</div>
 
 	<div id="Flights" class="tabcontent">

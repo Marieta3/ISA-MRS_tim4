@@ -26,9 +26,11 @@ public class AvioKompanija {
 	@JsonManagedReference
 	private Set<AdminAvio> admin= new HashSet<>();
 	
+	/*
 	@OneToMany(mappedBy="avio_kompanija",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private Set<Destinacija> listaDestinacija= new HashSet<>();
+	*/
 	
 	@OneToMany(mappedBy="avio_kompanija",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JsonManagedReference
@@ -77,14 +79,14 @@ public class AvioKompanija {
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
-
+	/*
 	public Set<Destinacija> getListaDestinacija() {
 		return listaDestinacija;
 	}
 
 	public void setListaDestinacija(Set<Destinacija> listaDestinacija) {
 		this.listaDestinacija = listaDestinacija;
-	}
+	}*/
 
 	public Set<Let> getListaLetova() {
 		return listaLetova;
@@ -116,13 +118,13 @@ public class AvioKompanija {
 		this.naziv = naziv;
 	}
 
-	public AvioKompanija(Long id, String naziv, Set<AdminAvio> admin, Set<Destinacija> listaDestinacija,
+	public AvioKompanija(Long id, String naziv, Set<AdminAvio> admin,
 			Set<Let> listaLetova, String adresa, String opis,String slika, Double ocena) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
 		this.admin = admin;
-		this.listaDestinacija = listaDestinacija;
+		//this.listaDestinacija = listaDestinacija;
 		this.listaLetova = listaLetova;
 		this.adresa = adresa;
 		this.opis = opis;
@@ -137,8 +139,4 @@ public class AvioKompanija {
 	public void setOcena(Double ocena) {
 		this.ocena = ocena;
 	}
-
-	
-
-	
 }

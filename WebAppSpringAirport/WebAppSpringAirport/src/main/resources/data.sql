@@ -65,4 +65,9 @@ INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (2, 3);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (3, 5);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (4, 4);
 
+INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (1,'Beograd','../slike/Airplane-1.png');
+INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (2,'London','../slike/Airplane-1.png');
+INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (3,'Paris','../slike/Airplane-1.png');
+INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (4,'Dubai','../slike/Airplane-1.png');
+INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (5,'Moscow','../slike/Airplane-1.png');
 
