@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -14,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 public class Destinacija {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", unique=true, nullable=false)
 	private Long id;
 	@Column(nullable=false)
@@ -23,6 +24,7 @@ public class Destinacija {
 	@Column(nullable=false)
 	private String slika;
 	
+	/*
 	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JsonBackReference
 	private AvioKompanija avio_kompanija;
@@ -34,7 +36,7 @@ public class Destinacija {
 	public void setAvio_kompanija(AvioKompanija avio_kompanija) {
 		this.avio_kompanija = avio_kompanija;
 	}
-
+	*/
 	
 	public String getSlika() {
 		return slika;
@@ -43,12 +45,12 @@ public class Destinacija {
 		this.slika = slika;
 	}
 
-	public Destinacija(Long id, String adresa, String slika, AvioKompanija avio_kompanija) {
+	public Destinacija(Long id, String adresa, String slika) {
 		super();
 		this.id=id;
 		this.adresa= adresa;
 		this.slika = slika;
-		this.avio_kompanija = avio_kompanija;
+		//this.avio_kompanija = avio_kompanija;
 	}
 
 	public Long getId() {
