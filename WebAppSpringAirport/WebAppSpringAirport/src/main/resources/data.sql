@@ -53,6 +53,12 @@ insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_ad
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga, slika,enabled) values (2,'Marieta','hotel','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','lollipop@gmail.com','Rakos',false,true,null,null,1,'hotel', '../slike/marieta.jpg',true);
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga,enabled) values (3,'Arpad','rent','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','arpadVS@gmail.com','Varga Somodji',false,true,1,null,null,'rent',true);
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga,slika,enabled) values (4,'Sreten','avio','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','bozic.sreten@gmail.com','Bozic',false,true,null,4,null,'avio','../slike/Airplane-1.png',true);
+insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon) values (5,'Mika','Mikic','user1','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+1@gmail.com',true,'user',true,'Asd Street 1,NY','Tel 1');
+insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon) values (6,'Milan','Varga','user2','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+2@gmail.com',true,'user',true,'Asd Street 2,NY','Tel 2');
+insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon) values (7,'Tom','Hanks','user3','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+3@gmail.com',true,'user',true,'Asd Street 3,NY','Tel 3');
+insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon) values (8,'Brad','Pitt','user4','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+4@gmail.com',true,'user',true,'Asd Street 4,NY','Tel 4');
+insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon) values (9,'Felix','Smith','user5','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+5@gmail.com',true,'user',true,'Asd Street 5,NY','Tel 5');
+insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon) values (10,'Ragnar','Lothbrok','user6','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+6@gmail.com',true,'user',true,'Asd Street 6,NY','Tel 6');
 --Milan: trenutno imate samo dve role, treba ubaciti role za razlicite tipove adm3ina
 INSERT INTO AUTHORITY (id, name) VALUES (1, 'ROLE_USER');
 INSERT INTO AUTHORITY (id, name) VALUES (2, 'ROLE_ADMIN');
@@ -64,6 +70,12 @@ INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (1, 2);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (2, 3);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (3, 5);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (4, 4);
+INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (5, 1);
+INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (6, 1);
+INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (7, 1);
+INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (8, 1);
+INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (9, 1);
+INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (10, 1);
 
 INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (1,'Beograd','../slike/Airplane-1.png');
 INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (2,'London','../slike/Airplane-1.png');

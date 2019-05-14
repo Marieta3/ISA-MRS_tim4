@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
  * Milan: vracena diskriminatorska vrednost da se u tabeli korisnik razlikuju tipovi
  */
 @Entity
-@DiscriminatorValue("rk")
+@DiscriminatorValue("user")
 public class RegistrovaniKorisnik extends Korisnik {
 	/*
 	private Set<RegistrovaniKorisnik> listaPrijatelja = new HashSet<>();

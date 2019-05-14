@@ -192,6 +192,8 @@ $(document).on('submit', '.modal-content2', function(e){
 	var firstname = $('#firstname').val();
 	var lastname = $('#lastname').val();
 	var email = $('#email').val();
+	var address = $('#address').val();
+	var telephone = $('#telephone').val();
 	
 	console.log(username);
 	console.log(password);
@@ -199,6 +201,8 @@ $(document).on('submit', '.modal-content2', function(e){
 	console.log(firstname);
 	console.log(lastname);
 	console.log(email);
+	console.log(address);
+	console.log(telephone);
 	
 	if  (!validateEmail(email)){
 		alert("Bad email format");
@@ -213,7 +217,7 @@ $(document).on('submit', '.modal-content2', function(e){
 		type:"POST",
 		url:register_url,
 		contentType:'application/json',
-		data:registeringUserToJSON(username,password,firstname,lastname,email),
+		data:registeringUserToJSON(username,password,firstname,lastname,email,address,telephone),
 		success:function(data){
 			window.location.replace("thanksForRegistration.html");
 		},error:function(XMLHttpRequest,textStatus, errorThrown){
@@ -226,13 +230,15 @@ $(document).on('submit', '.modal-content2', function(e){
 	console.log("submitovan register");
 })
 
-function registeringUserToJSON(username,password,firstname,lastname,email){
+function registeringUserToJSON(username,password,firstname,lastname,email,address,telephone){
 		return JSON.stringify({
 			"korisnickoIme":username,
 			"lozinka":password,
 			"ime":firstname,
 			"prezime":lastname,
-			"mail":email
+			"mail":email,
+			"adresa":address,
+			"telefon":telephone
 		});
 }
 
