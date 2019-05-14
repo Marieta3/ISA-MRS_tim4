@@ -1,5 +1,8 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.Principal;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -7,6 +10,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -24,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AdminAvio;
 import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
@@ -382,9 +388,9 @@ public class KorisnikController {
 	}
 
 	/* da registrujemo korisnika sa verifikacionog linka */
-	@RequestMapping(value = "/api/users/enabled/{korIme}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Korisnik> getKorisnikRegistracija(
-			@PathVariable(value = "korIme") String korisnickoIme) {
+	@RequestMapping(value = "/api/users/enabled/{korIme}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+	public RedirectView getKorisnikRegistracija(
+			@PathVariable(value = "korIme") String korisnickoIme, RedirectAttributes redirectAttributes, HttpServletResponse resp) throws URISyntaxException, IOException {
 
 		// BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 		byte[] decodedBytes = Base64.getDecoder().decode(korisnickoIme);
@@ -394,12 +400,13 @@ public class KorisnikController {
 
 		if (korisnik == null) {
 			logger.info("Dati korisnik ne postoji!");
-			return ResponseEntity.notFound().build();
+			return new RedirectView("/index.html");
+			
 		} else {
 			logger.info("Dati korisnik je enabled i moze da se loginuje sad");
 			korisnik.setEnabled(true);
 			korisnikService.save(korisnik);
-			return ResponseEntity.ok().body(korisnik);
+			return new RedirectView("/index.html");
 		}
 	}
 

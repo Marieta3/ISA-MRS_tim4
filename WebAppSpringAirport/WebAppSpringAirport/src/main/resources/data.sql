@@ -77,6 +77,13 @@ INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (8, 1);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (9, 1);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (10, 1);
 
+INSERT INTO PRIJATELJSTVO (accepted,datum,reacted,receiver_id,sender_id) VALUES (true,'2019-05-14',true,5,6);
+INSERT INTO PRIJATELJSTVO (accepted,datum,reacted,receiver_id,sender_id) VALUES (true,'2019-05-14',true,5,7);
+INSERT INTO PRIJATELJSTVO (accepted,datum,reacted,receiver_id,sender_id) VALUES (true,'2019-05-14',true,5,8);
+INSERT INTO PRIJATELJSTVO (accepted,datum,reacted,receiver_id,sender_id) VALUES (true,'2019-05-12',true,5,9);
+INSERT INTO PRIJATELJSTVO (accepted,datum,reacted,receiver_id,sender_id) VALUES (true,'2019-05-10',true,7,8);
+INSERT INTO PRIJATELJSTVO (accepted,datum,reacted,receiver_id,sender_id) VALUES (true,'2019-05-11',true,9,6);
+
 INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (1,'Beograd','../slike/Airplane-1.png');
 INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (2,'London','../slike/Airplane-1.png');
 INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (3,'Paris','../slike/Airplane-1.png');

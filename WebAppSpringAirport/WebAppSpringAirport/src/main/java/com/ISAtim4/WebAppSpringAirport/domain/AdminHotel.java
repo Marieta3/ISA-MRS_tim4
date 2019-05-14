@@ -1,20 +1,16 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
-import java.util.Collection;
-
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
-import org.springframework.security.core.GrantedAuthority;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @DiscriminatorValue("hotel")
 public class AdminHotel extends Korisnik {
+	private static final long serialVersionUID = -5299829967225704146L;
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JsonBackReference

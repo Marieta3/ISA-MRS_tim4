@@ -2,17 +2,10 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css"/>
-<style type="text/css">
-	#friendsTable {
-		width: 100%;
-	}
-</style>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
@@ -23,6 +16,13 @@
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+<style type="text/css">
+	.pagination{background-color: inherit; }
+</style>
 
 <title>USER</title>
 </head>
@@ -51,24 +51,105 @@
 	
 	<div id="Friends" class="tabcontent">
 		<div class="container"> 
-		<h1>List of friends</h1> 
-		<table id="friendsTable" class="table table-striped table-bordered table-hover" cellspacing="0"> 
-		<thead> 
-		<tr> 
-		<th>First Name</th> 
-		<th>Last Name</th> 
-		<th>Username</th> 
-		<th>Email</th> 
-		<th>Role</th> 
-		<th>Button</th>
-		</tr>
-		</thead> 
-		<tbody>
-		</tbody> 
-		</table>
+			<h2>List of friends</h2> 
+			<table id="friendsTable" class="table table-striped table-bordered" style="width:100% "> 
+				<thead> 
+					<tr> 
+						<th>First Name</th> 
+						<th>Last Name</th> 
+						<th>Username</th> 
+						<th>Email</th> 
+						<th></th>
+					</tr>
+				</thead> 
+				<tbody>
+				</tbody> 
+				<tfoot> 
+					<tr> 
+						<th>First Name</th> 
+						<th>Last Name</th> 
+						<th>Username</th> 
+						<th>Email</th> 
+						<th></th>
+					</tr>
+				</tfoot> 
+				</table>
 		</div>
-		<p>list friend requests</p>
-		<p>First Name, Last Name, accept , </p>
+		<div class="container"> 
+			<h2>Friend requests</h2> 
+			<table id="friendRequestsTable" class="table table-striped table-bordered" style="width:100% "> 
+				<thead> 
+					<tr> 
+						<th>First Name</th> 
+						<th>Last Name</th> 
+						<th>Username</th> 
+						<th>Email</th> 
+						<th>Accept</th>
+						<th>Decline</th>
+					</tr>
+					    <tr style="display:none">
+					        <th>a</th>
+					        <th>b</th>
+					    </tr>
+				</thead> 
+				<tbody>
+				<tr><td>Ime1</td><td>Prz1</td><td>user1</td><td>mail</td><td>btnAccept</td><td>btnDecline</td></tr>
+				</tbody> 
+				<tfoot> 
+					<tr> 
+						<th>First Name</th> 
+						<th>Last Name</th> 
+						<th>Username</th> 
+						<th>Email</th> 
+						<th>Accept</th>
+						<th>Decline</th>
+					</tr>
+				</tfoot> 
+			</table>
+		</div>
+		<div class="container"> 
+			<h2>Find new friends!</h2> 
+			<table id="newFriendsTable" class="table table-striped table-bordered" style="width:100% "> 
+				<thead> 
+					<tr> 
+						<th>First Name</th> 
+						<th>Last Name</th> 
+						<th>Username</th> 
+						<th>Email</th> 
+						<th>Add as friend</th>
+					</tr>
+				</thead> 
+				<tbody>
+				<tr><td>Ime1</td><td>Prz1</td><td>user1</td><td>mail</td><td>btnAddAsFriend</td></tr>
+				</tbody> 
+				<tfoot> 
+					<tr> 
+						<th>First Name</th> 
+						<th>Last Name</th> 
+						<th>Username</th> 
+						<th>Email</th> 
+						<th>Add as friend</th>
+					</tr>
+				</tfoot> 
+			</table>
+		</div>
+		<div id="id01" class="modal">
+			<form class="modal-content2 animate" id="deleteFriendForma">
+				<div class="container-modal" id="div-container-modal">
+					<h1>Are you sure you want to delete Friend:</h1>
+					<h2 id="imePrezimeUsername"></h2>
+	
+					<button class="deleteSubmitBtn" type="submit">Delete</button>
+					<button type="button"
+						onclick="zatvoriModal('id01')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+	
+					<input type="hidden" id="identifikator">
+				</div>
+			</form>
+		</div>
 	</div>
 	
 	<div id="MyReservations" class="tabcontent">
@@ -125,5 +206,6 @@
 			</div>
 		</form>
 	</div>
+
 </body>
 </html>
