@@ -49,7 +49,7 @@ $(document).on('submit', "#editProfileForma", function(e){
 		url:update_korisnika_url+"/"+id,
 		contentType:'application/json',
 		dataType:'text',
-		data:korisnikToJSON(id,ime, prezime, lozinka, korisnickoIme, mail, slika),
+		data:korisnikToJSON(id,ime, prezime, lozinka, korisnickoIme, mail, slika, adresa, telefon),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -66,7 +66,7 @@ $(document).on('submit', "#editProfileForma", function(e){
 	});
 });
 
-function korisnikToJSON(id, ime, prezime, lozinka, korisnickoIme, mail, slika){
+function korisnikToJSON(id, ime, prezime, lozinka, korisnickoIme, mail, slika, adresa, telefon){
 	return JSON.stringify({
 		"id":id,
 		"ime":ime,
@@ -74,7 +74,9 @@ function korisnikToJSON(id, ime, prezime, lozinka, korisnickoIme, mail, slika){
 		"lozinka":lozinka,
 		"korisnickoIme":korisnickoIme,
 		"mail":mail ,
-		"slika":slika
+		"slika":slika,
+		"adresa":adresa,
+		"telefon":telefon
 	});
 }
 
@@ -95,8 +97,17 @@ function dobaviPodatkeKorisnika(){
         	$('#username').val(data.korisnickoIme);
         	$('#lozinka').val(data.lozinka);
         	$('#mail').val(data.mail);
-        	$('#address').val("neka adresa");
-        	$('#telefon').val("neki telefon");
+        	if(data.adresa == null){
+            	$('#address').val("neka adresa");
+        	}else{
+        		$('#address').val(data.adresa);
+        	}
+        	if(data.telefon == null){
+            	$('#telefon').val("neki telefon");
+        	}else{
+        		$('#telefon').val(data.telefon);
+        	}
+        	
         	$('#identifikator').val(data.id);
         	
         	if(data.slika!=null && data.slika!=""){

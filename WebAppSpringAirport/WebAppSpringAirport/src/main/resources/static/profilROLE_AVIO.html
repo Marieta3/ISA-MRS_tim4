@@ -51,22 +51,22 @@
 			</div>
 			<div class="grid-container">
 				<div class="grid-item">
-					First Name <br> <input type="text" id="ime">
+					First Name <br> <input type="text" id="ime" required>
 				</div>
 				<div class="grid-item">
-					Last Name <br> <input type="text" id="prezime">
+					Last Name <br> <input type="text" id="prezime" required>
 				</div>
 				<div class="grid-item">
-					E-mail <br> <input type="email" id="mail">
+					E-mail <br> <input type="email" id="mail" required>
 				</div>
 				<div class="grid-item">
-					Username <br> <input type="text" id="username">
+					Username <br> <input type="text" id="username" required>
 				</div>
 				<div class="grid-item">
-					Address <br> <input type="text" id="address">
+					Address <br> <input type="text" id="address" required>
 				</div>
 				<div class="grid-item">
-					Phone number <br> <input type="text" id="telefon">
+					Phone number <br> <input type="text" id="telefon" required>
 				</div>
 
 				<div class="grid-item">
@@ -117,14 +117,14 @@
 
 			<div class="grid-container">
 				<div class="grid-item">
-					Name <br> <input type="text" id="naziv">
+					Name <br> <input type="text" id="naziv" required>
 				</div>
 				<div class="grid-item">
-					Address <br> <input type="text" id="adresa">
+					Address <br> <input type="text" id="adresa" required>
 				</div>
 				<div class="grid-item" id="textarea">
 					Description <br>
-					<textarea id="opis" rows="5" cols="60"></textarea>
+					<textarea id="opis" rows="5" cols="60" required></textarea>
 				</div>
 
 
@@ -205,7 +205,7 @@
 				<div class="container-modal" id="div-container-modal">
 					<h1 id="h1Destinacija">Destination</h1>
 					<label for="mesto"><b>Destination</b></label> <input type="text"
-						name="mesto" id="mestoDestinacije1"> <br>
+						name="mesto" id="mestoDestinacije1" required> <br>
 
 					<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
 					<button type="button" onclick="zatvoriModal('id02')"
@@ -241,7 +241,7 @@
 				<div class="container-modal" id="div-container-modal">
 					<h1>Add new destination</h1>
 					<label for="mesto"><b>Destination</b></label> <input type="text"
-						name="mesto" id="mestoDestinacije">
+						name="mesto" id="mestoDestinacije" required>
 
 					<button class="addSubmitBtn" type="submit">Add</button>
 					<button type="button"
@@ -301,16 +301,16 @@
 				<div class="container-modal" id="div-container-modal">
 					<h1>Add new Airplane</h1>
 					<label for="model"><b>Airplane model</b></label> <input type="text"
-						name="model" id="modelAvion"> <label for="rows"><b>Number
-							of rows </b></label> <input type="text" name="rows" id="rowsAvion"> <label
+						name="model" id="modelAvion" required> <label for="rows"><b>Number
+							of rows </b></label> <input type="text" name="rows" id="rowsAvion" required> <label
 						for="columns"><b>Number of columns</b></label> <input type="text"
-						name="columns" id="columnsAvion"> <label for="rowsEC"><b>Number
+						name="columns" id="columnsAvion" required> <label for="rowsEC"><b>Number
 							of rows in Economy class</b></label> <input type="text" name="rowsEC"
-						id="rowsECAvion"> <label for="rowsBC"><b>Number
+						id="rowsECAvion" required> <label for="rowsBC"><b>Number
 							of rows in Bussiness class</b></label> <input type="text" name="rowsBC"
-						id="rowsBCAvion"> <label for="rowsFC"><b>Number
+						id="rowsBCAvion" required> <label for="rowsFC"><b>Number
 							of rows in First class</b></label> <input type="text" name="rowsFC"
-						id="rowsFCAvion">
+						id="rowsFCAvion" required>
 
 					<button class="addSubmitBtn" type="submit">Add</button>
 					<button type="button"
@@ -363,17 +363,17 @@
 				<div class="container-modal" id="div-container-modal">
 					<h1 id="h1Avion">Airplane</h1>
 					<label for="model"><b>Airplane model</b></label> 
-						<input type="text" name="model" id="modelAvion1"> 
+						<input type="text" name="model" id="modelAvion1" required> 
 					<label for="rows"><b>Number of rows </b> </label> 
-						<input type="text" name="rows" id="rowsAvion1">
+						<input type="text" name="rows" id="rowsAvion1" required>
 					<label for="columns"><b>Number of columns</b></label> 
-						<input type="text" name="columns" id="columnsAvion1"> 
+						<input type="text" name="columns" id="columnsAvion1" required> 
 					<label for="rowsEC"><b>Number of rows in Economy class</b></label> 
-						<input type="text" name="rowsEC" id="rowsECAvion1"> 
+						<input type="text" name="rowsEC" id="rowsECAvion1" required> 
 					<label for="rowsBC"><b>Number of rows in Bussiness class</b></label> 
-						<input type="text" name="rowsBC" id="rowsBCAvion1"> 
+						<input type="text" name="rowsBC" id="rowsBCAvion1" required> 
 					<label for="rowsFC"><b>Number of rows in First class</b> </label> 
-						<input type="text" name="rowsFC" id="rowsFCAvion1">
+						<input type="text" name="rowsFC" id="rowsFCAvion1" required>
 
 					<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
 					<button type="button" onclick="zatvoriModal('id06')"

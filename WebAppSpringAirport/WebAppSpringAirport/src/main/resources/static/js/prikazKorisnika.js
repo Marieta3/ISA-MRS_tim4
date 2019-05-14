@@ -26,12 +26,13 @@ function renderKorisnici(data){
 	console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
+	
 	if(uloga=="ROLE_ADMIN"){
-		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
+		var th_nbsp=$('<th>&nbsp;</th>');
 		$('#prikazKorisnikaTabela').find('tr:eq(0)').append(th_nbsp);
 	}
 	$("#prikazKorisnikaTabela").find("tr:gt(0)").remove();
-	$("#prikazKorisnikaTabela").find("th:gt(6)").remove();
+	$("#prikazKorisnikaTabela").find("th:gt(7)").remove();
 	$.each(list, function(index, korisnik){
 		/*var tr=$('<tr id="korisnik_' + korisnik.id + '"></tr>');
 		console.log(korisnik.ime);

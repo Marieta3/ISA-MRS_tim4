@@ -137,7 +137,12 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 			|| attr=="rezervisana" || attr=="ime" || attr=="prezime" || attr=="korisnickoIme" || attr=="main"
 			|| attr=="telefon" || attr=="proizvodjac" || attr=="godina" || attr=="tablica" || attr=="brojMesta"
 			||attr=="model" || attr=="brojRedova" || attr=="brojKolona" || attr=="brojRedovaEC" || attr=="brojRedovaBC" || attr=="brojRedovaFC"){
-			var td=$('<td>'+val+'</td>');
+			var td;
+			if(val == null){
+				td=$('<td>&nbspNo data&nbsp</td>');
+			}else{
+				td=$('<td>'+val+'</td>');
+			}
 			console.log(td);
 			tr.append(td);
 		}else if(attr=="filijala"){
@@ -193,6 +198,11 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 	var td = $('<td></td>');
 	td.append(formaObrisi);
 	tr.append(td);
+	
+	//admin sistema ne moze da updajtuje korisnike!
+	if(entitet == 'user'){
+		return tr;
+	}
 	
 	var formaUpdate = $('<form id="formaUpdate'+entitet+'" onsubmit="formaUpdate'+entitet+'(event, this)"></form>');
 	formaUpdate.append('<input type="hidden" value="' + data.id + '">');

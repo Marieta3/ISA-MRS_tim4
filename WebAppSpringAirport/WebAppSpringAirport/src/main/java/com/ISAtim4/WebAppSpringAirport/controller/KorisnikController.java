@@ -157,7 +157,8 @@ public class KorisnikController {
 	}
 
 	/* da uzmemo sve korisnike */
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	//@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
 	@RequestMapping(value = "/api/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Korisnik> getAllKorisnici() {
 		return korisnikService.findAll();
@@ -181,7 +182,7 @@ public class KorisnikController {
 	@RequestMapping(value = "/api/users/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Korisnik> updateKorisnika(
 			@PathVariable(value = "id") Long korisnikId,
-			@Valid @RequestBody Korisnik korisnikDetalji) {
+			@Valid @RequestBody KorisnikDTO korisnikDetalji) {
 
 		Korisnik korisnik = korisnikService.findOne(korisnikId);
 		if (korisnik == null) {
@@ -199,6 +200,8 @@ public class KorisnikController {
 		korisnik.setLozinka(korisnikDetalji.getLozinka());
 		korisnik.setMail(korisnikDetalji.getMail());
 		korisnik.setSlika(korisnikDetalji.getSlika());
+		korisnik.setAdresa(korisnikDetalji.getAdresa());
+		korisnik.setTelefon(korisnikDetalji.getTelefon());
 		Korisnik updateKorisnik = korisnikService.save(korisnik);
 		return ResponseEntity.ok().body(updateKorisnik);
 	}
@@ -228,7 +231,7 @@ public class KorisnikController {
 
 	@RequestMapping(value = "/api/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Korisnik> dodavanjeKorisnikaPriRegistraciji(
-			@Valid @RequestBody Korisnik reg_korisnik) {
+			@Valid @RequestBody KorisnikDTO reg_korisnik) {
 		Korisnik korisnik = korisnikService.findByKorisnickoIme(reg_korisnik
 				.getKorisnickoIme());
 		if (korisnik == null) {
@@ -242,6 +245,8 @@ public class KorisnikController {
 			reg.setLozinka(hashedPassword);
 			reg.setKorisnickoIme(reg_korisnik.getKorisnickoIme());
 			reg.setMail(reg_korisnik.getMail());
+			reg.setAdresa(reg_korisnik.getAdresa());
+			reg.setTelefon(reg_korisnik.getTelefon());
 			Authority authority = authorityService.findByName("ROLE_USER");
 			ArrayList<Authority> auth = new ArrayList<Authority>();
 			auth.add(authority);

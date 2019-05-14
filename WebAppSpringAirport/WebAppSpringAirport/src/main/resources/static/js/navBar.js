@@ -10,7 +10,6 @@ $(document).ready(function(){
 	if(role==null){
 		console.log($("#nav-bar"));
 		console.log($("#lista1"));
-		
 	}else{
 		$("#nav-bar").append('<li><a href="profil'+role+'.html">Profile</a></li>');
 		$("#nav-bar").append('<li><button class="logout" >Logout</button></li>');

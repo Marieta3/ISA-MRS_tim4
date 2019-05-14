@@ -8,13 +8,17 @@ public class KorisnikDTO {
 	public String mail;
 	public String uloga;
 	public String adminOf;
+	public String adresa;
+	public String telefon;
+	public String slika;
 
 	public KorisnikDTO() {
 		super();
 	}
 
 	public KorisnikDTO(String ime, String prezime, String korisnickoIme,
-			String lozinka, String mail, String uloga, String adminOf) {
+			String lozinka, String mail, String uloga, String adminOf,
+			String adresa, String telefon, String slika) {
 		this.ime = ime;
 		this.prezime = prezime;
 		this.korisnickoIme = korisnickoIme;
@@ -22,6 +26,9 @@ public class KorisnikDTO {
 		this.mail = mail;
 		this.uloga = uloga;
 		this.adminOf = adminOf;
+		this.adresa = adresa;
+		this.telefon = telefon;
+		this.slika = slika;
 	}
 
 	public String getIme() {
@@ -80,4 +87,29 @@ public class KorisnikDTO {
 		this.adminOf = adminOf;
 	}
 
+	public String getAdresa() {
+		return adresa;
+	}
+
+	public void setAdresa(String adresa) {
+		this.adresa = adresa;
+	}
+
+	public String getTelefon() {
+		return telefon;
+	}
+
+	public void setTelefon(String telefon) {
+		this.telefon = telefon;
+	}
+
+	public String getSlika() {
+		return slika;
+	}
+
+	public void setSlika(String slika) {
+		this.slika = slika;
+	}
+
+	
 }
