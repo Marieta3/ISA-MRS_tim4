@@ -2,9 +2,11 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://api-maps.yandex.ru/2.1/?lang=en_US&format=json" type="text/javascript"></script>
+
 
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/modali.js"></script>
@@ -32,8 +34,10 @@
 				onclick="openTab(event, 'EditProfile')">Edit Profile</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Hotel')"
 				id="defaultOpen">Hotel</button></li>
-		<li><button id="tabRoomsLink" class="tablinks" onclick="openTab(event, 'Rooms'), findAllByHotel(),dodajUslugeUModalAdd('id03'), dodajUslugeUModalUpd('id04')">Rooms</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'Services'), findAllUslugeByHotel()">Services</button></li>
+		<li><button id="tabRoomsLink" class="tablinks"
+				onclick="openTab(event, 'Rooms'), findAllByHotel(),dodajUslugeUModalAdd('id03'), dodajUslugeUModalUpd('id04')">Rooms</button></li>
+		<li><button class="tablinks"
+				onclick="openTab(event, 'Services'), findAllUslugeByHotel()">Services</button></li>
 	</ul>
 
 	<div id="EditProfile" class="tabcontent">
@@ -42,13 +46,16 @@
 		<form id="editProfileForma">
 			<div id="imgContainer">
 				<div class="imagePicker">
-					<img id="profile_img" src="slike/avatar.png" alt="Image preview..."> <br>
+					<img id="profile_img" src="slike/avatar.png" alt="Image preview...">
+					<br>
 				</div>
 				<div class="upload-btn-wrapper">
 					<button class="upload-file-btn">Upload a file</button>
-					<input id="slikaEdit" type="file" accept="image/*" title="Choose file"
+					<input id="slikaEdit" type="file" accept="image/*"
+						title="Choose file"
 						onchange="previewFile('slikaEdit', 'profile_img')" name="myfile" />
-				</div><br>
+				</div>
+				<br>
 			</div>
 			<div class="grid-container">
 				<div class="grid-item">
@@ -74,7 +81,7 @@
 					<input type="submit" id="buttonSbm" value="Confirm changes">
 				</div>
 				<div class="grid-item">
-					<button id="cancel_profile" class="cancelBtn" >Cancel</button>
+					<button id="cancel_profile" class="cancelBtn">Cancel</button>
 				</div>
 				<div class="grid-item">
 					<input type="hidden" id="identifikator">
@@ -93,29 +100,34 @@
 		<form id="updateHotelaForma">
 			<div id="imgContainer">
 				<div class="imagePicker">
-					<img id="hotel_img" src="slike/avatar.png" alt="Image preview..."> <br>
+					<img id="hotel_img" src="slike/avatar.png" alt="Image preview...">
+					<br>
 
 				</div>
 				<div class="upload-btn-wrapper">
 					<button class="upload-file-btn">Upload a file</button>
-					<input id="slika_hotel" type="file" accept="image/*" title="Choose file"
+					<input id="slika_hotel" type="file" accept="image/*"
+						title="Choose file"
 						onchange="previewFile('slika_hotel', 'hotel_img')" name="myfile" />
 				</div>
-				<br>
-				<span>Rating:</span>
-				<span id="rating_hotel"></span>
-				<br>
+				<br> <span>Rating:</span> <span id="rating_hotel"></span> <br>
 				<div class="containerdiv">
-    				<div>
-    					<img class="zvezde" src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
-    				</div>
-    				<div class="cornerimage" >
-    					<img class="zvezde" src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
-    				</div>
+					<div>
+						<img class="zvezde"
+							src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
+					</div>
+					<div class="cornerimage">
+						<img class="zvezde"
+							src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
+					</div>
 				</div>
 			</div>
+<<<<<<< HEAD
 			
 			
+=======
+
+>>>>>>> master
 			<div class="grid-container">
 				<div class="grid-item">
 					Name <br> <input type="text" id="naziv">
@@ -148,204 +160,207 @@
 
 	<div id="Rooms" class="tabcontent">
 		<h1>Rooms</h1>
-		<button class="newRoomBtn" value="New Room" onclick="otvoriModal('id03')">New Room</button>
-		
+		<button class="newRoomBtn" value="New Room"
+			onclick="otvoriModal('id03')">New Room</button>
+
 		<table id="prikazSobaTabela" class="prikazEntitetaTbl">
 			<thead>
-			<tr>
-				<th>&nbsp;</th>
-				<th>Bed count</th>
-				<th class="opisEntitet">Description</th>
-				<th>Rating</th>
-				<th>Reserved</th>
-			</tr>
+				<tr>
+					<th>&nbsp;</th>
+					<th>Bed count</th>
+					<th class="opisEntitet">Description</th>
+					<th>Rating</th>
+					<th>Reserved</th>
+				</tr>
 			</thead>
 			<tbody></tbody>
 		</table>
-		
+
+		<!-- za AZURIRANJE sobe -->
 		<div id="id04" class="modal">
+			<form class="modal-content1 animate" id="editRoomForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id04')">&times;</span>
 
-		<form class="modal-content1 animate" id="editRoomForma">
-			<div class="imgcontainer">
-				<span class="close" title="Close Modal" onclick="zatvoriModal('id04')">&times;</span>
-					
-				<!-- slika-->
-				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
-                	<img id="room_img1" src="slike/pic1.jpg"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
-            	</div>
-             	<input id="slika_room1" type="file" accept="image/*" title="Choose file" onchange="previewFile('slika_room1', 'room_img1')" ><br>
-				 
-			</div>
+					<!-- slika-->
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="room_img1" src="slike/pic1.jpg" alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+					<input id="slika_room1" type="file" accept="image/*"
+						title="Choose file"
+						onchange="previewFile('slika_room1', 'room_img1')"><br>
 
-			<div class="container-modal" id="div-container-modal">
-			<h1 id="h1soba">Soba</h1>
-				<label for="opisSobe"><b>Description</b></label> 
-				<input type="text" name="opisSobe" id="opisSobe1">
-				
-				<label for="brojKreveta"><b>Bed count</b></label> 
-				<input type="number" name="brojKreveta" id="brojKreveta1" min="1">
-				
-				<label for="services1" id="lblServices1"><b>Services:</b></label> <br>
-				
-				<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
-				<button type="button"
-					onclick="zatvoriModal('id04')"
-					class="cancelbtn">Cancel</button>
-			</div>
-			<div class="hidden">
+				</div>
 
-				<input type="hidden" id="identifikatorSobaUpd">
-			</div>
-		</form>
-	</div>
-	
+				<div class="container-modal" id="div-container-modal">
+					<h1 id="h1soba">Soba</h1>
+					<label for="opisSobe"><b>Description</b></label> <input type="text"
+						name="opisSobe" id="opisSobe1"> <label for="brojKreveta"><b>Bed
+							count</b></label> <input type="number" name="brojKreveta" id="brojKreveta1"
+						min="1"> <label for="services1" id="lblServices1"><b>Services:</b></label>
+					<br>
+
+					<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
+					<button type="button" onclick="zatvoriModal('id04')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="identifikatorSobaUpd">
+				</div>
+			</form>
+		</div>
+
+		<!-- za BRISANJE sobe -->
 		<div id="id01" class="modal">
-		<form class="modal-content1 animate" id="deleteSobaForma">
-			<div class="imgcontainer">
-				<span class="close" title="Close Modal" onclick="zatvoriModal('id01')">&times;</span>
-				<!-- slika -->
-			</div>
-			<div class="container-modal" id="div-container-modal">
-				<h1>Are you sure you want to delete room: </h1>
-				<h2 id="soba"></h2>
-				
-				<button class="deleteSubmitBtn" type="submit">Delete</button>
-				<button type="button"
-					onclick="zatvoriModal('id01')"
-					class="cancelbtn">Cancel</button>
-			</div>
-			<div class="hidden">
+			<form class="modal-content1 animate" id="deleteSobaForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id01')">&times;</span>
+					<!-- slika -->
+				</div>
+				<div class="container-modal" id="div-container-modal">
+					<h1>Are you sure you want to delete room:</h1>
+					<h2 id="soba"></h2>
 
-				<input type="hidden" id="identifikatorSoba">
-			</div>
-		</form>
-	</div>
-	
+					<button class="deleteSubmitBtn" type="submit">Delete</button>
+					<button type="button" onclick="zatvoriModal('id01')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="identifikatorSoba">
+				</div>
+			</form>
+		</div>
+		
+		<!-- za DODAVANJE nove sobe -->
 		<div id="id03" class="modal">
-		<form class="modal-content3 animate" id="newRoomForma">
-			<div class="imgcontainer">
-				<span class="close" title="Close Modal" onclick="zatvoriModal('id03')">&times;</span>
-					
-				<!-- slika-->
-				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
-                	<img id="room_img" src="slike/avatar.png"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
-            	</div>
-             	<input id="slika_room" type="file" accept="image/*" title="Choose file" onchange="previewFile('slika_room', 'room_img')" ><br>
-				 
-			</div>
+			<form class="modal-content3 animate" id="newRoomForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id03')">&times;</span>
 
-			<div class="container-modal" id="div-container-modal">
-				<h1> Add new room </h1>
-				<label for="opisSobe"><b>Description</b></label> 
-				<input type="text" name="opisSobe" id="opisSobe">
-				
-				<label for="brojKreveta"><b>Bed count</b></label> 
-				<input type="number" name="brojKreveta" id="brojKreveta" min="1">
-				
-				<label for="services" id="lblServices"><b>Services:</b></label> <br>
-				
-				<button class="addSubmitBtn addSobaBtn" type="submit">Add</button>
-				<button type="button"
-					onclick="zatvoriModal('id03')"
-					class="cancelbtn">Cancel</button>
-			</div>
-			<div class="hidden">
+					<!-- slika-->
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="room_img" src="slike/avatar.png" alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+					<input id="slika_room" type="file" accept="image/*"
+						title="Choose file"
+						onchange="previewFile('slika_room', 'room_img')"><br>
 
-				
-			</div>
-		</form>
-	</div>
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1>Add new room</h1>
+					<label for="opisSobe"><b>Description</b></label> <input type="text"
+						name="opisSobe" id="opisSobe"> <label for="brojKreveta"><b>Bed
+							count</b></label> <input type="number" name="brojKreveta" id="brojKreveta"
+						min="1"> <label for="services" id="lblServices"><b>Services:</b></label>
+					<br>
+
+					<button class="addSubmitBtn addSobaBtn" type="submit">Add</button>
+					<button type="button" onclick="zatvoriModal('id03')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden"></div>
+			</form>
+		</div>
 	</div>
 
 	<div id="Services" class="tabcontent">
 		<h1>Services</h1>
-		<button class="newServiceBtn" value="New Service" onclick="otvoriModal('id02')">New Service</button>
+		<button class="newServiceBtn" value="New Service"
+			onclick="otvoriModal('id02')">New Service</button>
 		<table id="prikazUslugaTabela" class="prikazEntitetaTbl">
 			<thead>
-			<tr>
-				<th>Description</th>
-				<th>Price</th>
-			</tr>
+				<tr>
+					<th>Description</th>
+					<th>Price</th>
+				</tr>
 			</thead>
 			<tbody></tbody>
 		</table>
-		
+
 		<div id="id06" class="modal">
 
-		<form class="modal-content1 animate" id="editServiceForma">
-			<div class="imgcontainer">
-				<span class="close" title="Close Modal" onclick="zatvoriModal('id06')">&times;</span>
-					
-			</div>
+			<form class="modal-content1 animate" id="editServiceForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id06')">&times;</span>
 
-			<div class="container-modal" id="div-container-modal">
-			<h1 id="h1usluga">Service</h1>
-				<label for="opisUsluge"><b>Description</b></label> 
-				<input type="text" name="opisUsluge" id="opisUsluge1" required>
-				<label for="cenaUsluge"><b>Price</b></label> 
-				<input type="number" name="cenaUsluge" id="cenaUsluge1" min="0" required>
-				
-				<button class="updateSubmitBtn" type="submit">Update</button>
-				<button type="button"
-					onclick="zatvoriModal('id06')"
-					class="cancelbtn">Cancel</button>
-			</div>
-			<div class="hidden">
+				</div>
 
-				<input type="hidden" id="identifikatorUslugaUpd">
-			</div>
-		</form>
-	</div>
-	
+				<div class="container-modal" id="div-container-modal">
+					<h1 id="h1usluga">Service</h1>
+					<label for="opisUsluge"><b>Description</b></label> <input
+						type="text" name="opisUsluge" id="opisUsluge1" required> <label
+						for="cenaUsluge"><b>Price</b></label> <input type="number"
+						name="cenaUsluge" id="cenaUsluge1" min="0" required>
+
+					<button class="updateSubmitBtn" type="submit">Update</button>
+					<button type="button" onclick="zatvoriModal('id06')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="identifikatorUslugaUpd">
+				</div>
+			</form>
+		</div>
+
 		<div id="id05" class="modal">
-		<form class="modal-content1 animate" id="deleteUslugaForma">
-			<div class="imgcontainer">
-				<span class="close" title="Close Modal" onclick="zatvoriModal('id05')">&times;</span>
-				<!-- slika -->
-			</div>
-			<div class="container-modal" id="div-container-modal">
-				<h1>Are you sure you want to delete service: </h1>
-				<h2 id="usluga"></h2>
-				
-				<button class="deleteSubmitBtn" type="submit">Delete</button>
-				<button type="button"
-					onclick="zatvoriModal('id05')"
-					class="cancelbtn">Cancel</button>
-			</div>
-			<div class="hidden">
+			<form class="modal-content1 animate" id="deleteUslugaForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id05')">&times;</span>
+					<!-- slika -->
+				</div>
+				<div class="container-modal" id="div-container-modal">
+					<h1>Are you sure you want to delete service:</h1>
+					<h2 id="usluga"></h2>
 
-				<input type="hidden" id="identifikatorUsluga">
-			</div>
-		</form>
-	</div>
+					<button class="deleteSubmitBtn" type="submit">Delete</button>
+					<button type="button" onclick="zatvoriModal('id05')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="identifikatorUsluga">
+				</div>
+			</form>
+		</div>
 		<div id="id02" class="modal">
-		<form class="modal-content2 animate" id="newUslugaForma">
-			<div class="imgcontainer">
-				<span class="close" title="Close Modal" onclick="zatvoriModal('id02')">&times;</span>
-				
-			</div>
-			<div class="container-modal" id="div-container-modal">
-				<h1> Add new service </h1>
-				<label for="opisUsluge"><b>Description</b></label> 
-				<input type="text" name="opisUsluge" id="opisUsluge" required>
-				
-				<label for="cenaUsluge"><b>Price</b></label> 
-				<input type="number" name="cenaUsluge" id="cenaUsluge" value="0" required>
-				
-				<!-- valuta?? -->
-				<button class="addSubmitBtn" type="submit">Add</button>
-				<button type="button"
-					onclick="zatvoriModal('id02')"
-					class="cancelbtn">Cancel</button>
-			</div>
-			<div class="hidden">
+			<form class="modal-content2 animate" id="newUslugaForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id02')">&times;</span>
 
-				
-			</div>
-		</form>
+				</div>
+				<div class="container-modal" id="div-container-modal">
+					<h1>Add new service</h1>
+					<label for="opisUsluge"><b>Description</b></label> <input
+						type="text" name="opisUsluge" id="opisUsluge" required> <label
+						for="cenaUsluge"><b>Price</b></label> <input type="number"
+						name="cenaUsluge" id="cenaUsluge" value="0" required>
+
+					<!-- valuta?? -->
+					<button class="addSubmitBtn" type="submit">Add</button>
+					<button type="button" onclick="zatvoriModal('id02')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden"></div>
+			</form>
 		</div>
 	</div>
-	
-	
+
+
 </body>
 </html>

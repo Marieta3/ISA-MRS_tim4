@@ -2,14 +2,15 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/editProfile.js"></script>
 <script type="text/javascript" src="js/updateAvioKompanija.js"></script>
 <script type="text/javascript" src="js/imagePreview.js"></script>
 <script type="text/javascript" src="js/profilAvioAdmin.js"></script>
-<script type="text/javascript" src="js/modali.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
@@ -22,51 +23,57 @@
 		<li><a href="index.html">Home</a></li>
 		<li><button class="tablinks"
 				onclick="openTab(event, 'EditProfile')">Edit Profile</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'AvioKompanija')"
-				id="defaultOpen">Airline</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'Destinations')">Destinations</button></li>
+		<li><button class="tablinks"
+				onclick="openTab(event, 'AvioKompanija')" id="defaultOpen">Airline</button></li>
+		<li><button class="tablinks"
+				onclick="openTab(event, 'Destinations')">Destinations</button></li>
+		<li><button class="tablinks"
+				onclick="openTab(event, 'Airplanes')">Airplanes</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Flights')">Flights</button></li>
 	</ul>
-	
+
 	<div id="EditProfile" class="tabcontent">
 
 		<h1 id="imePrezime">Ime Prezime</h1>
 		<form id="editProfileForma">
 			<div id="imgContainer">
 				<div class="imagePicker">
-					<img id="profile_img" src="slike/avatar.png" alt="Image preview..."> <br>
+					<img id="profile_img" src="slike/avatar.png" alt="Image preview...">
+					<br>
 				</div>
 				<div class="upload-btn-wrapper">
 					<button class="upload-file-btn">Upload a file</button>
-					<input id="slikaEdit" type="file" accept="image/*" title="Choose file"
+					<input id="slikaEdit" type="file" accept="image/*"
+						title="Choose file"
 						onchange="previewFile('slikaEdit', 'profile_img')" name="myfile" />
-				</div><br>
+				</div>
+				<br>
 			</div>
 			<div class="grid-container">
 				<div class="grid-item">
-					First Name <br> <input type="text" id="ime">
+					First Name <br> <input type="text" id="ime" required>
 				</div>
 				<div class="grid-item">
-					Last Name <br> <input type="text" id="prezime">
+					Last Name <br> <input type="text" id="prezime" required>
 				</div>
 				<div class="grid-item">
-					E-mail <br> <input type="email" id="mail">
+					E-mail <br> <input type="email" id="mail" required>
 				</div>
 				<div class="grid-item">
-					Username <br> <input type="text" id="username">
+					Username <br> <input type="text" id="username" required>
 				</div>
 				<div class="grid-item">
-					Address <br> <input type="text" id="address">
+					Address <br> <input type="text" id="address" required>
 				</div>
 				<div class="grid-item">
-					Phone number <br> <input type="text" id="telefon">
+					Phone number <br> <input type="text" id="telefon" required>
 				</div>
 
 				<div class="grid-item">
 					<input type="submit" id="buttonSbm" value="Confirm changes">
 				</div>
 				<div class="grid-item">
-					<button id="cancel_profile" class="cancelBtn" >Cancel</button>
+					<button id="cancel_profile" class="cancelBtn">Cancel</button>
 				</div>
 				<div class="grid-item">
 					<input type="hidden" id="identifikator">
@@ -85,38 +92,39 @@
 		<form id="updateAvioKompanijuForma">
 			<div id="imgContainer">
 				<div class="imagePicker">
-					<img id="avio_img" src="slike/avatar.png" alt="Image preview..."> <br>
+					<img id="avio_img" src="slike/avatar.png" alt="Image preview...">
+					<br>
 
 				</div>
 				<div class="upload-btn-wrapper">
 					<button class="upload-file-btn">Upload a file</button>
-					<input id="slika_avio" type="file" accept="image/*" title="Choose file"
+					<input id="slika_avio" type="file" accept="image/*"
+						title="Choose file"
 						onchange="previewFile('slika_avio', 'avio_img')" name="myfile" />
 				</div>
-				<br>
-				<span>Rating:</span>
-				<span id="rating_avio"></span>
-				<br>
+				<br> <span>Rating:</span> <span id="rating_avio"></span> <br>
 				<div class="containerdiv">
-    				<div>
-    					<img class="zvezde" src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
-    				</div>
-    				<div class="cornerimage" >
-    					<img class="zvezde" src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
-    				</div>
+					<div>
+						<img class="zvezde"
+							src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
+					</div>
+					<div class="cornerimage">
+						<img class="zvezde"
+							src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
+					</div>
 				</div>
 			</div>
-			
+
 			<div class="grid-container">
 				<div class="grid-item">
-					Name <br> <input type="text" id="naziv">
+					Name <br> <input type="text" id="naziv" required>
 				</div>
 				<div class="grid-item">
-					Address <br> <input type="text" id="adresa">
+					Address <br> <input type="text" id="adresa" required>
 				</div>
 				<div class="grid-item" id="textarea">
 					Description <br>
-					<textarea id="opis" rows="5" cols="60"></textarea>
+					<textarea id="opis" rows="5" cols="60" required></textarea>
 				</div>
 
 
@@ -137,53 +145,249 @@
 
 	<div id="Destinations" class="tabcontent">
 		<h1>Destinations</h1>
-		<button class="newDestinationBtn" value="New Destination" onClick="otvoriModal('id03')">New Destination</button>
-		
+		<button class="newDestinationBtn" value="New Destination"
+			onClick="otvoriModal('id03')">New Destination</button>
+
 		<table id="prikazDestinacijaTabela" class="prikazEntitetaTbl">
-			<tr>
-				<th>&nbsp;</th>
-				<th>---</th>
-				<th>Description</th>
-				<th>Rating</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th class="opisEntitet">Destination</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
 		</table>
-		
+
+		<!-- za BRISANJE destinacije -->
+		<div id="id01" class="modal">
+			<form class="modal-content1 animate" id="deleteDestinacijaForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id01')">&times;</span>
+					<!-- slika -->
+				</div>
+				<div class="container-modal" id="div-container-modal">
+					<h1>Are you sure you want to delete destination:</h1>
+
+					<button class="deleteSubmitBtn" type="submit">Delete</button>
+					<button type="button" onclick="zatvoriModal('id01')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="identifikatorDestinacija">
+				</div>
+			</form>
+		</div>
+
+		<!-- za AZURIRANJE destinacije -->
+		<div id="id02" class="modal">
+
+			<form class="modal-content1 animate" id="editDestinationForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id02')">&times;</span>
+
+					<!-- slika-->
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="destinacija_img1" src="slike/pic1.jpg"
+							alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+					<input id="slika_destinacija1" type="file" accept="image/*"
+						title="Choose file"
+						onchange="previewFile('slika_destinacija1', 'destinacija_img1')"><br>
+
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1 id="h1Destinacija">Destination</h1>
+					<label for="mesto"><b>Destination</b></label> <input type="text"
+						name="mesto" id="mestoDestinacije1" required> <br>
+
+					<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
+					<button type="button" onclick="zatvoriModal('id02')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="identifikatorDestinacijeUpd">
+				</div>
+			</form>
+		</div>
+
+		<!-- za DODAVANJE nove destinacije -->
 		<div id="id03" class="modal">
-		<form class="modal-content3 animate" id="newDestinationForma">
-			<div class="imgcontainer">
-				<span class="close" title="Close Modal" onClick="zatvoriModal('id03')">&times;</span>
-					
-				<!-- slika-->
-				<div class="imagePicker1" style="height: 200px;width:200px;border-radius: 50%">
-                	<img id="dest_img" src="slike/avatar.png"  alt="Image preview..." style="height:inherit; width:inherit; object-fit:cover;border-radius: inherit"> <br>    
-            	</div>
-             	<input id="slika_dest" type="file" accept="image/*" title="Choose file" onchange="previewFile('slika_dest', 'dest_img')" ><br>
-				 
-			</div>
+			<form class="modal-content3 animate" id="newDestinationForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onClick="zatvoriModal('id03')">&times;</span>
 
-			<div class="container-modal" id="div-container-modal">
-				<h1> Add new destination </h1>
-				<label for="opisSobe"><b>Description</b></label> 
-				<input type="text" name="opisSobe" id="opisSobe">
-				
-				<label for="brojKreveta"><b>Bed count</b></label> 
-				<input type="number" name="brojKreveta" id="brojKreveta" value="0">
-				
-				<button class="addSubmitBtn" type="submit">Add</button>
-				<button type="button"
-					onclick="document.getElementById('id03').style.display='none', ponistavanje('newDestinationForma')"
-					class="cancelbtn">Cancel</button>
-			</div>
-			<div class="hidden">
+					<!-- slika-->
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="dest_img" src="slike/avatar.png" alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+					<input id="slika_dest" type="file" accept="image/*"
+						title="Choose file"
+						onchange="previewFile('slika_dest', 'dest_img')"><br>
 
-				
-			</div>
-		</form>
-	</div>
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1>Add new destination</h1>
+					<label for="mesto"><b>Destination</b></label> <input type="text"
+						name="mesto" id="mestoDestinacije" required>
+
+					<button class="addSubmitBtn" type="submit">Add</button>
+					<button type="button"
+						onclick="document.getElementById('id03').style.display='none', ponistavanje('newDestinationForma')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden"></div>
+			</form>
+		</div>
 	</div>
 
 	<div id="Flights" class="tabcontent">
 		<h1>Flights</h1>
+	</div>
+
+
+	<div id="Airplanes" class="tabcontent">
+		<h1>Airplanes</h1>
+		<button class="newAirplaneBtn" value="New airplane"
+			onClick="otvoriModal('id04')">New Airplane</button>
+
+		<table id="prikazAvionaTabela" class="prikazEntitetaTbl">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th class="opisEntitet">Model</th>
+					<th>Broj redova</th>
+					<th>Broj kolona</th>
+					<th>Broj redova EC</th>
+					<th>Broj redova BC</th>
+					<th>Broj redova FC</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+
+		<!-- za DODAVANJE novog aviona -->
+		<div id="id04" class="modal">
+			<form class="modal-content3 animate" id="newAirplaneForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onClick="zatvoriModal('id04')">&times;</span>
+
+					<!-- slika-->
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="avio_img2" src="slike/aereo2.jpg" alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+					<input id="slika_avio2" type="file" accept="image/*"
+						title="Choose file"
+						onchange="previewFile('slika_avio2', 'avio_img2')"><br>
+
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1>Add new Airplane</h1>
+					<label for="model"><b>Airplane model</b></label> <input type="text"
+						name="model" id="modelAvion" required> <label for="rows"><b>Number
+							of rows </b></label> <input type="text" name="rows" id="rowsAvion" required> <label
+						for="columns"><b>Number of columns</b></label> <input type="text"
+						name="columns" id="columnsAvion" required> <label for="rowsEC"><b>Number
+							of rows in Economy class</b></label> <input type="text" name="rowsEC"
+						id="rowsECAvion" required> <label for="rowsBC"><b>Number
+							of rows in Bussiness class</b></label> <input type="text" name="rowsBC"
+						id="rowsBCAvion" required> <label for="rowsFC"><b>Number
+							of rows in First class</b></label> <input type="text" name="rowsFC"
+						id="rowsFCAvion" required>
+
+					<button class="addSubmitBtn" type="submit">Add</button>
+					<button type="button"
+						onclick="document.getElementById('id03').style.display='none', ponistavanje('newAvionForma')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden"></div>
+			</form>
+		</div>
+		<!-- za BRISANJE aviona -->
+		<div id="id05" class="modal">
+			<form class="modal-content1 animate" id="deleteAvionForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id05')">&times;</span>
+					<!-- slika -->
+				</div>
+				<div class="container-modal" id="div-container-modal">
+					<h1>Are you sure you want to delete airplane:</h1>
+
+					<button class="deleteSubmitBtn" type="submit">Delete</button>
+					<button type="button" onclick="zatvoriModal('id05')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+					<input type="hidden" id="identifikatorAviona">
+				</div>
+			</form>
+		</div>
+		<!-- za AZURIRANJE aviona -->
+		<div id="id06" class="modal">
+			<form class="modal-content1 animate" id="editAvionaForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id06')">&times;</span>
+
+					<!-- slika-->
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="avio_img3" src="slike/aereo2.jpg" alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+					<input id="slika_avio3" type="file" accept="image/*"
+						title="Choose file"
+						onchange="previewFile('slika_avio3', 'avio_img3')"><br>
+
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1 id="h1Avion">Airplane</h1>
+					<label for="model"><b>Airplane model</b></label> 
+						<input type="text" name="model" id="modelAvion1" required> 
+					<label for="rows"><b>Number of rows </b> </label> 
+						<input type="text" name="rows" id="rowsAvion1" required>
+					<label for="columns"><b>Number of columns</b></label> 
+						<input type="text" name="columns" id="columnsAvion1" required> 
+					<label for="rowsEC"><b>Number of rows in Economy class</b></label> 
+						<input type="text" name="rowsEC" id="rowsECAvion1" required> 
+					<label for="rowsBC"><b>Number of rows in Bussiness class</b></label> 
+						<input type="text" name="rowsBC" id="rowsBCAvion1" required> 
+					<label for="rowsFC"><b>Number of rows in First class</b> </label> 
+						<input type="text" name="rowsFC" id="rowsFCAvion1" required>
+
+					<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
+					<button type="button" onclick="zatvoriModal('id06')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="identifikatorAvionaUpd">
+				</div>
+			</form>
+		</div>
+
+
+
 	</div>
 </body>
 </html>

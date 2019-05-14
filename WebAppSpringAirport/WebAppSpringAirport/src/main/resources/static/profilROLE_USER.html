@@ -2,21 +2,128 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css"/>
+<style type="text/css">
+	#friendsTable {
+		width: 100%;
+	}
+</style>
 <script type="text/javascript" src="js/navBar.js"></script>
+<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
+<script type="text/javascript" src="js/editProfile.js"></script>
+<script type="text/javascript" src="js/imagePreview.js"></script>
+<script type="text/javascript" src="js/profilRegisteredUser.js"></script>
 <link rel="stylesheet" type="text/css" href="css/navBar.css">
+<link rel="stylesheet" type="text/css" href="css/indexLogin.css">
+<link rel="stylesheet" type="text/css" href="css/editProfile.css">
+<link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
+
 <title>USER</title>
 </head>
 <body>
 	<ul id="nav-bar">
 		<li><a href="index.html">Home</a></li>
-		<li><a href="editProfile.html">Edit Profile</a></li>
+		<li><button class="tablinks" onclick="openTab(event, 'EditProfile')" id="defaultOpen">Edit profile</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Flights')">Flights</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Hotels')">Hotels</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Cars')">Cars</button></li>
 		<li><a href="prikazAvioKompanija.html">Airlines</a></li>
 		<li><a href="prikazHotela.html">Hotels</a></li>
 		<li><a href="prikazRentACar.html">Rent-A-Car</a></li>
-		
+		<li><button class="tablinks" onclick="openTab(event, 'Friends')">Friends</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'MyReservations')">My Reservations</button></li>
 	</ul>
+	<div id="Flights" class="tabcontent">
+		<h1>Flights</h1>
+	</div>
+	<div id="Hotels" class="tabcontent">
+		<h1>Hotels</h1>
+	</div>
+	<div id="Cars" class="tabcontent">
+		<h1>Cars</h1>
+	</div>
+	
+	<div id="Friends" class="tabcontent">
+		<div class="container"> 
+		<h1>List of friends</h1> 
+		<table id="friendsTable" class="table table-striped table-bordered table-hover" cellspacing="0"> 
+		<thead> 
+		<tr> 
+		<th>First Name</th> 
+		<th>Last Name</th> 
+		<th>Username</th> 
+		<th>Email</th> 
+		<th>Role</th> 
+		<th>Button</th>
+		</tr>
+		</thead> 
+		<tbody>
+		</tbody> 
+		</table>
+		</div>
+		<p>list friend requests</p>
+		<p>First Name, Last Name, accept , </p>
+	</div>
+	
+	<div id="MyReservations" class="tabcontent">
+	
+	</div>
+	
+	<div id="EditProfile" class="tabcontent">
+	
+		<h1 id="imePrezime">Ime Prezime</h1>
+		<form id="editProfileForma">
+			<div id="imgContainer">
+				<div class="imagePicker">
+					<img id="profile_img" src="slike/avatar.png" alt="Image preview..."> <br>
+				</div>
+				<div class="upload-btn-wrapper">
+					<button class="upload-file-btn">Upload a file</button>
+					<input id="slikaEdit" type="file" accept="image/*" title="Choose file"
+						onchange="previewFile('slikaEdit', 'profile_img')" name="myfile" />
+				</div><br>
+			</div>
+			<div class="grid-container">
+				<div class="grid-item">
+					First Name <br> <input type="text" id="ime">
+				</div>
+				<div class="grid-item">
+					Last Name <br> <input type="text" id="prezime">
+				</div>
+				<div class="grid-item">
+					E-mail <br> <input type="email" id="mail">
+				</div>
+				<div class="grid-item">
+					Username <br> <input type="text" id="username">
+				</div>
+				<div class="grid-item">
+					Address <br> <input type="text" id="address">
+				</div>
+				<div class="grid-item">
+					Phone number <br> <input type="text" id="telefon">
+				</div>
+
+				<div class="grid-item">
+					<input type="submit" id="buttonSbm" value="Confirm changes">
+				</div>
+				<div class="grid-item">
+					<button id="cancel_profile" class="cancelBtn" >Cancel</button>
+				</div>
+				<div class="grid-item">
+					<input type="hidden" id="identifikator">
+				</div>
+				<div class="grid-item">
+					<input type="hidden" id="lozinka">
+				</div>
+
+			</div>
+		</form>
+	</div>
 </body>
 </html>
