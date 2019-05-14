@@ -1,7 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.Principal;
 import java.security.SecureRandom;
@@ -21,8 +20,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

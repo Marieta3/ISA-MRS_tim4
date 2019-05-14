@@ -95,8 +95,10 @@ public class UslugaController {
 
 		if (usluga != null) {
 			uslugaService.remove(uslugaId);
+			logger.info("Usluga " + uslugaId + " deleted.");
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
+			logger.error("Usluga " + uslugaId + " not found.");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}

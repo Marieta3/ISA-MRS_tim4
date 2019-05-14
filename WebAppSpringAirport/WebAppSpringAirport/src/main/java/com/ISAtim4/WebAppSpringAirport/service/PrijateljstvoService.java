@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Prijateljstvo;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.repository.PrijateljstvoRepository;
@@ -32,14 +31,24 @@ public class PrijateljstvoService {
 	public Prijateljstvo save(Prijateljstvo friend) {
 		return prijateljstvoRepository.save(friend);
 	}
-	
-	public List<Prijateljstvo> findMyFriends(RegistrovaniKorisnik me){
+
+	public List<Prijateljstvo> findMyFriends(RegistrovaniKorisnik me) {
 		return prijateljstvoRepository.FindMyFriends(me);
 	}
+
+	// trazim Prijateljstvo izmedju nas
+	public Prijateljstvo getOneFriend(RegistrovaniKorisnik me,
+			RegistrovaniKorisnik friend) {
+		return prijateljstvoRepository.FindOneFriend(me, friend);
+	}
 	
-	//trazim Prijateljstvo izmedju nas
-	public Prijateljstvo getOneFriend(RegistrovaniKorisnik me, RegistrovaniKorisnik friend){
-		return prijateljstvoRepository.FindOneFriend(me,friend);
+	public List<Prijateljstvo> findMyRequests(RegistrovaniKorisnik me){
+		return prijateljstvoRepository.FindMyRequests(me);
+	}
+	
+	//nadji request koji je friend saljio mene
+	public Prijateljstvo findOneRequest(RegistrovaniKorisnik me, RegistrovaniKorisnik friend){
+		return prijateljstvoRepository.findOneRequest(me, friend);
 	}
 
 	public void remove(Long id) {

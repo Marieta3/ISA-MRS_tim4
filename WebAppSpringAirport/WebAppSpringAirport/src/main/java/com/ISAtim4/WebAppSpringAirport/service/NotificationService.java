@@ -10,7 +10,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.ISAtim4.WebAppSpringAirport.domain.AdminAvio;
 import com.ISAtim4.WebAppSpringAirport.domain.Authority;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 
@@ -29,7 +28,7 @@ public class NotificationService {
 		mail.setTo(korisnik.getMail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Verification mail for user ");//+korisnik.getUsername());
-		String originalInput = "test input";
+		//String originalInput = "test input";
 		String uname = Base64.getEncoder().encodeToString(korisnik.getKorisnickoIme().getBytes());
 		mail.setText("Verification url is: http://localhost:8080/api/users/enabled/"+uname+". Click link to verify account!");
 		javaMailSender.send(mail);
@@ -39,6 +38,7 @@ public class NotificationService {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(k.getMail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
+		@SuppressWarnings("unchecked")
 		ArrayList<Authority> a=(ArrayList<Authority>) k.getAuthorities();
 		String uloga=a.get(0).getAuthority();
 		mail.setSubject("Verification mail for "+uloga);//+korisnik.getUsername());

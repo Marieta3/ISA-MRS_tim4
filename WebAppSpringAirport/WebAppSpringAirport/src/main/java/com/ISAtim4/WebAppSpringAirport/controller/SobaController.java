@@ -111,8 +111,10 @@ public class SobaController {
 
 		if (soba != null) {
 			sobaService.remove(sobaId);
+			logger.info("Room " + sobaId + " deleted!");
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
+			logger.error("Room " + sobaId + " not found!");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
