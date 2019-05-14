@@ -36,6 +36,8 @@ public class HotelController {
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Hotel createHotel(@Valid @RequestBody Hotel hotel) {
+		hotel.setCoord1(31.214535);
+		hotel.setCoord2(29.945663);
 		return hotelService.save(hotel);
 	}
 
@@ -86,6 +88,8 @@ public class HotelController {
 		hotel.setAdresa(hotelDetalji.getAdresa());
 		hotel.setOpis(hotelDetalji.getOpis());
 		hotel.setSlika(hotelDetalji.getSlika());
+		hotel.setCoord1(hotelDetalji.getCoord1());
+		hotel.setCoord2(hotelDetalji.getCoord2());
 		Hotel updateHotel = hotelService.save(hotel);
 		return ResponseEntity.ok().body(updateHotel);
 	}

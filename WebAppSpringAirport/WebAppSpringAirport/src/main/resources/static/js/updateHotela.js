@@ -28,31 +28,15 @@ function dobaviPodatkeHotela(){
         	}
         	//$("#rating_hotel").text("Rating: "+data.ocena);
         	var rating=data.ocena;
-        	var stars=$('.fa');
-        	$.each(stars, function(index, star){
-        		$('#star'+(index+1)).removeClass('checked');
-        	})
-        	if(rating>=1){
-        		$('#star1').addClass('checked');
-        	}
-        	if(rating>=2){
-        		$('#star2').addClass('checked');
-        	}
-        	if(rating>=3){
-        		$('#star3').addClass('checked');
-        	}
-        	if(rating>=4){
-        		$('#star4').addClass('checked');
-        	}
-        	if(rating>=5){
-        		$('#star5').addClass('checked');
-        	}
+        	
         	$('.cornerimage').css("width", (rating/5)*100+"%");
         	$('#rating_hotel').text(rating);
         	$("#naziv").val(data.naziv);
         	$("#adresa").val(data.adresa);
         	$("#opis").val(data.opis);
         	$('#identifikator_hotel').val(data.id);
+        	$('#hotel_coords').val(data.coord1+','+data.coord2);
+        	
         }
 	})
 }
@@ -63,12 +47,14 @@ $(document).on('submit', "#updateHotelaForma", function(e){
 	var naziv=$('#naziv').val();
 	var adresa=$('#adresa').val();
 	var opis=$('#opis').val();
+	var coords=$('#hotel_coords').val();
+	var coord_list=coords.split(',');
+	console.log("prva koordinata: "+coord_list[0]);
+	console.log('koordinate update hotela: '+coords);
 	var slika = $('#slika_hotel').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
 	console.log("update hotel  slika  "+slika);
 	if(slika=="" || slika==null){
-		console.log("update hotel  slika  null"+slika);
 		slika=$("#hotel_img").attr("src");
-		console.log("update hotel  slika  nije null"+slika);
 	}
 	$.ajax({
 		type:'PUT',
@@ -78,7 +64,7 @@ $(document).on('submit', "#updateHotelaForma", function(e){
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
-		data:hotelToJSON(id,naziv, adresa, opis, slika),
+		data:hotelToJSON(id,naziv, adresa, opis, slika, coord_list[0], coord_list[1]),
 		success:function(data){
 			alert("Successfully saved changes!");
 		}
@@ -88,12 +74,14 @@ $(document).on('submit', "#updateHotelaForma", function(e){
 	});
 });
 
-function hotelToJSON(id,naziv, adresa, opis, slika){
+function hotelToJSON(id,naziv, adresa, opis, slika, coord1, coord2){
 	return JSON.stringify({
 		"id":id,
 		"naziv":naziv,
 		"adresa":adresa,
 		"opis":opis,
-		"slika":slika
+		"slika":slika,
+		"coord1":coord1,
+		"coord2":coord2
 	});
 }

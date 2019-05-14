@@ -1,6 +1,45 @@
 /**
  * 
  */
+ymaps.ready(init);
+
+function init(){
+	//pokupiti koordinate iz hidden polja
+	var coords= $('#hotel_coords').val();
+	console.log("aaa"+coords);
+	var coord_list=coords.split(',');
+	var map = new ymaps.Map('map', {
+        center: [coord_list[0], coord_list[1]],
+        zoom: 12,
+        controls: ['zoomControl', 'searchControl'],
+        behaviors: ['drag']
+    });
+	var placemark=new ymaps.Placemark([coord_list[0], coord_list[1]], {
+		
+	});
+	map.geoObjects.add(placemark);
+	var searchControl=map.controls.get('searchControl');
+	//var coords;
+	/*searchControl.search('Moscow').then(function(){
+		coords=searchControl.getResultsArray()[0].geometry._coordinates;
+		var placemark=new ymaps.Placemark(coords, {
+			
+		});
+		map.geoObjects.add(placemark);
+		map.setCenter(coords);
+	})*/
+	searchControl.events.add('load', function(event){
+		if(!event.get('skip') && searchControl.getResultsCount()){
+			coords=searchControl.getResultsArray()[0].geometry._coordinates;
+			console.log("pronadjeno: "+searchControl.getResultsArray()[0].properties.get('text'));
+			$("#adresa").val(searchControl.getResultsArray()[0].properties.get('text'));
+			$('#hotel_coords').val(coords);
+			map.setCenter(coords);
+			//searchControl.showResult(0);
+		}
+	})
+	
+}
 function getUslugeSobe(add, upd){
 	$.ajax({
 		type:'GET',
