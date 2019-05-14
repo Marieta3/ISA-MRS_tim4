@@ -35,7 +35,8 @@ function dobaviPodatkeHotela(){
         	$("#adresa").val(data.adresa);
         	$("#opis").val(data.opis);
         	$('#identifikator_hotel').val(data.id);
-        	//$('#hotel_coords').val(data.coords);
+        	$('#hotel_coords').val(data.coord1+','+data.coord2);
+        	
         }
 	})
 }
@@ -47,6 +48,8 @@ $(document).on('submit', "#updateHotelaForma", function(e){
 	var adresa=$('#adresa').val();
 	var opis=$('#opis').val();
 	var coords=$('#hotel_coords').val();
+	var coord_list=coords.split(',');
+	console.log("prva koordinata: "+coord_list[0]);
 	console.log('koordinate update hotela: '+coords);
 	var slika = $('#slika_hotel').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
 	console.log("update hotel  slika  "+slika);
@@ -61,7 +64,7 @@ $(document).on('submit', "#updateHotelaForma", function(e){
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
-		data:hotelToJSON(id,naziv, adresa, opis, slika),
+		data:hotelToJSON(id,naziv, adresa, opis, slika, coord_list[0], coord_list[1]),
 		success:function(data){
 			alert("Successfully saved changes!");
 		}
@@ -70,13 +73,15 @@ $(document).on('submit', "#updateHotelaForma", function(e){
 			}
 	});
 });
-//jos trb koordinate
-function hotelToJSON(id,naziv, adresa, opis, slika){
+
+function hotelToJSON(id,naziv, adresa, opis, slika, coord1, coord2){
 	return JSON.stringify({
 		"id":id,
 		"naziv":naziv,
 		"adresa":adresa,
 		"opis":opis,
-		"slika":slika
+		"slika":slika,
+		"coord1":coord1,
+		"coord2":coord2
 	});
 }

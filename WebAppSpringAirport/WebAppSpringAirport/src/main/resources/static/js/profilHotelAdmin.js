@@ -5,21 +5,29 @@ ymaps.ready(init);
 
 function init(){
 	//pokupiti koordinate iz hidden polja
+	var coords= $('#hotel_coords').val();
+	console.log("aaa"+coords);
+	var coord_list=coords.split(',');
 	var map = new ymaps.Map('map', {
-        center: [(55.49133+55.957565)/2, (37.326051+37.967682)/2],
+        center: [coord_list[0], coord_list[1]],
         zoom: 12,
+        controls: ['zoomControl', 'searchControl'],
         behaviors: ['drag']
     });
+	var placemark=new ymaps.Placemark([coord_list[0], coord_list[1]], {
+		
+	});
+	map.geoObjects.add(placemark);
 	var searchControl=map.controls.get('searchControl');
-	var coords;
-	searchControl.search('Moscow').then(function(){
+	//var coords;
+	/*searchControl.search('Moscow').then(function(){
 		coords=searchControl.getResultsArray()[0].geometry._coordinates;
 		var placemark=new ymaps.Placemark(coords, {
 			
 		});
 		map.geoObjects.add(placemark);
 		map.setCenter(coords);
-	})
+	})*/
 	searchControl.events.add('load', function(event){
 		if(!event.get('skip') && searchControl.getResultsCount()){
 			coords=searchControl.getResultsArray()[0].geometry._coordinates;
