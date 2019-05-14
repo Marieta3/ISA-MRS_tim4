@@ -4,6 +4,7 @@
 ymaps.ready(init);
 
 function init(){
+	//pokupiti koordinate iz hidden polja
 	var map = new ymaps.Map('map', {
         center: [(55.49133+55.957565)/2, (37.326051+37.967682)/2],
         zoom: 12,
@@ -21,8 +22,11 @@ function init(){
 	})
 	searchControl.events.add('load', function(event){
 		if(!event.get('skip') && searchControl.getResultsCount()){
+			coords=searchControl.getResultsArray()[0].geometry._coordinates;
 			console.log("pronadjeno: "+searchControl.getResultsArray()[0].properties.get('text'));
 			$("#adresa").val(searchControl.getResultsArray()[0].properties.get('text'));
+			$('#hotel_coords').val(coords);
+			map.setCenter(coords);
 			//searchControl.showResult(0);
 		}
 	})
