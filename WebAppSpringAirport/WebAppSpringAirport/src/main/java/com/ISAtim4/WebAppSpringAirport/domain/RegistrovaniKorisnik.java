@@ -1,63 +1,31 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
-import org.springframework.security.core.GrantedAuthority;
-
-/*
- * Milan: vracena diskriminatorska vrednost da se u tabeli korisnik razlikuju tipovi
- */
 @Entity
 @DiscriminatorValue("user")
 public class RegistrovaniKorisnik extends Korisnik {
-	/*
-	private Set<RegistrovaniKorisnik> listaPrijatelja = new HashSet<>();
-	private Set<Rezervacija> listaRezervacija = new HashSet<>();
-	private Set<ZahtevPrijateljstvo> listaZahtevaPrijateljstvo = new HashSet<>();
-	private Set<Pozivnica> listaPozivnicaLet = new HashSet<>();
-	*/
+	private static final long serialVersionUID = -7495559707293346754L;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	List<Prijateljstvo> listaPrijatelja;
+
 	public RegistrovaniKorisnik() {
 		super();
 		super.setUlogovanPrviPut(true);
-		/*
-		
-		this.listaPrijatelja = listaPrijatelja;
-		this.listaRezervacija = listaRezervacija;
-		this.listaZahtevaPrijateljstvo = listaZahtevaPrijateljstvo;
-		this.listaPozivnicaLet = listaPozivnicaLet;*/
 	}
-/*
-	public Set<RegistrovaniKorisnik> getListaPrijatelja() {
+
+	public List<Prijateljstvo> getListaPrijatelja() {
 		return listaPrijatelja;
 	}
-	public void setListaPrijatelja(Set<RegistrovaniKorisnik> listaPrijatelja) {
+
+	public void setListaPrijatelja(List<Prijateljstvo> listaPrijatelja) {
 		this.listaPrijatelja = listaPrijatelja;
 	}
-	public Set<Rezervacija> getListaRezervacija() {
-		return listaRezervacija;
-	}
-	public void setListaRezervacija(Set<Rezervacija> listaRezervacija) {
-		this.listaRezervacija = listaRezervacija;
-	}
-	public Set<ZahtevPrijateljstvo> getListaZahtevaPrijateljstvo() {
-		return listaZahtevaPrijateljstvo;
-	}
-	public void setListaZahtevaPrijateljstvo(
-			Set<ZahtevPrijateljstvo> listaZahtevaPrijateljstvo) {
-		this.listaZahtevaPrijateljstvo = listaZahtevaPrijateljstvo;
-	}
-	public Set<Pozivnica> getListaPozivnicaLet() {
-		return listaPozivnicaLet;
-	}
-	public void setListaPozivnicaLet(Set<Pozivnica> listaPozivnicaLet) {
-		this.listaPozivnicaLet = listaPozivnicaLet;
-	}
-*/
 
-	
 }
