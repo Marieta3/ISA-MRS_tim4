@@ -4,7 +4,7 @@
 <meta charset="ISO-8859-1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<script src="https://api-maps.yandex.ru/2.1/?lang=en_US&format=json" type="text/javascript"></script>
 
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/modali.js"></script>
@@ -18,6 +18,11 @@
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
 <link rel="stylesheet" type="text/css" href="css/tabelarniPrikaz.css">
+
+<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+<link href="css/mapa.css" rel="stylesheet">
 <title>HOTEL ADMIN</title>
 </head>
 <body>
@@ -110,6 +115,7 @@
 				</div>
 			</div>
 			
+			
 			<div class="grid-container">
 				<div class="grid-item">
 					Name <br> <input type="text" id="naziv">
@@ -117,6 +123,8 @@
 				<div class="grid-item">
 					Address <br> <input type="text" id="adresa">
 				</div>
+				
+				<div class="grid-item">Map<br><div id="map" class="map"></div></div>
 				<div class="grid-item" id="textarea">
 					Description <br>
 					<textarea id="opis" rows="5" cols="60"></textarea>

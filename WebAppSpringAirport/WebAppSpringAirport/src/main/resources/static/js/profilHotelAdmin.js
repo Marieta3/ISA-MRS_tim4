@@ -1,6 +1,33 @@
 /**
  * 
  */
+ymaps.ready(init);
+
+function init(){
+	var map = new ymaps.Map('map', {
+        center: [(55.49133+55.957565)/2, (37.326051+37.967682)/2],
+        zoom: 12,
+        behaviors: ['drag']
+    });
+	var searchControl=map.controls.get('searchControl');
+	var coords;
+	searchControl.search('Moscow').then(function(){
+		coords=searchControl.getResultsArray()[0].geometry._coordinates;
+		var placemark=new ymaps.Placemark(coords, {
+			
+		});
+		map.geoObjects.add(placemark);
+		map.setCenter(coords);
+	})
+	searchControl.events.add('load', function(event){
+		if(!event.get('skip') && searchControl.getResultsCount()){
+			console.log("pronadjeno: "+searchControl.getResultsArray()[0].properties.get('text'));
+			$("#adresa").val(searchControl.getResultsArray()[0].properties.get('text'));
+			//searchControl.showResult(0);
+		}
+	})
+	
+}
 function getUslugeSobe(add, upd){
 	$.ajax({
 		type:'GET',
