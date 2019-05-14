@@ -27,6 +27,8 @@
 				onclick="openTab(event, 'AvioKompanija')" id="defaultOpen">Airline</button></li>
 		<li><button class="tablinks"
 				onclick="openTab(event, 'Destinations')">Destinations</button></li>
+		<li><button class="tablinks"
+				onclick="openTab(event, 'Airplanes')">Airplanes</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Flights')">Flights</button></li>
 	</ul>
 
@@ -189,7 +191,8 @@
 					<!-- slika-->
 					<div class="imagePicker1"
 						style="height: 200px; width: 200px; border-radius: 50%">
-						<img id="destinacija_img1" src="slike/pic1.jpg" alt="Image preview..."
+						<img id="destinacija_img1" src="slike/pic1.jpg"
+							alt="Image preview..."
 							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
 						<br>
 					</div>
@@ -201,9 +204,8 @@
 
 				<div class="container-modal" id="div-container-modal">
 					<h1 id="h1Destinacija">Destination</h1>
-					<label for="mesto"><b>Destination</b></label>
-						 <input type="text" name="mesto" id="mestoDestinacije1">
-					<br>
+					<label for="mesto"><b>Destination</b></label> <input type="text"
+						name="mesto" id="mestoDestinacije1"> <br>
 
 					<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
 					<button type="button" onclick="zatvoriModal('id02')"
@@ -215,7 +217,7 @@
 				</div>
 			</form>
 		</div>
-		
+
 		<!-- za DODAVANJE nove destinacije -->
 		<div id="id03" class="modal">
 			<form class="modal-content3 animate" id="newDestinationForma">
@@ -253,6 +255,139 @@
 
 	<div id="Flights" class="tabcontent">
 		<h1>Flights</h1>
+	</div>
+
+
+	<div id="Airplanes" class="tabcontent">
+		<h1>Airplanes</h1>
+		<button class="newAirplaneBtn" value="New airplane"
+			onClick="otvoriModal('id04')">New Airplane</button>
+
+		<table id="prikazAvionaTabela" class="prikazEntitetaTbl">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th class="opisEntitet">Model</th>
+					<th>Broj redova</th>
+					<th>Broj kolona</th>
+					<th>Broj redova EC</th>
+					<th>Broj redova BC</th>
+					<th>Broj redova FC</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+
+		<!-- za DODAVANJE novog aviona -->
+		<div id="id04" class="modal">
+			<form class="modal-content3 animate" id="newAirplaneForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onClick="zatvoriModal('id04')">&times;</span>
+
+					<!-- slika-->
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="avio_img2" src="slike/aereo2.jpg" alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+					<input id="slika_avio2" type="file" accept="image/*"
+						title="Choose file"
+						onchange="previewFile('slika_avio2', 'avio_img2')"><br>
+
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1>Add new Airplane</h1>
+					<label for="model"><b>Airplane model</b></label> <input type="text"
+						name="model" id="modelAvion"> <label for="rows"><b>Number
+							of rows </b></label> <input type="text" name="rows" id="rowsAvion"> <label
+						for="columns"><b>Number of columns</b></label> <input type="text"
+						name="columns" id="columnsAvion"> <label for="rowsEC"><b>Number
+							of rows in Economy class</b></label> <input type="text" name="rowsEC"
+						id="rowsECAvion"> <label for="rowsBC"><b>Number
+							of rows in Bussiness class</b></label> <input type="text" name="rowsBC"
+						id="rowsBCAvion"> <label for="rowsFC"><b>Number
+							of rows in First class</b></label> <input type="text" name="rowsFC"
+						id="rowsFCAvion">
+
+					<button class="addSubmitBtn" type="submit">Add</button>
+					<button type="button"
+						onclick="document.getElementById('id03').style.display='none', ponistavanje('newAvionForma')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden"></div>
+			</form>
+		</div>
+		<!-- za BRISANJE aviona -->
+		<div id="id05" class="modal">
+			<form class="modal-content1 animate" id="deleteAvionForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id05')">&times;</span>
+					<!-- slika -->
+				</div>
+				<div class="container-modal" id="div-container-modal">
+					<h1>Are you sure you want to delete airplane:</h1>
+
+					<button class="deleteSubmitBtn" type="submit">Delete</button>
+					<button type="button" onclick="zatvoriModal('id05')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+					<input type="hidden" id="identifikatorAviona">
+				</div>
+			</form>
+		</div>
+		<!-- za AZURIRANJE aviona -->
+		<div id="id06" class="modal">
+			<form class="modal-content1 animate" id="editAvionaForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id06')">&times;</span>
+
+					<!-- slika-->
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="avio_img3" src="slike/aereo2.jpg" alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+					<input id="slika_avio3" type="file" accept="image/*"
+						title="Choose file"
+						onchange="previewFile('slika_avio3', 'avio_img3')"><br>
+
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1 id="h1Avion">Airplane</h1>
+					<label for="model"><b>Airplane model</b></label> 
+						<input type="text" name="model" id="modelAvion1"> 
+					<label for="rows"><b>Number of rows </b> </label> 
+						<input type="text" name="rows" id="rowsAvion1">
+					<label for="columns"><b>Number of columns</b></label> 
+						<input type="text" name="columns" id="columnsAvion1"> 
+					<label for="rowsEC"><b>Number of rows in Economy class</b></label> 
+						<input type="text" name="rowsEC" id="rowsECAvion1"> 
+					<label for="rowsBC"><b>Number of rows in Bussiness class</b></label> 
+						<input type="text" name="rowsBC" id="rowsBCAvion1"> 
+					<label for="rowsFC"><b>Number of rows in First class</b> </label> 
+						<input type="text" name="rowsFC" id="rowsFCAvion1">
+
+					<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
+					<button type="button" onclick="zatvoriModal('id06')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="identifikatorAvionaUpd">
+				</div>
+			</form>
+		</div>
+
+
+
 	</div>
 </body>
 </html>

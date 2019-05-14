@@ -71,3 +71,7 @@ INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (3,'Paris','../slike/Airplane-1
 INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (4,'Dubai','../slike/Airplane-1.png');
 INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (5,'Moscow','../slike/Airplane-1.png');
 
+INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,broj_redovafc) VALUES (1,'Boeing 747',6,6,3,2,1);
+INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,broj_redovafc) VALUES (2,'Boeing 737',7,7,4,2,1);
+INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,broj_redovafc) VALUES (3,'Airbus A380',9,9,5,3,1);
+INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,broj_redovafc) VALUES (4,'Douglas DC-8',8,8,3,3,2);
