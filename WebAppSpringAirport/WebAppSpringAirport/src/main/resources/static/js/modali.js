@@ -136,7 +136,9 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 		if(attr=="naziv" || attr=="adresa" || attr=="opis" || attr=="ocena" || attr=="cena" || attr=="brojKreveta"
 			|| attr=="rezervisana" || attr=="ime" || attr=="prezime" || attr=="korisnickoIme" || attr=="main"
 			|| attr=="telefon" || attr=="proizvodjac" || attr=="godina" || attr=="tablica" || attr=="brojMesta"
-			||attr=="model" || attr=="brojRedova" || attr=="brojKolona" || attr=="brojRedovaEC" || attr=="brojRedovaBC" || attr=="brojRedovaFC"){
+			||attr=="model" || attr=="brojRedova" || attr=="brojKolona" || attr=="brojRedovaEC" || attr=="brojRedovaBC" 
+				|| attr=="brojRedovaFC" || attr=="pocetnaDestinacija" || attr=="krajnjaDestinacija" || attr=="datumPolaska"
+					|| attr=="datumDolaska" || attr=="duzinaPutovanja"){
 			var td;
 			if(val == null){
 				td=$('<td>&nbspNo data&nbsp</td>');
@@ -159,7 +161,7 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 	}else if(uloga=="ROLE_RENT" && (entitet!="branch" && entitet!="car")){
 		console.log("Bad entity "+uloga+", "+entitet);
 		return tr;
-	}else if (uloga =="ROLE_AVIO" &&(entitet!= "destination" && entitet!= "airplane")){
+	}else if (uloga =="ROLE_AVIO" &&(entitet!= "destination" && entitet!= "airplane"&& entitet!= "flight")){
 		console.log("Bad entity!");
 		return tr;
 	}/*
@@ -183,7 +185,10 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 		text = data.adresa;
 	} else if (entitet =="airplane"){
 		text = data.model;
-	} else{
+	} else if (entitet =="flight"){
+		text = "let sa modelom: "+data.model;
+	} 
+	else{
 		text=data.naziv;
 	}/*
 	 * Dodati za ostale entitete

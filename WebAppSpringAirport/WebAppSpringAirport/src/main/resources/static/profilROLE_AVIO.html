@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript"
+	src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
@@ -16,6 +16,22 @@
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
 <link rel="stylesheet" type="text/css" href="css/tabelarniPrikaz.css">
+
+<link
+	href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" type="text/css" media="screen"
+	href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+<script type="text/javascript"
+	src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+</script>
+<script type="text/javascript"
+	src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+</script>
+<script type="text/javascript"
+	src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+</script>
+
 <title>AVIO ADMIN</title>
 </head>
 <body>
@@ -253,10 +269,6 @@
 		</div>
 	</div>
 
-	<div id="Flights" class="tabcontent">
-		<h1>Flights</h1>
-	</div>
-
 
 	<div id="Airplanes" class="tabcontent">
 		<h1>Airplanes</h1>
@@ -302,15 +314,15 @@
 					<h1>Add new Airplane</h1>
 					<label for="model"><b>Airplane model</b></label> <input type="text"
 						name="model" id="modelAvion" required> <label for="rows"><b>Number
-							of rows </b></label> <input type="text" name="rows" id="rowsAvion" required> <label
-						for="columns"><b>Number of columns</b></label> <input type="text"
-						name="columns" id="columnsAvion" required> <label for="rowsEC"><b>Number
-							of rows in Economy class</b></label> <input type="text" name="rowsEC"
-						id="rowsECAvion" required> <label for="rowsBC"><b>Number
-							of rows in Bussiness class</b></label> <input type="text" name="rowsBC"
-						id="rowsBCAvion" required> <label for="rowsFC"><b>Number
-							of rows in First class</b></label> <input type="text" name="rowsFC"
-						id="rowsFCAvion" required>
+							of rows </b></label> <input type="text" name="rows" id="rowsAvion" required>
+					<label for="columns"><b>Number of columns</b></label> <input
+						type="text" name="columns" id="columnsAvion" required> <label
+						for="rowsEC"><b>Number of rows in Economy class</b></label> <input
+						type="text" name="rowsEC" id="rowsECAvion" required> <label
+						for="rowsBC"><b>Number of rows in Bussiness class</b></label> <input
+						type="text" name="rowsBC" id="rowsBCAvion" required> <label
+						for="rowsFC"><b>Number of rows in First class</b></label> <input
+						type="text" name="rowsFC" id="rowsFCAvion" required>
 
 					<button class="addSubmitBtn" type="submit">Add</button>
 					<button type="button"
@@ -362,18 +374,17 @@
 
 				<div class="container-modal" id="div-container-modal">
 					<h1 id="h1Avion">Airplane</h1>
-					<label for="model"><b>Airplane model</b></label> 
-						<input type="text" name="model" id="modelAvion1" required> 
-					<label for="rows"><b>Number of rows </b> </label> 
-						<input type="text" name="rows" id="rowsAvion1" required>
-					<label for="columns"><b>Number of columns</b></label> 
-						<input type="text" name="columns" id="columnsAvion1" required> 
-					<label for="rowsEC"><b>Number of rows in Economy class</b></label> 
-						<input type="text" name="rowsEC" id="rowsECAvion1" required> 
-					<label for="rowsBC"><b>Number of rows in Bussiness class</b></label> 
-						<input type="text" name="rowsBC" id="rowsBCAvion1" required> 
-					<label for="rowsFC"><b>Number of rows in First class</b> </label> 
-						<input type="text" name="rowsFC" id="rowsFCAvion1" required>
+					<label for="model"><b>Airplane model</b></label> <input type="text"
+						name="model" id="modelAvion1" required> <label for="rows"><b>Number
+							of rows </b> </label> <input type="text" name="rows" id="rowsAvion1" required>
+					<label for="columns"><b>Number of columns</b></label> <input
+						type="text" name="columns" id="columnsAvion1" required> <label
+						for="rowsEC"><b>Number of rows in Economy class</b></label> <input
+						type="text" name="rowsEC" id="rowsECAvion1" required> <label
+						for="rowsBC"><b>Number of rows in Bussiness class</b></label> <input
+						type="text" name="rowsBC" id="rowsBCAvion1" required> <label
+						for="rowsFC"><b>Number of rows in First class</b> </label> <input
+						type="text" name="rowsFC" id="rowsFCAvion1" required>
 
 					<button class="updateSubmitBtn updSobaBtn" type="submit">Update</button>
 					<button type="button" onclick="zatvoriModal('id06')"
@@ -385,9 +396,79 @@
 				</div>
 			</form>
 		</div>
+	</div>
 
 
+	<div id="Flights" class="tabcontent">
+		<h1>Flights</h1>
+		<button class="newFlightBtn" value="New flight"
+			onClick="otvoriModal('id07')">New flight</button>
+		<div id="id07" class="modal">
+			<form class="modal-content3 animate" id="newFlightForma">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onClick="zatvoriModal('id07')">&times;</span>
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1>Add new flight</h1>
+					<label for="pocetnaDestinacija"><b>Starting point</b></label> <input
+						type="text" name="pocetnaDestinacija" id="pocetnaDestinacija"
+						required> <label for="krajnjaDestinacija"><b>Final
+							point</b></label> <input type="text" name="krajnjaDestinacija"
+						id="krajnjaDestinacija" required>
+
+					<div id="datetimepicker1" class="input-append date">
+						<label for="vremePolaska"><b>Start time</b></label> <input type="text"
+							name="vremePolaska" id="vremePolaska" required> </input> 
+						<span class="add-on">
+				        	<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+				      </span>
+					</div>
+					<div id="datetimepicker2" class="input-append date">
+						<label for="vremeDolaska"><b>Departure time</b></label> <input type="text"
+							name="vremeDolaska" id="vremeDolaska" required> </input> 
+						<span class="add-on">
+				        	<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+				      </span>
+					</div>
+					<label for="duzinaPutovanja"><b>Flight duration</b></label> <input
+						type="text" name="duzinaPutovanja" id="duzinaPutovanja" required>
+
+
+					<label for="model"><b>Airplane model</b></label> <input type="text"
+						name="model" id="modelAvio" required> <label for="rows"><b>Number
+							of rows </b></label> <input type="text" name="rows" id="rowsAvio" required>
+					<label for="columns"><b>Number of columns</b></label> <input
+						type="text" name="columns" id="columnsAvio" required> <label
+						for="rowsEC"><b>Number of rows in Economy class</b></label> <input
+						type="text" name="rowsEC" id="rowsECAvio" required> <label
+						for="rowsBC"><b>Number of rows in Bussiness class</b></label> <input
+						type="text" name="rowsBC" id="rowsBCAvio" required> <label
+						for="rowsFC"><b>Number of rows in First class</b></label> <input
+						type="text" name="rowsFC" id="rowsFCAvio" required>
+
+					<button class="addSubmitBtn" type="submit">Add</button>
+					<button type="button"
+						onclick="document.getElementById('id07').style.display='none', ponistavanje('newAvionForma')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden"></div>
+				 <script type="text/javascript">
+			      $('#datetimepicker1').datetimepicker({
+			        format: 'dd/MM/yyyy hh:mm:ss',
+			        language: 'en'
+			      });
+			      $('#datetimepicker2').datetimepicker({
+				        format: 'dd/MM/yyyy hh:mm:ss',
+				        language: 'en'
+				   });
+			      
+    </script>
+			</form>
+		</div>
 
 	</div>
+
 </body>
 </html>
