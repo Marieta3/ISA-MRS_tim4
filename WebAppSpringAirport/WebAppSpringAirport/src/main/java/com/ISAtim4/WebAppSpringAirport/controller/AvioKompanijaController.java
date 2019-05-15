@@ -95,6 +95,7 @@ public class AvioKompanijaController {
 
 		if (aviokompanija != null) {
 			aviokompanijaService.remove(avioKompanijaId);
+			logger.info("Brisanje uspesan!");
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

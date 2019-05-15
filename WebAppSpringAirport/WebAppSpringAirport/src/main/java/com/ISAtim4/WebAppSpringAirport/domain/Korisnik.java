@@ -22,8 +22,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -33,14 +31,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 		@UniqueConstraint(columnNames = "mail"),
 		@UniqueConstraint(columnNames = "korisnickoIme") })
 @Inheritance(strategy = SINGLE_TABLE)
-/*
- * Milan: vracena je diskriminatorska kolona koju ste zakomentarisali i za sad
- * sve metode iz UserDetails koje su override-ovane imaju jednostavnu
- * implementaciju. Kada resite ceo model za korisnike cete promeniti metodu
- * isEnabled
- */
 @DiscriminatorColumn(name = "uloga", discriminatorType = DiscriminatorType.STRING)
 public class Korisnik implements UserDetails {
+	private static final long serialVersionUID = 5608471345265931458L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
@@ -70,7 +64,7 @@ public class Korisnik implements UserDetails {
 	@Column(name = "last_password_reset_date")
 	private Timestamp lastPasswordResetDate;
 
-	//@LazyCollection(LazyCollectionOption.FALSE)
+	// @LazyCollection(LazyCollectionOption.FALSE)
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
 	private List<Authority> authorities;
@@ -85,6 +79,10 @@ public class Korisnik implements UserDetails {
 
 	public void setUlogovanPrviPut(Boolean ulogovanPrviPut) {
 		UlogovanPrviPut = ulogovanPrviPut;
+	}
+	
+	public String getUloga(){
+		return authorities.get(0).getName();
 	}
 
 	public Korisnik() {

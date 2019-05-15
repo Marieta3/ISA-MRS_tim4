@@ -8,8 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Avion;
-import com.ISAtim4.WebAppSpringAirport.domain.Filijala;
-import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
 import com.ISAtim4.WebAppSpringAirport.repository.AvionRepository;
 
 @Service
@@ -29,10 +27,11 @@ public class AvionService {
 	public List<Avion> findAll() {
 		return avionRepository.findAll();
 	}
+
 	/*
-	public List<Avion> findAllByRentACar(RentACar r) {
-		return avionRepository.findAllByRentACar(r);
-	}*/
+	 * public List<Avion> findAllByRentACar(RentACar r) { return
+	 * avionRepository.findAllByRentACar(r); }
+	 */
 
 	public Page<Avion> findAll(Pageable page) {
 		return avionRepository.findAll(page);

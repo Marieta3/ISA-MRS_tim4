@@ -14,42 +14,27 @@ function findAllFriends(){
 }
 
 function findAllRequests(){
-	//get requests and render 
-	/*
-	console.log("requestss");
-	$("#friendRequestsTable").find("tr:gt(0)").remove();
-	$("#friendRequestsTable").find("th:gt(5)").remove();
-	
-	var tr=$("<tr></tr>");
-	tr.append("<td>Ime1</td><td>Prz1</td><td>user1</td><td>mail</td><td>btnAccept</td><td>btnDecline</td>");
-	$("#friendRequestsTable").find("tbody").append(tr);*/
-	$('#friendRequestsTable').DataTable({
-	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
-	      "iDisplayLength": 5,
-	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 },
-	                     { "orderable": false, "targets": 5 }
-	                   ]
-	  });
+	$.ajax({
+		type:'GET',
+		url:'/api/friendrequests',
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:renderRequests
+	})
 }
 
 function findAllPotentialFriends(){
-	//get new friends and render
-	/*
-	console.log("new friendss");
-	$("#newFriendsTable").find("tr:gt(0)").remove();
-	$("#newFriendsTable").find("th:gt(4)").remove();
-	
-	var tr=$("<tr></tr>");
-	tr.append("<td>Ime1</td><td>Prz1</td><td>user1</td><td>mail</td><td>btnAddAsFriend</td>")
-	$("#newFriendsTable").find("tbody").append(tr);*/
-	$('#newFriendsTable').DataTable({
-	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
-	      "iDisplayLength": 5,
-	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
-	                   ]
-	  });
+	$.ajax({
+		type:'GET',
+		url:'/api/potentialfriends',
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:renderPotentionalFriends
+	})
 }
 
 
@@ -79,7 +64,7 @@ function renderKorisnici(data){
 		}*/
 		if (uloga == "ROLE_USER") {
 			
-			tr.append("<td align= 'center'><button class=\'deleteFriendBtn\' onClick = deleteFriend(" + korisnik.id +")>Delete friend</button></td>");
+			tr.append("<td align= 'center'><button id=\'deleteFriendBtn\' onClick = deleteFriend(" + korisnik.id +")>Delete friend</button></td>");
 		
 		}
 		
@@ -106,6 +91,10 @@ function deleteFriend(id){
         },
 		success:function(){
 			$('#friend_' + id).remove();
+			$('#friendsTable').DataTable().clear().destroy();
+			findAllFriends();
+			$('#newFriendsTable').DataTable().clear().destroy();
+			findAllPotentialFriends();
 		},
 		error:function(){
 			alert("There was an error while delete friend'");
@@ -114,29 +103,131 @@ function deleteFriend(id){
 	
 }
 
-$(document).on('submit', "#deleteFriendForma", function(e){
-	e.preventDefault();
-	var id=$("#identifikator").val();
+function renderRequests(data){
+	console.log(data);
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	uloga=localStorage.getItem("uloga");
+	
+	$("#friendRequestsTable").find("tr:gt(0)").remove();
+	$("#friendRequestsTable").find("th:gt(5)").remove();
+	$.each(list, function(index, korisnik){
+		var tr=$("<tr id=\'request_" + korisnik.id + "\' ></tr>");
+		console.log(korisnik.ime);
+
+		tr.append('<td>' + korisnik.ime + '</td>'+ '<td>' + korisnik.prezime + '</td>'+'<td>' + korisnik.korisnickoIme + '</td>' + '<td>'
+				+ korisnik.mail + '</td>');
+
+		if (uloga == "ROLE_USER") {
+			tr.append("<td align= 'center'><button id=\'acceptRequestBtn\' onClick = acceptRequest(" + korisnik.id +")>Accept</button></td>");
+			tr.append("<td align= 'center'><button id=\'rejectRequestBtn\' onClick = rejectRequest(" + korisnik.id +")>Reject</button></td>");
+		}
+		
+		$("#friendRequestsTable").find("tbody").append(tr);
+		
+	})
+	$('#friendRequestsTable').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 },
+	                     { "orderable": false, "targets": 5 }
+	                   ]
+	  });
+}
+
+function acceptRequest(id){
+	//alert("Accepted user " + id);
+	console.log("trying to accept request from sender with id " + id);
 	$.ajax({
-		type : 'DELETE',
-		url : '/api/friends/' + id,
-		/*
-		 * Milan: drugi nacin da token posaljete u zahtevu kroz ajax poziv kroz
-		 * header
-		 */
-		headers : {
-			Authorization : "Bearer " + localStorage.getItem("accessToken")
+		type:'PUT',
+		url:'/api/friendrequests/accept/' + id,
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:function(){
+			//brisem acceptovan red, i ponovo crtam prijatelje
+			$('#request_' + id).remove();
+			$('#friendRequestsTable').DataTable().clear().destroy();
+			findAllRequests();
+			$('#friendsTable').DataTable().clear().destroy();
+			findAllFriends();
 		},
-		success : function() {
-			console.log('blaa');
-			$('#friend_' + id).remove();
-			$("#id01").css("display", "none");
-			$("body").removeClass("modal-open");
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("Error at friend deletion");
-			alert(errorThrown);
+		error:function(){
+			alert("There was an error while accepting request'");
 		}
 	})
+}
+function rejectRequest(id){
+	//alert("Rejected user " + id);
+	console.log("trying to reject request from sender with id " + id);
+	$.ajax({
+		type:'PUT',
+		url:'/api/friendrequests/reject/' + id,
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:function(){
+			//brisem rejectovan red
+			$('#request_' + id).remove();
+			$('#friendRequestsTable').DataTable().clear().destroy();
+			findAllRequests();
+			
+		},
+		error:function(){
+			alert("There was an error while rejecting request'");
+		}
+	})
+}
+
+function renderPotentionalFriends(data){
+	console.log(data);
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	uloga=localStorage.getItem("uloga");
 	
-})
+	$("#newFriendsTable").find("tr:gt(0)").remove();
+	$("#newFriendsTable").find("th:gt(4)").remove();
+	$.each(list, function(index, korisnik){
+		var tr=$("<tr id=\'newfriend_" + korisnik.id + "\' ></tr>");
+		console.log(korisnik.ime);
+
+		tr.append('<td>' + korisnik.ime + '</td>'+ '<td>' + korisnik.prezime + '</td>'+'<td>' + korisnik.korisnickoIme + '</td>' + '<td>'
+				+ korisnik.mail + '</td>');
+
+		if (uloga == "ROLE_USER") {
+			tr.append("<td align= 'center'><button id=\'addFriendBtn\' onClick = addFriend(" + korisnik.id +")>Add as friend</button></td>");
+		}
+		
+		$("#newFriendsTable").find("tbody").append(tr);
+		
+	})
+	$('#newFriendsTable').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
+}
+
+function addFriend(id){
+	console.log('send friend request to id ' + id);
+	$.ajax({
+		type:'POST',
+		url:'/api/friends/sendrequest/' + id,
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:function(){
+			//delete row
+			$('#newfriend_' + id).remove();
+			$('#newFriendsTable').DataTable().clear().destroy();
+			findAllPotentialFriends();
+		},
+		error:function(){
+			alert("There was an error while sending request'");
+		}
+	})
+}

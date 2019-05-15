@@ -103,8 +103,10 @@ public class HotelController {
 
 		if (hotel != null) {
 			hotelService.remove(hotelId);
+			logger.info("Hotel " + hotelId + " deleted.");
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
+			logger.error("Hotel not found.");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}

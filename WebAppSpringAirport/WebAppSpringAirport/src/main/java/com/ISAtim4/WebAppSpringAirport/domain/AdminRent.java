@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @DiscriminatorValue("rent")
 public class AdminRent extends Korisnik {
+	private static final long serialVersionUID = -7741428964403654904L;
+
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JsonBackReference
 	private RentACar rentACar;
