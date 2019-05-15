@@ -80,6 +80,10 @@ public class Korisnik implements UserDetails {
 	public void setUlogovanPrviPut(Boolean ulogovanPrviPut) {
 		UlogovanPrviPut = ulogovanPrviPut;
 	}
+	
+	public String getUloga(){
+		return authorities.get(0).getName();
+	}
 
 	public Korisnik() {
 	}

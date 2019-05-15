@@ -26,22 +26,15 @@ function findAllRequests(){
 }
 
 function findAllPotentialFriends(){
-	//get new friends and render
-	/*
-	console.log("new friendss");
-	$("#newFriendsTable").find("tr:gt(0)").remove();
-	$("#newFriendsTable").find("th:gt(4)").remove();
-	
-	var tr=$("<tr></tr>");
-	tr.append("<td>Ime1</td><td>Prz1</td><td>user1</td><td>mail</td><td>btnAddAsFriend</td>")
-	$("#newFriendsTable").find("tbody").append(tr);*/
-	$('#newFriendsTable').DataTable({
-	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
-	      "iDisplayLength": 5,
-	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
-	                   ]
-	  });
+	$.ajax({
+		type:'GET',
+		url:'/api/potentialfriends',
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:renderPotentionalFriends
+	})
 }
 
 
@@ -98,6 +91,10 @@ function deleteFriend(id){
         },
 		success:function(){
 			$('#friend_' + id).remove();
+			$('#friendsTable').DataTable().clear().destroy();
+			findAllFriends();
+			$('#newFriendsTable').DataTable().clear().destroy();
+			findAllPotentialFriends();
 		},
 		error:function(){
 			alert("There was an error while delete friend'");
@@ -139,7 +136,7 @@ function renderRequests(data){
 }
 
 function acceptRequest(id){
-	alert("Accepted user " + id);
+	//alert("Accepted user " + id);
 	console.log("trying to accept request from sender with id " + id);
 	$.ajax({
 		type:'PUT',
@@ -151,6 +148,8 @@ function acceptRequest(id){
 		success:function(){
 			//brisem acceptovan red, i ponovo crtam prijatelje
 			$('#request_' + id).remove();
+			$('#friendRequestsTable').DataTable().clear().destroy();
+			findAllRequests();
 			$('#friendsTable').DataTable().clear().destroy();
 			findAllFriends();
 		},
@@ -160,7 +159,7 @@ function acceptRequest(id){
 	})
 }
 function rejectRequest(id){
-	alert("Rejected user " + id);
+	//alert("Rejected user " + id);
 	console.log("trying to reject request from sender with id " + id);
 	$.ajax({
 		type:'PUT',
@@ -172,6 +171,8 @@ function rejectRequest(id){
 		success:function(){
 			//brisem rejectovan red
 			$('#request_' + id).remove();
+			$('#friendRequestsTable').DataTable().clear().destroy();
+			findAllRequests();
 			
 		},
 		error:function(){
@@ -180,5 +181,53 @@ function rejectRequest(id){
 	})
 }
 
+function renderPotentionalFriends(data){
+	console.log(data);
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	uloga=localStorage.getItem("uloga");
+	
+	$("#newFriendsTable").find("tr:gt(0)").remove();
+	$("#newFriendsTable").find("th:gt(4)").remove();
+	$.each(list, function(index, korisnik){
+		var tr=$("<tr id=\'newfriend_" + korisnik.id + "\' ></tr>");
+		console.log(korisnik.ime);
 
+		tr.append('<td>' + korisnik.ime + '</td>'+ '<td>' + korisnik.prezime + '</td>'+'<td>' + korisnik.korisnickoIme + '</td>' + '<td>'
+				+ korisnik.mail + '</td>');
 
+		if (uloga == "ROLE_USER") {
+			tr.append("<td align= 'center'><button id=\'addFriendBtn\' onClick = addFriend(" + korisnik.id +")>Add as friend</button></td>");
+		}
+		
+		$("#newFriendsTable").find("tbody").append(tr);
+		
+	})
+	$('#newFriendsTable').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
+}
+
+function addFriend(id){
+	console.log('send friend request to id ' + id);
+	$.ajax({
+		type:'POST',
+		url:'/api/friends/sendrequest/' + id,
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:function(){
+			//delete row
+			$('#newfriend_' + id).remove();
+			$('#newFriendsTable').DataTable().clear().destroy();
+			findAllPotentialFriends();
+		},
+		error:function(){
+			alert("There was an error while sending request'");
+		}
+	})
+}

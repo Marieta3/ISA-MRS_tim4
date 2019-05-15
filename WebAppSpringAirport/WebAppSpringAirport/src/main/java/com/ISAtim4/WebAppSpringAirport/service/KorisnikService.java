@@ -48,4 +48,8 @@ public class KorisnikService {
 	public Korisnik findOneID(Long id) {
 		return korisnikRepository.findOneID(id);
 	}
+	
+	public List<Korisnik>findNotConnectedPeople(List<Long>ids){
+		return korisnikRepository.findNotConnectedPeople(ids);
+	}
 }

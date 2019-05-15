@@ -23,4 +23,10 @@ public interface PrijateljstvoRepository extends
 	
 	@Query("select p from Prijateljstvo p where p.receiver = ?1 and p.sender = ?2 and p.accepted = false and p.reacted=false")
 	Prijateljstvo findOneRequest(RegistrovaniKorisnik me, RegistrovaniKorisnik friend);
+
+	@Query("select p from Prijateljstvo p where "
+			+ "((p.receiver = ?1 and p.accepted = true and p.reacted=true) or (p.sender = ?1 and p.accepted = true and p.reacted=true)) or "
+			+ "((p.receiver = ?1 and p.accepted = false and p.reacted=true) or (p.sender = ?1 and p.accepted = false and p.reacted=true)) or"
+			+ "((p.receiver = ?1 and p.accepted = false and p.reacted=false) or (p.sender = ?1 and p.accepted = false and p.reacted=false))")
+	List<Prijateljstvo> findPotentionalFriends(RegistrovaniKorisnik me);
 }

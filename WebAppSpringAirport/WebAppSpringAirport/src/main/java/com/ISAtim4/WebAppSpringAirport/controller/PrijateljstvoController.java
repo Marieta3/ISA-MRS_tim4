@@ -47,8 +47,7 @@ public class PrijateljstvoController {
 			me = (RegistrovaniKorisnik) this.korisnikService
 					.findByKorisnickoIme(user.getName());
 		}
-		receiver = (RegistrovaniKorisnik) this.korisnikService
-				.findOne(korisnikId);
+		receiver = (RegistrovaniKorisnik) this.korisnikService.findOneID(korisnikId);
 
 		if (me == null) {
 			logger.info("Sender user is null!");
@@ -122,7 +121,52 @@ public class PrijateljstvoController {
 		return ResponseEntity.ok().body(potentialFriends);
 	}
 	
-	/* prihvata friend requesta od korisnika sa ID om id      !!!!!!!!!!   */
+	// Ulogovan korisnik trazi nove prijatelje, dobije listu reg.kor. koji jos nisu poslali request, nema odbijen request i nije vec prijatelj
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value = "/api/potentialfriends", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Korisnik>> getPossibleFriends(Principal user) {
+		RegistrovaniKorisnik me = null;
+		List<Prijateljstvo> connectedPeople = new ArrayList<>();
+		List<Korisnik> potentialFriends = new ArrayList<>();
+		if (user != null) {
+			me = (RegistrovaniKorisnik) this.korisnikService
+					.findByKorisnickoIme(user.getName());
+		}
+		connectedPeople = prijateljstvoService.findPotentionalFriends(me);
+		
+		List<Long> ids = new ArrayList<Long>();
+		for (Prijateljstvo p : connectedPeople) {
+			if (p.getReceiver().getId() == me.getId()
+					&& p.getSender().getId() != me.getId()) {
+				if(!ids.contains(p.getSender().getId())){
+					ids.add(p.getSender().getId());
+				}
+			} else if (p.getSender().getId() == me.getId()
+					&& p.getReceiver().getId() != me.getId()) {
+				if(!ids.contains(p.getReceiver().getId())){
+					ids.add(p.getReceiver().getId());
+					
+				}
+			}
+		}
+		
+		potentialFriends = korisnikService.findNotConnectedPeople(ids);
+		//izbacimo sve korisnike koje nisu regKor
+		List<Korisnik>finalList = new ArrayList<>();
+		for (Korisnik k : potentialFriends) {
+			if(k.getId()==me.getId()){
+				continue;
+			}
+			System.out.println(k.getUloga() + " " + k.getUloga().equals("ROLE_USER") );
+			if(k.getUloga().equals("ROLE_USER") && !finalList.contains(k))
+				finalList.add(k);
+			
+		}
+		
+		return ResponseEntity.ok().body(finalList);
+	}
+	
+	/* prihvata friend requesta od korisnika sa ID om id */
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/api/friendrequests/accept/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Prijateljstvo> acceptRequest(Principal user,
@@ -149,7 +193,7 @@ public class PrijateljstvoController {
 		}
 	}
 	
-	/* odbije friend requesta od korisnika sa ID om id      !!!!!!!!!!   */
+	/* odbije friend requesta od korisnika sa ID om id */
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = "/api/friendrequests/reject/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Prijateljstvo> rejectRequest(Principal user,

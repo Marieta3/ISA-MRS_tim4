@@ -51,7 +51,13 @@ public class PrijateljstvoService {
 		return prijateljstvoRepository.findOneRequest(me, friend);
 	}
 
+	public List<Prijateljstvo> findPotentionalFriends(RegistrovaniKorisnik me) {
+		return prijateljstvoRepository.findPotentionalFriends(me);
+	}
+	
 	public void remove(Long id) {
 		prijateljstvoRepository.deleteById(id);
 	}
+
+
 }
