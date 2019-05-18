@@ -33,14 +33,23 @@ function renderDestinacije(data){
 	uloga=localStorage.getItem("uloga");
 	
 	if(uloga=="ROLE_AVIO" || uloga == "ROLE_ADMIN"){
-		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
+		var th_nbsp=$('<th>&nbsp;</th>');
+		var th_nbsp1=$('<th>&nbsp;</th>');
 		$('#prikazDestinacijaTabela').find('tr:eq(0)').append(th_nbsp);
+		$('#prikazDestinacijaTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	$("#prikazDestinacijaTabela").find("tr:gt(0)").remove();
-	$("#prikazDestinacijaTabela").find("th:gt(5)").remove();
+	$("#prikazDestinacijaTabela").find("th:gt(3)").remove();
 	$.each(list, function(index, destinacija){
 		$('#prikazDestinacijaTabela').append(get_row(destinacija, "destination", localStorage.getItem('uloga'), 'id01', 'id02'));
 	})
+	$('#prikazDestinacijaTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 3 }
+	                   ]
+	  });
 }
 
 function findAllAirplanes(){
@@ -66,15 +75,24 @@ function renderAirplanes(data){
 	uloga=localStorage.getItem("uloga");
 	
 	if(uloga=="ROLE_AVIO" || uloga == "ROLE_ADMIN"){
-		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
+		var th_nbsp=$('<th>&nbsp;</th>');
+		var th_nbsp1=$('<th>&nbsp;</th>');
 		$('#prikazAvionaTabela').find('tr:eq(0)').append(th_nbsp);
+		$('#prikazAvionaTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	$("#prikazAvionaTabela").find("tr:gt(0)").remove();
-	$("#prikazAvionaTabela").find("th:gt(7)").remove();
+	$("#prikazAvionaTabela").find("th:gt(8)").remove();
 	$.each(list, function(index, airplane){
 		console.log("INDEX JEEEE: "+index);
 		$('#prikazAvionaTabela').append(get_row(airplane, "airplane", localStorage.getItem('uloga'), 'id05', 'id06'));
 	})
+	$('#prikazAvionaTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
 }
 
 
@@ -103,7 +121,9 @@ $(document).on('submit', "#newDestinationForma", function(e){
 			$("#id03").css("display", "none");
 			$("body").removeClass("modal-open");
 			ponistavanje('newDestinationForma');
-			dodajNoviEntitet('prikazDestinacijaTabela', get_row(data, "destination", localStorage.getItem('uloga'), 'id05', 'id06'));
+			$('#prikazDestinacijaTabela').DataTable().clear().destroy();
+			findAll();
+			//dodajNoviEntitet('prikazDestinacijaTabela', get_row(data, "destination", localStorage.getItem('uloga'), 'id05', 'id06'));
 			//findAllUslugeByHotel();
 			
 		}
@@ -135,6 +155,8 @@ $(document).on('submit', "#deleteDestinacijaForma", function(e){
 			$('#destination_' + id).remove();
 			$("#id01").css("display", "none");
 			$("body").removeClass("modal-open");
+			$('#prikazDestinacijaTabela').DataTable().clear().destroy();
+			findAll();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("okdosdkaasdd");
@@ -193,9 +215,9 @@ $(document).on('submit', "#editDestinationForma", function(e){
 			$("body").removeClass("modal-open");
 			ponistavanje('editDestinationForma');
 			$('#destination_'+id).remove();
-			//get_row(data);
-			console.log(data);
-			dodajNoviEntitet('prikazDestinacijaTabela', get_row($.parseJSON(data), "destination", localStorage.getItem('uloga'), 'id01', 'id02'));
+			$('#prikazDestinacijaTabela').DataTable().clear().destroy();
+			findAll();
+			//dodajNoviEntitet('prikazDestinacijaTabela', get_row($.parseJSON(data), "destination", localStorage.getItem('uloga'), 'id01', 'id02'));
 
         }
 	})
@@ -234,7 +256,9 @@ $(document).on('submit', "#newAirplaneForma", function(e){
 			$("#id04").css("display", "none");
 			$("body").removeClass("modal-open");
 			ponistavanje('newAirplaneForma');
-			dodajNoviEntitet('prikazAvionaTabela', get_row(data, "airplane", localStorage.getItem('uloga'), 'id05', 'id06'));
+			$('#prikazAvionaTabela').DataTable().clear().destroy();
+			findAll();
+			//dodajNoviEntitet('prikazAvionaTabela', get_row(data, "airplane", localStorage.getItem('uloga'), 'id05', 'id06'));
 			
 		}
 	});
@@ -270,6 +294,8 @@ $(document).on('submit', "#deleteAvionForma", function(e){
 			$('#airplane_' + id).remove();
 			$("#id05").css("display", "none");
 			$("body").removeClass("modal-open");
+			$('#prikazAvionaTabela').DataTable().clear().destroy();
+			findAll();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("okdosdkaasdd");
@@ -338,9 +364,9 @@ $(document).on('submit', "#editAvionaForma", function(e){
 			$("body").removeClass("modal-open");
 			ponistavanje('editAvionaForma');
 			$('#airplane_'+id).remove();
-			//get_row(data);
-			console.log(data);
-			dodajNoviEntitet('prikazAvionaTabela', get_row($.parseJSON(data), "airplane", localStorage.getItem('uloga'), 'id05', 'id06'));
+			$('#prikazAvionaTabela').DataTable().clear().destroy();
+			findAll();
+			//dodajNoviEntitet('prikazAvionaTabela', get_row($.parseJSON(data), "airplane", localStorage.getItem('uloga'), 'id05', 'id06'));
 
         }
 	})
