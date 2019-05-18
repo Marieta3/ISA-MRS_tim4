@@ -10,6 +10,7 @@
 	object-fit: cover;
 	border-radius: inherit;
 }
+/*
 .prikazEntitetaTbl{
 	margin-top: 100px;
 	margin-left:auto;
@@ -40,7 +41,7 @@ table, td, th{
 .normal {  
   background: transparent;  
 }
-
+*/
 
 #slikaEdit{
 	margin-left: 50px;

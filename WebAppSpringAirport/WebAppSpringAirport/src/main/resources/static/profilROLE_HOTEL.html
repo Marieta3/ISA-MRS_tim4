@@ -3,10 +3,10 @@
 <head>
 <meta charset="ISO-8859-1">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://api-maps.yandex.ru/2.1/?lang=en_US&format=json" type="text/javascript"></script>
-
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://api-maps.yandex.ru/2.1/?apikey=<9ea24de0-3dda-4e4d-b830-25ca34e7ffc8>&lang=en_US&format=json" type="text/javascript"></script>
 
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/modali.js"></script>
@@ -20,11 +20,10 @@
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
 <link rel="stylesheet" type="text/css" href="css/tabelarniPrikaz.css">
-
-<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
-<link href="css/mapa.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/mapa.css">
 <title>HOTEL ADMIN</title>
 </head>
 <body>
@@ -35,9 +34,9 @@
 		<li><button class="tablinks" onclick="openTab(event, 'Hotel')"
 				id="defaultOpen">Hotel</button></li>
 		<li><button id="tabRoomsLink" class="tablinks"
-				onclick="openTab(event, 'Rooms'), findAllByHotel(),dodajUslugeUModalAdd('id03'), dodajUslugeUModalUpd('id04')">Rooms</button></li>
+				onclick="openTab(event, 'Rooms'),dodajUslugeUModalAdd('id03'), dodajUslugeUModalUpd('id04')">Rooms</button></li>
 		<li><button class="tablinks"
-				onclick="openTab(event, 'Services'), findAllUslugeByHotel()">Services</button></li>
+				onclick="openTab(event, 'Services')">Services</button></li>
 	</ul>
 
 	<div id="EditProfile" class="tabcontent">
@@ -130,7 +129,7 @@
 					Address <br> <input type="text" id="adresa">
 				</div>
 				
-				<div class="grid-item">Map<br><div id="map" class="map"></div>
+				<div class="grid-item" style="height:350px; widht:450px">Map<br><div id="map" class="map"></div>
 					<input type="hidden" id="hotel_coords">
 				</div>
 				<div class="grid-item" id="textarea">
@@ -158,20 +157,20 @@
 		<h1>Rooms</h1>
 		<button class="newRoomBtn" value="New Room"
 			onclick="otvoriModal('id03')">New Room</button>
-
-		<table id="prikazSobaTabela" class="prikazEntitetaTbl">
+		<div class="container">
+		<table id="prikazSobaTabela" class="table table-striped table-bordered" style="width:100% ">
 			<thead>
 				<tr>
 					<th>&nbsp;</th>
 					<th>Bed count</th>
-					<th class="opisEntitet">Description</th>
+					<th>Description</th>
 					<th>Rating</th>
 					<th>Reserved</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
 		</table>
-
+		</div>
 		<!-- za AZURIRANJE sobe -->
 		<div id="id04" class="modal">
 			<form class="modal-content1 animate" id="editRoomForma">
@@ -275,7 +274,8 @@
 		<h1>Services</h1>
 		<button class="newServiceBtn" value="New Service"
 			onclick="otvoriModal('id02')">New Service</button>
-		<table id="prikazUslugaTabela" class="prikazEntitetaTbl">
+		<div class="container">
+		<table id="prikazUslugaTabela" class="table table-striped table-bordered" style="width:100% ">
 			<thead>
 				<tr>
 					<th>Description</th>
@@ -284,7 +284,7 @@
 			</thead>
 			<tbody></tbody>
 		</table>
-
+		</div>
 		<div id="id06" class="modal">
 
 			<form class="modal-content1 animate" id="editServiceForma">

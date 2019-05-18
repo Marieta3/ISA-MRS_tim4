@@ -41,7 +41,7 @@ ul>li>div.dropdown:hover  ul>li>div.dropdown>div.dropdown-content {
   text-align: left;
 }
 
-ul {
+ul:not(.pagination) {
   list-style-type: none;
   margin: 0;
   padding: 0;

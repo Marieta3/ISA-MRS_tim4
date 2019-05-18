@@ -11,9 +11,7 @@ uloga="";
 //findAllRent();
 $(document).ready(function(){
 	var li1=$('<li><button class="loginBtn">Login</button></li>');
-	console.log(li1);
 	uloga= localStorage.getItem("uloga");
-	console.log("index ready uloga: "+uloga);
 	if (uloga == null || uloga == ""){
 		$("#nav-bar").append(li1);
 		$("#nav-bar").append('<li><button class="registerBtn">Register</button></li>');

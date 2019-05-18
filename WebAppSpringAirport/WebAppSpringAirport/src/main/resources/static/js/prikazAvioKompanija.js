@@ -25,17 +25,17 @@ function findAll(){
 }
 
 function renderAvioKompanije(data){
-	console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
-	//sta ako ne postoji uloga u local storage?
 	if(uloga=="ROLE_ADMIN"){
-		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
+		var th_nbsp=$('<th>&nbsp;</th>');
+		var th_nbsp1=$('<th>&nbsp;</th>');
 		$('#prikazAvioKompanijaTabela').find('tr:eq(0)').append(th_nbsp);
+		$('#prikazAvioKompanijaTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	//$("#prikazAvioKompanijaTabela tbody").empty();
 	$("#prikazAvioKompanijaTabela").find("tr:gt(0)").remove();
-	$("#prikazAvioKompanijaTabela").find("th:gt(5)").remove();
+	$("#prikazAvioKompanijaTabela").find("th:gt(6)").remove();
 	$.each(list, function(index, avioKompanija){
 		/*var tr=$('<tr id="avio_' + avioKompanija.id + '"></tr>');
 		if (avioKompanija.slika == null){
@@ -67,6 +67,13 @@ function renderAvioKompanije(data){
 		$('#prikazAvioKompanijaTabela').append(get_row(avioKompanija, "airline", localStorage.getItem('uloga'), 'id02', 'id01'));
 		
 	})
+	$('#prikazAvioKompanijaTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
 }
 
 
@@ -74,7 +81,6 @@ function renderAvioKompanije(data){
 function formaUpdateairline(e, forma){
 	e.preventDefault();
 	var id = $(forma).find('input[type=hidden]').val();
-	console.log(id);
 	$.ajax({
 		type:"GET",
 		url:"api/avioKompanije/"+id,
@@ -112,7 +118,9 @@ $(document).on('submit', ".modal-content1", function(e){
         success:function(data){
         	zatvoriModal('id01')
 			$('#airline_'+id).remove();
-			dodajNoviEntitet('prikazAvioKompanijaTabela', get_row($.parseJSON(data), "airline", localStorage.getItem('uloga'), 'id02', 'id01'));
+        	$('#prikazAvioKompanijaTabela').DataTable().clear().destroy();
+			findAll();
+			//dodajNoviEntitet('prikazAvioKompanijaTabela', get_row($.parseJSON(data), "airline", localStorage.getItem('uloga'), 'id02', 'id01'));
         }
 	})
 	
@@ -135,6 +143,8 @@ $(document).on('submit', ".modal-content2", function(e){
 			$('#airline_' + id).remove();
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
+			$('#prikazAvioKompanijaTabela').DataTable().clear().destroy();
+			findAll();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("okdosdkaasdd");
@@ -166,8 +176,9 @@ $(document).on('submit', "#newAvioForma", function(e){
 			$("#id03").css("display", "none");
 			$("body").removeClass("modal-open");
 			ponistavanje('newAvioForma');
-			//get_row(data);
-			dodajNoviEntitet('prikazAvioKompanijaTabela', get_row(data, "airline", localStorage.getItem('uloga'), 'id02', 'id01'));
+			$('#prikazAvioKompanijaTabela').DataTable().clear().destroy();
+			findAll();
+			//dodajNoviEntitet('prikazAvioKompanijaTabela', get_row(data, "airline", localStorage.getItem('uloga'), 'id02', 'id01'));
 		}
 	});
 })

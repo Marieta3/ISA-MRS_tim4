@@ -4,6 +4,12 @@
 <meta charset="ISO-8859-1">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
 	<script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prikazRentACar.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
@@ -18,11 +24,10 @@
 	<ul id="nav-bar">
 		<li><a href="index.html">Home</a></li>
 	</ul>
-	<div class="search" style="margin-top: 100px; text-align: center">
-		<label>Search by name</label> <input type="text" id="searchName">
-		<button id="btnSearch" value="Search">Search</button>
-	</div>
-	<table class="prikazEntitetaTbl" id="prikazRentACarTabela" width=600px border=1px>
+	
+	<div class="container">
+	<h2>List of Rent-a-Car</h2>
+	<table class="table table-striped table-bordered" id="prikazRentACarTabela" >
 		<thead>
 			<tr>
 				<th>Picture</th>
@@ -35,6 +40,7 @@
 		<tbody>
 		</tbody>
 	</table>
+	</div>
 	<br>
 	<br>
 
