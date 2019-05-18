@@ -23,7 +23,6 @@ function findAll(){
 }
 
 function renderKorisnici(data){
-	console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
 	
@@ -73,6 +72,13 @@ function renderKorisnici(data){
 		$('#prikazKorisnikaTabela').append(get_row(korisnik, "user", localStorage.getItem('uloga'), 'id02', 'nema'));
 		
 	})
+	$('#prikazKorisnikaTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
 }
 
 
@@ -95,6 +101,8 @@ $(document).on('submit', ".modal-content2", function(e){
 			$('#user_' + id).remove();
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
+			$('#prikazKorisnikaTabela').DataTable().clear().destroy();
+			findAll();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("okdosdkaasdd");
@@ -138,8 +146,9 @@ $(document).on('submit', "#newUserForma", function(e){
 			$("#id03").css("display", "none");
 			$("body").removeClass("modal-open");
 			ponistavanje('newUserForma');
-			//get_row(data);
-			dodajNoviEntitet('prikazKorisnikaTabela', get_row(data, "user", localStorage.getItem('uloga'), 'id02', 'id01'));
+			$('#prikazKorisnikaTabela').DataTable().clear().destroy();
+			findAll();
+			//dodajNoviEntitet('prikazKorisnikaTabela', get_row(data, "user", localStorage.getItem('uloga'), 'id02', 'id01'));
 		},
 		error:function(){
 			alert("Username or email is taken");

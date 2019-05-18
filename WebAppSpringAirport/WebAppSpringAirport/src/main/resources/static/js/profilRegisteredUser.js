@@ -62,10 +62,13 @@ function renderKorisnici(data){
 			tr.append(td);
 		
 		}*/
-		if (uloga == "ROLE_USER") {
+		/*if (uloga == "ROLE_USER") {
 			
 			tr.append("<td align= 'center'><button id=\'deleteFriendBtn\' onClick = deleteFriend(" + korisnik.id +")>Delete friend</button></td>");
 		
+		}*/
+		if(uloga=="ROLE_USER"){
+			tr.append("<td align= 'center'><button id=\'deleteFriendBtn\' onClick = \"formaObrisi1(event, "+korisnik.id+", \'id01\', \'Are you sure you want to delete friend: "+korisnik.korisnickoIme+"?\'), otvoriModal(\'id01\')\">Delete friend</button></td>");
 		}
 		
 		$("#friendsTable").find("tbody").append(tr);
@@ -80,8 +83,11 @@ function renderKorisnici(data){
 	  });
 }
 
-function deleteFriend(id){
-	console.log("trying to delete friend with id " + id);
+/*function deleteFriend(id)*/
+$(document).on('submit', '#deleteFriendForma', function(e){
+	e.preventDefault();
+	//console.log("trying to delete friend with id " + id);
+	var id=$('#identifikatorFriend').val();
 	$.ajax({
 		type:'DELETE',
 		url:'/api/friends/' + id,
@@ -92,6 +98,7 @@ function deleteFriend(id){
 		success:function(){
 			$('#friend_' + id).remove();
 			$('#friendsTable').DataTable().clear().destroy();
+			zatvoriModal('id01');
 			findAllFriends();
 			$('#newFriendsTable').DataTable().clear().destroy();
 			findAllPotentialFriends();
@@ -101,7 +108,7 @@ function deleteFriend(id){
 		}
 	})
 	
-}
+})
 
 function renderRequests(data){
 	console.log(data);

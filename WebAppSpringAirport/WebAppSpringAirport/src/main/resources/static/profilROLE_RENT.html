@@ -4,7 +4,12 @@
 <meta charset="ISO-8859-1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
@@ -140,8 +145,9 @@
 	<div id="Branches" class="tabcontent">
 		<h1>Branches</h1>
 		<button class="newBranchBtn" value="New Branch" onclick="otvoriModal('id03')">New Branch</button>
-		
-		<table id="prikazBranchTabela" class="prikazEntitetaTbl">
+		<div class="container">
+		<h2>List of Branches</h2>
+		<table id="prikazBranchTabela" class="table table-striped table-bordered">
 			<thead>
 			<tr>
 				<th>&nbsp;</th>
@@ -152,7 +158,7 @@
 			</thead>
 			<tbody></tbody>
 		</table>
-		
+		</div>
 		<!--Add branch modal -->
 		<div id="id03" class="modal">
 		<form class="modal-content3 animate" id="newBranchForma">
@@ -253,8 +259,9 @@
 	<div id="Cars" class="tabcontent">
 		<h1>Cars</h1>
 		<button class="newCarBtn" value="New Car" onclick="otvoriModal('id02')">New Car</button>
-		
-		<table id="prikazVoziloTabela" class="prikazEntitetaTbl">
+		<div class="container">
+		<h2>List of Cars</h2>
+		<table id="prikazVoziloTabela" class="table table-striped table-bordered">
 			<thead>
 			<tr>
 				<th>&nbsp;</th>
@@ -269,7 +276,7 @@
 			</thead>
 			<tbody></tbody>
 		</table>
-		
+		</div>
 		<div id="id02" class="modal">
 		<form class="modal-content2 animate" id="newCarForma">
 			<div class="imgcontainer">

@@ -34,11 +34,13 @@ function renderHoteli(data) {
 	uloga=localStorage.getItem("uloga");
 	
 	if(uloga=="ROLE_ADMIN"){
-		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
+		var th_nbsp=$('<th>&nbsp;</th>');
+		var th_nbsp1=$('<th>&nbsp;</th>');
 		$('#prikazHotelaTabela').find('tr:eq(0)').append(th_nbsp);
+		$('#prikazHotelaTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	$("#prikazHotelaTabela").find("tr:gt(0)").remove();
-	$("#prikazHotelaTabela").find("th:gt(5)").remove();
+	$("#prikazHotelaTabela").find("th:gt(6)").remove();
 	$.each(list, function(index, hotel) {
 		/*
 		var tr = $('<tr id="hotel_' + hotel.id + '"></tr>');
@@ -68,20 +70,22 @@ function renderHoteli(data) {
 			tr.append(td1);
 		}*/
 		$('#prikazHotelaTabela').append(get_row(hotel, "hotel", localStorage.getItem('uloga'), 'id02', 'id01'));
+		
 	})
+	$('#prikazHotelaTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
 	
 }
 
 
 function formaUpdatehotel(e, forma){
 	e.preventDefault();
-	console.log("***************");
-	console.log(forma);
-	console.log(this);
-	console.log($(forma));
-	console.log("***************");
 	var id_hotela = $(forma).find('input[type=hidden]').val();
-	console.log(id_hotela);
 	$.ajax({
 		type:"GET",
 		url:"api/hotels/"+id_hotela,
@@ -117,7 +121,9 @@ $(document).on('submit', ".modal-content1", function(e){
         success:function(data){
         	zatvoriModal('id01')
 			$('#hotel_'+id).remove();
-			dodajNoviEntitet('prikazHotelaTabela', get_row($.parseJSON(data), "hotel", localStorage.getItem('uloga'), 'id02', 'id01'));
+			//dodajNoviEntitet('prikazHotelaTabela', get_row($.parseJSON(data), "hotel", localStorage.getItem('uloga'), 'id02', 'id01'));
+        	$('#prikazHotelaTabela').DataTable().clear().destroy();
+			findAll();
         }
 	})
 	
@@ -140,6 +146,8 @@ $(document).on('submit', ".modal-content2", function(e){
 			$('#hotel_' + id).remove();
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
+			$('#prikazHotelaTabela').DataTable().clear().destroy();
+			findAll();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("okdosdkaasdd");
@@ -173,8 +181,10 @@ $(document).on('submit', "#newHotelForma", function(e){
 			$("#id03").css("display", "none");
 			$("body").removeClass("modal-open");
 			ponistavanje('newHotelForma');
+			$('#prikazHotelaTabela').DataTable().clear().destroy();
+			findAll();
 			//get_row(data);
-			dodajNoviEntitet('prikazHotelaTabela', get_row(data, "hotel", localStorage.getItem('uloga'), 'id02', 'id01'));
+			//dodajNoviEntitet('prikazHotelaTabela', get_row(data, "hotel", localStorage.getItem('uloga'), 'id02', 'id01'));
 		}
 	});
 })
