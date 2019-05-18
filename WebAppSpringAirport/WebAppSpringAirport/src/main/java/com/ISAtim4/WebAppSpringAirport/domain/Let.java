@@ -31,11 +31,11 @@ public class Let {
 	@Column(nullable=false)
 	private String krajnjaDestinacija;
 	
-	//@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column(nullable=false)
 	private Date vremePolaska;
 	
-	//@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column(nullable=false)
 	private Date vremeDolaska;
 	
