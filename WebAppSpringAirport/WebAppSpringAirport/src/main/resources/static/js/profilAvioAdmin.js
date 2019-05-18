@@ -359,4 +359,94 @@ function avionToJSONUpd(id,model,rows,cols,rowsEC,rowsBC,rowsFC,slika){
 	});
 }
 
+$(document).on('submit', "#newFlightForma", function(e){
+	e.preventDefault();
+	console.log("dodavanje leta");
+	var pocetnaDestinacija=$("#pocetnaDestinacija").val();
+	var krajnjaDestinacija=$("#krajnjaDestinacija").val();
+	
+	var vremePolaska1=$("#datetimepicker1").datepicker("getDate");
+    var vremePolaska = $.datepicker.formatDate("dd/MM/yyyy hh:mm:ss", vremePolaska1);
+	
+	var vremeDolaska1=$("#datetimepicker2").datepicker("getDate");
+    var vremeDolaska = $.datepicker.formatDate("dd/MM/yyyy hh:mm:ss", vremeDolaska1);
+
+    var duzinaPutovanja=$("#duzinaPutovanja").val();
+	
+	var model = $("#modelAvio")
+	var rows = $("#rowsAvio").val();
+	var columns = $("#columnsAvio").val();
+	var rowsEC = $("#rowsECAvio").val();
+	var rowsBC = $("#rowsBCAvio").val();
+	var rowsFC = $("#rowsFCAvio").val();
+	
+	$.ajax({
+		type:'POST',
+		url:"api/let",
+		contentType:'application/json',
+		dataType:'json',
+		data:letToJSONadd(pocetnaDestinacija,krajnjaDestinacija,vremePolaska,vremeDolaska,duzinaPutovanja,model,rows,columns,rowsEC,rowsBC,rowsFC),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:function(data){
+			console.log(data); 
+			$("#id07").css("display", "none");
+			$("body").removeClass("modal-open");
+			ponistavanje('newFlightForma');
+			dodajNoviEntitet('prikazLetaTabela', get_row(data, "flight", localStorage.getItem('uloga'), 'id08', 'id09'));
+		}
+	});
+})
+
+function letToJSONadd(pocetnaDestinacija,krajnjaDestinacija,vremePolaska,vremeDolaska,duzinaPutovanja,model,rows,columns,rowsEC,rowsBC,rowsFC){
+	return JSON.stringify({
+		"pocetnaDestinacija":pocetnaDestinacija,
+		"krajnjaDestinacija":krajnjaDestinacija,
+		"vremePolaska":vremePolaska,
+		"vremeDolaska":vremeDolaska,
+		"duzinaPutovanja":duzinaPutovanja,
+		"model":model,
+		"brojRedova":rows,
+		"brojKolona":columns,
+		"brojRedovaEC":rowsEC,
+		"brojRedovaBC":rowsBC,
+		"brojRedovaFC":rowsFC,
+	});
+}
+
+function findAllFlights(){
+	$.ajax({
+		type:'GET',
+		url:'api/let',
+		dataType:'json',
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success:renderFlights,
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log("flightsssss");
+			alert(errorThrown);
+		}
+	});
+}
+
+function renderFlights(data){
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	console.log(data);
+	uloga=localStorage.getItem("uloga");
+	
+	if(uloga=="ROLE_AVIO" || uloga == "ROLE_ADMIN"){
+		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
+		$('#prikazLetovaTabela').find('tr:eq(0)').append(th_nbsp);
+	}
+	$("#prikazLetovaTabela").find("tr:gt(0)").remove();
+	$("#prikazLetovaTabela").find("th:gt(7)").remove();
+	$.each(list, function(index, flight){
+		console.log("INDEX JEEEE: "+index);
+		$('#prikazLetovaTabela').append(get_row(flight, "flight", localStorage.getItem('uloga'), 'id08', 'id09'));
+	})
+}
+
 
