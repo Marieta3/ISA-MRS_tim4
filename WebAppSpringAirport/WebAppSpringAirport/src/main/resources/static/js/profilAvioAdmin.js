@@ -392,14 +392,14 @@ $(document).on('submit', "#newFlightForma", function(e){
 	var krajnjaDestinacija=$("#krajnjaDestinacija").val();
 	
 	var vremePolaska=$("#vremePolaska").val();
-	console.log(vremePolaska);
+	console.log("Vreme polaska je: "+vremePolaska);
 	
 	var vremeDolaska=$("#vremeDolaska").val();
-	console.log(vremeDolaska);
+	console.log("Vreme dolaska je: "+vremeDolaska);
 	
     var duzinaPutovanja=$("#duzinaPutovanja").val();
 	
-	var model = $("#modelAvio")
+	var model = $("#modelAvio").val();
 	var rows = $("#rowsAvio").val();
 	var columns = $("#columnsAvio").val();
 	var rowsEC = $("#rowsECAvio").val();
@@ -411,7 +411,7 @@ $(document).on('submit', "#newFlightForma", function(e){
 		url:"api/let",
 		contentType:'application/json',
 		dataType:'json',
-		//data:letToJSONadd(pocetnaDestinacija,krajnjaDestinacija,vremePolaska,vremeDolaska,duzinaPutovanja,model,rows,columns,rowsEC,rowsBC,rowsFC),
+		data:letToJSONadd(pocetnaDestinacija,krajnjaDestinacija,vremePolaska,vremeDolaska,duzinaPutovanja,model,rows,columns,rowsEC,rowsBC,rowsFC),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
