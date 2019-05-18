@@ -65,8 +65,10 @@ function renderFilijale(data){
 	uloga=localStorage.getItem("uloga");
 	
 	if(uloga=="ROLE_RENT"){
-		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
+		var th_nbsp=$('<th>&nbsp;</th>');
+		var th_nbsp1=$('<th>&nbsp;</th>');
 		$('#prikazBranchTabela').find('tr:eq(0)').append(th_nbsp);
+		$('#prikazBranchTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	$("#prikazBranchTabela").find("tr:gt(0)").remove();
 	$("#prikazBranchTabela").find("th:gt(5)").remove();
@@ -99,10 +101,15 @@ function renderFilijale(data){
 		}
 
 		$('#prikazBranchTabela').append(tr);*/
-		console.log("render filijala.....")
-		console.log(filijala.slika)
-		$('#prikazBranchTabela tbody').append(get_row(filijala, "branch", localStorage.getItem('uloga'), 'id01', 'id04'));
+		$('#prikazBranchTabela').append(get_row(filijala, "branch", localStorage.getItem('uloga'), 'id01', 'id04'));
 	})
+	$('#prikazBranchTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
 }
 
 function renderVozila(data){
@@ -112,8 +119,10 @@ function renderVozila(data){
 	uloga=localStorage.getItem("uloga");
 	
 	if(uloga=="ROLE_RENT"){
-		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
+		var th_nbsp=$('<th>&nbsp;</th>');
+		var th_nbsp1=$('<th>&nbsp;</th>');
 		$('#prikazVoziloTabela').find('tr:eq(0)').append(th_nbsp);
+		$('#prikazVoziloTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	$("#prikazVoziloTabela").find("tr:gt(0)").remove();
 	$("#prikazVoziloTabela").find("th:gt(8)").remove();
@@ -122,7 +131,14 @@ function renderVozila(data){
 		console.log(car)
 		$('#prikazVoziloTabela tbody').append(get_row(car, "car", localStorage.getItem('uloga'), 'id05', 'id06'));
 	})
-	//alert("There are no cars!");
+	$('#prikazVoziloTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
+	
 }
 
 //dodavanje filijala
@@ -160,6 +176,7 @@ $(document).on('submit', ".modal-content3", function(e){
 			$("#id03").css("display", "none");
 			$("body").removeClass("modal-open");
 			//vizuelno prikazati dodatu filijalu
+			$('#prikazBranchTabela').DataTable().clear().destroy();
 			findAllBranchesByRent();
 		}
 	});
@@ -193,10 +210,9 @@ $(document).on('submit', "#editBranchForma", function(e){
 			$("body").removeClass("modal-open");
 			ponistavanje('editBranchForma');
 			$('#branch_'+id).remove();
-			//get_row(data);
-			console.log(data);
-
-			dodajNoviEntitet('prikazBranchTabela', get_row($.parseJSON(data), "branch", localStorage.getItem('uloga'), 'id01', 'id04'));
+			$('#prikazBranchTabela').DataTable().clear().destroy();
+			findAllBranchesByRent();
+			//dodajNoviEntitet('prikazBranchTabela', get_row($.parseJSON(data), "branch", localStorage.getItem('uloga'), 'id01', 'id04'));
 			
 
         }
@@ -252,6 +268,7 @@ $(document).on('submit', "#deleteBranchForma", function(e){
 			$('#filijala_' + id).remove();
 			$("#id01").css("display", "none");
 			$("body").removeClass("modal-open");
+			$('#prikazBranchTabela').DataTable().clear().destroy();
 			findAllBranchesByRent();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -305,8 +322,10 @@ $(document).on('submit', ".modal-content2", function(e){
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
 			ponistavanje('newCarForma');
-			dodajNoviEntitet('prikazVoziloTabela', get_row(data, "car", localStorage.getItem('uloga'), 'id05', 'id06'));
-			//findAllUslugeByHotel();
+			$('#prikazVoziloTabela').DataTable().clear().destroy();
+			findAllCarsByRent();
+			//dodajNoviEntitet('prikazVoziloTabela', get_row(data, "car", localStorage.getItem('uloga'), 'id05', 'id06'));
+			
 			
 		}
 	});
@@ -382,7 +401,9 @@ $(document).on('submit', "#editVoziloForma", function(e){
 			$("body").removeClass("modal-open");
 			ponistavanje('editVoziloForma');
 			$('#car_'+id).remove();
-			dodajNoviEntitet('prikazVoziloTabela', get_row($.parseJSON(data), "car", localStorage.getItem('uloga'), 'id05', 'id06'));
+			$('#prikazVoziloTabela').DataTable().clear().destroy();
+			findAllCarsByRent();
+			//dodajNoviEntitet('prikazVoziloTabela', get_row($.parseJSON(data), "car", localStorage.getItem('uloga'), 'id05', 'id06'));
 
         }
 	})
@@ -404,6 +425,8 @@ $(document).on('submit', "#deleteVoziloForma", function(e){
 			$('#car_' + id).remove();
 			$("#id05").css("display", "none");
 			$("body").removeClass("modal-open");
+			$('#prikazVoziloTabela').DataTable().clear().destroy();
+			findAllCarsByRent();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("error deleting car");

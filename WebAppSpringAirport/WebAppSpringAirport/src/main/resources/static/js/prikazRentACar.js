@@ -28,8 +28,10 @@ function renderRentACars(data) {
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
 	if(uloga=="ROLE_ADMIN"){
-		var th_nbsp=$('<th colspan="2">&nbsp;</th>');
+		var th_nbsp=$('<th>&nbsp;</th>');
+		var th_nbsp1=$('<th>&nbsp;</th>');
 		$('#prikazRentACarTabela').find('tr:eq(0)').append(th_nbsp);
+		$('#prikazRentACarTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	
 	if(list.length == 0){
@@ -39,7 +41,7 @@ function renderRentACars(data) {
 	}
 
 	$("#prikazRentACarTabela").find("tr:gt(0)").remove();
-	$("#prikazRentACarTabela").find("th:gt(5)").remove();
+	$("#prikazRentACarTabela").find("th:gt(6)").remove();
 	$.each(list, function(index, rentACar) {
 		/*var tr = $('<tr id="rent_' + rentACar.id + '"></tr>');
 		if (rentACar.slika == null) {
@@ -69,6 +71,13 @@ function renderRentACars(data) {
 		$('#prikazRentACarTabela tbody').append(get_row(rentACar, "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
 
 	})
+	$('#prikazRentACarTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
 }
 
 
@@ -76,7 +85,6 @@ function renderRentACars(data) {
 function formaUpdaterent(e, forma) {
 	e.preventDefault();
 	var id = $(forma).find('input[type=hidden]').val();
-	console.log(id);
 	$.ajax({
 		type:"GET",
 		url:"api/rentACars/"+id,
@@ -114,7 +122,9 @@ $(document).on('submit', ".modal-content1", function(e){
         success:function(data){
         	zatvoriModal('id01')
 			$('#rent_'+id).remove();
-			dodajNoviEntitet('prikazRentACarTabela', get_row($.parseJSON(data), "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
+        	$('#prikazRentACarTabela').DataTable().clear().destroy();
+			findAll();
+			//dodajNoviEntitet('prikazRentACarTabela', get_row($.parseJSON(data), "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
         }
 	})
 	
@@ -137,6 +147,8 @@ $(document).on('submit', ".modal-content2", function(e){
 			$('#rent_' + id).remove();
 			$("#id02").css("display", "none");
 			$("body").removeClass("modal-open");
+			$('#prikazRentACarTabela').DataTable().clear().destroy();
+			findAll();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("okdosdkaasdd");
@@ -168,8 +180,9 @@ $(document).on('submit', "#newRentForma", function(e){
 			$("#id03").css("display", "none");
 			$("body").removeClass("modal-open");
 			ponistavanje('newRentForma');
-			//get_row(data);
-			dodajNoviEntitet('prikazRentACarTabela', get_row(data, "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
+			$('#prikazRentACarTabela').DataTable().clear().destroy();
+			findAll();
+			//dodajNoviEntitet('prikazRentACarTabela', get_row(data, "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
 		}
 	});
 })
