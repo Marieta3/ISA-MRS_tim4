@@ -17,20 +17,6 @@
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
 <link rel="stylesheet" type="text/css" href="css/tabelarniPrikaz.css">
 
-<link
-	href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css"
-	rel="stylesheet">
-<link rel="stylesheet" type="text/css" media="screen"
-	href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
-<script type="text/javascript"
-	src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
-</script>
-<script type="text/javascript"
-	src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
-</script>
-<script type="text/javascript"
-	src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
-</script>
 
 <title>AVIO ADMIN</title>
 </head>
@@ -418,20 +404,10 @@
 							point</b></label> <input type="text" name="krajnjaDestinacija"
 						id="krajnjaDestinacija" required>
 
-					<div id="datetimepicker1" class="input-append date">
-						<label for="vremePolaska"><b>Start time</b></label> <input type="text"
-							name="vremePolaska" id="vremePolaska" required> </input> 
-						<span class="add-on">
-				        	<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-				      </span>
-					</div>
-					<div id="datetimepicker2" class="input-append date">
-						<label for="vremeDolaska"><b>Departure time</b></label> <input type="text"
-							name="vremeDolaska" id="vremeDolaska" required> </input> 
-						<span class="add-on">
-				        	<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-				      </span>
-					</div>
+					<label for="vremePolaska"><b>Start time</b></label> <input type="datetime-local"
+						name="vremePolaska" id="vremePolaska" required>  
+					<label for="vremeDolaska"><b>Departure time</b></label> <input type="datetime-local"
+						name="vremeDolaska" id="vremeDolaska" required> </input>  <br>
 					<label for="duzinaPutovanja"><b>Flight duration</b></label> <input
 						type="text" name="duzinaPutovanja" id="duzinaPutovanja" required>
 
@@ -454,16 +430,6 @@
 						class="cancelbtn">Cancel</button>
 				</div>
 				<div class="hidden"></div>
-				 <script type="text/javascript">
-			      $('#datetimepicker1').datetimepicker({
-			        format: 'dd/MM/yyyy hh:mm:ss',
-			        language: 'en'
-			      });
-			      $('#datetimepicker2').datetimepicker({
-				        format: 'dd/MM/yyyy hh:mm:ss',
-				        language: 'en'
-				   });
-			      
     </script>
 			</form>
 		</div>

@@ -365,12 +365,12 @@ $(document).on('submit', "#newFlightForma", function(e){
 	var pocetnaDestinacija=$("#pocetnaDestinacija").val();
 	var krajnjaDestinacija=$("#krajnjaDestinacija").val();
 	
-	var vremePolaska1=$("#datetimepicker1").datepicker("getDate");
-    var vremePolaska = $.datepicker.formatDate("dd/MM/yyyy hh:mm:ss", vremePolaska1);
+	var vremePolaska=$("#vremePolaska").val();
+	console.log(vremePolaska);
 	
-	var vremeDolaska1=$("#datetimepicker2").datepicker("getDate");
-    var vremeDolaska = $.datepicker.formatDate("dd/MM/yyyy hh:mm:ss", vremeDolaska1);
-
+	var vremeDolaska=$("#vremeDolaska").val();
+	console.log(vremeDolaska);
+	
     var duzinaPutovanja=$("#duzinaPutovanja").val();
 	
 	var model = $("#modelAvio")
@@ -385,7 +385,7 @@ $(document).on('submit', "#newFlightForma", function(e){
 		url:"api/let",
 		contentType:'application/json',
 		dataType:'json',
-		data:letToJSONadd(pocetnaDestinacija,krajnjaDestinacija,vremePolaska,vremeDolaska,duzinaPutovanja,model,rows,columns,rowsEC,rowsBC,rowsFC),
+		//data:letToJSONadd(pocetnaDestinacija,krajnjaDestinacija,vremePolaska,vremeDolaska,duzinaPutovanja,model,rows,columns,rowsEC,rowsBC,rowsFC),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },

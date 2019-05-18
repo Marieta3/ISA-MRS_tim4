@@ -100,4 +100,4 @@ INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,
 INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,broj_redovafc) VALUES (3,'Airbus A380',9,9,5,3,1);
 INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,broj_redovafc) VALUES (4,'Douglas DC-8',8,8,3,3,2);
 
---INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(1,'Beograd','Paris','22/02/2020 15:45:32','22/02/2020 18:45:32',3,'Airbus A380',7,7,3,3,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(1,'Beograd','Paris','2019-05-14 15:45:32','2019-05-14 18:45:32',3,'Airbus A380',7,7,3,3,1);
