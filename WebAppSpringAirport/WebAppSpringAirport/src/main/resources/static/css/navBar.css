@@ -6,7 +6,9 @@ body{
   float: left;
   overflow: hidden;
 }
-
+.logout{
+	float : right;
+}
 ul>li>div.dropdown  ul>li>div.dropdown>div.dropbtn {
   
   border: none;
