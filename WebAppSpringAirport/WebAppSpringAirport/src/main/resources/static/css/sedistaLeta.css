@@ -79,13 +79,15 @@ div.seatCharts-container {
 }
 
 div.seatCharts-legend {
+	padding-top:10px;
 	padding-left: 0px;
-	position: absolute;
+	position: relative;
 	bottom: 16px;
 }
 ul.seatCharts-legendList {
 	padding-left: 0px;
 }
+
 span.seatCharts-legendDescription {
 	margin-left: 5px;
 	line-height: 30px;
