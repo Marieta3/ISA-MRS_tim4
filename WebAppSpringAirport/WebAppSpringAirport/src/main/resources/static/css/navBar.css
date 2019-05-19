@@ -43,7 +43,7 @@ ul>li>div.dropdown:hover  ul>li>div.dropdown>div.dropdown-content {
   text-align: left;
 }
 
-ul:not(.pagination) {
+ul#nav-bar {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -55,7 +55,7 @@ li {
   float: left;
 }
 
-li a{
+li a:not(.cancel-cart-item){
   display: block;
   color: white;
   text-align: center;
