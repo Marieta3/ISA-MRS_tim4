@@ -2,9 +2,21 @@
  * 
  */
 
+function pokupiRezervisanaSedista(){
+	var lista=$('#selected-seats li');
+	console.log(lista);
+	$.each(lista, function(index, item){
+		var tokens=item.id.split('-');
+		var row_col=tokens[2].split('_');
+		var row=row_col[0];
+		var col=row_col[1];
+		console.log('red: '+row+', kolona: '+col);
+	})
+}
 var firstSeatLabel = 1;
 		
 			$(document).ready(function() {
+
 				//dobaviti let
 				//izmeniti da kada se izabere let iz tabele, da se preuzme njegov id
 				//nece biti ready nego on click ili submit
