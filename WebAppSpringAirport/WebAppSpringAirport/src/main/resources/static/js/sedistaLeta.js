@@ -18,7 +18,7 @@ var firstSeatLabel = 1;
 					},
 					success:function(data){
 						$('#seat-map').prepend(data.pocetnaDestinacija+'-'+data.krajnjaDestinacija);
-						var br_kolona=6;//data.brojKolona;
+						var br_kolona=data.brojKolona;
 						var br_redovaFC=data.brojRedovaFC;
 						var br_redovaEC=data.brojRedovaEC;
 						var br_redovaBC=data.brojRedovaBC;
