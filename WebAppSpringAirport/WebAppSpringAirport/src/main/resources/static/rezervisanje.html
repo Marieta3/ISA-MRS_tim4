@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -11,17 +12,20 @@
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
 <link rel="stylesheet" type="text/css" href="css/jquery.seat-charts.css">
 <link rel="stylesheet" type="text/css" href="css/sedistaLeta.css">
+<link rel="stylesheet" type="text/css" href="css/tabelarniPrikaz.css">
 
 <title>Booking</title>
 
 </head>
 <body>
 	<ul id="nav-bar">
-		<li><button class="tablinks" onclick="openTab(event, 'Flights')" id="defaultOpen">Flights</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Flights')"
+				id="defaultOpen">Flights</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Hotels')">Hotels</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Cars')">Cars</button></li>
+
 	</ul>
-	
+
 	<div id="Flights" class="tabcontent">
 		<h1>Flights</h1>
 		<!-- pretraga -->
@@ -30,25 +34,83 @@
 			<div class="container">
 				<div id="seat-map">
 					<div class="front-indicator">Front</div>
-					
+
 				</div>
 				<div class="booking-details">
 					<h2>Booking Details</h2>
-					
-					<h3> Selected Seats (<span id="counter">0</span>):</h3>
+
+					<h3>
+						Selected Seats (<span id="counter">0</span>):
+					</h3>
 					<ul id="selected-seats"></ul>
-					
+
 					Total: <b>$<span id="total">0</span></b>
-					
-					<button class="checkout-button" onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>
-					
+
+					<button class="checkout-button"
+						onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>
+
 					<div id="legend"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div id="Hotels" class="tabcontent">
-		<h1>Hotels</h1>
+		
+		<!-- pretraga hotela -->
+		<!-- tabela hotela-->
+		<div class="container">
+			<h2>List of Hotels</h2>
+			<table id="prikazHotelaTabela"
+				class="table table-striped table-bordered" style="width: 100%">
+				<thead>
+					<tr>
+						<th>Picture</th>
+						<th>Name</th>
+						<th>Address</th>
+						<th>Description</th>
+						<th>Rating</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+		<!-- pretraga soba -->
+		<!-- tabela soba-->
+		<br><br>
+		<div class='rezervisanje-soba'>
+		<div class="container">
+		<h2>List of Rooms</h2>
+			<table id="prikazSobaTabela"
+				class="table table-striped table-bordered" style="width: 100%">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>Bed count</th>
+						<th>Description</th>
+						<th>Rating</th>
+						<th>Reserved</th>
+						<th>Selected</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+		<div class="booking-details">
+					<h2>Booking Details</h2>
+
+					<h3>
+						Selected Rooms (<span id="counter1">0</span>):
+					</h3>
+					<ul id="selected-rooms"></ul>
+
+					<!-- Total: <b>$<span id="total1">0</span></b>-->
+
+					<button class="checkout-button" id="checkout-button-rooms"
+						onclick="pokupiRezervisaneSobe()">Checkout &raquo;</button>
+
+				</div>
+		</div>
 	</div>
 	<div id="Cars" class="tabcontent">
 		<h1>Cars</h1>
@@ -63,8 +125,9 @@
 <script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/imagePreview.js"></script>
-<script src="js/jquery.seat-charts.js"></script>
+<script type="text/javascript" src="js/jquery.seat-charts.js"></script>
 <script type="text/javascript" src="js/sedistaLeta.js"></script>
+<script type="text/javascript" src="js/rezervisanjeSmestaja.js"></script>
 
 </body>
 </html>

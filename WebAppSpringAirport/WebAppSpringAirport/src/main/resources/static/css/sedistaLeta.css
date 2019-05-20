@@ -97,7 +97,7 @@ span.seatCharts-legendDescription {
 	margin: 10px 0;
 	font-size: 14px;
 }
-#selected-seats {
+#selected-seats, #selected-rooms {
 	max-height: 90px;
 	overflow-y: scroll;
 	overflow-x: none;
