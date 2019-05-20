@@ -11,8 +11,10 @@ insert into usluga(id,cena,opis,hotel_id) values (3,999,'wifi',1);
 insert into usluga(id,cena,opis,hotel_id) values (4,600,'wc',1);
 insert into usluga(id,cena,opis,hotel_id) values (5,566,'hrana',1);
 insert into usluga(id,cena,opis,hotel_id) values (6,200,'kupatilo',2);
-insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana) values (1,3,9.9,'nekiOpisss',1, false);
-insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana) values (2,5,8.8,'nekiOpisss2',2, false);
+
+insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana) values (1,3,9.9,'cista soba',1, true);
+insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana) values (2,5,8.8,'dobra',2, true);
+insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana) values (3,3,9.8,'prelepo',3, true);
 
 insert into avio_kompanija(naziv,adresa,opis, ocena) values ('United Airlines','Chicago, 5th Avenue 20','Description', 4.5);
 insert into avio_kompanija(naziv,adresa,opis, ocena) values ('Turkish Airlines','Istanbul, Asd 20','Description', 3.6);
@@ -101,3 +103,17 @@ INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,
 INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,broj_redovafc) VALUES (4,'Douglas DC-8',8,8,3,3,2);
 
 INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(1,'Belgrade','Paris','2019-05-14 15:45:32','2019-05-14 18:45:32',3,'Airbus A380',7,7,3,3,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(2,'Paris','Belgrade','2019-05-18 16:40:22','2019-05-18 18:40:22',3,'MiG 21',5,5,3,1,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(3,'London','Belgrade','2019-05-20 14:00:00','2019-05-20 18:00:00',3,'Boeing 747',9,9,5,3,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(4,'Dubai','Belgrade','2019-05-21 19:00:00','2019-05-21 00:00:00',3,'Boeing 737',8,8,4,3,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(5,'Belgrade','Dubai','2019-05-31 19:00:00','2019-05-31 00:00:00',3,'Boeing 737',8,8,4,3,1);
+
+INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije) VALUES (1,true,'2019-05-14 15:45:32');
+INSERT INTO REZERVACIJA_SOBA(rezervacija_id,soba_id) VALUES (1,1);
+
+INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije) VALUES (2,true,'2019-05-14 18:00:00');
+INSERT INTO REZERVACIJA_SOBA(rezervacija_id,soba_id) VALUES (2,2);
+
+INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije) VALUES (3,true,'2019-05-14 15:45:32');
+INSERT INTO REZERVACIJA_SOBA(rezervacija_id,soba_id) VALUES (3,3);
+
