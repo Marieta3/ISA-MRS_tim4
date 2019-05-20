@@ -24,7 +24,8 @@
 	<ul id="nav-bar">
 		<li><button class="tablinks" onclick="openTab(event, 'Flights')"
 				id="defaultOpen">Flights</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'Hotels')" id='hotels-tab'>Hotels</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Hotels')"
+				id='hotels-tab'>Hotels</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Cars')"
 				id="cars-tab">Cars</button></li>
 
@@ -34,54 +35,57 @@
 		<h1>Flights</h1>
 		<!-- pretraga -->
 		<form>
-			&nbsp; &nbsp;
-			<input type="radio" value="1" name="radio" checked="checked"
-				id="radio1" onclick="display()"></input> <label for="radio1">One way</label> 
-			<input type="radio" value="2" name="radio" id="radio2"
-				onclick="hide()"></input> <label for="radio2">Round trip</label>
-					<div>
-							&nbsp; &nbsp;
-							<select id="cmbMake" name="Make"     onchange="document.getElementById('selected_text').value=this.options[this.selectedIndex].text">
-									<option value="0" disabled="disabled" selected="selected" id="place">Leaving from...</option>
-									<option value="1">Belgrade</option>
-									<option value="2">London</option>
-									<option value="3">Orlando</option>
-									<option value="4">Novi Sad</option>
-									<option value="5">Frankfurt</option>
-									<option value="6">Berlin</option>
-									<option value="7">New York</option>
-									<option value="8">Paris</option>
-							</select>  &nbsp; &nbsp;
-							<select id="cmbMake" name="Make1" onchange="document.getElementById('selected_text1').value=this.options[this.selectedIndex].text">
-									<option value="0" disabled="disabled" selected="selected" id="place">Going to...</option>
-									<option value="1">Belgrade</option>
-									<option value="2">London</option>
-									<option value="3">Orlando</option>
-									<option value="4">Novi Sad</option>
-									<option value="5">Frankfurt</option>
-									<option value="6">Berlin</option>
-									<option value="7">New York</option>
-									<option value="8">Paris</option>
-							</select>  &nbsp; &nbsp;
-							<label  id="label0">Depart date:</label>
-						<input type="date" name="depart_date"  id="datepicker" placeholder="Pick a date" />
-						<label  id="label1">Return date:</label> &nbsp; &nbsp;
-						 <input type="date" name="return_date"  id="datepicker1" placeholder="Pick a date" />&nbsp; &nbsp;
-							<select id="cmbMake" name="adult" onchange="document.getElementById('selected_text2').value=this.options[this.selectedIndex].text">
-										<option value="0" selected="selected" id="place">Adult</option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
-										
-							</select> &nbsp; &nbsp;
-							<input type="submit" name="search" id="find" value="Search Flights"/>
-						</div>
-						<input type="hidden" name="selected_text" id="selected_text" value="" />
-						<input type="hidden" name="selected_text1" id="selected_text1" value="" />
-						<input type="hidden" name="selected_text2" id="selected_text2" value="" />
-						<br>
+			&nbsp; &nbsp; <input type="radio" value="1" name="radio"
+				checked="checked" id="radio1" onclick="display()"></input> <label
+				for="radio1">One way</label> <input type="radio" value="2"
+				name="radio" id="radio2" onclick="hide()"></input> <label
+				for="radio2">Round trip</label>
+			<div>
+				&nbsp; &nbsp; <select id="cmbMake" name="Make"
+					onchange="document.getElementById('selected_text').value=this.options[this.selectedIndex].text">
+					<option value="0" disabled="disabled" selected="selected"
+						id="place">Leaving from...</option>
+					<option value="1">Belgrade</option>
+					<option value="2">London</option>
+					<option value="3">Orlando</option>
+					<option value="4">Novi Sad</option>
+					<option value="5">Frankfurt</option>
+					<option value="6">Berlin</option>
+					<option value="7">New York</option>
+					<option value="8">Paris</option>
+				</select> &nbsp; &nbsp; <select id="cmbMake" name="Make1"
+					onchange="document.getElementById('selected_text1').value=this.options[this.selectedIndex].text">
+					<option value="0" disabled="disabled" selected="selected"
+						id="place">Going to...</option>
+					<option value="1">Belgrade</option>
+					<option value="2">London</option>
+					<option value="3">Orlando</option>
+					<option value="4">Novi Sad</option>
+					<option value="5">Frankfurt</option>
+					<option value="6">Berlin</option>
+					<option value="7">New York</option>
+					<option value="8">Paris</option>
+				</select> &nbsp; &nbsp; <label id="label0">Depart date:</label> <input
+					type="date" name="depart_date" id="datepicker"
+					placeholder="Pick a date" /> <label id="label1">Return
+					date:</label> &nbsp; &nbsp; <input type="date" name="return_date"
+					id="datepicker1" placeholder="Pick a date" />&nbsp; &nbsp; <select
+					id="cmbMake" name="adult"
+					onchange="document.getElementById('selected_text2').value=this.options[this.selectedIndex].text">
+					<option value="0" selected="selected" id="place">Adult</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+
+				</select> &nbsp; &nbsp; <input type="submit" name="search" id="find"
+					value="Search Flights" />
+			</div>
+			<input type="hidden" name="selected_text" id="selected_text" value="" />
+			<input type="hidden" name="selected_text1" id="selected_text1"
+				value="" /> <input type="hidden" name="selected_text2"
+				id="selected_text2" value="" /> <br>
 		</form>
 		<!-- tabela -->
 		<div class="container">
@@ -131,26 +135,24 @@
 		<h1>Hotels</h1>
 		<!-- pretraga hotela -->
 		<form>
-			&nbsp; &nbsp;
-			<input type="radio" value="1" name="radio" checked="checked"
-				id="radio1"></input> <label for="radio3">Location Search</label> 
-			<input type="radio" value="2" name="radio" id="radio4"
-				></input> <label for="radio2">Hotel name Search</label>
-					<div>
-							&nbsp; &nbsp;
-							<label for="loc-name"> Hotel name/location </label>
-							<input type="text" placeholder="Enter location/hotel name" id="locName">
-							 &nbsp; &nbsp;
-							<label  id="label0">Depart date:</label>
-						<input type="date" name="depart_date"  id="datepicker2" placeholder="Pick a date" />
-						<label  id="label1">Return date:</label> &nbsp; &nbsp;
-						 <input type="date" name="return_date"  id="datepicker3" placeholder="Pick a date" />&nbsp; &nbsp;
-							<input type="submit" name="search" id="find2" value="Search Hotels"/>
-						</div>
-						<br>
+			&nbsp; &nbsp; <input type="radio" value="1" name="radio"
+				checked="checked" id="radio1"></input> <label for="radio3">Location
+				Search</label> <input type="radio" value="2" name="radio" id="radio4"></input>
+			<label for="radio2">Hotel name Search</label>
+			<div>
+				&nbsp; &nbsp; <label for="loc-name"> Hotel name/location </label> <input
+					type="text" placeholder="Enter location/hotel name" id="locName">
+				&nbsp; &nbsp; <label id="label0">Depart date:</label> <input
+					type="date" name="depart_date" id="datepicker2"
+					placeholder="Pick a date" /> <label id="label1">Return
+					date:</label> &nbsp; &nbsp; <input type="date" name="return_date"
+					id="datepicker3" placeholder="Pick a date" />&nbsp; &nbsp; <input
+					type="submit" name="search" id="find2" value="Search Hotels" />
+			</div>
+			<br>
 		</form>
-		
-		
+
+
 		<!-- tabela hotela-->
 		<div class="container">
 			<h2>List of Hotels</h2>
@@ -208,6 +210,27 @@
 	</div>
 	<div id="Cars" class="tabcontent">
 		<!-- pretraga rent a car servisa-->
+		<h1> Rent-a-car</h1>
+		<form>
+			&nbsp; &nbsp; <input type="radio" value="1" name="radio"
+				checked="checked" id="radio1"></input> <label for="radio3">Location
+				Search</label> <input type="radio" value="2" name="radio" id="radio4"></input>
+			<label for="radio2">Rent-a-car name Search</label>
+			<div>
+				&nbsp; &nbsp; <label for="loc-name"> Rent-a-car
+					name/location </label> <input type="text"
+					placeholder="Enter location/rent-a-car name" id="rentName">
+				&nbsp; &nbsp; <label id="label0">Depart date:</label> <input
+					type="date" name="depart_date" id="datepicker4"
+					placeholder="Pick a date" /> <label id="label1">Return
+					date:</label> &nbsp; &nbsp; <input type="date" name="return_date"
+					id="datepicker5" placeholder="Pick a date" />&nbsp; &nbsp; <input
+					type="submit" name="search" id="find3" value="Search Cars" />
+			</div>
+			<br>
+		</form>
+
+
 		<!-- tabela rent a car servisa-->
 		<div class="container">
 			<h2>List of Rent-a-Car</h2>
