@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,13 @@ public class HotelService {
 
 	public void remove(Long id) {
 		hotelRepository.deleteById(id);
+	}
+	
+	public List<Hotel> searchHotelsLocation(String lokacija, Date datumPolaska, Date datumDolaska){
+		return hotelRepository.searchHotelsLocation(lokacija,datumPolaska,datumDolaska);
+	}
+	
+	public List<Hotel> searchHotelsName(String nazivHotela, Date datumPolaska, Date datumDolaska){
+		return hotelRepository.searchHotelsName(nazivHotela,datumPolaska,datumDolaska);
 	}
 }

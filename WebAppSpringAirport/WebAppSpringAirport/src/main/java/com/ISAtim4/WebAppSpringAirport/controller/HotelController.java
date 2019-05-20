@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
+import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 
 @RestController
@@ -39,6 +40,18 @@ public class HotelController {
 		hotel.setCoord1(31.214535);
 		hotel.setCoord2(29.945663);
 		return hotelService.save(hotel);
+	}
+	
+	//za PRETRAGU HOTELA
+	@RequestMapping(value = "/api/hotels/pretraga", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	public List<Hotel> pretragaHotel(@Valid @RequestBody HotelDTO hotel) {
+		if (hotel.getTipPretrage().equals("location")){
+			//pretraga po lokaciji
+			return hotelService.searchHotelsLocation(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumPolaska());
+		} else {
+			//pretraga po nazivu hotela
+			return hotelService.searchHotelsName(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumPolaska());
+		}
 	}
 
 	/* da uzmemo sve hotele, svima je dozvoljeno */
