@@ -1,14 +1,45 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+@Entity
 public class Rezervacija {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Let odabranLet;
-	private Soba odabranaSoba;
-	private Vozilo odabranoVozilo;
+	
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name = "rezervacija_sediste", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "sediste_id", referencedColumnName = "id"))
+	private Set<Sediste> odabranaSedista=new HashSet<>();
+	
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name = "rezervacija_soba", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "soba_id", referencedColumnName = "id"))
+	private Set<Soba> odabraneSobe=new HashSet<>();
+	
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name = "rezervacija_vozilo", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "vozilo_id", referencedColumnName = "id"))
+	private Set<Vozilo> odabranaVozila=new HashSet<>();
+	
+	@Column(nullable = false)
 	private Date datumRezervacije;
-	private Boolean aktivnaRezervacija; //da li je prosao datum leta ili ne
+	
+	@Column(nullable = false)
+	private Boolean aktivnaRezervacija=true; //da li je prosao datum leta ili ne
 	
 	public Rezervacija() {
 		super();
@@ -20,24 +51,32 @@ public class Rezervacija {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Let getOdabranLet() {
-		return odabranLet;
+	
+	
+	public Set<Sediste> getOdabranaSedista() {
+		return odabranaSedista;
 	}
-	public void setOdabranLet(Let odabranLet) {
-		this.odabranLet = odabranLet;
+
+	public void setOdabranaSedista(Set<Sediste> odabranaSedista) {
+		this.odabranaSedista = odabranaSedista;
 	}
-	public Soba getOdabranaSoba() {
-		return odabranaSoba;
+
+	public Set<Soba> getOdabraneSobe() {
+		return odabraneSobe;
 	}
-	public void setOdabranaSoba(Soba odabranaSoba) {
-		this.odabranaSoba = odabranaSoba;
+
+	public void setOdabraneSobe(Set<Soba> odabraneSobe) {
+		this.odabraneSobe = odabraneSobe;
 	}
-	public Vozilo getOdabranoVozilo() {
-		return odabranoVozilo;
+
+	public Set<Vozilo> getOdabranaVozila() {
+		return odabranaVozila;
 	}
-	public void setOdabranoVozilo(Vozilo odabranoVozilo) {
-		this.odabranoVozilo = odabranoVozilo;
+
+	public void setOdabranaVozila(Set<Vozilo> odabranaVozila) {
+		this.odabranaVozila = odabranaVozila;
 	}
+
 	public Date getDatumRezervacije() {
 		return datumRezervacije;
 	}
