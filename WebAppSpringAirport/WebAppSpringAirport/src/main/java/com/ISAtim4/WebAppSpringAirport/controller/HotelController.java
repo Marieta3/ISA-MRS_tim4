@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
+import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 
 @RestController
@@ -38,6 +39,13 @@ public class HotelController {
 	public Hotel createHotel(@Valid @RequestBody Hotel hotel) {
 		hotel.setCoord1(31.214535);
 		hotel.setCoord2(29.945663);
+		return hotelService.save(hotel);
+	}
+	
+	//za PRETRAGU HOTELA
+	@RequestMapping(value = "/api/hotels/pretraga", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	public Hotel pretragaHotel(@Valid @RequestBody HotelDTO hotel) {
+		
 		return hotelService.save(hotel);
 	}
 

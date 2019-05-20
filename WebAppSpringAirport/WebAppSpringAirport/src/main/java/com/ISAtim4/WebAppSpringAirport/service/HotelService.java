@@ -42,4 +42,12 @@ public class HotelService {
 	public void remove(Long id) {
 		hotelRepository.deleteById(id);
 	}
+	
+	public List<Hotel> searchHotelsLocation(){
+		return hotelRepository.searchHotelsLocation();
+	}
+	
+	public List<Hotel> searchHotelsName(){
+		return hotelRepository.searchHotelsName();
+	}
 }

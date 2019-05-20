@@ -13,4 +13,7 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
 	@Query("select h from Hotel h where h.naziv like %?1% ")
 	List<Hotel> pronadjiHotelSadrziNaziv(String naziv);
 
+	List<Hotel> searchHotelsLocation();
+
+	List<Hotel> searchHotelsName();
 }
