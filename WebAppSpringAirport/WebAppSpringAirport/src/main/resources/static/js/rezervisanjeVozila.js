@@ -17,6 +17,11 @@ function findAllRentACars(){
 function renderRentACars(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
+	if(list.length == 0){
+		console.log("Not found data");
+		notify("No rent-a-car agencies found!", 'info');
+		//return;
+	}
 	$('#prikazRentACarTabela').DataTable().clear().destroy();
 	if(list.length == 0){
 		console.log("Not found data");
