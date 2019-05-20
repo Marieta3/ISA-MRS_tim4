@@ -40,7 +40,16 @@ $(document).on('submit', "#editProfileForma", function(e){
 	console.log("aaaaaaaaa");
 	
 	if  (!validateEmail(mail)){
-		alert("Bad email format");
+		$.bootstrapGrowl("Bad email format!", {
+			  ele: 'body', // which element to append to
+			  type: 'danger', // (null, 'info', 'danger', 'success')
+			  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+			  align: 'right', // ('left', 'right', or 'center')
+			  width: 'auto', // (integer, or 'auto')
+			  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+			  allow_dismiss: false, // If true then will display a cross to close the popup.
+			  stackup_spacing: 10 // spacing between consecutively stacked growls.
+			});
 		return;
 	}
 	
@@ -54,14 +63,31 @@ $(document).on('submit', "#editProfileForma", function(e){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
 		success:function(data){
-			console.log(data); 
-			console.log("EVO MEEEEEE")
+			console.log("Successfully saved changes")
 			dobaviPodatkeKorisnika();
-			alert("Successfully saved changes!");
+			$.bootstrapGrowl("Successfully saved changes!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 			//window.location.replace("prikazKorisnika.html");
 		}
-			, error: function(XMLHttpRequest,textStatus, errorThrown) 
-				{alert("No such user!!"+errorThrown);
+			, error: function(XMLHttpRequest,textStatus, errorThrown) {
+				$.bootstrapGrowl("An error occured!", {
+					  ele: 'body', // which element to append to
+					  type: 'danger', // (null, 'info', 'danger', 'success')
+					  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+					  align: 'right', // ('left', 'right', or 'center')
+					  width: 'auto', // (integer, or 'auto')
+					  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+					  allow_dismiss: false, // If true then will display a cross to close the popup.
+					  stackup_spacing: 10 // spacing between consecutively stacked growls.
+					});
 			}
 	});
 });

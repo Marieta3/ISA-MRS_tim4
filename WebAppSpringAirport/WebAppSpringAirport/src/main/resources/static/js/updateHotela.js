@@ -66,10 +66,29 @@ $(document).on('submit', "#updateHotelaForma", function(e){
         },
 		data:hotelToJSON(id,naziv, adresa, opis, slika, coord_list[0], coord_list[1]),
 		success:function(data){
-			alert("Successfully saved changes!");
+			$.bootstrapGrowl("Succesfully saved changes!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+			
 		}
-			, error: function(XMLHttpRequest,textStatus, errorThrown) 
-				{alert("No such hotel!"+errorThrown);
+			, error: function(XMLHttpRequest,textStatus, errorThrown) {
+				$.bootstrapGrowl("An error occured!", {
+					  ele: 'body', // which element to append to
+					  type: 'danger', // (null, 'info', 'danger', 'success')
+					  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+					  align: 'right', // ('left', 'right', or 'center')
+					  width: 'auto', // (integer, or 'auto')
+					  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+					  allow_dismiss: false, // If true then will display a cross to close the popup.
+					  stackup_spacing: 10 // spacing between consecutively stacked growls.
+					});
 			}
 	});
 });

@@ -156,15 +156,35 @@ $(document).on('submit', ".modal-content1", function(e){
 		        		}
 		        	}else{
 		        		localStorage.removeItem("accessToken");
-		        		alert("Check your e-mail for verification!");
+		        		//alert("Check your e-mail for verification!");
+		        		$.bootstrapGrowl("Check your e-mail for verification!", {
+		        			  ele: 'body', // which element to append to
+		        			  type: 'danger', // (null, 'info', 'danger', 'success')
+		        			  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+		        			  align: 'center', // ('left', 'right', or 'center')
+		        			  width: 400, // (integer, or 'auto')
+		        			  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+		        			  allow_dismiss: false, // If true then will display a cross to close the popup.
+		        			  stackup_spacing: 10 // spacing between consecutively stacked growls.
+		        			});
 		        	}
 		        }
 		        	
 		        
 			})
 		},error:function(XMLHttpRequest,textStatus, errorThrown){
-			console.log("GRESKAAAAAA  ");
-			alert("Wrong username or password!");
+			console.log("Wrong username or password  ");
+			//alert("Wrong username or password!");
+			$.bootstrapGrowl("Wrong username or password!", {
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'center', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+
 		}
 	});
 })
@@ -203,11 +223,31 @@ $(document).on('submit', '.modal-content2', function(e){
 	console.log(telephone);
 	
 	if  (!validateEmail(email)){
-		alert("Bad email format");
+		//alert("Bad email format");
+		$.bootstrapGrowl("Bad email format!", {
+			  ele: 'body', // which element to append to
+			  type: 'danger', // (null, 'info', 'danger', 'success')
+			  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+			  align: 'center', // ('left', 'right', or 'center')
+			  width: 400, // (integer, or 'auto')
+			  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+			  allow_dismiss: false, // If true then will display a cross to close the popup.
+			  stackup_spacing: 10 // spacing between consecutively stacked growls.
+			});
 		return;
 	}
 	if (password !== rptpassword){
-		alert('Error! The passwords are not identical');
+		//alert('Error! The passwords are not identical');
+		$.bootstrapGrowl("The passwords are not identical!", {
+			  ele: 'body', // which element to append to
+			  type: 'danger', // (null, 'info', 'danger', 'success')
+			  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+			  align: 'center', // ('left', 'right', or 'center')
+			  width: 400, // (integer, or 'auto')
+			  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+			  allow_dismiss: false, // If true then will display a cross to close the popup.
+			  stackup_spacing: 10 // spacing between consecutively stacked growls.
+			});
 		return;
 	}
 
@@ -219,8 +259,18 @@ $(document).on('submit', '.modal-content2', function(e){
 		success:function(data){
 			window.location.replace("thanksForRegistration.html");
 		},error:function(XMLHttpRequest,textStatus, errorThrown){
-			console.log("GRESKAAAAAA  ");
-			alert("Username or email already used!");
+			console.log("Username taken.");
+			//alert("Username or email already used!");
+			$.bootstrapGrowl("Username or email already used!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'center', // ('left', 'right', or 'center')
+				  width: 400, // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}	
 	//provera da li vec postoji po korisnickom imenu
 	

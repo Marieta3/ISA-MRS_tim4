@@ -155,7 +155,16 @@ function findAllByHotel(){
 		},
 		success:renderSobe,
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 }
@@ -251,6 +260,28 @@ $(document).on('submit', "#editServiceForma", function(e){
 			//dodajNoviEntitet('prikazUslugaTabela', get_row($.parseJSON(data), "service", localStorage.getItem('uloga'), 'id05', 'id06'));
 			$('#prikazUslugaTabela').DataTable().clear().destroy();
 			findAllUslugeByHotel();
+			$.bootstrapGrowl("Service updated!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        	$.bootstrapGrowl("An error occured!", {
+        		  ele: 'body', // which element to append to
+        		  type: 'danger', // (null, 'info', 'danger', 'success')
+        		  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+        		  align: 'right', // ('left', 'right', or 'center')
+        		  width: 'auto', // (integer, or 'auto')
+        		  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+        		  allow_dismiss: false, // If true then will display a cross to close the popup.
+        		  stackup_spacing: 10 // spacing between consecutively stacked growls.
+        		});
         }
 	})
 	
@@ -320,6 +351,28 @@ $(document).on('submit', "#editRoomForma", function(e){
 			//dodajNoviEntitet('prikazSobaTabela', get_row($.parseJSON(data), "room", localStorage.getItem('uloga'), 'id01', 'id04'));
 			$('#prikazSobaTabela').DataTable().clear().destroy();
 			findAllByHotel();
+			$.bootstrapGrowl("Room updated!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        	$.bootstrapGrowl("An error occured!", {
+        		  ele: 'body', // which element to append to
+        		  type: 'danger', // (null, 'info', 'danger', 'success')
+        		  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+        		  align: 'right', // ('left', 'right', or 'center')
+        		  width: 'auto', // (integer, or 'auto')
+        		  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+        		  allow_dismiss: false, // If true then will display a cross to close the popup.
+        		  stackup_spacing: 10 // spacing between consecutively stacked growls.
+        		});
         }
 	})
 	
@@ -361,6 +414,28 @@ $(document).on('submit', ".modal-content3", function(e){
 			//dodajNoviEntitet('prikazSobaTabela', get_row(data, "room", localStorage.getItem('uloga'), 'id01', 'id04'));
 			$('#prikazSobaTabela').DataTable().clear().destroy();
 			findAllByHotel();
+			$.bootstrapGrowl("Room added!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 })
@@ -387,7 +462,29 @@ $(document).on('submit', ".modal-content2", function(e){
 			//dodajNoviEntitet('prikazUslugaTabela', get_row(data, "service", localStorage.getItem('uloga'), 'id05', 'id06'));
 			$('#prikazUslugaTabela').DataTable().clear().destroy();
 			findAllUslugeByHotel();
-			
+			$.bootstrapGrowl("Service added!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+		},
+
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 })
@@ -429,9 +526,28 @@ $(document).on('submit', "#deleteSobaForma", function(e){
 			$("body").removeClass("modal-open");
 			$('#prikazSobaTabela').DataTable().clear().destroy();
 			findAllByHotel();
+			$.bootstrapGrowl("Room deleted!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 	
@@ -456,9 +572,28 @@ $(document).on('submit', "#deleteUslugaForma", function(e){
 			$("body").removeClass("modal-open");
 			$('#prikazUslugaTabela').DataTable().clear().destroy();
 			findAllUslugeByHotel();
+			$.bootstrapGrowl("Service deleted!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 	
