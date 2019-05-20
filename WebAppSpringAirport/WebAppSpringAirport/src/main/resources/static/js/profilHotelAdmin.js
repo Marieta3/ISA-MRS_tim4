@@ -36,6 +36,10 @@ function init(){
 			$("#adresa").val(searchControl.getResultsArray()[0].properties.get('text'));
 			$('#hotel_coords').val(coords);
 			map.setCenter(coords);
+			var placemark=new ymaps.Placemark(coords, {
+				
+			});
+			map.geoObjects.add(placemark);
 			//searchControl.showResult(0);
 		}
 	})
