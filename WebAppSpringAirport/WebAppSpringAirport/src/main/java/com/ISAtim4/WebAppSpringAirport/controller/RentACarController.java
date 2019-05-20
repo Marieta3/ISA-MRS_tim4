@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
+import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
+import com.ISAtim4.WebAppSpringAirport.dto.RentAcarDTO;
 import com.ISAtim4.WebAppSpringAirport.service.RentACarService;
 
 @RestController
@@ -33,6 +36,20 @@ public class RentACarController {
 		return rentACarService.save(rentACar);
 	}
 
+	//za PRETRAGU rentacar
+	@RequestMapping(value = "/api/rentACars/pretraga", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	public List<RentACar> pretragaRentAcar(@Valid @RequestBody RentAcarDTO rent) {
+		if (rent.getTipPretrage().equals("location")){
+			//pretraga po lokaciji
+			return rentACarService.searchRentsLocation(rent.getLokNaziv(),rent.getDatumPolaska(),rent.getDatumDolaska());
+		} else {
+			//pretraga po nazivu hotela
+			return rentACarService.searchRentsName(rent.getLokNaziv(),rent.getDatumPolaska(),rent.getDatumDolaska());
+		}
+	}
+
+	
+	
 	/* da uzmemo sve RentAcar, svima dozvoljeno */
 	
 	@RequestMapping(value = "/api/rentACars", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

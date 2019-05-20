@@ -38,7 +38,6 @@ public class RezervacijaService {
 		return rezervacijaRepository.findAllByNaziv(name);
 	}
 	
-	
 	public List<Rezervacija> containsName(String name) {
 		return rezervacijaRepository.pronadjiHotelSadrziNaziv(name);
 	}*/

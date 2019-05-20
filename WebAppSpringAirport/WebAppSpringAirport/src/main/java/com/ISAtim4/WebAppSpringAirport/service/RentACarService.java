@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,13 @@ public class RentACarService {
 
 	public void remove(Long id) {
 		rentacarRepository.deleteById(id);
+	}
+
+	public List<RentACar> searchRentsLocation(String lokNaziv, Date datumPolaska, Date datumDolaska) {
+		return rentacarRepository.searchRentsLocation(lokNaziv,datumPolaska,datumDolaska);
+	}
+
+	public List<RentACar> searchRentsName(String lokNaziv, Date datumPolaska, Date datumDolaska) {
+		return rentacarRepository.searchRentsName(lokNaziv,datumPolaska,datumDolaska);
 	}
 }

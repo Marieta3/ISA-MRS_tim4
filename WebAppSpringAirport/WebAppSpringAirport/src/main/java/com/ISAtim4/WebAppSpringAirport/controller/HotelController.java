@@ -47,10 +47,10 @@ public class HotelController {
 	public List<Hotel> pretragaHotel(@Valid @RequestBody HotelDTO hotel) {
 		if (hotel.getTipPretrage().equals("location")){
 			//pretraga po lokaciji
-			return hotelService.searchHotelsLocation(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumPolaska());
+			return hotelService.searchHotelsLocation(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumDolaska());
 		} else {
 			//pretraga po nazivu hotela
-			return hotelService.searchHotelsName(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumPolaska());
+			return hotelService.searchHotelsName(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumDolaska());
 		}
 	}
 
