@@ -70,7 +70,7 @@ function selektovanRent(btn){
 
 function renderCars(data){
 var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
-	$('#prikazSobaTabela').DataTable().clear().destroy();
+	$('#prikazVoziloTabela').DataTable().clear().destroy();
 	uloga=localStorage.getItem("uloga");
 	
 	$("#prikazVoziloTabela").find("tr:gt(0)").remove();
