@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 function otvoriModal(modal){
 	console.log('otvoren modal: '+modal);
 	$("#"+modal).css("display", "block");
