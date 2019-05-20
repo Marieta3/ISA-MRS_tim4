@@ -178,6 +178,28 @@ $(document).on('submit', ".modal-content3", function(e){
 			//vizuelno prikazati dodatu filijalu
 			$('#prikazBranchTabela').DataTable().clear().destroy();
 			findAllBranchesByRent();
+			$.bootstrapGrowl("Branch added!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 })
@@ -213,8 +235,28 @@ $(document).on('submit', "#editBranchForma", function(e){
 			$('#prikazBranchTabela').DataTable().clear().destroy();
 			findAllBranchesByRent();
 			//dodajNoviEntitet('prikazBranchTabela', get_row($.parseJSON(data), "branch", localStorage.getItem('uloga'), 'id01', 'id04'));
-			
-
+			$.bootstrapGrowl("Branch updated!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        	$.bootstrapGrowl("An error occured!", {
+        		  ele: 'body', // which element to append to
+        		  type: 'danger', // (null, 'info', 'danger', 'success')
+        		  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+        		  align: 'right', // ('left', 'right', or 'center')
+        		  width: 'auto', // (integer, or 'auto')
+        		  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+        		  allow_dismiss: false, // If true then will display a cross to close the popup.
+        		  stackup_spacing: 10 // spacing between consecutively stacked growls.
+        		});
         }
 	})
 	
@@ -270,10 +312,28 @@ $(document).on('submit', "#deleteBranchForma", function(e){
 			$("body").removeClass("modal-open");
 			$('#prikazBranchTabela').DataTable().clear().destroy();
 			findAllBranchesByRent();
+			$.bootstrapGrowl("Branch deleted!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("Branch deletion failed");
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 	
@@ -325,8 +385,29 @@ $(document).on('submit', ".modal-content2", function(e){
 			$('#prikazVoziloTabela').DataTable().clear().destroy();
 			findAllCarsByRent();
 			//dodajNoviEntitet('prikazVoziloTabela', get_row(data, "car", localStorage.getItem('uloga'), 'id05', 'id06'));
-			
-			
+			$.bootstrapGrowl("Car added!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+		},
+
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 })
@@ -386,7 +467,6 @@ $(document).on('submit', "#editVoziloForma", function(e){
 	var id_rent=localStorage.getItem("rent_id");
 	
 	var id = $("identifikatorVoziloUpd").val();
-	alert(id);
 	$.ajax({
 		type:"PUT",
 		url:"api/cars/"+id,
@@ -404,7 +484,29 @@ $(document).on('submit', "#editVoziloForma", function(e){
 			$('#prikazVoziloTabela').DataTable().clear().destroy();
 			findAllCarsByRent();
 			//dodajNoviEntitet('prikazVoziloTabela', get_row($.parseJSON(data), "car", localStorage.getItem('uloga'), 'id05', 'id06'));
-
+			
+			$.bootstrapGrowl("Car updated!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        	$.bootstrapGrowl("An error occured!", {
+        		  ele: 'body', // which element to append to
+        		  type: 'danger', // (null, 'info', 'danger', 'success')
+        		  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+        		  align: 'right', // ('left', 'right', or 'center')
+        		  width: 'auto', // (integer, or 'auto')
+        		  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+        		  allow_dismiss: false, // If true then will display a cross to close the popup.
+        		  stackup_spacing: 10 // spacing between consecutively stacked growls.
+        		});
         }
 	})
 	
@@ -427,10 +529,28 @@ $(document).on('submit', "#deleteVoziloForma", function(e){
 			$("body").removeClass("modal-open");
 			$('#prikazVoziloTabela').DataTable().clear().destroy();
 			findAllCarsByRent();
+			$.bootstrapGrowl("Car deleted!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("error deleting car");
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 	

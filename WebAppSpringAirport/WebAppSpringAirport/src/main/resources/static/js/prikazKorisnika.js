@@ -103,10 +103,28 @@ $(document).on('submit', ".modal-content2", function(e){
 			$("body").removeClass("modal-open");
 			$('#prikazKorisnikaTabela').DataTable().clear().destroy();
 			findAll();
+			$.bootstrapGrowl("User deleted!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("okdosdkaasdd");
-			alert(errorThrown);
+			$.bootstrapGrowl("Error while deleting user!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 	
@@ -126,7 +144,17 @@ $(document).on('submit', "#newUserForma", function(e){
 	var lozinka="$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra"; //sifra je 123
 	var mail=$('#email').val();
 	if  (!validateEmail(mail)){
-		alert("Bad email format");
+		//alert("Bad email format");
+		$.bootstrapGrowl("Bad email format!", {
+			  ele: 'body', // which element to append to
+			  type: 'danger', // (null, 'info', 'danger', 'success')
+			  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+			  align: 'right', // ('left', 'right', or 'center')
+			  width: 'auto', // (integer, or 'auto')
+			  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+			  allow_dismiss: false, // If true then will display a cross to close the popup.
+			  stackup_spacing: 10 // spacing between consecutively stacked growls.
+			});
 		return;
 	}
 	var e = document.getElementById("ulogeDDL");
@@ -149,9 +177,29 @@ $(document).on('submit', "#newUserForma", function(e){
 			$('#prikazKorisnikaTabela').DataTable().clear().destroy();
 			findAll();
 			//dodajNoviEntitet('prikazKorisnikaTabela', get_row(data, "user", localStorage.getItem('uloga'), 'id02', 'id01'));
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error:function(){
-			alert("Username or email is taken");
+			//alert("Username or email is taken");
+			$.bootstrapGrowl("Username or email is taken!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 })

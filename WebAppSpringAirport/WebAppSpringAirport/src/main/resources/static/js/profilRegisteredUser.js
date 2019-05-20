@@ -102,9 +102,28 @@ $(document).on('submit', '#deleteFriendForma', function(e){
 			findAllFriends();
 			$('#newFriendsTable').DataTable().clear().destroy();
 			findAllPotentialFriends();
+			$.bootstrapGrowl("Friend deleted!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If false then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error:function(){
-			alert("There was an error while delete friend'");
+			$.bootstrapGrowl("There was an error while deleting friend!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 	
@@ -159,9 +178,28 @@ function acceptRequest(id){
 			findAllRequests();
 			$('#friendsTable').DataTable().clear().destroy();
 			findAllFriends();
+			$.bootstrapGrowl("Request accepted!", {
+				  ele: 'body', // which element to append to
+				  type: 'info', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error:function(){
-			alert("There was an error while accepting request'");
+			$.bootstrapGrowl("Error while accepting request!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 }
@@ -180,10 +218,29 @@ function rejectRequest(id){
 			$('#request_' + id).remove();
 			$('#friendRequestsTable').DataTable().clear().destroy();
 			findAllRequests();
+			$.bootstrapGrowl("Request rejected!", {
+				  ele: 'body', // which element to append to
+				  type: 'info', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 			
 		},
 		error:function(){
-			alert("There was an error while rejecting request'");
+			$.bootstrapGrowl("Error while rejecting request!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 }
@@ -232,9 +289,28 @@ function addFriend(id){
 			$('#newfriend_' + id).remove();
 			$('#newFriendsTable').DataTable().clear().destroy();
 			findAllPotentialFriends();
+			$.bootstrapGrowl("Friend request sent!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error:function(){
-			alert("There was an error while sending request'");
+			$.bootstrapGrowl("Error while sending request!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 }
