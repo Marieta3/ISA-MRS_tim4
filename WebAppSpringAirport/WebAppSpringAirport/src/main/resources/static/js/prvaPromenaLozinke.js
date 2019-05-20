@@ -25,12 +25,30 @@ $(document).on("submit", "#changePsw1Forma", function(e){
 	//provera da li je dobra stara sifra
 	//provera da li je nova != stara
 	if(stara==nova){
-		alert("New password should be different than old password.");
+		$.bootstrapGrowl("New password should be different than old password!", {
+			  ele: 'body', // which element to append to
+			  type: 'danger', // (null, 'info', 'danger', 'success')
+			  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+			  align: 'right', // ('left', 'right', or 'center')
+			  width: 'auto', // (integer, or 'auto')
+			  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+			  allow_dismiss: false, // If true then will display a cross to close the popup.
+			  stackup_spacing: 10 // spacing between consecutively stacked growls.
+			});
 		return;
 	}else if(nova!=confirm){
 		console.log(nova);
 		console.log(confirm);
-		alert("Passwords do not match!");
+		$.bootstrapGrowl("Passwords do not match!", {
+			  ele: 'body', // which element to append to
+			  type: 'danger', // (null, 'info', 'danger', 'success')
+			  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+			  align: 'right', // ('left', 'right', or 'center')
+			  width: 'auto', // (integer, or 'auto')
+			  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+			  allow_dismiss: false, // If true then will display a cross to close the popup.
+			  stackup_spacing: 10 // spacing between consecutively stacked growls.
+			});
 		return;
 	}/*else if(nova.length<8){
 		alert("Password should have minimum 8 characters!");
@@ -53,11 +71,21 @@ $(document).on("submit", "#changePsw1Forma", function(e){
 				if(localStorage.getItem("prvaPromena")=="prvaPromena"){
 					localStorage.removeItem("prvaPromena");
 				}
-				alert("Successfully changed password!");
+
+				$.bootstrapGrowl("Successfully changed password!", {
+					  ele: 'body', // which element to append to
+					  type: 'success', // (null, 'info', 'danger', 'success')
+					  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+					  align: 'right', // ('left', 'right', or 'center')
+					  width: 'auto', // (integer, or 'auto')
+					  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+					  allow_dismiss: false, // If true then will display a cross to close the popup.
+					  stackup_spacing: 10 // spacing between consecutively stacked growls.
+					});
 				
 				window.location.replace("profil"+uloga+".html");
 			}else{
-				alert(data);
+				console.log(data);
 			}
 		}
 	})

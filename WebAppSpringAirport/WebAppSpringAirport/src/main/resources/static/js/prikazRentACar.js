@@ -36,7 +36,17 @@ function renderRentACars(data) {
 	
 	if(list.length == 0){
 		console.log("Not found data");
-		alert("No rent-a-car found!")
+		//alert("No rent-a-car found!")
+		$.bootstrapGrowl("No rent-a-car found!", {
+			  ele: 'body', // which element to append to
+			  type: 'info', // (null, 'info', 'danger', 'success')
+			  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+			  align: 'right', // ('left', 'right', or 'center')
+			  width: 'auto', // (integer, or 'auto')
+			  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+			  allow_dismiss: false, // If true then will display a cross to close the popup.
+			  stackup_spacing: 10 // spacing between consecutively stacked growls.
+			});
 		return;
 	}
 
@@ -125,6 +135,29 @@ $(document).on('submit', ".modal-content1", function(e){
         	$('#prikazRentACarTabela').DataTable().clear().destroy();
 			findAll();
 			//dodajNoviEntitet('prikazRentACarTabela', get_row($.parseJSON(data), "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
+			$.bootstrapGrowl("Update succesful!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+        },
+
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        	$.bootstrapGrowl("An error occured!", {
+        		  ele: 'body', // which element to append to
+        		  type: 'danger', // (null, 'info', 'danger', 'success')
+        		  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+        		  align: 'right', // ('left', 'right', or 'center')
+        		  width: 'auto', // (integer, or 'auto')
+        		  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+        		  allow_dismiss: false, // If true then will display a cross to close the popup.
+        		  stackup_spacing: 10 // spacing between consecutively stacked growls.
+        		});
         }
 	})
 	
@@ -149,10 +182,28 @@ $(document).on('submit', ".modal-content2", function(e){
 			$("body").removeClass("modal-open");
 			$('#prikazRentACarTabela').DataTable().clear().destroy();
 			findAll();
+			$.bootstrapGrowl("Succesful deletion!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("okdosdkaasdd");
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 	
@@ -183,6 +234,28 @@ $(document).on('submit', "#newRentForma", function(e){
 			$('#prikazRentACarTabela').DataTable().clear().destroy();
 			findAll();
 			//dodajNoviEntitet('prikazRentACarTabela', get_row(data, "rent", localStorage.getItem('uloga'), 'id02', 'id01'));
+			$.bootstrapGrowl("Succesful addition!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 })

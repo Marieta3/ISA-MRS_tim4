@@ -19,8 +19,16 @@ function findAll(){
 		},
 		success:renderDestinacije,
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("okdosdkaasdd");
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 }
@@ -63,8 +71,16 @@ function findAllAirplanes(){
 		},
 		success:renderAirplanes,
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("okdosdkaasdd");
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 }
@@ -125,7 +141,28 @@ $(document).on('submit', "#newDestinationForma", function(e){
 			findAll();
 			//dodajNoviEntitet('prikazDestinacijaTabela', get_row(data, "destination", localStorage.getItem('uloga'), 'id05', 'id06'));
 			//findAllUslugeByHotel();
-			
+			$.bootstrapGrowl("Destination added!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 })
@@ -143,10 +180,6 @@ $(document).on('submit', "#deleteDestinacijaForma", function(e){
 	$.ajax({
 		type : 'DELETE',
 		url : '/api/destinacije/' + id,
-		/*
-		 * Milan: drugi nacin da token posaljete u zahtevu kroz ajax poziv kroz
-		 * header
-		 */
 		headers : {
 			Authorization : "Bearer " + localStorage.getItem("accessToken")
 		},
@@ -157,10 +190,29 @@ $(document).on('submit', "#deleteDestinacijaForma", function(e){
 			$("body").removeClass("modal-open");
 			$('#prikazDestinacijaTabela').DataTable().clear().destroy();
 			findAll();
+			$.bootstrapGrowl("Succesful deletion!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("okdosdkaasdd");
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 })
@@ -182,6 +234,7 @@ function formaUpdatedestination(e, forma){
         	console.log("["+data.slika+"]");
         	$("#mestoDestinacije1").val(data.adresa);
         	$("#identifikatorDestinacijeUpd").val(data.id);
+        	
         }
 		
 	})
@@ -218,7 +271,28 @@ $(document).on('submit', "#editDestinationForma", function(e){
 			$('#prikazDestinacijaTabela').DataTable().clear().destroy();
 			findAll();
 			//dodajNoviEntitet('prikazDestinacijaTabela', get_row($.parseJSON(data), "destination", localStorage.getItem('uloga'), 'id01', 'id02'));
-
+			$.bootstrapGrowl("Destination edited!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        	$.bootstrapGrowl("An error occured!", {
+        		  ele: 'body', // which element to append to
+        		  type: 'danger', // (null, 'info', 'danger', 'success')
+        		  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+        		  align: 'right', // ('left', 'right', or 'center')
+        		  width: 'auto', // (integer, or 'auto')
+        		  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+        		  allow_dismiss: false, // If true then will display a cross to close the popup.
+        		  stackup_spacing: 10 // spacing between consecutively stacked growls.
+        		});
         }
 	})
 	
@@ -259,7 +333,28 @@ $(document).on('submit', "#newAirplaneForma", function(e){
 			$('#prikazAvionaTabela').DataTable().clear().destroy();
 			findAll();
 			//dodajNoviEntitet('prikazAvionaTabela', get_row(data, "airplane", localStorage.getItem('uloga'), 'id05', 'id06'));
-			
+			$.bootstrapGrowl("New airplane added!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 })
@@ -296,10 +391,28 @@ $(document).on('submit', "#deleteAvionForma", function(e){
 			$("body").removeClass("modal-open");
 			$('#prikazAvionaTabela').DataTable().clear().destroy();
 			findAll();
+			$.bootstrapGrowl("Succesful deletion!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			console.log("okdosdkaasdd");
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	})
 })
@@ -367,7 +480,28 @@ $(document).on('submit', "#editAvionaForma", function(e){
 			$('#prikazAvionaTabela').DataTable().clear().destroy();
 			findAll();
 			//dodajNoviEntitet('prikazAvionaTabela', get_row($.parseJSON(data), "airplane", localStorage.getItem('uloga'), 'id05', 'id06'));
-
+			$.bootstrapGrowl("Airplane edited succesfully!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+        }, 
+        error : function(XMLHttpRequest, textStatus, errorThrown) {
+        	$.bootstrapGrowl("An error occured!", {
+        		  ele: 'body', // which element to append to
+        		  type: 'danger', // (null, 'info', 'danger', 'success')
+        		  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+        		  align: 'right', // ('left', 'right', or 'center')
+        		  width: 'auto', // (integer, or 'auto')
+        		  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+        		  allow_dismiss: false, // If true then will display a cross to close the popup.
+        		  stackup_spacing: 10 // spacing between consecutively stacked growls.
+        		});
         }
 	})
 	
@@ -421,6 +555,28 @@ $(document).on('submit', "#newFlightForma", function(e){
 			$("body").removeClass("modal-open");
 			ponistavanje('newFlightForma');
 			dodajNoviEntitet('prikazLetaTabela', get_row(data, "flight", localStorage.getItem('uloga'), 'id08', 'id09'));
+			$.bootstrapGrowl("Flight added!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 })
@@ -453,7 +609,16 @@ function findAllFlights(){
 		success:renderFlights,
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			console.log("flightsssss");
-			alert(errorThrown);
+			$.bootstrapGrowl("An error occured!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 2000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
 }

@@ -2,14 +2,14 @@
 body{
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-.dropdown {
+#nav-bar .dropdown {
   float: left;
   overflow: hidden;
 }
-.logout{
+#nav-bar .logout{
 	float : right;
 }
-ul>li>div.dropdown  ul>li>div.dropdown>div.dropbtn {
+#nav-bar ul>li>div.dropdown  ul>li>div.dropdown>div.dropbtn {
   
   border: none;
   outline: none;
@@ -20,11 +20,11 @@ ul>li>div.dropdown  ul>li>div.dropdown>div.dropbtn {
   margin: 0;
 }
 
-ul>li>div.dropdown:hover  ul>li>div.dropdown>div.dropdown-content {
+#nav-bar ul>li>div.dropdown:hover  ul>li>div.dropdown>div.dropdown-content {
   display: block;
 }
 
-.dropdown-content {
+#nav-bar .dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -33,7 +33,7 @@ ul>li>div.dropdown:hover  ul>li>div.dropdown>div.dropdown-content {
   z-index: 1;
 }
 
-.dropdown-content a {
+#nav-bar .dropdown-content a {
   float: none;
   background-color:#555555;
   color: white;
@@ -51,11 +51,11 @@ ul#nav-bar {
   background-color: #555555;
 }
 
-li {
+#nav-bar li {
   float: left;
 }
 
-li a:not(.cancel-cart-item){
+#nav-bar li a:not(.cancel-cart-item){
   display: block;
   color: white;
   text-align: center;
@@ -64,7 +64,7 @@ li a:not(.cancel-cart-item){
   font-size : 20px;
 }
 
-li button{
+#nav-bar li button{
   display: block;
   background-color:#555555;
   color: white;
@@ -76,34 +76,34 @@ li button{
   cursor:pointer;
 }
 
-li button.active{
+#nav-bar li button.active{
 	background-color: #80ff80;
 }
 
 
-li a:hover{
+#nav-bar li a:hover{
   background-color: #80ff80;
   color:white;
   opacity:0.9;
   text-decoration: none;
   cursor:pointer;
 }
-li a:active, li a:visited{
+#nav-bar li a:active, li a:visited{
 	color:white;
 	text-decoration: none;
 }
-li button:hover, .dropbtn:hover{
+#nav-bar li button:hover, .dropbtn:hover{
   background-color:#80ff80;
   opacity:0.9;
 }
 
-.tabcontent {
+#nav-bar .tabcontent {
   display: none;
   padding: 6px 12px;
   
 }
 
-.tabcontent {
+#nav-bar .tabcontent {
   animation: fadeEffect 1s; /* Fading effect takes 1 second */
 }
 
