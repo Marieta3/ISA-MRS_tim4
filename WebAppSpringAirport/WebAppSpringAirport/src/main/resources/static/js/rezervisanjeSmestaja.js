@@ -22,6 +22,12 @@ function findAllHotels(){
 function renderHoteli(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
+	if(list.length == 0){
+		console.log("Not found data");
+		notify("No hotels found!", 'info');
+		//return;
+	}
+	
 	$('#prikazHotelaTabela').DataTable().clear().destroy();
 	$("#prikazHotelaTabela").find("tr:gt(0)").remove();
 	$("#prikazHotelaTabela").find("th:gt(5)").remove();

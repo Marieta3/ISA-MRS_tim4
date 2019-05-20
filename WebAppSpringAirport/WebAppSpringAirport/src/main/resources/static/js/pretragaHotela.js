@@ -6,49 +6,43 @@
  */
 $(document).on(
 		'submit',
-		"#pretragaLetova",
+		"#pretragaHotela",
 		function(e) {
 			e.preventDefault();
-			console.log("pretraga leta");
-			var radioValue = $("input[name='radio']:checked").val();
+			console.log("pretraga hotela");
+			var tipPretrage = $("input[name='radio1']:checked").val();
+			var lokacijaNaziv = $("#locName").val();
 			console.log("========================================");
-			console.log("Vrednost radio BUTTONA JE: " + radioValue);
+			console.log("Vrednost radio BUTTONA JE: " + tipPretrage);
 			console.log("========================================");
-			if (radioValue == "1") { // onda je one way
-				radioValue = "location";
+			if (tipPretrage == "1") { // onda je one way
+				tipPretrage = "location";
 			} else { // round trip
-				radioValue = "name";
+				tipPretrage = "name";
 			}
-			var iz = $("#selected_text").val();
-			console.log(iz);
-			var u = $("#selected_text1").val();
-			console.log(u);
-			var vremePolaska = $("#datepicker").val();
+			console.log(lokacijaNaziv);
+			var vremePolaska = $("#datepicker2").val();
 			console.log(vremePolaska);
-			var vremeDolaska = $("#datepicker1").val();
+			var vremeDolaska = $("#datepicker3").val();
 			console.log(vremeDolaska);
-			var brojPutnika = $("#selected_text2").val();
-			console.log(brojPutnika);
 			$.ajax({
 				type : 'POST',
 				url : "api/hotels/pretraga",
 				contentType: 'application/json',
 				dataType : 'json',
-				data : hotelsToJSONsearch(radioValue, iz, u, brojPutnika),
+				data : hotelsToJSONsearch(lokacijaNaziv,vremePolaska,vremeDolaska,tipPretrage),
 				beforeSend : function(request) {
 					request.setRequestHeader("Authorization", "Bearer "
 							+ localStorage.getItem("accessToken"));
 				},
-				success : renderLetovi
+				success : renderHoteli
 			});
 		});
-function hotelsToJSONsearch(radioValue, iz, u, brojPutnika) {
+function hotelsToJSONsearch(lokacijaNaziv,vremePolaska,vremeDolaska,tipPretrage) {
 	return JSON.stringify({
-		"tipPutovanja" : radioValue,
-		"mestoPolaska" : iz,
-		"mestoDolaska" : u,
-		//"vremePolaska" : vremePolaska,
-		//"vremeDolaska" : vremeDolaska,
-		"brojPutnika" : brojPutnika
+		"lokNaziv" : lokacijaNaziv,
+		"vremePolaska" : vremePolaska,
+		"vremeDolaska" : vremeDolaska,
+		"tipPretrage" : tipPretrage
 	});
 }

@@ -44,9 +44,14 @@ public class HotelController {
 	
 	//za PRETRAGU HOTELA
 	@RequestMapping(value = "/api/hotels/pretraga", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
-	public Hotel pretragaHotel(@Valid @RequestBody HotelDTO hotel) {
-		
-		return hotelService.save(hotel);
+	public List<Hotel> pretragaHotel(@Valid @RequestBody HotelDTO hotel) {
+		if (hotel.getTipPretrage().equals("location")){
+			//pretraga po lokaciji
+			return hotelService.searchHotelsLocation(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumPolaska());
+		} else {
+			//pretraga po nazivu hotela
+			return hotelService.searchHotelsName(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumPolaska());
+		}
 	}
 
 	/* da uzmemo sve hotele, svima je dozvoljeno */
