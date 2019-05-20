@@ -163,8 +163,18 @@ $(document).on('submit', ".modal-content1", function(e){
 		        
 			})
 		},error:function(XMLHttpRequest,textStatus, errorThrown){
-			console.log("GRESKAAAAAA  ");
-			alert("Wrong username or password!");
+			console.log("Wrong username or password  ");
+			//alert("Wrong username or password!");
+			$.bootstrapGrowl("Wrong username or password!", {
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'center', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+
 		}
 	});
 })
