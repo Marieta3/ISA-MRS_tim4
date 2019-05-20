@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
+import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
+import com.ISAtim4.WebAppSpringAirport.dto.LetDTO;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;
 
 @RestController
@@ -28,6 +30,33 @@ public class LetController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
 	@RequestMapping(value = "/api/let", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Let createLet(@Valid @RequestBody Let let) {
+		for(int i = 0; i < let.getBrojRedovaFC();i++){
+			for (int j=0; j< let.getBrojKolona();j++){
+				Sediste s = new Sediste();
+				s.setBrojReda(i);
+				s.setBrojKolone(j);
+				s.setKlasa("f");
+				let.getSedista().add(s);
+			}
+		}
+		for(int i = 0; i < let.getBrojRedovaEC();i++){
+			for (int j=0; j< let.getBrojKolona();j++){
+				Sediste s = new Sediste();
+				s.setBrojReda(i);
+				s.setBrojKolone(j);
+				s.setKlasa("e");
+				let.getSedista().add(s);
+			}
+		}
+		for(int i = 0; i < let.getBrojRedovaBC();i++){
+			for (int j=0; j< let.getBrojKolona();j++){
+				Sediste s = new Sediste();
+				s.setBrojReda(i);
+				s.setBrojKolone(j);
+				s.setKlasa("b");
+				let.getSedista().add(s);
+			}
+		}
 		return letService.save(let);
 	}
 
@@ -35,6 +64,19 @@ public class LetController {
 	@RequestMapping(value = "/api/let", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Let> getAllLetovi() {
 		return letService.findAll();
+	}
+	
+	/* PRETRAGA letova, svima dozvoljeno */
+	@RequestMapping(value = "/api/let/pretraga", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	public List<Let> pretragaLetova(@Valid @RequestBody LetDTO let) {
+		
+		 if (let.getTipPutovanja().equals("oneway")){
+			return letService.findFlightsOneWay(let.getMestoPolaska(),let.getMestoDolaska());
+		} else {
+			//onda je round-trip
+			return letService.findFlightsTwoWay(let.getMestoPolaska(),let.getMestoDolaska(),let.getVremePolaska(),
+					let.getVremeDolaska());
+		}
 	}
 
 	/* da uzmemo let po id-u, svima dozvoljeno*/

@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,4 +36,14 @@ public class LetService {
 	public void remove(Long id) {
 		letRepository.deleteById(id);
 	}
+	
+	public List<Let> findFlightsOneWay(String mestoPolaska, String mestoDolaska) {
+		return letRepository.findFlightsOneWay(mestoPolaska,mestoDolaska);
+	}
+	
+	public List<Let> findFlightsTwoWay(String mestoPolaska, String mestoDolaska, Date vremePolaska, Date vremeDolaska){
+		return letRepository.findFlightsTwoWay(mestoPolaska,mestoDolaska,vremePolaska,vremeDolaska);
+	}
+
+
 }
