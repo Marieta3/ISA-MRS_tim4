@@ -24,7 +24,7 @@
 	<ul id="nav-bar">
 		<li><button class="tablinks" onclick="openTab(event, 'Flights')"
 				id="defaultOpen">Flights</button></li>
-		<li><button class="tablinks" onclick="openTab(event, 'Hotels')">Hotels</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Hotels')" id='hotels-tab'>Hotels</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Cars')"
 				id="cars-tab">Cars</button></li>
 
@@ -34,6 +34,25 @@
 		<h1>Flights</h1>
 		<!-- pretraga -->
 		<!-- tabela -->
+		<div class="container">
+			<h2>List of Flights</h2>
+			<table class="table table-striped table-bordered"
+				id="prikazLetovaTabela">
+				<thead>
+					<tr>
+						<th>Picture</th>
+						<th>From</th>
+						<th>To</th>
+						<th>Departure</th>
+						<th>Landing</th>
+						<th>Model</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
 		<div class="wrapper">
 			<div class="container">
 				<div id="seat-map">
@@ -81,8 +100,7 @@
 		</div>
 		<!-- pretraga soba -->
 		<!-- tabela soba-->
-		<br>
-		<br>
+		<br> <br>
 		<div class='rezervisanje-soba'>
 			<div class="container">
 				<h2>List of Rooms</h2>
@@ -140,28 +158,28 @@
 		</div>
 		<!-- pretraga vozila-->
 		<!-- tabela vozila-->
-		<br>
-		<br>
+		<br> <br>
 		<div class='rezervisanje-vozila'>
 			<div class="container">
-		<h2>List of Cars</h2>
-		<table id="prikazVoziloTabela" class="table table-striped table-bordered">
-			<thead>
-			<tr>
-				<th>&nbsp;</th>
-				<th>Manufacturer</th>
-				<th>Model</th>
-				<th>Year</th>
-				<th>License</th>
-				<th>Price</th>
-				<th>Seats</th>
-				<th>Branch</th>
-				<th>Selected</th>
-			</tr>
-			</thead>
-			<tbody></tbody>
-		</table>
-		</div>
+				<h2>List of Cars</h2>
+				<table id="prikazVoziloTabela"
+					class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>&nbsp;</th>
+							<th>Manufacturer</th>
+							<th>Model</th>
+							<th>Year</th>
+							<th>License</th>
+							<th>Price</th>
+							<th>Seats</th>
+							<th>Branch</th>
+							<th>Selected</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
 			<div class="booking-details">
 				<h2>Booking Details</h2>
 
@@ -177,7 +195,7 @@
 
 			</div>
 		</div>
-		
+
 	</div>
 
 

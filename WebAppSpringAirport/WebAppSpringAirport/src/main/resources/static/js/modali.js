@@ -132,9 +132,8 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 		if(attr=="naziv" || attr=="adresa" || attr=="opis" || attr=="ocena" || attr=="cena" || attr=="brojKreveta"
 			|| attr=="rezervisana" || attr=="ime" || attr=="prezime" || attr=="korisnickoIme" || attr=="main"
 			|| attr=="telefon" || attr=="proizvodjac" || attr=="godina" || attr=="tablica" || attr=="brojMesta"
-			||attr=="model" || attr=="brojRedova" || attr=="brojKolona" || attr=="brojRedovaEC" || attr=="brojRedovaBC" 
-				|| attr=="brojRedovaFC" || attr=="pocetnaDestinacija" || attr=="krajnjaDestinacija" || attr=="datumPolaska"
-					|| attr=="datumDolaska" || attr=="duzinaPutovanja"){
+			||attr=="model" || attr=="pocetnaDestinacija" || attr=="krajnjaDestinacija" || attr=="vremePolaska"
+					|| attr=="vremeDolaska"){
 			var td;
 			if(val == null){
 				td=$('<td>&nbspNo data&nbsp</td>');
