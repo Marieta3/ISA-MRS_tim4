@@ -52,19 +52,42 @@ function renderLetovi(data){
 function pokupiRezervisanaSedista(){
 	var lista=$('#selected-seats li');
 	console.log(lista);
+	var sedista=[];
+	var let_id=$('#id-odabranog-leta').val();
+	console.log('odabran let: '+let_id);
 	$.each(lista, function(index, item){
+		//sedista.push(item);
 		var tokens=item.id.split('-');
+		sedista.push(tokens[2]);
 		var row_col=tokens[2].split('_');
 		var row=row_col[0];
 		var col=row_col[1];
 		console.log('red: '+row+', kolona: '+col);
 	})
-	$('#hotels-tab').click();
+	console.log(sedista);
+	/*$.ajax({
+		type:'POST',
+		url:'api/reserve',
+		dataType:'json',
+		data:rezervacijaToJSONadd(sedista, let_id),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:function(data){}
+	});*/
+	//$('#hotels-tab').click();
+}
+function rezervacijaToJSONadd(sedista, let_id){
+	return JSON.stringify({
+		"sedista":sedista,
+		"id_leta":let_id
+	});
 }
 var firstSeatLabel = 1;
 		
 		function selektovanLet(btn) {
 				var let_id=$(btn).find('input[type=hidden]').attr('id');
+				$('#id-odabranog-leta').val(let_id);
 				//dobaviti let
 				$.ajax({
 					type:'GET',
