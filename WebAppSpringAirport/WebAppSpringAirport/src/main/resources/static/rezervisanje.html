@@ -109,8 +109,29 @@
 		</div>
 	</div>
 	<div id="Hotels" class="tabcontent">
-
+		<h1>Hotels</h1>
 		<!-- pretraga hotela -->
+		<form>
+			&nbsp; &nbsp;
+			<input type="radio" value="1" name="radio" checked="checked"
+				id="radio1"></input> <label for="radio3">Location Search</label> 
+			<input type="radio" value="2" name="radio" id="radio4"
+				></input> <label for="radio2">Hotel name Search</label>
+					<div>
+							&nbsp; &nbsp;
+							<label for="loc-name"> Hotel name/location </label>
+							<input type="text" placeholder="Enter location/hotel name" id="locName">
+							 &nbsp; &nbsp;
+							<label  id="label0">Depart date:</label>
+						<input type="date" name="depart_date"  id="datepicker2" placeholder="Pick a date" />
+						<label  id="label1">Return date:</label> &nbsp; &nbsp;
+						 <input type="date" name="return_date"  id="datepicker3" placeholder="Pick a date" />&nbsp; &nbsp;
+							<input type="submit" name="search" id="find2" value="Search Hotels"/>
+						</div>
+						<br>
+		</form>
+		
+		
 		<!-- tabela hotela-->
 		<div class="container">
 			<h2>List of Hotels</h2>
