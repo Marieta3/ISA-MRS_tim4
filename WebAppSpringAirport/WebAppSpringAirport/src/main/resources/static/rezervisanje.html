@@ -34,11 +34,11 @@
 	<div id="Flights" class="tabcontent">
 		<h1>Flights</h1>
 		<!-- pretraga -->
-		<form>
+		<form id="pretragaLetova">
 			&nbsp; &nbsp; <input type="radio" value="1" name="radio"
-				checked="checked" id="radio1" onclick="display()"></input> <label
+				checked="checked" id="radio1"></input> <label
 				for="radio1">One way</label> <input type="radio" value="2"
-				name="radio" id="radio2" onclick="hide()"></input> <label
+				name="radio" id="radio2"></input> <label
 				for="radio2">Round trip</label>
 			<div>
 				&nbsp; &nbsp; <select id="cmbMake" name="Make"
@@ -72,7 +72,7 @@
 					id="datepicker1" placeholder="Pick a date" />&nbsp; &nbsp; <select
 					id="cmbMake" name="adult"
 					onchange="document.getElementById('selected_text2').value=this.options[this.selectedIndex].text">
-					<option value="0" selected="selected" id="place">Adult</option>
+					<option value="0" selected="selected" id="place">Passengers</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -308,6 +308,7 @@
 	<script type="text/javascript" src="js/sedistaLeta.js"></script>
 	<script type="text/javascript" src="js/rezervisanjeSmestaja.js"></script>
 	<script type="text/javascript" src="js/rezervisanjeVozila.js"></script>
+	<script type="text/javascript" src="js/pretragaLeta.js"></script>
 
 </body>
 </html>

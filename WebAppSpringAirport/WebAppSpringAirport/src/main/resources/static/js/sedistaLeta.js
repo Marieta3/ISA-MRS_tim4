@@ -21,8 +21,9 @@ function renderLetovi(data){
 	
 	if(list.length == 0){
 		console.log("Not found data");
-		notify("No rent-a-car found!", 'info');
-		return;
+		notify("No flights found!", 'info');
+		
+		//return;
 	}
 	$('#prikazLetovaTabela').DataTable().clear().destroy();
 	$("#prikazLetovaTabela").find("tr:gt(0)").remove();
