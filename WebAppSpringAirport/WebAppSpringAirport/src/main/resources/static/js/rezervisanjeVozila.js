@@ -121,4 +121,5 @@ function pokupiRezervisanaVozila(){
 		return this.value;
 	}).get();
 	console.log(checkedVals);
+	notify("Successful reservation!", 'info');
 }

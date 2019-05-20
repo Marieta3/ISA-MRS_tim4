@@ -65,6 +65,7 @@ function pokupiRezervisanaSedista(){
 		console.log('red: '+row+', kolona: '+col);
 	})
 	console.log(sedista);
+	notify("Successfully reserved flight!", 'info');
 	/*$.ajax({
 		type:'POST',
 		url:'api/reserve',
