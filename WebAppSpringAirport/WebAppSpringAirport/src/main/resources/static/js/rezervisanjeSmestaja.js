@@ -23,10 +23,6 @@ function renderHoteli(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
 	
-	if(uloga=="ROLE_USER"){
-		var th_nbsp=$('<th>&nbsp;</th>');
-		$('#prikazHotelaTabela').find('tr:eq(0)').append(th_nbsp);
-	}
 	$("#prikazHotelaTabela").find("tr:gt(0)").remove();
 	$("#prikazHotelaTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, hotel){
@@ -62,20 +58,15 @@ function selektovanHotel(btn){
 
 function renderSobe(data){
 var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
-	console.log(data)
 	uloga=localStorage.getItem("uloga");
 	$('#prikazSobaTabela').DataTable().clear().destroy();
 	//findAllByHotel();
-	if(uloga=="ROLE_USER"){
-		var th_nbsp=$('<th>&nbsp;</th>');
-		$('#prikazSobaTabela').find('tr:eq(0)').append(th_nbsp);
-	}
+	
 	$("#prikazSobaTabela").find("tr:gt(0)").remove();
 	$("#prikazSobaTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, soba){
-		console.log(soba.usluge);
 		var trow=get_row(soba, "room", localStorage.getItem('uloga'), 'nema', 'nema');
-		trow.append('<td><input type="checkbox" id="soba_id'+soba.id+'" value="'+soba.id+'"></td>');
+		trow.append('<td><input type="checkbox" id="soba_id'+soba.id+'" value="'+soba.id+'" onclick="selektovanaSoba(this)"></td>');
 		$('#prikazSobaTabela').append(trow);
 	})
 	$('#prikazSobaTabela').DataTable({
@@ -85,4 +76,23 @@ var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	                     { "orderable": false, "targets": 4 }
 	                   ]
 	  });
+}
+function selektovanaSoba(checkbox){
+	//ako je cekirano dodati u listu, ako nije onda izbaciti iz liste
+	var id_sobe=checkbox.value;
+	if($(checkbox).prop('checked')==true){
+		$('#counter1').text(parseInt($('#counter1').text(), 10)+1);
+		$('#selected-rooms').append('<li id="room_lista'+id_sobe+'">Room: '+id_sobe+'</li>');
+		
+	}else{
+		$('#counter1').text(parseInt($('#counter1').text(), 10)-1);
+		$('#room_lista'+id_sobe).remove()
+	}
+	
+}
+function pokupiRezervisaneSobe(){
+	var checkedVals = $('input[type=checkbox]:checked').map(function() {
+		return this.value;
+	}).get();
+	console.log(checkedVals);
 }

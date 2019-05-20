@@ -69,6 +69,7 @@
 						<th>Address</th>
 						<th>Description</th>
 						<th>Rating</th>
+						<th>&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody></tbody>
@@ -77,6 +78,7 @@
 		<!-- pretraga soba -->
 		<!-- tabela soba-->
 		<br><br>
+		<div class='rezervisanje-soba'>
 		<div class="container">
 		<h2>List of Rooms</h2>
 			<table id="prikazSobaTabela"
@@ -88,10 +90,26 @@
 						<th>Description</th>
 						<th>Rating</th>
 						<th>Reserved</th>
+						<th>Selected</th>
 					</tr>
 				</thead>
 				<tbody></tbody>
 			</table>
+		</div>
+		<div class="booking-details">
+					<h2>Booking Details</h2>
+
+					<h3>
+						Selected Rooms (<span id="counter1">0</span>):
+					</h3>
+					<ul id="selected-rooms"></ul>
+
+					<!-- Total: <b>$<span id="total1">0</span></b>-->
+
+					<button class="checkout-button" id="checkout-button-rooms"
+						onclick="pokupiRezervisaneSobe()">Checkout &raquo;</button>
+
+				</div>
 		</div>
 	</div>
 	<div id="Cars" class="tabcontent">
