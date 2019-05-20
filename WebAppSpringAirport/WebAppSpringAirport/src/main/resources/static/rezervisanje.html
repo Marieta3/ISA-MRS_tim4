@@ -33,6 +33,56 @@
 	<div id="Flights" class="tabcontent">
 		<h1>Flights</h1>
 		<!-- pretraga -->
+		<form>
+			&nbsp; &nbsp;
+			<input type="radio" value="1" name="radio" checked="checked"
+				id="radio1" onclick="display()"></input> <label for="radio1">One way</label> 
+			<input type="radio" value="2" name="radio" id="radio2"
+				onclick="hide()"></input> <label for="radio2">Round trip</label>
+					<div>
+							&nbsp; &nbsp;
+							<select id="cmbMake" name="Make"     onchange="document.getElementById('selected_text').value=this.options[this.selectedIndex].text">
+									<option value="0" disabled="disabled" selected="selected" id="place">Leaving from...</option>
+									<option value="1">Belgrade</option>
+									<option value="2">London</option>
+									<option value="3">Orlando</option>
+									<option value="4">Novi Sad</option>
+									<option value="5">Frankfurt</option>
+									<option value="6">Berlin</option>
+									<option value="7">New York</option>
+									<option value="8">Paris</option>
+							</select>  &nbsp; &nbsp;
+							<select id="cmbMake" name="Make1" onchange="document.getElementById('selected_text1').value=this.options[this.selectedIndex].text">
+									<option value="0" disabled="disabled" selected="selected" id="place">Going to...</option>
+									<option value="1">Belgrade</option>
+									<option value="2">London</option>
+									<option value="3">Orlando</option>
+									<option value="4">Novi Sad</option>
+									<option value="5">Frankfurt</option>
+									<option value="6">Berlin</option>
+									<option value="7">New York</option>
+									<option value="8">Paris</option>
+							</select>  &nbsp; &nbsp;
+							<label  id="label0">Depart date:</label>
+						<input type="date" name="depart_date"  id="datepicker" placeholder="Pick a date" />
+						<label  id="label1">Return date:</label> &nbsp; &nbsp;
+						 <input type="date" name="return_date"  id="datepicker1" placeholder="Pick a date" />&nbsp; &nbsp;
+							<select id="cmbMake" name="adult" onchange="document.getElementById('selected_text2').value=this.options[this.selectedIndex].text">
+										<option value="0" selected="selected" id="place">Adult</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										
+							</select> &nbsp; &nbsp;
+							<input type="submit" name="search" id="find" value="Search Flights"/>
+						</div>
+						<input type="hidden" name="selected_text" id="selected_text" value="" />
+						<input type="hidden" name="selected_text1" id="selected_text1" value="" />
+						<input type="hidden" name="selected_text2" id="selected_text2" value="" />
+						<br>
+		</form>
 		<!-- tabela -->
 		<div class="container">
 			<h2>List of Flights</h2>
