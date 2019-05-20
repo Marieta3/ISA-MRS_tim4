@@ -22,7 +22,7 @@ function findAllHotels(){
 function renderHoteli(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
-	
+	$('#prikazHotelaTabela').DataTable().clear().destroy();
 	$("#prikazHotelaTabela").find("tr:gt(0)").remove();
 	$("#prikazHotelaTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, hotel){

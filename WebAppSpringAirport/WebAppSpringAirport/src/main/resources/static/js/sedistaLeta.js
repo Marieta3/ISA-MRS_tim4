@@ -2,6 +2,52 @@
  * 
  */
 
+findAllFlights();
+function findAllFlights(){
+	$.ajax({
+		type : 'GET',
+		url : 'api/let',
+		dataType : 'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success : renderLetovi
+	})
+}
+
+function renderLetovi(data){
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	uloga=localStorage.getItem("uloga");
+	
+	if(list.length == 0){
+		console.log("Not found data");
+		notify("No rent-a-car found!", 'info');
+		return;
+	}
+	$('#prikazLetovaTabela').DataTable().clear().destroy();
+	$("#prikazLetovaTabela").find("tr:gt(0)").remove();
+	$("#prikazLetovaTabela").find("th:gt(6)").remove();
+	$.each(list, function(index, flight) {
+		/*var tr=$('<tr id="flight_'+flight.id+'"></tr>');
+		var slika=flight.slika;
+		if(slika==null || slika==""){
+			slika = "../slike/avatar.png";
+		}
+		tr.append('<td align="center" width=100px height=100px><div class="divEntitet"><img class="imgEntitet" src="'+slika+'"></div></td>');
+		*/
+		var trow=get_row(flight, "flight", localStorage.getItem('uloga'), 'nema', 'nema');
+		trow.append('<td><button  onclick="selektovanLet(this)"><input type="hidden" id="'+flight.id+'">Select</button></td>');
+		$('#prikazLetovaTabela').append(trow);
+	})
+	$('#prikazLetovaTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
+
+}
 function pokupiRezervisanaSedista(){
 	var lista=$('#selected-seats li');
 	console.log(lista);
@@ -12,17 +58,16 @@ function pokupiRezervisanaSedista(){
 		var col=row_col[1];
 		console.log('red: '+row+', kolona: '+col);
 	})
+	$('#hotels-tab').click();
 }
 var firstSeatLabel = 1;
 		
-			$(document).ready(function() {
-
+		function selektovanLet(btn) {
+				var let_id=$(btn).find('input[type=hidden]').attr('id');
 				//dobaviti let
-				//izmeniti da kada se izabere let iz tabele, da se preuzme njegov id
-				//nece biti ready nego on click ili submit
 				$.ajax({
 					type:'GET',
-					url:'api/let/1',
+					url:'api/let/'+let_id,
 					dataType:'json',
 					beforeSend : function(request) {
 						request.setRequestHeader("Authorization", "Bearer "
@@ -153,7 +198,7 @@ var firstSeatLabel = 1;
 				})
 				
 		
-		});
+		};
 
 		function recalculateTotal(sc) {
 			var total = 0;
