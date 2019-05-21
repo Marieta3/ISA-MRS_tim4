@@ -1,6 +1,9 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -30,8 +33,9 @@ public class LetController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
 	@RequestMapping(value = "/api/let", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Let createLet(@Valid @RequestBody Let let) {
-		for(int i = 0; i < let.getBrojRedovaFC();i++){
-			for (int j=0; j< let.getBrojKolona();j++){
+		let.setBrojRedova(let.getBrojRedovaFC()+let.getBrojRedovaEC()+let.getBrojRedovaBC());
+		for(int i = 1; i <= let.getBrojRedovaFC();i++){
+			for (int j=1; j<= let.getBrojKolona();j++){
 				Sediste s = new Sediste();
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
@@ -39,8 +43,8 @@ public class LetController {
 				let.getSedista().add(s);
 			}
 		}
-		for(int i = 0; i < let.getBrojRedovaEC();i++){
-			for (int j=0; j< let.getBrojKolona();j++){
+		for(int i = let.getBrojRedovaFC()+1; i <= let.getBrojRedovaFC()+let.getBrojRedovaEC();i++){
+			for (int j=1; j<= let.getBrojKolona();j++){
 				Sediste s = new Sediste();
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
@@ -48,8 +52,8 @@ public class LetController {
 				let.getSedista().add(s);
 			}
 		}
-		for(int i = 0; i < let.getBrojRedovaBC();i++){
-			for (int j=0; j< let.getBrojKolona();j++){
+		for(int i = let.getBrojRedovaFC()+let.getBrojRedovaEC()+1; i <= let.getBrojRedova();i++){
+			for (int j=1; j<= let.getBrojKolona();j++){
 				Sediste s = new Sediste();
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
@@ -63,9 +67,56 @@ public class LetController {
 	/* da uzmemo sve letove, svima dozvoljeno */
 	@RequestMapping(value = "/api/let", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Let> getAllLetovi() {
-		return letService.findAll();
+		List<Let> pronadjeni=letService.findAll();
+		for(Let let:pronadjeni) {
+			if(let.getSedista().isEmpty()) {
+				let.setSedista(popuniSedista(let));
+			}
+		}
+		return pronadjeni;
 	}
 	
+	private Set<Sediste> popuniSedista(Let let){
+		Set<Sediste> sedista=new HashSet<>();
+		let.setBrojRedova(let.getBrojRedovaFC()+let.getBrojRedovaEC()+let.getBrojRedovaBC());
+		for(int i = 1; i <= let.getBrojRedovaFC();i++){
+			for (int j=1; j<= let.getBrojKolona();j++){
+				Sediste s = new Sediste();
+				if(i==1 && j>3) {
+					s.setRezervisano(true);
+				}
+				s.setBrojReda(i);
+				s.setBrojKolone(j);
+				s.setKlasa("f");
+				sedista.add(s);
+			}
+		}
+		for(int i = let.getBrojRedovaFC()+1; i <= let.getBrojRedovaFC()+let.getBrojRedovaEC();i++){
+			for (int j=1; j<= let.getBrojKolona();j++){
+				Sediste s = new Sediste();
+				if(i>2 && j%3==0) {
+					s.setRezervisano(true);
+				}
+				s.setBrojReda(i);
+				s.setBrojKolone(j);
+				s.setKlasa("e");
+				sedista.add(s);
+			}
+		}
+		for(int i = let.getBrojRedovaFC()+let.getBrojRedovaEC()+1; i <= let.getBrojRedova();i++){
+			for (int j=1; j<= let.getBrojKolona();j++){
+				Sediste s = new Sediste();
+				if(i%3==1 && j>=2) {
+					s.setRezervisano(true);
+				}
+				s.setBrojReda(i);
+				s.setBrojKolone(j);
+				s.setKlasa("b");
+				sedista.add(s);
+			}
+		}
+		return sedista;
+	}
 	/* PRETRAGA letova, svima dozvoljeno */
 	@RequestMapping(value = "/api/let/pretraga", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public List<Let> pretragaLetova(@Valid @RequestBody LetDTO let) {
@@ -87,6 +138,9 @@ public class LetController {
 
 		if (let == null) {
 			return ResponseEntity.notFound().build();
+		}
+		if(let.getSedista().isEmpty()) {
+			let.setSedista(popuniSedista(let));
 		}
 		return ResponseEntity.ok().body(let);
 	}

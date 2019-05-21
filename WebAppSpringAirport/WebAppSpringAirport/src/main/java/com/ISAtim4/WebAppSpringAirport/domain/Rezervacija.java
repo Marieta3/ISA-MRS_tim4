@@ -23,7 +23,7 @@ public class Rezervacija {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private RegistrovaniKorisnik korisnik; 
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
