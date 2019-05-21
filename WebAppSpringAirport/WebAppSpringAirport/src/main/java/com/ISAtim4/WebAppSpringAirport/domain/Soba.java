@@ -31,6 +31,17 @@ public class Soba {
 	@Column(nullable = true)
 	private Double ocena = 0.0;
 
+	@Column(nullable = false)
+	private Double cena = 0.0;
+	
+	public Double getCena() {
+		return cena;
+	}
+
+	public void setCena(Double cena) {
+		this.cena = cena;
+	}
+
 	@Column(nullable = true)
 	private String slika;
 
@@ -49,7 +60,7 @@ public class Soba {
 	}
 
 	public Soba(Long id, String opis, double ocena, Integer brojKreveta,
-			Hotel hotel, String slika, List<Usluga> usluge, boolean rezervisana) {
+			Hotel hotel, String slika, List<Usluga> usluge, boolean rezervisana, double cena) {
 		super();
 		this.id = id;
 		this.opis = opis;
@@ -59,6 +70,7 @@ public class Soba {
 		this.slika = slika;
 		this.usluge = usluge;
 		this.rezervisana = rezervisana;
+		this.cena=cena;
 	}
 
 	public List<Usluga> getUsluge() {

@@ -47,6 +47,9 @@ function renderHoteli(data){
 
 function selektovanHotel(btn){
 	var hotel_id=$(btn).find('input[type=hidden]').attr('id');
+	$('#selected-rooms').empty();
+	$('#counter-rooms').text('0');
+	$('#total-rooms').text('0');
 	$.ajax({
 		type:'GET',
 		url:'api/sobeHotela/'+hotel_id,
@@ -69,10 +72,10 @@ var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	//findAllByHotel();
 	
 	$("#prikazSobaTabela").find("tr:gt(0)").remove();
-	$("#prikazSobaTabela").find("th:gt(5)").remove();
+	$("#prikazSobaTabela").find("th:gt(6)").remove();
 	$.each(list, function(index, soba){
 		var trow=get_row(soba, "room", localStorage.getItem('uloga'), 'nema', 'nema');
-		trow.append('<td><input type="checkbox" id="soba_id'+soba.id+'" name="'+soba.opis+'" value="'+soba.id+'" onclick="selektovanaSoba(this)"></td>');
+		trow.append('<td><input type="checkbox" class="cart-item-room" id="soba_id'+soba.id+'" name="'+soba.opis+', '+soba.cena+'" value="'+soba.id+'" onclick="selektovanaSoba(this)"></td>');
 		$('#prikazSobaTabela').append(trow);
 	})
 	$('#prikazSobaTabela').DataTable({
@@ -86,13 +89,17 @@ var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 function selektovanaSoba(checkbox){
 	//ako je cekirano dodati u listu, ako nije onda izbaciti iz liste
 	var id_sobe=checkbox.value;
-	var opis=checkbox.name;
+	var tokens=checkbox.name.split(', ');
+	var opis= tokens[0];
+	var cena=tokens[1];
+	console.log(cena);
 	if($(checkbox).prop('checked')==true){
 		$('#counter-rooms').text(parseInt($('#counter-rooms').text(), 10)+1);
 		$('#selected-rooms').append('<li id="room_lista'+id_sobe+'">Room: '+opis+'</li>');
-		
+		$('#total-rooms').text(parseInt($('#total-rooms').text(), 10)+parseInt(cena, 10));
 	}else{
 		$('#counter-rooms').text(parseInt($('#counter-rooms').text(), 10)-1);
+		$('#total-rooms').text(parseInt($('#total-rooms').text(), 10)-parseInt(cena, 10));
 		$('#room_lista'+id_sobe).remove()
 	}
 	

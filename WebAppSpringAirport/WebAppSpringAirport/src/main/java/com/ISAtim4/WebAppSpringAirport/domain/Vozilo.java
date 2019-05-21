@@ -34,6 +34,16 @@ public class Vozilo {
 	private Double cena;
 	@Column(nullable = false)
 	private Integer brojMesta;
+	@Column(nullable = false)
+	private boolean rezervisano=false;
+
+	public boolean isRezervisano() {
+		return rezervisano;
+	}
+
+	public void setRezervisano(boolean rezervisano) {
+		this.rezervisano = rezervisano;
+	}
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JsonBackReference

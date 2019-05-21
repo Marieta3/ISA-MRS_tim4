@@ -68,11 +68,12 @@ public class LetController {
 	@RequestMapping(value = "/api/let", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Let> getAllLetovi() {
 		List<Let> pronadjeni=letService.findAll();
-		for(Let let:pronadjeni) {
+		/*for(Let let:pronadjeni) {
 			if(let.getSedista().isEmpty()) {
 				let.setSedista(popuniSedista(let));
+				letService.save(let);
 			}
-		}
+		}*/
 		return pronadjeni;
 	}
 	
@@ -141,6 +142,7 @@ public class LetController {
 		}
 		if(let.getSedista().isEmpty()) {
 			let.setSedista(popuniSedista(let));
+			//letService.save(let);
 		}
 		return ResponseEntity.ok().body(let);
 	}

@@ -13,7 +13,13 @@ public class RezervacijaDTO {
 	private ArrayList<String> sedista=new ArrayList<>();
 	private ArrayList<Long> sobe=new ArrayList<>();
 	private ArrayList<Long> vozila=new ArrayList<>();
-	
+	private double ukupnaCena=0.0;
+	public double getUkupnaCena() {
+		return ukupnaCena;
+	}
+	public void setUkupnaCena(double ukupnaCena) {
+		this.ukupnaCena = ukupnaCena;
+	}
 	public RezervacijaDTO() {
 		
 	}
