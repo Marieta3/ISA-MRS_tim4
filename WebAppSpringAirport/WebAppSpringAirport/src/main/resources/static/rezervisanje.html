@@ -90,6 +90,7 @@
 		<!-- tabela -->
 		<div class="container">
 			<h2>List of Flights</h2>
+			<input type="hidden" id='id-odabranog-leta'>
 			<table class="table table-striped table-bordered"
 				id="prikazLetovaTabela">
 				<thead>
@@ -107,8 +108,9 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="wrapper">
-			<div class="container">
+		<div class="wrapper" id="detaljna-sedista">
+			<!-- <div class="container">
+				<h3 id="relacija-leta"></h3>
 				<div id="seat-map">
 					<div class="front-indicator">Front</div>
 
@@ -125,10 +127,11 @@
 
 					<button class="checkout-button"
 						onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>
-
+					<button class='next-button' onclick="$('#hotels-tab').click()">Next &raquo;</button>
+					<br><br><br>
 					<div id="legend"></div>
 				</div>
-			</div>
+			</div>-->
 		</div>
 	</div>
 	<div id="Hotels" class="tabcontent">
@@ -204,7 +207,7 @@
 
 				<button class="checkout-button" id="checkout-button-rooms"
 					onclick="pokupiRezervisaneSobe()">Checkout &raquo;</button>
-
+				<button class='next-button' onclick="$('#cars-tab').click()">Next &raquo;</button>
 			</div>
 		</div>
 	</div>

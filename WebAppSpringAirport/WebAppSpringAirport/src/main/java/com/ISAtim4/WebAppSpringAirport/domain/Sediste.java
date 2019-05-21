@@ -23,7 +23,7 @@ public class Sediste {
 	private String klasa;
 	
 	@Column(nullable=false)
-	private boolean rezervisano;
+	private boolean rezervisano=false;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
 	@JsonBackReference

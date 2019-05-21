@@ -52,19 +52,73 @@ function renderLetovi(data){
 function pokupiRezervisanaSedista(){
 	var lista=$('#selected-seats li');
 	console.log(lista);
+	var sedista=[];
+	var let_id=$('#id-odabranog-leta').val();
+	console.log('odabran let: '+let_id);
 	$.each(lista, function(index, item){
+		//sedista.push(item);
 		var tokens=item.id.split('-');
+		console.log(item.id);
+		sedista.push(tokens[2]);
 		var row_col=tokens[2].split('_');
 		var row=row_col[0];
 		var col=row_col[1];
 		console.log('red: '+row+', kolona: '+col);
 	})
-	$('#hotels-tab').click();
+	console.log(sedista);
+	notify("Successfully reserved flight!", 'info');
+	/*$.ajax({
+		type:'POST',
+		url:'api/reserve',
+		dataType:'json',
+		data:rezervacijaToJSONadd(sedista, let_id),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:function(data){}
+	});*/
+	//$('#hotels-tab').click();
+}
+function rezervacijaToJSONadd(sedista, let_id){
+	return JSON.stringify({
+		"sedista":sedista,
+		"id_leta":let_id
+	});
 }
 var firstSeatLabel = 1;
+function renderDetaljanLet(){
+	firstSeatLabel=1;
+	$('#detaljna-sedista').empty();
+	$('#detaljna-sedista').append('<div class="container">'+
+				'<h3 id="relacija-leta"></h3>'+
+				'<div id="seat-map">'+
+					'<div class="front-indicator">Front</div>'+
+
+				'</div>'+
+				'<div class="booking-details">'+
+					'<h2>Booking Details</h2>'+
+
+					'<h3>'+
+						'Selected Seats (<span id="counter">0</span>):'+
+					'</h3>'+
+					'<ul id="selected-seats"></ul>'+
+
+					'Total: <b>$<span id="total">0</span></b>'+
+
+					'<button class="checkout-button"'+
+						'onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>'+
+					'<button class=\'next-button\' onclick="$(\'#hotels-tab\').click()">Next &raquo;</button>'+
+					'<br><br><br>'+
+					'<div id="legend"></div>'+
+				'</div>'+
+			'</div>');
+}
+
 		
 		function selektovanLet(btn) {
+				renderDetaljanLet();
 				var let_id=$(btn).find('input[type=hidden]').attr('id');
+				$('#id-odabranog-leta').val(let_id);
 				//dobaviti let
 				$.ajax({
 					type:'GET',
@@ -75,7 +129,9 @@ var firstSeatLabel = 1;
 								+ localStorage.getItem("accessToken"));
 					},
 					success:function(data){
-						$('#seat-map').prepend(data.pocetnaDestinacija+'-'+data.krajnjaDestinacija);
+						$('#relacija-leta').text(data.pocetnaDestinacija+'-'+data.krajnjaDestinacija);
+						$('.seatCharts-row').remove();
+						//$('.booking-details').empty();
 						var br_kolona=data.brojKolona;
 						var br_redovaFC=data.brojRedovaFC;
 						var br_redovaEC=data.brojRedovaEC;

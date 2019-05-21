@@ -102,5 +102,6 @@ function pokupiRezervisaneSobe(){
 		return this.value;
 	}).get();
 	console.log(checkedVals);
-	$('#cars-tab').click();
+	//$('#cars-tab').click();
+	notify("Successfully reserved flight and hotel room!", 'info');
 }
