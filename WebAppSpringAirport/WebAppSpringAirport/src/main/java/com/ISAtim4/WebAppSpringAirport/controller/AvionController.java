@@ -29,6 +29,7 @@ public class AvionController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
 	@RequestMapping(value = "/api/avion", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Avion createAvion(@Valid @RequestBody Avion avion) {
+		
 		return avionService.save(avion);
 	}
 

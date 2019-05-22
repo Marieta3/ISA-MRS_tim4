@@ -1,11 +1,55 @@
+
 /**
  * 
  */
+ymaps.ready(init);
+
 $(document).ready(function(){
 	findAll();
 	findAllAirplanes();
 })
 
+function init(){
+	//pokupiti koordinate iz hidden polja
+	var coords= $('#avio_coords').val();
+	console.log("aaa"+coords);
+	var coord_list=coords.split(',');
+	var map = new ymaps.Map('map', {
+        center: [coord_list[0], coord_list[1]],
+        zoom: 12,
+        controls: ['zoomControl', 'searchControl'],
+        behaviors: ['drag']
+    });
+	var placemark=new ymaps.Placemark([coord_list[0], coord_list[1]], {
+		
+	});
+	map.geoObjects.add(placemark);
+	var searchControl=map.controls.get('searchControl');
+	//var coords;
+	/*searchControl.search('Moscow').then(function(){
+		coords=searchControl.getResultsArray()[0].geometry._coordinates;
+		var placemark=new ymaps.Placemark(coords, {
+			
+		});
+		map.geoObjects.add(placemark);
+		map.setCenter(coords);
+	})*/
+	searchControl.events.add('load', function(event){
+		if(!event.get('skip') && searchControl.getResultsCount()){
+			coords=searchControl.getResultsArray()[0].geometry._coordinates;
+			console.log("pronadjeno: "+searchControl.getResultsArray()[0].properties.get('text'));
+			$("#adresa").val(searchControl.getResultsArray()[0].properties.get('text'));
+			$('#avio_coords').val(coords);
+			map.setCenter(coords);
+			var placemark=new ymaps.Placemark(coords, {
+				
+			});
+			map.geoObjects.add(placemark);
+			//searchControl.showResult(0);
+		}
+	})
+	
+}
 
 function findAll(){
 	//destinacije su na nivou aplikacije, ne na nivou avio kompanije
@@ -86,7 +130,7 @@ function findAllAirplanes(){
 }
 
 function renderAirplanes(data){
-	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	/*var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	console.log(data);
 	uloga=localStorage.getItem("uloga");
 	
@@ -108,7 +152,7 @@ function renderAirplanes(data){
 	      "columnDefs": [
 	                     { "orderable": false, "targets": 4 }
 	                   ]
-	  });
+	  });*/
 }
 
 

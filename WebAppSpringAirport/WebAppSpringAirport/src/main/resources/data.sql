@@ -16,20 +16,20 @@ insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana, cena) values 
 insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana, cena) values (2,5,8.8,'dobra',2, false, 200);
 insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana, cena) values (3,3,9.8,'prelepo',3, false, 400);
 
-insert into avio_kompanija(naziv,adresa,opis, ocena) values ('United Airlines','Chicago, 5th Avenue 20','Description', 4.5);
-insert into avio_kompanija(naziv,adresa,opis, ocena) values ('Turkish Airlines','Istanbul, Asd 20','Description', 3.6);
-insert into avio_kompanija(naziv,adresa,opis, ocena) values ('Frontier Airlines','Boston, 3th Street 15','Description', 2.6);
-insert into avio_kompanija(naziv,adresa,opis, ocena) values ('Air Serbia','Belgrade, JNA 25','Description', 4.48);
-insert into avio_kompanija(naziv,adresa,opis, ocena) values ('FlySafe','Novi Sad, Partizanska 70','Description', 4.33);
-insert into avio_kompanija(naziv,adresa,opis, ocena) values ('Air Croatia','Zagreb, Bulevar Oslobodjenja 15','Description', 3.98);
+insert into avio_kompanija(naziv,adresa,opis, ocena, coord1, coord2) values ('United Airlines','Egypt, Alexandria','Description', 4.5, 31.214535,29.945663);
+insert into avio_kompanija(naziv,adresa,opis, ocena, coord1, coord2) values ('Turkish Airlines','Istanbul, Asd 20','Description', 3.6, 31.214535,29.945663);
+insert into avio_kompanija(naziv,adresa,opis, ocena, coord1, coord2) values ('Frontier Airlines','Boston, 3th Street 15','Description', 2.6, 31.214535,29.945663);
+insert into avio_kompanija(naziv,adresa,opis, ocena, coord1, coord2) values ('Air Serbia','Belgrade, JNA 25','Description', 4.48, 31.214535,29.945663);
+insert into avio_kompanija(naziv,adresa,opis, ocena, coord1, coord2) values ('FlySafe','Novi Sad, Partizanska 70','Description', 4.33, 31.214535,29.945663);
+insert into avio_kompanija(naziv,adresa,opis, ocena, coord1, coord2) values ('Air Croatia','Zagreb, Bulevar Oslobodjenja 15','Description', 3.98, 31.214535,29.945663);
 
 
-insert into rentacar(naziv,adresa,opis,ocena) values('Drive safe', 'Novi Sad, Futoska 32','Test1',4.8);
-insert into rentacar(naziv,adresa,opis,ocena) values('Mitsubishi rent', 'Temerin, Asd street 2','Test2',4.2);
-insert into rentacar(naziv,adresa,opis,ocena) values('TestDrive.eu', 'Novi sad, Asd 66','Test3',4.4);
-insert into rentacar(naziv,adresa,opis,ocena) values('FoglaljonMost', 'Dubai, Oil street 4','Test1',4.3);
-insert into rentacar(naziv,adresa,opis,ocena) values('Lamborghini Test Drive', 'Kosut Lajosa 4','Test2',2.8);
-insert into rentacar(naziv,adresa,opis,ocena) values('Rent-a-car Belgrade', 'Belgrade, Novosadska 50.','Test3',3.8);
+insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('Drive safe', 'Egypt, Alexandria','Test1',4.8, 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('Mitsubishi rent', 'Temerin, Asd street 2','Test2',4.2, 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('TestDrive.eu', 'Novi sad, Asd 66','Test3',4.4, 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('FoglaljonMost', 'Dubai, Oil street 4','Test1',4.3, 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('Lamborghini Test Drive', 'Kosut Lajosa 4','Test2',2.8, 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('Rent-a-car Belgrade', 'Belgrade, Novosadska 50.','Test3',3.8, 31.214535,29.945663);
 
 
 insert into filijala(adresa,opis,telefon,rentacar_id) values('Novi Sad, Adresa 1', 'Drive safe filijala 1','+1-202-555-0114',1);
@@ -54,7 +54,7 @@ insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filija
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga,enabled) values (1,'Nikola','sis','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','123@gmail.com','Maksimovic',true,true,null,null,null,'sis',true);
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga, slika,enabled) values (2,'Marieta','hotel','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','lollipop@gmail.com','Rakos',false,true,null,null,1,'hotel', '../slike/marieta.jpg',true);
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga,enabled) values (3,'Arpad','rent','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','arpadVS@gmail.com','Varga Somodji',false,true,1,null,null,'rent',true);
-insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga,slika,enabled) values (4,'Sreten','avio','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','bozic.sreten@gmail.com','Bozic',false,true,null,4,null,'avio','../slike/Airplane-1.png',true);
+insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga,slika,enabled) values (4,'Sreten','avio','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','bozic.sreten@gmail.com','Bozic',false,true,null,1,null,'avio','../slike/Airplane-1.png',true);
 insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon) values (5,'Mika','Mikic','user1','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+1@gmail.com',true,'user',true,'Asd Street 1,NY','Tel 1');
 insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon) values (6,'Milan','Varga','user2','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+2@gmail.com',true,'user',true,'Asd Street 2,NY','Tel 2');
 insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon) values (7,'Tom','Hanks','user3','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+3@gmail.com',true,'user',true,'Asd Street 3,NY','Tel 3');

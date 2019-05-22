@@ -52,6 +52,7 @@ function dobaviPodatkeRenta(){
         	$("#adresa").val(data.adresa);
         	$("#opis").val(data.opis);
         	$('#identifikator_rent').val(data.id);
+        	$('#rent_coords').val(data.coord1+','+data.coord2);
         }
 	})
 }
@@ -63,6 +64,8 @@ $(document).on('submit', "#updateRentForma", function(e){
 	var naziv=$('#naziv').val();
 	var adresa=$('#adresa').val();
 	var opis=$('#opis').val();
+	var coords=$('#rent_coords').val();
+	var coord_list=coords.split(',');
 	var slika = $('#slika_rent').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
 	console.log("update rent  slika  "+slika);
 	if(slika=="" || slika==null){
@@ -75,7 +78,7 @@ $(document).on('submit', "#updateRentForma", function(e){
 		url:update_rentacar_url+"/"+id,
 		contentType:'application/json',
 		dataType:'text',
-		data:rentacarToJSON(id,naziv, adresa, opis, slika),
+		data:rentacarToJSON(id,naziv, adresa, opis, slika, coord_list[0], coord_list[1]),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -106,12 +109,14 @@ $(document).on('submit', "#updateRentForma", function(e){
 	});
 });
 
-function rentacarToJSON(id,naziv, adresa, opis, slika){
+function rentacarToJSON(id,naziv, adresa, opis, slika, coord1, coord2){
 	return JSON.stringify({
 		"id":id,
 		"naziv":naziv,
 		"adresa":adresa,
 		"opis":opis, 
-		"slika":slika
+		"slika":slika,
+		"coord1":coord1,
+		"coord2":coord2
 	});
 }

@@ -33,6 +33,8 @@ public class RentACarController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/api/rentACars", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public RentACar createRentAcar(@Valid @RequestBody RentACar rentACar) {
+		rentACar.setCoord1(31.214535);
+		rentACar.setCoord2(29.945663);
 		return rentACarService.save(rentACar);
 	}
 
@@ -96,7 +98,9 @@ public class RentACarController {
 		rentACar.setNaziv(rentAcarDetalji.getNaziv());
 		rentACar.setAdresa(rentAcarDetalji.getAdresa());
 		rentACar.setOpis(rentAcarDetalji.getOpis());
-
+		//rentACar.setSlika(rentAcarDetalji.getSlika());
+		rentACar.setCoord1(rentAcarDetalji.getCoord1());
+		rentACar.setCoord2(rentAcarDetalji.getCoord2());
 		RentACar updateRentACar = rentACarService.save(rentACar);
 		return ResponseEntity.ok().body(updateRentACar);
 	}
