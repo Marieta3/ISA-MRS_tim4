@@ -6,6 +6,10 @@ $(document).on('click', '#btnBranchList', findAllBranchesByRent)
 $(document).on('click', '#btnCarList', findBranchAddresses)
 $(document).on('click', '#btnCarList', findAllCarsByRent)
 
+$(document).ready(function(){
+	localStorage.removeItem("profil_rent");
+})
+
 
 function findBranchAddresses()
 	{
@@ -103,13 +107,18 @@ function renderFilijale(data){
 		$('#prikazBranchTabela').append(tr);*/
 		$('#prikazBranchTabela').append(get_row(filijala, "branch", localStorage.getItem('uloga'), 'id01', 'id04'));
 	})
-	$('#prikazBranchTabela').DataTable({
+	if ( ! $.fn.DataTable.isDataTable( '#prikazBranchTabela' ) ) {
+		$('#prikazBranchTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order":[[1,'desc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 0 },
+	                     { "orderable": false, "targets": 4 },
+	                     { "orderable": false, "targets": 5 }
 	                   ]
-	  });
+		});
+	}
 }
 
 function renderVozila(data){
@@ -131,14 +140,18 @@ function renderVozila(data){
 		console.log(car)
 		$('#prikazVoziloTabela tbody').append(get_row(car, "car", localStorage.getItem('uloga'), 'id05', 'id06'));
 	})
-	$('#prikazVoziloTabela').DataTable({
-	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
-	      "iDisplayLength": 5,
-	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
-	                   ]
-	  });
-	
+	if ( ! $.fn.DataTable.isDataTable( '#prikazVoziloTabela' ) ) {
+		$('#prikazVoziloTabela').DataTable({
+		      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+		      "iDisplayLength": 5,
+		      "order":[[1,'desc']],
+		      "columnDefs": [
+		                     { "orderable": false, "targets": 0 },
+		                     { "orderable": false, "targets": 7 },
+		                     { "orderable": false, "targets": 8 }
+		                   ]
+		  });
+	}
 }
 
 //dodavanje filijala

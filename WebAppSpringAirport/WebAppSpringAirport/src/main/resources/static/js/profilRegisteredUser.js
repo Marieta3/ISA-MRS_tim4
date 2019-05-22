@@ -1,6 +1,7 @@
 findAllFriends();
 findAllRequests();
-findAllPotentialFriends()
+findAllPotentialFriends();
+findAllReservations();
 function findAllFriends(){
 	$.ajax({
 		type:'GET',
@@ -37,6 +38,22 @@ function findAllPotentialFriends(){
 	})
 }
 
+function findAllReservations(){
+	$('#activeReservationsTable').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 6 }
+	                   ]
+	  });
+	$('#reservationHistoryTable').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 6 }
+	                   ]
+	  });
+}
 
 function renderKorisnici(data){
 	console.log(data);
