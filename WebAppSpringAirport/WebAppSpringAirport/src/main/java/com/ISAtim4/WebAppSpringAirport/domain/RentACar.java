@@ -27,7 +27,12 @@ public class RentACar {
 	private String opis;
 	@Column(nullable = true)
 	private Double ocena=0.0;
-
+	
+	@Column(nullable = false)
+	private double coord1;
+	
+	@Column(nullable = false)
+	private double coord2;
 	@Column(nullable = true)
 	public String slika;
 
@@ -129,5 +134,21 @@ public class RentACar {
 
 	public void setAdmini(Set<AdminRent> admini) {
 		this.admini = admini;
+	}
+
+	public double getCoord1() {
+		return coord1;
+	}
+
+	public void setCoord1(double coord1) {
+		this.coord1 = coord1;
+	}
+
+	public double getCoord2() {
+		return coord2;
+	}
+
+	public void setCoord2(double coord2) {
+		this.coord2 = coord2;
 	}
 }

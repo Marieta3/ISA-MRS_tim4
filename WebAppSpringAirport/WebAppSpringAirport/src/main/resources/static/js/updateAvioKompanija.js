@@ -51,6 +51,7 @@ function dobaviPodatkeAvio(){
         	$("#adresa").val(data.adresa);
         	$("#opis").val(data.opis);
         	$('#identifikator_avio').val(data.id);
+        	$('#avio_coords').val(data.coord1+','+data.coord2);
         }
 	})
 }
@@ -62,6 +63,8 @@ $(document).on('submit', "#updateAvioKompanijuForma", function(e){
 	var naziv=$('#naziv').val();
 	var adresa=$('#adresa').val();
 	var opis=$('#opis').val();
+	var coords=$('#avio_coords').val();
+	var coord_list=coords.split(',');
 	console.log(naziv);
 	var slika = $('#slika_avio').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
 	console.log("update avio  slika  "+slika);
@@ -73,7 +76,7 @@ $(document).on('submit', "#updateAvioKompanijuForma", function(e){
 		url:update_avio_kompaniju_url+'/'+id,
 		contentType:'application/json',
 		dataType:'text',
-		data:avioToJSON(id, naziv, adresa, opis, slika),
+		data:avioToJSON(id, naziv, adresa, opis, slika, coord_list[0], coord_list[1]),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -105,12 +108,14 @@ $(document).on('submit', "#updateAvioKompanijuForma", function(e){
 })
 
 
-function avioToJSON(id, naziv, adresa, opis, slika){
+function avioToJSON(id, naziv, adresa, opis, slika, coord1, coord2){
 	return JSON.stringify({
 		"id":id,
 		"naziv":naziv,
 		"adresa":adresa,
 		"opis":opis,
-		"slika":slika
+		"slika":slika,
+		"coord1":coord1,
+		"coord2":coord2
 	});
 }

@@ -31,6 +31,8 @@ public class AvioKompanijaController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/api/avioKompanije", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public AvioKompanija createAvioKompanija(@Valid @RequestBody AvioKompanija avioKompanija) {
+		avioKompanija.setCoord1(31.214535);
+		avioKompanija.setCoord2(29.945663);
 		return aviokompanijaService.save(avioKompanija);
 	}
 
@@ -82,6 +84,8 @@ public class AvioKompanijaController {
 		avioKompanija.setAdresa(avioKompanijaDetalji.getAdresa());
 		avioKompanija.setOpis(avioKompanijaDetalji.getOpis());
 		avioKompanija.setSlika(avioKompanijaDetalji.getSlika());
+		avioKompanija.setCoord1(avioKompanijaDetalji.getCoord1());
+		avioKompanija.setCoord2(avioKompanijaDetalji.getCoord2());
 		AvioKompanija updateAviokompanija = aviokompanijaService.save(avioKompanija);
 		return ResponseEntity.ok().body(updateAviokompanija);
 	}

@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
 <link rel="stylesheet" type="text/css" href="css/tabelarniPrikaz.css">
+<link rel="stylesheet" type="text/css" href="css/mapa.css">
 
 <title>AVIO ADMIN</title>
 
@@ -119,6 +120,10 @@
 				<div class="grid-item">
 					Address <br> <input type="text" id="adresa" required>
 				</div>
+				<div class="grid-item" style="height:350px; widht:450px">Map<br><div id="map" class="map"></div>
+					<input type="hidden" id="avio_coords">
+				</div>
+				<br><br>
 				<div class="grid-item" id="textarea">
 					Description <br>
 					<textarea id="opis" rows="5" cols="60" required></textarea>
@@ -436,6 +441,7 @@
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
+<script src="https://api-maps.yandex.ru/2.1/?apikey=<9ea24de0-3dda-4e4d-b830-25ca34e7ffc8>&lang=en_US&format=json" type="text/javascript"></script>
 <script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/editProfile.js"></script>

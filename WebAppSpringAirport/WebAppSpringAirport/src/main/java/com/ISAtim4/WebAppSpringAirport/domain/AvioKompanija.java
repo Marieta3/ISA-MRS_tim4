@@ -26,6 +26,11 @@ public class AvioKompanija {
 	@JsonManagedReference
 	private Set<AdminAvio> admin= new HashSet<>();
 	
+	@Column(nullable = false)
+	private double coord1;
+	
+	@Column(nullable = false)
+	private double coord2;
 	/*
 	@OneToMany(mappedBy="avio_kompanija",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JsonManagedReference
@@ -138,5 +143,21 @@ public class AvioKompanija {
 
 	public void setOcena(Double ocena) {
 		this.ocena = ocena;
+	}
+
+	public double getCoord1() {
+		return coord1;
+	}
+
+	public void setCoord1(double coord1) {
+		this.coord1 = coord1;
+	}
+
+	public double getCoord2() {
+		return coord2;
+	}
+
+	public void setCoord2(double coord2) {
+		this.coord2 = coord2;
 	}
 }
