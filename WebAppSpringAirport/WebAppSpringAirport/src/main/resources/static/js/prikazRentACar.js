@@ -5,9 +5,12 @@ uloga="";
 
 $(document).ready(function(){
 	uloga=localStorage.getItem("uloga");
+	localStorage.removeItem("profil_rent");
 	if(uloga=="ROLE_ADMIN"){
 		$("#nav-bar").append('<li><button class="dodajRentBtn" onclick="otvoriModal(\'id03\')">New Rent-A-Car</button></li>');
 	}
+
+    $("#prikazRentACarTabela tbody tr").css('cursor', 'pointer');
 });
 
 findAll();
@@ -84,8 +87,9 @@ function renderRentACars(data) {
 	$('#prikazRentACarTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order": [[1, 'desc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 0 }
 	                   ]
 	  });
 }
@@ -295,3 +299,25 @@ function searchCars() {
 		findAll();
 	}
 }
+
+$('#prikazRentACarTabela').on('click', 'tbody tr', function() {
+	var uloga = localStorage.getItem("uloga");
+	if(uloga != null ){
+		if(uloga == "ROLE_USER"){
+			console.log("Showing profil rent-a-car");
+		}else{
+			return;
+		}
+	}
+	var table = $('#prikazRentACarTabela').DataTable();
+	console.log('API row values : ', table.row(this).data());
+	var data = table.row(this).data();
+	var id_rent = data.DT_RowId.split("_")[1];
+	console.log(id_rent);
+	localStorage.setItem("profil_rent", id_rent)
+	window.location.replace("profilRentACar.html");
+	})
+	
+	
+	
+	

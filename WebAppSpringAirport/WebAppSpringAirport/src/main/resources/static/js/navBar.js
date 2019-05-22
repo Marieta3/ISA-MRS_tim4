@@ -59,6 +59,7 @@ $(document).on('click', '.logout', function(e){
 	localStorage.removeItem("hotel_id");
 	localStorage.removeItem("rent_id");
 	localStorage.removeItem("avio_id");
+	localStorage.removeItem('profil_rent');
     document.location.replace("/");
 })
 

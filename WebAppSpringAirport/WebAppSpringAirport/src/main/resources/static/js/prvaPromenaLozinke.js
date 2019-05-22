@@ -50,10 +50,10 @@ $(document).on("submit", "#changePsw1Forma", function(e){
 			  stackup_spacing: 10 // spacing between consecutively stacked growls.
 			});
 		return;
-	}/*else if(nova.length<8){
-		alert("Password should have minimum 8 characters!");
+	}else if(nova.length<3){
+		alert("New password should have minimum 3 characters!");
 		return;
-	}*/
+	}
 	//ajax poziv
 	$.ajax({
 		type:'PUT',
@@ -71,22 +71,15 @@ $(document).on("submit", "#changePsw1Forma", function(e){
 				if(localStorage.getItem("prvaPromena")=="prvaPromena"){
 					localStorage.removeItem("prvaPromena");
 				}
-
-				$.bootstrapGrowl("Successfully changed password!", {
-					  ele: 'body', // which element to append to
-					  type: 'success', // (null, 'info', 'danger', 'success')
-					  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
-					  align: 'right', // ('left', 'right', or 'center')
-					  width: 'auto', // (integer, or 'auto')
-					  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
-					  allow_dismiss: false, // If true then will display a cross to close the popup.
-					  stackup_spacing: 10 // spacing between consecutively stacked growls.
-					});
+				notify('Successfully changed password!', 'success');
 				
 				window.location.replace("profil"+uloga+".html");
 			}else{
-				console.log(data);
+				notify('Old password is not correct!', 'danger');
 			}
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			notify('Old password is not correct!', 'danger');
 		}
 	})
 })

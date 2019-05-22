@@ -49,8 +49,10 @@ function renderRentACars(data){
 	$('#prikazRentACarTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      order: [[1, 'desc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 0 },
+	                     { "orderable": false, "targets": 7 }
 	                   ]
 	  });
 
@@ -93,8 +95,10 @@ var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#prikazVoziloTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      order: [[1, 'desc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 7 },
+	                     { "orderable": false, "targets": 0 },
 	                   ]
 	  });
 	
