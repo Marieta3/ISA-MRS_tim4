@@ -58,6 +58,9 @@ function renderRentACars(data){
 
 function selektovanRent(btn){
 	var rent_id=$(btn).find('input[type=hidden]').attr('id');
+	$('#selected-cars').empty();
+	$('#counter-cars').text('0');
+	$('#total-cars').text('0');
 	$.ajax({
 		type:'GET',
 		url:'api/cars/rent/'+rent_id,
@@ -84,7 +87,7 @@ var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 		console.log("render vozila.....")
 		console.log(car)
 		var trow=get_row(car, "car", localStorage.getItem('uloga'), 'nema', 'nema');
-		trow.append('<td><input type="checkbox" id="car_id'+car.id+'" name="'+car.proizvodjac+', '+car.tablica+', '+car.cena+'" value="'+car.id+'" onclick="selektovanoVozilo(this)"></td>');
+		trow.append('<td><input type="checkbox" class="cart-item-car" id="car_id'+car.id+'" name="'+car.proizvodjac+', '+car.tablica+', '+car.cena+'" value="'+car.id+'" onclick="selektovanoVozilo(this)"></td>');
 		$('#prikazVoziloTabela').append(trow);
 	})
 	$('#prikazVoziloTabela').DataTable({

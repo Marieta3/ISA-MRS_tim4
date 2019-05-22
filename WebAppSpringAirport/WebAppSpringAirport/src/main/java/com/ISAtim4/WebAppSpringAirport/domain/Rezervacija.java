@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 public class Rezervacija {
@@ -23,8 +25,27 @@ public class Rezervacija {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = true)
-	private RegistrovaniKorisnik korisnik; 
+	@Column(nullable = false)
+	private Double cena = 0.0;
+	
+	public Double getCena() {
+		return cena;
+	}
+
+	public void setCena(Double cena) {
+		this.cena = cena;
+	}
+
+	public Set<RegistrovaniKorisnik> getPutnici() {
+		return putnici;
+	}
+
+	public void setPutnici(Set<RegistrovaniKorisnik> putnici) {
+		this.putnici = putnici;
+	}
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name = "rezervacija_korisnik", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "korisnik_id", referencedColumnName = "id"))
+	private Set<RegistrovaniKorisnik> putnici=new HashSet<>(); 
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "rezervacija_sediste", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "sediste_id", referencedColumnName = "id"))
@@ -38,6 +59,7 @@ public class Rezervacija {
 	@JoinTable(name = "rezervacija_vozilo", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "vozilo_id", referencedColumnName = "id"))
 	private Set<Vozilo> odabranaVozila=new HashSet<>();
 	
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column(nullable = false)
 	private Date datumRezervacije;
 	

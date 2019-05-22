@@ -109,29 +109,7 @@
 			</table>
 		</div>
 		<div class="wrapper" id="detaljna-sedista">
-			<!-- <div class="container">
-				<h3 id="relacija-leta"></h3>
-				<div id="seat-map">
-					<div class="front-indicator">Front</div>
-
-				</div>
-				<div class="booking-details">
-					<h2>Booking Details</h2>
-
-					<h3>
-						Selected Seats (<span id="counter">0</span>):
-					</h3>
-					<ul id="selected-seats"></ul>
-
-					Total: <b>$<span id="total">0</span></b>
-
-					<button class="checkout-button"
-						onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>
-					<button class='next-button' onclick="$('#hotels-tab').click()">Next &raquo;</button>
-					<br><br><br>
-					<div id="legend"></div>
-				</div>
-			</div>-->
+			
 		</div>
 	</div>
 	<div id="Hotels" class="tabcontent">
@@ -189,6 +167,7 @@
 							<th>Description</th>
 							<th>Rating</th>
 							<th>Reserved</th>
+							<th>Price</th>
 							<th>Selected</th>
 						</tr>
 					</thead>
@@ -203,10 +182,10 @@
 				</h3>
 				<ul id="selected-rooms"></ul>
 
-				<!-- Total: <b>$<span id="total1">0</span></b>-->
+				Total: <b>$<span id="total-rooms">0</span></b>
 
 				<button class="checkout-button" id="checkout-button-rooms"
-					onclick="pokupiRezervisaneSobe()">Checkout &raquo;</button>
+					onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>
 				<button class='next-button' onclick="$('#cars-tab').click()">Next &raquo;</button>
 			</div>
 		</div>
@@ -288,7 +267,7 @@
 				Total: <b>$<span id="total-cars">0</span></b>
 
 				<button class="checkout-button" id="checkout-button-cars"
-					onclick="pokupiRezervisanaVozila()">Checkout &raquo;</button>
+					onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>
 
 			</div>
 		</div>

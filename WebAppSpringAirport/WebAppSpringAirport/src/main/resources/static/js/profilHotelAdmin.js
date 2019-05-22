@@ -208,7 +208,7 @@ function renderSobe(data){
 		$('#prikazSobaTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	$("#prikazSobaTabela").find("tr:gt(0)").remove();
-	$("#prikazSobaTabela").find("th:gt(6)").remove();
+	$("#prikazSobaTabela").find("th:gt(7)").remove();
 	$.each(list, function(index, soba){
 		$('#prikazSobaTabela').append(get_row(soba, "room", localStorage.getItem('uloga'), 'id01', 'id04'));
 	})

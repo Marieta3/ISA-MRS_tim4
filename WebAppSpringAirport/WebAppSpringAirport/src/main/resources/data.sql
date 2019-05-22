@@ -12,9 +12,9 @@ insert into usluga(id,cena,opis,hotel_id) values (4,600,'wc',1);
 insert into usluga(id,cena,opis,hotel_id) values (5,566,'hrana',1);
 insert into usluga(id,cena,opis,hotel_id) values (6,200,'kupatilo',2);
 
-insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana) values (1,3,9.9,'cista soba',1, true);
-insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana) values (2,5,8.8,'dobra',2, true);
-insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana) values (3,3,9.8,'prelepo',3, true);
+insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana, cena) values (1,3,9.9,'cista soba',1, false, 100);
+insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana, cena) values (2,5,8.8,'dobra',2, false, 200);
+insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana, cena) values (3,3,9.8,'prelepo',3, false, 400);
 
 insert into avio_kompanija(naziv,adresa,opis, ocena) values ('United Airlines','Chicago, 5th Avenue 20','Description', 4.5);
 insert into avio_kompanija(naziv,adresa,opis, ocena) values ('Turkish Airlines','Istanbul, Asd 20','Description', 3.6);
@@ -40,11 +40,11 @@ insert into filijala(adresa,opis,telefon,rentacar_id) values('Temerin, Adresa 2'
 insert into filijala(adresa,opis,telefon,rentacar_id) values('Novi Sad, Adresa 1', 'TestDrive.eu 1','+1-202-555-6666',3);
 insert into filijala(adresa,opis,telefon,rentacar_id) values('Novi Sad, Adresa 2', 'TestDrive.eu 2','+1-203-555-0128',3);
 
-insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id) values(5,2000,2002,'Astra','Opel','NS-XXX-05',1);
-insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id) values(5,3000,2008,'Corolla','Toyota','NS-XXX-06',1);
-insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id) values(5,5000,2004,'Xtrail','Nissan','NS-XXX-07',1);
-insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id) values(8,500,1999,'Vectra','Opel','NS-XXX-08',2);
-insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id) values(5,2000,2010,'Civic','Honda','NS-XXX-09',2);
+insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id, rezervisano) values(5,2000,2002,'Astra','Opel','NS-XXX-05',1, false);
+insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id, rezervisano) values(5,3000,2008,'Corolla','Toyota','NS-XXX-06',1, false);
+insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id, rezervisano) values(5,5000,2004,'Xtrail','Nissan','NS-XXX-07',1, false);
+insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id, rezervisano) values(8,500,1999,'Vectra','Opel','NS-XXX-08',2, false);
+insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id, rezervisano) values(5,2000,2010,'Civic','Honda','NS-XXX-09',2, false);
 
 
 
@@ -108,12 +108,12 @@ INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_
 INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(4,'Dubai','Belgrade','2019-05-21 19:00:00','2019-05-21 00:00:00',3,'Boeing 737',8,8,4,3,1);
 INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(5,'Belgrade','Dubai','2019-05-31 19:00:00','2019-05-31 00:00:00',3,'Boeing 737',8,8,4,3,1);
 
-INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije) VALUES (1,true,'2019-05-14 15:45:32');
+/*INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije, cena) VALUES (1,true,'2019-05-14 15:45:32', 100);
 INSERT INTO REZERVACIJA_SOBA(rezervacija_id,soba_id) VALUES (1,1);
 
-INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije) VALUES (2,true,'2019-05-14 18:00:00');
+INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije, cena) VALUES (2,true,'2019-05-14 18:00:00', 200);
 INSERT INTO REZERVACIJA_SOBA(rezervacija_id,soba_id) VALUES (2,2);
 
-INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije) VALUES (3,true,'2019-05-14 15:45:32');
-INSERT INTO REZERVACIJA_SOBA(rezervacija_id,soba_id) VALUES (3,3);
+INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije, cena) VALUES (3,true,'2019-05-14 15:45:32', 400);
+INSERT INTO REZERVACIJA_SOBA(rezervacija_id,soba_id) VALUES (3,3);*/
 

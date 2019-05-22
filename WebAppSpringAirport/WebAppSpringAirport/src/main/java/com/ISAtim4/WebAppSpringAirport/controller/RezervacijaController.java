@@ -1,9 +1,12 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +20,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Let;
+import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
+import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
+import com.ISAtim4.WebAppSpringAirport.domain.Soba;
+import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
+import com.ISAtim4.WebAppSpringAirport.dto.RezervacijaDTO;
+import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
+import com.ISAtim4.WebAppSpringAirport.service.LetService;
 import com.ISAtim4.WebAppSpringAirport.service.RezervacijaService;
+import com.ISAtim4.WebAppSpringAirport.service.SobaService;
+import com.ISAtim4.WebAppSpringAirport.service.VoziloService;
 
 @RestController
 public class RezervacijaController {
@@ -27,11 +40,64 @@ public class RezervacijaController {
 
 	@Autowired
 	RezervacijaService rezervacijaService;
-
+	
+	@Autowired
+	LetService letservice;
+	
+	@Autowired
+	SobaService sobaService;
+	
+	@Autowired
+	VoziloService voziloService;
+	
+	@Autowired
+	KorisnikService korisnikService;
+	
 	/* da dodamo rezervaciju */
 	@RequestMapping(value = "/api/reserve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public Rezervacija createReservation(@Valid @RequestBody Rezervacija rezervacija) {
+	public Rezervacija createReservation(@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
+		
+		Rezervacija rezervacija=new Rezervacija();
+		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
+		rezervacija.getPutnici().add(me);
+		Let let=letservice.findOne(rezervacijaDTO.getId_leta());
+		
+		for(String row_col:rezervacijaDTO.getSedista()) {
+			String tokens[]=row_col.split("_");
+			int row=Integer.parseInt(tokens[0]);
+			int col=Integer.parseInt(tokens[1]);
+			for(Sediste s:let.getSedista()) {
+				
+				if(s.getBrojReda()==row && s.getBrojKolone()==col) {
+					if(s.isRezervisano()) {
+						s.setRezervisano(true);
+						rezervacija.getOdabranaSedista().add(s);
+					}else {
+						//nmz jer je zauzeto!!greska
+					}
+				}
+			}
+		}
+		if(!rezervacijaDTO.getSedista().isEmpty()) {
+			//rezervacija.setOdabraneSobe(sobaService.updateReservedRooms(rezervacijaDTO.getSobe()));
+			Set<Soba> sobe=sobaService.findSobeIds(rezervacijaDTO.getSobe());
+			for(Soba s: sobe) {
+				s.setRezervisana(true);
+			}
+			rezervacija.setOdabraneSobe(sobe);
+		}
+		if(!rezervacijaDTO.getVozila().isEmpty()) {
+			//rezervacija.setOdabranaVozila(voziloService.updateCarReservation(rezervacijaDTO.getVozila()));
+			Set<Vozilo> vozila=voziloService.findVozilaIds(rezervacijaDTO.getVozila());
+			for(Vozilo v:vozila) {
+				v.setRezervisano(true);
+			}
+			rezervacija.setOdabranaVozila(vozila);
+		}
+		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
+		rezervacija.setDatumRezervacije(new Date());
+		letservice.save(let);
 		return rezervacijaService.save(rezervacija);
 	}
 

@@ -1,6 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,5 +35,12 @@ public class VoziloService{
 
 	public void remove(Long id) {
 		voziloRepository.deleteById(id);
+	}
+	
+	/*public void updateCarReservation(List<Long> ids) {
+		voziloRepository.updateCarReservation(ids);
+	}*/
+	public Set<Vozilo> findVozilaIds(List<Long> ids) {
+		return voziloRepository.findVozilaIds(ids);
 	}
 }
