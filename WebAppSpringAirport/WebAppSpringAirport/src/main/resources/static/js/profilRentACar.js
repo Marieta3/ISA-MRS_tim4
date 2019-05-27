@@ -68,7 +68,7 @@ function renderFilijale(data){
 		$('#prikazBranchTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
-	      "order":[[1,'desc']],
+	      "order":[[1,'asc']],
 	      "columnDefs": [
 	                     { "orderable": false, "targets": 0 }
 	                   ]
@@ -92,7 +92,7 @@ function renderVozila(data){
 		$('#prikazVoziloTabela').DataTable({
 		      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 		      "iDisplayLength": 5,
-		      "order":[[1,'desc']],
+		      "order":[[1,'asc']],
 		      "columnDefs": [
 		                     { "orderable": false, "targets": 0 }
 		                   ]
