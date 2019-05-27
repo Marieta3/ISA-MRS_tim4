@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Sediste {
@@ -26,7 +27,8 @@ public class Sediste {
 	private boolean rezervisano=false;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonIgnoreProperties("sedista")
 	private Let let;
 	
 	//u kojoj se nalazi dato sediste
@@ -36,6 +38,9 @@ public class Sediste {
 	//u kojoj se nalazi dato sediste
 	@Column(nullable=false)
 	private int brojKolone;
+	
+	@Column(nullable=false)
+	private String row_col;
 	
 	@Column(nullable=false)
 	private double cena;
@@ -106,10 +111,19 @@ public class Sediste {
 		this.brojReda = brojReda;
 		this.brojKolone = brojKolone;
 		this.cena = cena;
+		this.row_col=brojReda+"_"+brojKolone;
 	}
 
 	public Sediste() {
 		super();
+	}
+
+	public String getRow_col() {
+		return row_col;
+	}
+
+	public void setRow_col(String row_col) {
+		this.row_col = row_col;
 	}
 	
 	

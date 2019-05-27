@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Soba {
@@ -49,7 +50,8 @@ public class Soba {
 	private boolean rezervisana = false;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonIgnoreProperties("sobe")
 	private Hotel hotel;
 
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

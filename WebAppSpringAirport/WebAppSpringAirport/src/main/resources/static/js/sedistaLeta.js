@@ -39,7 +39,7 @@ function renderLetovi(data){
 		*/
 		console.log('broj sedista: '+flight.sedista.length);
 		var trow=get_row(flight, "flight", localStorage.getItem('uloga'), 'nema', 'nema');
-		trow.append('<td><button  onclick="selektovanLet(this)"><input type="hidden" id="'+flight.id+'">Select</button></td>');
+		trow.append('<td><a href="#detaljna-sedista"><button  onclick="selektovanLet(this)"><input type="hidden" id="'+flight.id+'">Select</button></a></td>');
 		$('#prikazLetovaTabela').append(trow);
 	})
 	$('#prikazLetovaTabela').DataTable({

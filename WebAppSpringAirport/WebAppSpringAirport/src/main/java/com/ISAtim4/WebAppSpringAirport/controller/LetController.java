@@ -40,6 +40,8 @@ public class LetController {
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
 				s.setKlasa("f");
+				s.setCena(100.0);
+				s.setRow_col(i+"_"+j);
 				let.getSedista().add(s);
 			}
 		}
@@ -49,6 +51,8 @@ public class LetController {
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
 				s.setKlasa("e");
+				s.setCena(40.0);
+				s.setRow_col(i+"_"+j);
 				let.getSedista().add(s);
 			}
 		}
@@ -58,6 +62,8 @@ public class LetController {
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
 				s.setKlasa("b");
+				s.setCena(90.0);
+				s.setRow_col(i+"_"+j);
 				let.getSedista().add(s);
 			}
 		}
@@ -89,6 +95,7 @@ public class LetController {
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
 				s.setKlasa("f");
+				s.setRow_col(i+"_"+j);
 				sedista.add(s);
 			}
 		}
@@ -101,6 +108,7 @@ public class LetController {
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
 				s.setKlasa("e");
+				s.setRow_col(i+"_"+j);
 				sedista.add(s);
 			}
 		}
@@ -113,6 +121,7 @@ public class LetController {
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
 				s.setKlasa("b");
+				s.setRow_col(i+"_"+j);
 				sedista.add(s);
 			}
 		}
@@ -142,7 +151,7 @@ public class LetController {
 		}
 		if(let.getSedista().isEmpty()) {
 			let.setSedista(popuniSedista(let));
-			//letService.save(let);
+			letService.save(let);
 		}
 		return ResponseEntity.ok().body(let);
 	}

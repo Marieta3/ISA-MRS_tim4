@@ -52,7 +52,7 @@ function renderRentACars(data){
 	      order: [[1, 'desc']],
 	      "columnDefs": [
 	                     { "orderable": false, "targets": 0 },
-	                     { "orderable": false, "targets": 7 }
+	                     { "orderable": false, "targets": 4 }
 	                   ]
 	  });
 
@@ -84,7 +84,7 @@ var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
 	
 	$("#prikazVoziloTabela").find("tr:gt(0)").remove();
-	$("#prikazVoziloTabela").find("th:gt(7)").remove();
+	$("#prikazVoziloTabela").find("th:gt(8)").remove();
 	$.each(list, function(index, car){
 		console.log("render vozila.....")
 		console.log(car)

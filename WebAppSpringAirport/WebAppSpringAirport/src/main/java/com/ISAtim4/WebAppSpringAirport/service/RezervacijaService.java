@@ -2,12 +2,14 @@ package com.ISAtim4.WebAppSpringAirport.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.repository.RezervacijaRepository;
 
@@ -33,24 +35,13 @@ public class RezervacijaService {
 		return rezervacijaRepository.findAll(page);
 	}
 	
-	/*
-	public List<Rezervacija> findByName(String name) {
-		return rezervacijaRepository.findAllByNaziv(name);
+	public List<Rezervacija> findAllByUser(RegistrovaniKorisnik rk){
+		return rezervacijaRepository.findAllByUser(rk);
 	}
 	
-	public List<Rezervacija> containsName(String name) {
-		return rezervacijaRepository.pronadjiHotelSadrziNaziv(name);
-	}*/
 
 	public void remove(Long id) {
 		rezervacijaRepository.deleteById(id);
 	}
-	/*
-	public List<Rezervacija> searchHotelsLocation(String lokacija, Date datumPolaska, Date datumDolaska){
-		return rezervacijaRepository.searchHotelsLocation(lokacija,datumPolaska,datumDolaska);
-	}
 	
-	public List<Rezervacija> searchHotelsName(String nazivHotela, Date datumPolaska, Date datumDolaska){
-		return rezervacijaRepository.searchHotelsName(nazivHotela,datumPolaska,datumDolaska);
-	}*/
 }

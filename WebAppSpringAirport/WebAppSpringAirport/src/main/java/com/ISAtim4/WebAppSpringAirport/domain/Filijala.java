@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Filijala {
@@ -32,10 +33,12 @@ public class Filijala {
 	private String slika;
 
 	@OneToMany(mappedBy = "filijala", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("filijala")
 	private Set<Vozilo> vozila = new HashSet<>();
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonIgnoreProperties("filijale")
 	private RentACar rentACar;
 
 	public Filijala() {

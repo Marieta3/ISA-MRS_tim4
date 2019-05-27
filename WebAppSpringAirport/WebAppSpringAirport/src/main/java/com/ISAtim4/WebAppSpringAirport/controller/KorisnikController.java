@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -40,6 +41,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
+import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.dto.ChangePswDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.KorisnikDTO;
 import com.ISAtim4.WebAppSpringAirport.service.AuthorityService;
@@ -286,7 +288,17 @@ public class KorisnikController {
 		}
 		return k;
 	}
-	
+	/*@RequestMapping("/api/myReservations")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public Set<Rezervacija> myReservations(Principal user) {
+		RegistrovaniKorisnik rk = null;
+		
+		if (user != null) {
+			rk = (RegistrovaniKorisnik) this.korisnikService.findByKorisnickoIme(user.getName());
+			
+		}
+		return rk.getRezervacije();
+	}*/
 	@RequestMapping("/api/hotel_admin")
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	public AdminHotel adminHotel(Principal user) {

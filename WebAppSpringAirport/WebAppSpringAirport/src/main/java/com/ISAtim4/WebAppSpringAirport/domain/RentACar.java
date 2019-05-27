@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -37,7 +38,8 @@ public class RentACar {
 	public String slika;
 
 	@OneToMany(mappedBy = "rentACar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference
+	//@JsonManagedReference
+	@JsonIgnoreProperties("rentACar")
 	private Set<Filijala> filijale = new HashSet<Filijala>();
 	@OneToMany(mappedBy = "rentACar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonManagedReference

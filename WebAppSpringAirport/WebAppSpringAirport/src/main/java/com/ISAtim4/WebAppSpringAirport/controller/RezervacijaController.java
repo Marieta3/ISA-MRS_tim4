@@ -1,7 +1,9 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -10,6 +12,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,7 @@ import com.ISAtim4.WebAppSpringAirport.dto.RezervacijaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;
 import com.ISAtim4.WebAppSpringAirport.service.RezervacijaService;
+import com.ISAtim4.WebAppSpringAirport.service.SedisteService;
 import com.ISAtim4.WebAppSpringAirport.service.SobaService;
 import com.ISAtim4.WebAppSpringAirport.service.VoziloService;
 
@@ -53,6 +57,9 @@ public class RezervacijaController {
 	@Autowired
 	KorisnikService korisnikService;
 	
+	@Autowired
+	SedisteService sedisteService;
+	
 	/* da dodamo rezervaciju */
 	@RequestMapping(value = "/api/reserve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
@@ -60,26 +67,19 @@ public class RezervacijaController {
 		
 		Rezervacija rezervacija=new Rezervacija();
 		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
-		rezervacija.getPutnici().add(me);
-		Let let=letservice.findOne(rezervacijaDTO.getId_leta());
+		rezervacija.getKorisnici().add(me);
 		
-		for(String row_col:rezervacijaDTO.getSedista()) {
-			String tokens[]=row_col.split("_");
-			int row=Integer.parseInt(tokens[0]);
-			int col=Integer.parseInt(tokens[1]);
-			for(Sediste s:let.getSedista()) {
-				
-				if(s.getBrojReda()==row && s.getBrojKolone()==col) {
-					if(s.isRezervisano()) {
-						s.setRezervisano(true);
-						rezervacija.getOdabranaSedista().add(s);
-					}else {
-						//nmz jer je zauzeto!!greska
-					}
-				}
-			}
-		}
 		if(!rezervacijaDTO.getSedista().isEmpty()) {
+			Set<Sediste> sedista=sedisteService.findAllByLetRowCol(rezervacijaDTO.getId_leta(),rezervacijaDTO.getSedista());
+			for(Sediste s: sedista) {
+				s.setRezervisano(true);
+				
+			}
+			rezervacija.setOdabranaSedista(sedista);
+		}else {
+			//greska, mora se rezervisati sediste
+		}
+		if(!rezervacijaDTO.getSobe().isEmpty()) {
 			//rezervacija.setOdabraneSobe(sobaService.updateReservedRooms(rezervacijaDTO.getSobe()));
 			Set<Soba> sobe=sobaService.findSobeIds(rezervacijaDTO.getSobe());
 			for(Soba s: sobe) {
@@ -97,7 +97,7 @@ public class RezervacijaController {
 		}
 		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
 		rezervacija.setDatumRezervacije(new Date());
-		letservice.save(let);
+		//me.getRezervacije().add(rezervacija);
 		return rezervacijaService.save(rezervacija);
 	}
 
@@ -119,18 +119,12 @@ public class RezervacijaController {
 		return ResponseEntity.ok().body(rezervacija);
 	}
 	
-	/* da uzmemo RentAcar po nazivu, svima dozvoljeno */
-	/*
-	@RequestMapping(value = "/api/reserve/search/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Rezervacija>> getHotelsByName(
-			@PathVariable(value = "name") String hotelName) {
-		List<Rezervacija> hotels = rezervacijaService.containsName(hotelName);
-
-		if (hotels == null) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok().body(hotels);
-	}*/
+	@RequestMapping(value = "/api/myReservations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Rezervacija> getMyReservations(Principal user) {
+		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
+		
+		return rezervacijaService.findAllByUser(me);
+	}
 
 	/* update rezervacije po id-u */
 	@RequestMapping(value = "/api/reserve/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
