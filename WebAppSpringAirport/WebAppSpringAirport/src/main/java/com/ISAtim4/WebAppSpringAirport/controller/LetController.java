@@ -96,6 +96,7 @@ public class LetController {
 				if(i==1 && j>3) {
 					s.setRezervisano(true);
 				}
+				s.setLet(let);
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
 				s.setKlasa("f");
@@ -109,6 +110,7 @@ public class LetController {
 				if(i>2 && j%3==0) {
 					s.setRezervisano(true);
 				}
+				s.setLet(let);
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
 				s.setKlasa("e");
@@ -122,6 +124,7 @@ public class LetController {
 				if(i%3==1 && j>=2) {
 					s.setRezervisano(true);
 				}
+				s.setLet(let);
 				s.setBrojReda(i);
 				s.setBrojKolone(j);
 				s.setKlasa("b");

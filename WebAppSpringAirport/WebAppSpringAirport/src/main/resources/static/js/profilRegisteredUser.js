@@ -57,13 +57,21 @@ function renderReservations(data){
 	$("#activeReservationsTable").find("th:gt(5)").remove();
 	$.each(list, function(index, rezervacija){
 		var tr=$('<tr id="active_rez_'+rezervacija.id+'"></tr>');
-		tr.append('<td>'+rezervacija.odabranaSedista[0].let.pocetnaDestinacija+'-'+rezervacija.odabranaSedista[0].let.krajnjaDestinacija+'</td>');
+		if(rezervacija.odabranaSedista.length>0){
+			tr.append('<td>'+rezervacija.odabranaSedista[0].let.pocetnaDestinacija+'-'+rezervacija.odabranaSedista[0].let.krajnjaDestinacija+'</td>');
+		}else{
+			notify("Error! No seats reserved!");
+		}
 		if(rezervacija.odabraneSobe.length>0){
 			tr.append('<td>'+rezervacija.odabraneSobe[0].hotel.naziv+'</td>');
 		}else{
 			tr.append('<td>-</td>');
 		}
-		tr.append('<td>'+rezervacija.odabranaVozila[0].filijala.rentACar.naziv+'</td>');
+		if(rezervacija.odabranaVozila.length>0){
+			tr.append('<td>'+rezervacija.odabranaVozila[0].filijala.rentACar.naziv+'</td>');
+		}else{
+			tr.append('<td>-</td>');
+		}
 		var tokens=rezervacija.datumRezervacije.split("T");
 		var tokens1=tokens[1].split(".");
 		tr.append('<td>'+tokens[0]+' '+tokens1[0]+'</td>');
