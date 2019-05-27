@@ -1,10 +1,16 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -14,9 +20,10 @@ public class RegistrovaniKorisnik extends Korisnik {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	List<Prijateljstvo> listaPrijatelja;
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	List<Ocena> listaOcena;
+
 
 	public RegistrovaniKorisnik() {
 		super();
@@ -38,7 +45,6 @@ public class RegistrovaniKorisnik extends Korisnik {
 	public void setListaOcena(List<Ocena> listaOcena) {
 		this.listaOcena = listaOcena;
 	}
-	
 	
 
 }

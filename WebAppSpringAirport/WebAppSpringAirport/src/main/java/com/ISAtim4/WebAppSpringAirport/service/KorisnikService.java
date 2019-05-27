@@ -52,4 +52,5 @@ public class KorisnikService {
 	public List<Korisnik>findNotConnectedPeople(List<Long>ids){
 		return korisnikRepository.findNotConnectedPeople(ids);
 	}
+	
 }

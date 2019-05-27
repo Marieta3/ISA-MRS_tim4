@@ -39,22 +39,73 @@ function findAllPotentialFriends(){
 }
 
 function findAllReservations(){
+	$.ajax({
+		type:'GET',
+		url:'api/myReservations',
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:renderReservations
+	});
+	
+}
+function renderReservations(data){
+	console.log(data);
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	$("#activeReservationsTable").find("tr:gt(0)").remove();
+	$("#activeReservationsTable").find("th:gt(5)").remove();
+	$.each(list, function(index, rezervacija){
+		var tr=$('<tr id="active_rez_'+rezervacija.id+'"></tr>');
+		if(rezervacija.odabranaSedista.length>0){
+			tr.append('<td>'+rezervacija.odabranaSedista[0].let.pocetnaDestinacija+'-'+rezervacija.odabranaSedista[0].let.krajnjaDestinacija+'</td>');
+		}else{
+			notify("Error! No seats reserved!");
+		}
+		if(rezervacija.odabraneSobe.length>0){
+			tr.append('<td>'+rezervacija.odabraneSobe[0].hotel.naziv+'</td>');
+		}else{
+			tr.append('<td>-</td>');
+		}
+		if(rezervacija.odabranaVozila.length>0){
+			tr.append('<td>'+rezervacija.odabranaVozila[0].filijala.rentACar.naziv+'</td>');
+		}else{
+			tr.append('<td>-</td>');
+		}
+		var tokens=rezervacija.datumRezervacije.split("T");
+		var tokens1=tokens[1].split(".");
+		tr.append('<td>'+tokens[0]+' '+tokens1[0]+'</td>');
+		var td_putnici=$('<td></td>');
+		var putnici_list=$('<select></select>');
+		$.each(rezervacija.korisnici, function(index, putnik){
+			if(index==0){
+				putnici_list.append('<option disabled="disabled" selected="selected">'+putnik.ime+' '+putnik.prezime+'</option>');
+			}else{
+				putnici_list.append('<option disabled="disabled">'+putnik.ime+' '+putnik.prezime+'</option>');
+			}
+		})
+		td_putnici.append(putnici_list);
+		tr.append(td_putnici);
+		tr.append('<td>'+rezervacija.cena+'</td>');
+		
+		$("#activeReservationsTable").find("tbody").append(tr);
+	})
 	$('#activeReservationsTable').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 6 }
+	                     { "orderable": false, "targets": 4 }
 	                   ]
 	  });
+	/*
 	$('#reservationHistoryTable').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 6 }
+	                     { "orderable": false, "targets": 4 }
 	                   ]
-	  });
+	  });*/
 }
-
 function renderKorisnici(data){
 	console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);

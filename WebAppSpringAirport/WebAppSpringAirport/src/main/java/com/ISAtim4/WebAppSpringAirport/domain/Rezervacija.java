@@ -14,11 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 public class Rezervacija {
 	@Id
@@ -36,16 +34,7 @@ public class Rezervacija {
 		this.cena = cena;
 	}
 
-	public Set<RegistrovaniKorisnik> getPutnici() {
-		return putnici;
-	}
-
-	public void setPutnici(Set<RegistrovaniKorisnik> putnici) {
-		this.putnici = putnici;
-	}
-	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JoinTable(name = "rezervacija_korisnik", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "korisnik_id", referencedColumnName = "id"))
-	private Set<RegistrovaniKorisnik> putnici=new HashSet<>(); 
+	
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "rezervacija_sediste", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "sediste_id", referencedColumnName = "id"))
@@ -58,6 +47,10 @@ public class Rezervacija {
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "rezervacija_vozilo", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "vozilo_id", referencedColumnName = "id"))
 	private Set<Vozilo> odabranaVozila=new HashSet<>();
+	
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name = "rezervacija_korisnik", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "korisnik_id", referencedColumnName = "id"))
+	private Set<RegistrovaniKorisnik> korisnici=new HashSet<>(); 
 	
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column(nullable = false)
@@ -114,5 +107,15 @@ public class Rezervacija {
 	public void setAktivnaRezervacija(Boolean aktivnaRezervacija) {
 		this.aktivnaRezervacija = aktivnaRezervacija;
 	}
+
+	public Set<RegistrovaniKorisnik> getKorisnici() {
+		return korisnici;
+	}
+
+	public void setKorisnici(Set<RegistrovaniKorisnik> korisnici) {
+		this.korisnici = korisnici;
+	}
+
+	
 
 }

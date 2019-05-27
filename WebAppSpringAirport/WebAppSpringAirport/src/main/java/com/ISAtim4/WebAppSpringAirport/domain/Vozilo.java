@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "vozilo", uniqueConstraints = {
@@ -49,7 +50,8 @@ public class Vozilo {
 	}
 
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JsonBackReference
+	//@JsonBackReference
+	@JsonIgnoreProperties("vozila")
 	private Filijala filijala;
 
 	public Vozilo() {

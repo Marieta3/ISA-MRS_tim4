@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
+import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 
 public interface KorisnikRepository extends JpaRepository<Korisnik, Long> {
 
@@ -18,4 +19,6 @@ public interface KorisnikRepository extends JpaRepository<Korisnik, Long> {
 
 	@Query("select k from Korisnik k where k.id not in ?1")
 	List<Korisnik> findNotConnectedPeople(List<Long> ids);
+	
+	
 }

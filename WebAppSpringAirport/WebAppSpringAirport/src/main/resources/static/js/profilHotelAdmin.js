@@ -1,9 +1,12 @@
 /**
  * 
  */
-ymaps.ready(init);
-findAllByHotel();
-findAllUslugeByHotel();
+$(document).ready(function(){
+	findAllByHotel();
+	findAllUslugeByHotel();
+	ymaps.ready(init);
+})
+
 function init(){
 	//pokupiti koordinate iz hidden polja
 	var coords= $('#hotel_coords').val();

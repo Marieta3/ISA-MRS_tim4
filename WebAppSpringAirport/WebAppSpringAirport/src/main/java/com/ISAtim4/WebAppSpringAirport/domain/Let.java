@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -47,7 +48,8 @@ public class Let {
 	private AvioKompanija avio_kompanija;
 	
 	@OneToMany(mappedBy = "let", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference
+	//@JsonManagedReference
+	@JsonIgnoreProperties("let")
 	private Set<Sediste> sedista = new HashSet<>();
 	
 	/*
