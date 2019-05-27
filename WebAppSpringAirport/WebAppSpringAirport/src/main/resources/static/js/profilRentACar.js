@@ -50,6 +50,10 @@ function findAllCarsByRent(){
 
 function renderProfil(data){
 	console.log(data);
+	var rating=data.ocena;
+	
+	$('.cornerimage').css("width", (rating/5)*100+"%");
+	$('#rating_rent').text(rating);
 	$("#naziv").val(data.naziv);
 	$("#adresa").val(data.adresa);
 	$("#opis").val(data.opis);
@@ -68,7 +72,7 @@ function renderFilijale(data){
 		$('#prikazBranchTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
-	      "order":[[1,'desc']],
+	      "order":[[1,'asc']],
 	      "columnDefs": [
 	                     { "orderable": false, "targets": 0 }
 	                   ]
@@ -92,7 +96,7 @@ function renderVozila(data){
 		$('#prikazVoziloTabela').DataTable({
 		      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 		      "iDisplayLength": 5,
-		      "order":[[1,'desc']],
+		      "order":[[1,'asc']],
 		      "columnDefs": [
 		                     { "orderable": false, "targets": 0 }
 		                   ]

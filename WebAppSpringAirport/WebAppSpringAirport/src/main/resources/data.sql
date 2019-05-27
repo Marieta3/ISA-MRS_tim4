@@ -1,9 +1,21 @@
-insert into hotel(naziv,adresa,ocena,opis, coord1, coord2) values ('Sole Mio','Egypt, Alexandria',4.8,'Description', 31.214535,29.945663);
-insert into hotel(naziv,adresa,ocena,opis, coord1, coord2) values ('The Plaza Hotel','Dublin, Belgard Road 4',3.2,'Description',31.214535,29.945663);
-insert into hotel(naziv,adresa,ocena,opis, coord1, coord2) values ('Butlers Townhouse','Dublin, 44 Lansdowne Road',4.5,'Description',31.214535,29.945663);
-insert into hotel(naziv,adresa,ocena,opis, coord1, coord2) values ('The Plaza Hotel','Novi Sad, Ilije Ognjanovica 16',2.0,'Description',31.214535,29.945663);
-insert into hotel(naziv,adresa,ocena,opis, coord1, coord2) values ('Hotel Park','Novi Sad, Bulevar Jase Tomica 15,',4.6,'Description',31.214535,29.945663);
-insert into hotel(naziv,adresa,ocena,opis, coord1, coord2) values ('Prenociste Stojic Novi Sad','Novi Sad, Partizanska 47',3.1,'Description',31.214535,29.945663);
+insert into hotel(naziv,adresa,opis, coord1, coord2) values ('Sole Mio','Egypt, Alexandria','Description', 31.214535,29.945663);
+insert into hotel(naziv,adresa,opis, coord1, coord2) values ('The Plaza Hotel','Dublin, Belgard Road 4','Description',31.214535,29.945663);
+insert into hotel(naziv,adresa,opis, coord1, coord2) values ('Butlers Townhouse','Dublin, 44 Lansdowne Road','Description',31.214535,29.945663);
+insert into hotel(naziv,adresa,opis, coord1, coord2) values ('The Plaza Hotel','Novi Sad, Ilije Ognjanovica 16','Description',31.214535,29.945663);
+insert into hotel(naziv,adresa,opis, coord1, coord2) values ('Hotel Park','Novi Sad, Bulevar Jase Tomica 15,','Description',31.214535,29.945663);
+insert into hotel(naziv,adresa,opis, coord1, coord2) values ('Prenociste Stojic Novi Sad','Novi Sad, Partizanska 47','Description',31.214535,29.945663);
+
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 1, 3);
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 1, 2);
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 1, 1);
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 1, 4);
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 2, 4);
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 1, 5);
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 3, 3);
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 1, 2);
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 4, 1);
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 6, 4);
+insert into ocena(datum_ocenjivanja, hotel_id, ocena) values('2019-05-14 23:00:05', 5, 4);
 
 insert into usluga(id,cena,opis,hotel_id) values (1,100,'ventilator',1);
 insert into usluga(id,cena,opis,hotel_id) values (2,56,'opisanie',1);
@@ -12,9 +24,15 @@ insert into usluga(id,cena,opis,hotel_id) values (4,600,'wc',1);
 insert into usluga(id,cena,opis,hotel_id) values (5,566,'hrana',1);
 insert into usluga(id,cena,opis,hotel_id) values (6,200,'kupatilo',2);
 
-insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana, cena) values (1,3,9.9,'cista soba',1, false, 100);
-insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana, cena) values (2,5,8.8,'dobra',2, false, 200);
-insert into soba(id,broj_kreveta,ocena,opis,hotel_id, rezervisana, cena) values (3,3,9.8,'prelepo',3, false, 400);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (1,3,'cista soba',1, false, 100);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (2,5,'dobra',2, false, 200);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (3,3,'prelepo',3, false, 400);
+
+insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 1, 2);
+insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 1, 1);
+insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 2, 4);
+insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 2, 4);
+insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 3, 5);
 
 insert into avio_kompanija(naziv,adresa,opis, ocena, coord1, coord2) values ('United Airlines','Egypt, Alexandria','Description', 4.5, 31.214535,29.945663);
 insert into avio_kompanija(naziv,adresa,opis, ocena, coord1, coord2) values ('Turkish Airlines','Istanbul, Asd 20','Description', 3.6, 31.214535,29.945663);
@@ -24,13 +42,31 @@ insert into avio_kompanija(naziv,adresa,opis, ocena, coord1, coord2) values ('Fl
 insert into avio_kompanija(naziv,adresa,opis, ocena, coord1, coord2) values ('Air Croatia','Zagreb, Bulevar Oslobodjenja 15','Description', 3.98, 31.214535,29.945663);
 
 
-insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('Drive safe', 'Egypt, Alexandria','Test1',4.8, 31.214535,29.945663);
-insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('Mitsubishi rent', 'Temerin, Asd street 2','Test2',4.2, 31.214535,29.945663);
-insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('TestDrive.eu', 'Novi sad, Asd 66','Test3',4.4, 31.214535,29.945663);
-insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('FoglaljonMost', 'Dubai, Oil street 4','Test1',4.3, 31.214535,29.945663);
-insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('Lamborghini Test Drive', 'Kosut Lajosa 4','Test2',2.8, 31.214535,29.945663);
-insert into rentacar(naziv,adresa,opis,ocena, coord1, coord2) values('Rent-a-car Belgrade', 'Belgrade, Novosadska 50.','Test3',3.8, 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis, coord1, coord2) values('Drive safe', 'Egypt, Alexandria','Test1', 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis, coord1, coord2) values('Mitsubishi rent', 'Temerin, Asd street 2','Test2', 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis, coord1, coord2) values('TestDrive.eu', 'Novi sad, Asd 66','Test3', 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis, coord1, coord2) values('FoglaljonMost', 'Dubai, Oil street 4','Test1', 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis, coord1, coord2) values('Lamborghini Test Drive', 'Kosut Lajosa 4','Test2', 31.214535,29.945663);
+insert into rentacar(naziv,adresa,opis, coord1, coord2) values('Rent-a-car Belgrade', 'Belgrade, Novosadska 50.','Test3', 31.214535,29.945663);
 
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 1, 5);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 1, 4);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 1, 1);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 1, 4);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 1, 5);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 2, 1);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 2, 2);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 2, 1);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 2, 1);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 2, 3);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 3, 5);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 4, 4);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 4, 5);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 5, 3);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 5, 3);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 6, 2);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 6, 5);
+insert into ocena(datum_ocenjivanja, rent_id, ocena) values('2019-05-14 23:00:05', 6, 5);
 
 insert into filijala(adresa,opis,telefon,rentacar_id) values('Novi Sad, Adresa 1', 'Drive safe filijala 1','+1-202-555-0114',1);
 insert into filijala(adresa,opis,telefon,rentacar_id) values('Novi Sad, Adresa 2', 'Drive safe filijala 2','+1-202-555-0128',1);
@@ -47,6 +83,15 @@ insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filija
 insert into vozilo(broj_mesta, cena, godina, model, proizvodjac, tablica, filijala_id, rezervisano) values(5,2000,2010,'Civic','Honda','NS-XXX-09',2, false);
 
 
+insert into ocena(datum_ocenjivanja, vozilo_id, ocena) values('2019-05-14 23:00:05', 1, 1);
+insert into ocena(datum_ocenjivanja, vozilo_id, ocena) values('2019-05-14 23:00:05', 1, 5);
+insert into ocena(datum_ocenjivanja, vozilo_id, ocena) values('2019-05-14 23:00:05', 2, 4);
+insert into ocena(datum_ocenjivanja, vozilo_id, ocena) values('2019-05-14 23:00:05', 2, 5);
+insert into ocena(datum_ocenjivanja, vozilo_id, ocena) values('2019-05-14 23:00:05', 3, 3);
+insert into ocena(datum_ocenjivanja, vozilo_id, ocena) values('2019-05-14 23:00:05', 3, 4);
+insert into ocena(datum_ocenjivanja, vozilo_id, ocena) values('2019-05-14 23:00:05', 4, 4);
+insert into ocena(datum_ocenjivanja, vozilo_id, ocena) values('2019-05-14 23:00:05', 4, 4);
+insert into ocena(datum_ocenjivanja, vozilo_id, ocena) values('2019-05-14 23:00:05', 5, 3);
 
 --Milan: trenutno imate jednog korisnika kojeg sam oznacio kao 'sis' sistemskog, nije vezan za hotel, rent-a-car ili aviokompaniju i zato je prosledjeno null za te kolone
 --Milan: korisnik sme imati samo jednu rolu!

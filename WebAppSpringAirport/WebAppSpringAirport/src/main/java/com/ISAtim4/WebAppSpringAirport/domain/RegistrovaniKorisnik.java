@@ -20,7 +20,10 @@ public class RegistrovaniKorisnik extends Korisnik {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	List<Prijateljstvo> listaPrijatelja;
-	
+
+	@OneToMany(cascade = CascadeType.ALL)
+	List<Ocena> listaOcena;
+
 
 	public RegistrovaniKorisnik() {
 		super();
@@ -35,6 +38,13 @@ public class RegistrovaniKorisnik extends Korisnik {
 		this.listaPrijatelja = listaPrijatelja;
 	}
 
+	public List<Ocena> getListaOcena() {
+		return listaOcena;
+	}
+
+	public void setListaOcena(List<Ocena> listaOcena) {
+		this.listaOcena = listaOcena;
+	}
 	
 
 }

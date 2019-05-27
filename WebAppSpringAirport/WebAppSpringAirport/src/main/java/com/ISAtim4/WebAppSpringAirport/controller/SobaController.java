@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
+import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Usluga;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
+import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 import com.ISAtim4.WebAppSpringAirport.service.SobaService;
 import com.ISAtim4.WebAppSpringAirport.service.UslugaService;
 
@@ -45,6 +47,9 @@ public class SobaController {
 	
 	@Autowired
 	KorisnikService korisnikService;
+
+	@Autowired
+	OcenaService ocenaService;
 	
 	/* da snimimo sobu */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
@@ -54,6 +59,7 @@ public class SobaController {
 		soba.setBrojKreveta(sobaDTO.getBrojKreveta());
 		soba.setOpis(sobaDTO.getOpis());
 		soba.setSlika(sobaDTO.getSlika());
+		soba.setOcena(0.0);
 		
 		Hotel hotel=hotelService.findOne(sobaDTO.getIdHotela());
 		soba.setHotel(hotel);
@@ -67,13 +73,25 @@ public class SobaController {
 	/* da uzmemo sve sobe, svima dozvoljeno */
 	@RequestMapping(value = "/api/sobe", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Soba> getAllSobe() {
-		return sobaService.findAll();
+		List<Soba> sobe = sobaService.findAll();
+		for (Soba soba : sobe) {
+			List<Ocena> ocene = ocenaService.findAllBySoba(soba);
+			soba.setOcena(Ocena.getProsek(ocene));
+		}
+		
+		return sobe;
 	}
 	@RequestMapping(value = "/api/sobeHotela/{hotel_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Soba> getSobeByHotel(@PathVariable(value = "hotel_id") Long hotel_id) {
 		
 		Hotel hotel=hotelService.findOne(hotel_id);
-		return sobaService.findAllByHotel(hotel);
+		List<Soba> sobe = sobaService.findAllByHotel(hotel);
+		for (Soba soba : sobe) {
+			List<Ocena> ocene = ocenaService.findAllBySoba(soba);
+			soba.setOcena(Ocena.getProsek(ocene));
+		}
+		return sobe;
+		
 	}
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	@RequestMapping(value = "/api/sobeHotela", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -83,7 +101,14 @@ public class SobaController {
 		if (user != null) {
 			me = (AdminHotel) this.korisnikService.findByKorisnickoIme(user.getName());
 		}
-		return sobaService.findAllByHotel(me.getHotel());
+		List<Soba> sobe =  sobaService.findAllByHotel(me.getHotel());
+		
+		for (Soba soba : sobe) {
+			List<Ocena> ocene = ocenaService.findAllBySoba(soba);
+			soba.setOcena(Ocena.getProsek(ocene));
+		}
+		
+		return sobe;
 	}
 	/* da uzmemo sobu po id-u, svima dozvoljeno */
 	@RequestMapping(value = "/api/sobe/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -94,6 +119,9 @@ public class SobaController {
 		if (soba == null) {
 			return ResponseEntity.notFound().build();
 		}
+		List<Ocena> ocene = ocenaService.findAllBySoba(soba);
+		soba.setOcena(Ocena.getProsek(ocene));
+		
 		return ResponseEntity.ok().body(soba);
 	}
 

@@ -37,6 +37,9 @@ public class Vozilo {
 	private Integer brojMesta;
 	@Column(nullable = false)
 	private boolean rezervisano=false;
+	
+	@Column(nullable = true)
+	private Double ocena;
 
 	public boolean isRezervisano() {
 		return rezervisano;
@@ -161,6 +164,14 @@ public class Vozilo {
 		} else if (!tablica.equals(other.tablica))
 			return false;
 		return true;
+	}
+	
+	public Double getOcena() {
+		return ocena;
+	}
+
+	public void setOcena(Double ocena) {
+		this.ocena = ocena;
 	}
 
 	@Override

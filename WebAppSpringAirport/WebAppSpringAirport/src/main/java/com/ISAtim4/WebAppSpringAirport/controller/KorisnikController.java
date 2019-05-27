@@ -39,6 +39,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Authority;
 import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
+import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
@@ -49,6 +50,7 @@ import com.ISAtim4.WebAppSpringAirport.service.AvioKompanijaService;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 import com.ISAtim4.WebAppSpringAirport.service.NotificationService;
+import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 import com.ISAtim4.WebAppSpringAirport.service.RentACarService;
 
 @RestController
@@ -66,7 +68,10 @@ public class KorisnikController {
 	
 	@Autowired
 	private RentACarService rentACarService;
-
+	
+	@Autowired
+	private OcenaService ocenaService;
+	
 	@Autowired
 	private AuthorityService authorityService;
 
@@ -328,6 +333,8 @@ public class KorisnikController {
 		if(user!=null) {
 			ah=(AdminHotel) this.korisnikService.findByKorisnickoIme(user.getName());
 			System.out.println("********"+ah.getHotel().getNaziv());
+			List<Ocena> ocene = ocenaService.findAllByHotel(ah.getHotel());
+			ah.getHotel().setOcena(Ocena.getProsek(ocene));
 		}
 		return ah.getHotel();
 	}
@@ -338,7 +345,9 @@ public class KorisnikController {
 		AdminAvio aa=null;
 		if(user!=null) {
 			aa=(AdminAvio) this.korisnikService.findByKorisnickoIme(user.getName());
-			
+
+			List<Ocena> ocene = ocenaService.findAllByAvio(aa.getAvio_kompanija());
+			aa.getAvio_kompanija().setOcena(Ocena.getProsek(ocene));
 		}
 		return aa.getAvio_kompanija();
 	}
@@ -349,7 +358,8 @@ public class KorisnikController {
 		AdminRent ah=null;
 		if(user!=null) {
 			ah=(AdminRent) this.korisnikService.findByKorisnickoIme(user.getName());
-			System.out.println("********"+ah.getrentACar().getNaziv());
+			List<Ocena> ocene = ocenaService.findAllByRent(ah.getrentACar());
+			ah.getrentACar().setOcena(Ocena.getProsek(ocene));
 		}
 		return ah.getrentACar();
 	}

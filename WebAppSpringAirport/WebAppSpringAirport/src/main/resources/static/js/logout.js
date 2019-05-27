@@ -9,5 +9,8 @@ $(document).on('click', '.logout', function(e){
 	localStorage.removeItem("hotel_id");
 	localStorage.removeItem("rent_id");
 	localStorage.removeItem("avio_id");
+	localStorage.removeItem("profil_rent");
+	localStorage.removeItem("profil_avio");
+	localStorage.removeItem("profil_hotel");
     document.location.replace("/");
 })
