@@ -15,6 +15,16 @@ $(document).ready(function(){
 	if (uloga == null || uloga == ""){
 		$("#nav-bar").append(li1);
 		$("#nav-bar").append('<li><button class="registerBtn">Register</button></li>');
+		localStorage.removeItem('jwtToken');
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('uloga');
+		localStorage.removeItem("prvaPromena");
+		localStorage.removeItem("hotel_id");
+		localStorage.removeItem("rent_id");
+		localStorage.removeItem("avio_id");
+		localStorage.removeItem('profil_rent');
+		localStorage.removeItem('profil_avio');
+		localStorage.removeItem('profil_hotel');
 	}
 })
 

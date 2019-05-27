@@ -191,7 +191,9 @@ function renderUsluge(data){
 	$('#prikazUslugaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order": [[0, 'asc']],
 	      "columnDefs": [
+	                     { "orderable": false, "targets": 2 },
 	                     { "orderable": false, "targets": 3 }
 	                   ]
 	  });
@@ -215,8 +217,11 @@ function renderSobe(data){
 	$('#prikazSobaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order": [[3, 'asc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 0 },
+	                     { "orderable": false, "targets": 6 },
+	                     { "orderable": false, "targets": 7 }
 	                   ]
 	  });
 }

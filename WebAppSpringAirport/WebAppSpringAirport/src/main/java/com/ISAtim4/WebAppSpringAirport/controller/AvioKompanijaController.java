@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
 import com.ISAtim4.WebAppSpringAirport.service.AvioKompanijaService;
+import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 
 @RestController
 public class AvioKompanijaController {
@@ -26,6 +27,9 @@ public class AvioKompanijaController {
 	
 	@Autowired
 	private AvioKompanijaService aviokompanijaService;
+	
+	@Autowired
+	private OcenaService ocenaService;
 
 	/* da snimimo avioKompaniju */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

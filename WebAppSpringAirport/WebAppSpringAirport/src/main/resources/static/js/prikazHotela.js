@@ -5,10 +5,12 @@ uloga="";
 
 $(document).ready(function(){
 	uloga=localStorage.getItem("uloga");
+	localStorage.removeItem("profil_hotel");
 	if(uloga=="ROLE_ADMIN"){
 		//$("#nav-bar").append('<li><a href="dodajHotel.html">New Hotel</a></li>');
 		$("#nav-bar").append('<li><button class="dodajHotelBtn" onclick="otvoriModal(\'id03\')">New Hotel</button></li>');
 	}
+
 });
 findAll();
 function findAll() {
@@ -75,8 +77,9 @@ function renderHoteli(data) {
 	$('#prikazHotelaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order": [[1, 'asc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 0 }
 	                   ]
 	  });
 	
@@ -283,3 +286,22 @@ function searchHotelsByName() {
 		findAll();
 	}
 }
+
+$('#prikazHotelaTabela').on('click', 'tbody tr', function() {
+	var uloga = localStorage.getItem("uloga");
+	if(uloga != null ){
+		if(uloga == "ROLE_USER"){
+			console.log("Showing profil hotela");
+		}else{
+			return;
+		}
+	}
+	var table = $('#prikazHotelaTabela').DataTable();
+	console.log('API row values : ', table.row(this).data());
+	var data = table.row(this).data();
+	var id_hotel = data.DT_RowId.split("_")[1];
+	console.log(id_hotel);
+	localStorage.setItem("profil_hotel", id_hotel)
+	window.location.replace("profilHotela.html");
+	})
+	

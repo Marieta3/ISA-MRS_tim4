@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
+import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
-import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.RentAcarDTO;
+import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 import com.ISAtim4.WebAppSpringAirport.service.RentACarService;
 
 @RestController
@@ -28,6 +28,9 @@ public class RentACarController {
 	
 	@Autowired
 	private RentACarService rentACarService;
+
+	@Autowired
+	private OcenaService ocenaService;
 	
 	/* da snimimo RentAcar */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -43,10 +46,20 @@ public class RentACarController {
 	public List<RentACar> pretragaRentAcar(@Valid @RequestBody RentAcarDTO rent) {
 		if (rent.getTipPretrage().equals("location")){
 			//pretraga po lokaciji
-			return rentACarService.searchRentsLocation(rent.getLokNaziv(),rent.getDatumPolaska(),rent.getDatumDolaska());
+			List<RentACar> rents =  rentACarService.searchRentsLocation(rent.getLokNaziv(),rent.getDatumPolaska(),rent.getDatumDolaska());
+			for (RentACar r : rents) {
+				List<Ocena> ocene = ocenaService.findAllByRent(r);
+				r.setOcena(Ocena.getProsek(ocene));
+			}
+			return rents;
 		} else {
 			//pretraga po nazivu hotela
-			return rentACarService.searchRentsName(rent.getLokNaziv(),rent.getDatumPolaska(),rent.getDatumDolaska());
+			List<RentACar> rents = rentACarService.searchRentsName(rent.getLokNaziv(),rent.getDatumPolaska(),rent.getDatumDolaska());
+			for (RentACar r : rents) {
+				List<Ocena> ocene = ocenaService.findAllByRent(r);
+				r.setOcena(Ocena.getProsek(ocene));
+			}
+			return rents;
 		}
 	}
 
@@ -56,7 +69,13 @@ public class RentACarController {
 	
 	@RequestMapping(value = "/api/rentACars", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<RentACar> getAllRentAcar() {
-		return rentACarService.findAll();
+		List<RentACar> rents = rentACarService.findAll();
+		for (RentACar r : rents) {
+			List<Ocena> ocene = ocenaService.findAllByRent(r);
+			r.setOcena(Ocena.getProsek(ocene));
+		}
+		return rents;
+		
 	}
 
 	/* da uzmemo RentAcar po id-u, svima dozvoljeno */
@@ -64,10 +83,15 @@ public class RentACarController {
 	public ResponseEntity<RentACar> getRentAcar(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rentACar = rentACarService.findOne(rentAcarId);
-
+		
 		if (rentACar == null) {
 			return ResponseEntity.notFound().build();
 		}
+		
+		List<Ocena> ocene = ocenaService.findAllByRent(rentACar);
+		rentACar.setOcena(Ocena.getProsek(ocene));
+	
+
 		return ResponseEntity.ok().body(rentACar);
 	}
 	
@@ -81,6 +105,12 @@ public class RentACarController {
 		if (rentACars == null) {
 			return ResponseEntity.notFound().build();
 		}
+		
+		for (RentACar r : rentACars) {
+			List<Ocena> ocene = ocenaService.findAllByRent(r);
+			r.setOcena(Ocena.getProsek(ocene));
+		}
+		
 		return ResponseEntity.ok().body(rentACars);
 	}
 
