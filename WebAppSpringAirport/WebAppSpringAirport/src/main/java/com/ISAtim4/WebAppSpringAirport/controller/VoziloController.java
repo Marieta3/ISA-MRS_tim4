@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Filijala;
+import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.dto.VoziloDTO;
 import com.ISAtim4.WebAppSpringAirport.service.FilijalaService;
+import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 import com.ISAtim4.WebAppSpringAirport.service.RentACarService;
 import com.ISAtim4.WebAppSpringAirport.service.VoziloService;
 
@@ -40,6 +42,9 @@ public class VoziloController {
 	
 	@Autowired
 	private RentACarService rentService;
+	
+	@Autowired
+	private OcenaService ocenaService;
 
 	/* da snimimo vozilo */
 	@PreAuthorize("hasRole('ROLE_RENT')")
@@ -59,7 +64,12 @@ public class VoziloController {
 	/* da uzmemo sve vozila, svima dozvoljeno */
 	@RequestMapping(value = "/api/cars", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Vozilo> getAllCars() {
-		return voziloService.findAll();
+		List<Vozilo> cars = voziloService.findAll();
+		for (Vozilo vozilo : cars) {
+			List<Ocena> ocene = ocenaService.findAllByVozilo(vozilo);
+			vozilo.setOcena(Ocena.getProsek(ocene));
+		}
+		return cars;
 	}
 
 	/* da uzmemo vozilo po id-u, svima dozvoljeno  */
@@ -71,6 +81,8 @@ public class VoziloController {
 		if (vozilo == null) {
 			return ResponseEntity.notFound().build();
 		}
+		List<Ocena> ocene = ocenaService.findAllByVozilo(vozilo);
+		vozilo.setOcena(Ocena.getProsek(ocene));
 		return ResponseEntity.ok().body(vozilo);
 	}
 	
@@ -89,6 +101,8 @@ public class VoziloController {
 			Set<Vozilo> carList =  filijala.getVozila();
 			for (Vozilo v : carList) {
 				cars.add(v);
+				List<Ocena> ocene = ocenaService.findAllByVozilo(v);
+				v.setOcena(Ocena.getProsek(ocene));
 			}
 		}
 		

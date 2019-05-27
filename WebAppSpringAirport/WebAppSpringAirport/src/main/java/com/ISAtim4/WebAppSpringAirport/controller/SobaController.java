@@ -27,6 +27,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Usluga;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
+import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 import com.ISAtim4.WebAppSpringAirport.service.SobaService;
 import com.ISAtim4.WebAppSpringAirport.service.UslugaService;
 
@@ -45,6 +46,9 @@ public class SobaController {
 	
 	@Autowired
 	KorisnikService korisnikService;
+
+	@Autowired
+	OcenaService ocenaService;
 	
 	/* da snimimo sobu */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")

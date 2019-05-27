@@ -22,12 +22,16 @@ import com.ISAtim4.WebAppSpringAirport.domain.Let;
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.dto.LetDTO;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;
+import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 
 @RestController
 public class LetController {
 
 	@Autowired
 	private LetService letService;
+
+	@Autowired
+	private OcenaService ocenaService;
 	
 	/* da snimimo let */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")

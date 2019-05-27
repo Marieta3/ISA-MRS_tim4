@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
+import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 
 @RestController
 public class HotelController {
@@ -27,6 +28,9 @@ public class HotelController {
 
 	@Autowired
 	HotelService hotelService;
+	
+	@Autowired
+	private OcenaService ocenaService;
 
 	/* da dodamo hotel */
 	@RequestMapping(value = "/api/hotels", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
