@@ -1,5 +1,8 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -170,6 +173,6 @@ public class Ocena {
 		for (Ocena ocena : ocene) {
 			sum += ocena.getOcena();
 		}
-		return sum/counter;
+		return new BigDecimal(sum/counter).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
+import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
@@ -51,17 +52,32 @@ public class HotelController {
 	public List<Hotel> pretragaHotel(@Valid @RequestBody HotelDTO hotel) {
 		if (hotel.getTipPretrage().equals("location")){
 			//pretraga po lokaciji
-			return hotelService.searchHotelsLocation(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumDolaska());
+			List<Hotel> hoteli = hotelService.searchHotelsLocation(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumDolaska());
+			for (Hotel hotel2 : hoteli) {
+				List<Ocena> ocene = ocenaService.findAllByHotel(hotel2);
+				hotel2.setOcena(Ocena.getProsek(ocene));
+			}
+			return hoteli;
 		} else {
 			//pretraga po nazivu hotela
-			return hotelService.searchHotelsName(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumDolaska());
+			List<Hotel> hoteli = hotelService.searchHotelsName(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumDolaska());
+			for (Hotel hotel2 : hoteli) {
+				List<Ocena> ocene = ocenaService.findAllByHotel(hotel2);
+				hotel2.setOcena(Ocena.getProsek(ocene));
+			}
+			return hoteli;
 		}
 	}
 
 	/* da uzmemo sve hotele, svima je dozvoljeno */
 	@RequestMapping(value = "/api/hotels", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Hotel> getAllHotels() {
-		return hotelService.findAll();
+		List<Hotel> hoteli = hotelService.findAll();
+		for (Hotel hotel2 : hoteli) {
+			List<Ocena> ocene = ocenaService.findAllByHotel(hotel2);
+			hotel2.setOcena(Ocena.getProsek(ocene));
+		}
+		return hoteli;
 	}
 
 	/* da uzmemo hotel po id-u, svima dozvoljeno */
@@ -73,6 +89,9 @@ public class HotelController {
 		if (hotel == null) {
 			return ResponseEntity.notFound().build();
 		}
+		List<Ocena> ocene = ocenaService.findAllByHotel(hotel);
+		hotel.setOcena(Ocena.getProsek(ocene));
+		
 		return ResponseEntity.ok().body(hotel);
 	}
 	
@@ -85,6 +104,11 @@ public class HotelController {
 
 		if (hotels == null) {
 			return ResponseEntity.notFound().build();
+		}
+		
+		for (Hotel hotel2 : hotels) {
+			List<Ocena> ocene = ocenaService.findAllByHotel(hotel2);
+			hotel2.setOcena(Ocena.getProsek(ocene));
 		}
 		return ResponseEntity.ok().body(hotels);
 	}
@@ -107,6 +131,8 @@ public class HotelController {
 		hotel.setSlika(hotelDetalji.getSlika());
 		hotel.setCoord1(hotelDetalji.getCoord1());
 		hotel.setCoord2(hotelDetalji.getCoord2());
+		List<Ocena> ocene = ocenaService.findAllByHotel(hotel);
+		hotel.setOcena(Ocena.getProsek(ocene));
 		Hotel updateHotel = hotelService.save(hotel);
 		return ResponseEntity.ok().body(updateHotel);
 	}
