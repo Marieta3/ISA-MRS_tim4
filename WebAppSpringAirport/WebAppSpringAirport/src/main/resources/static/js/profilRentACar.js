@@ -50,6 +50,10 @@ function findAllCarsByRent(){
 
 function renderProfil(data){
 	console.log(data);
+	var rating=data.ocena;
+	
+	$('.cornerimage').css("width", (rating/5)*100+"%");
+	$('#rating_rent').text(rating);
 	$("#naziv").val(data.naziv);
 	$("#adresa").val(data.adresa);
 	$("#opis").val(data.opis);
