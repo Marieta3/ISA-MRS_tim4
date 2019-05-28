@@ -6,8 +6,8 @@ public class LetDTO {
 	private String tipPutovanja;
 	private String mestoPolaska;
 	private String mestoDolaska;
-	private Date vremePolaska;
-	private Date vremeDolaska;
+	private Date vreme1;
+	private Date vreme2;
 	private int brojPutnika;
 	
 	public String getTipPutovanja() {
@@ -33,21 +33,7 @@ public class LetDTO {
 		this.mestoDolaska = mestoDolaska;
 	}
 	
-	public Date getVremePolaska() {
-		return vremePolaska;
-	}
 	
-	public void setVremePolaska(Date vremePolaska) {
-		this.vremePolaska = vremePolaska;
-	}
-	
-	public Date getVremeDolaska() {
-		return vremeDolaska;
-	}
-	
-	public void setVremeDolaska(Date vremeDolaska) {
-		this.vremeDolaska = vremeDolaska;
-	}
 	
 	public int getBrojPutnika() {
 		return brojPutnika;
@@ -62,14 +48,30 @@ public class LetDTO {
 	}
 	
 	public LetDTO(String tipPutovanja, String mestoPolaska,
-			String mestoDolaska, Date vremePolaska, Date vremeDolaska,
+			String mestoDolaska, Date vreme1, Date vreme2,
 			int brojPutnika) {
 		this.tipPutovanja = tipPutovanja;
 		this.mestoPolaska = mestoPolaska;
 		this.mestoDolaska = mestoDolaska;
-		this.vremePolaska = vremePolaska;
-		this.vremeDolaska = vremeDolaska;
+		this.vreme1 = vreme1;
+		this.vreme2 = vreme2;
 		this.brojPutnika = brojPutnika;
+	}
+
+	public Date getVreme1() {
+		return vreme1;
+	}
+
+	public void setVreme1(Date vreme1) {
+		this.vreme1 = vreme1;
+	}
+
+	public Date getVreme2() {
+		return vreme2;
+	}
+
+	public void setVreme2(Date vreme2) {
+		this.vreme2 = vreme2;
 	}
 	
 	

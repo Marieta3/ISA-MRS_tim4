@@ -136,7 +136,7 @@ INSERT INTO PRIJATELJSTVO (accepted,datum,reacted,receiver_id,sender_id) VALUES 
 INSERT INTO PRIJATELJSTVO (accepted,datum,reacted,receiver_id,sender_id) VALUES (false,'2019-05-12',false,8,6);
 INSERT INTO PRIJATELJSTVO (accepted,datum,reacted,receiver_id,sender_id) VALUES (false,'2019-05-12',false,8,9);
 
-INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (1,'Beograd','../slike/Airplane-1.png');
+INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (1,'Belgrade','../slike/Airplane-1.png');
 INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (2,'London','../slike/Airplane-1.png');
 INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (3,'Paris','../slike/Airplane-1.png');
 INSERT INTO DESTINACIJA (id,adresa,slika) VALUES (4,'Dubai','../slike/Airplane-1.png');
@@ -147,11 +147,11 @@ INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,
 INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,broj_redovafc) VALUES (3,'Airbus A380',9,9,5,3,1);
 INSERT INTO AVION (id,model,broj_kolona,broj_redova,broj_redovaec,broj_redovabc,broj_redovafc) VALUES (4,'Douglas DC-8',8,8,3,3,2);
 
-INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(1,'Belgrade','Paris','2019-05-14 15:45:32','2019-05-14 18:45:32',3,'Airbus A380',3,2,1,1,1);
-INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(2,'Paris','Belgrade','2019-05-18 16:40:22','2019-05-18 18:40:22',3,'MiG 21',5,5,3,1,1);
-INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(3,'London','Belgrade','2019-05-20 14:00:00','2019-05-20 18:00:00',3,'Boeing 747',9,9,5,3,1);
-INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(4,'Dubai','Belgrade','2019-05-21 19:00:00','2019-05-21 00:00:00',3,'Boeing 737',8,8,4,3,1);
-INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(5,'Belgrade','Dubai','2019-05-31 19:00:00','2019-05-31 00:00:00',3,'Boeing 737',8,8,4,3,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(1,'Belgrade','Paris','2019-07-14 15:45:32','2019-07-14 18:45:32',3,'Airbus A380',3,2,1,1,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(2,'Paris','Belgrade','2019-07-18 16:40:22','2019-07-18 18:40:22',3,'MiG 21',5,5,3,1,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(3,'London','Belgrade','2019-07-20 14:00:00','2019-07-20 18:00:00',3,'Boeing 747',9,9,5,3,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(4,'Dubai','Belgrade','2019-07-21 19:00:00','2019-07-21 00:00:00',3,'Boeing 737',8,8,4,3,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC) VALUES(5,'Belgrade','Dubai','2019-07-31 19:00:00','2019-07-31 00:00:00',3,'Boeing 737',8,8,4,3,1);
 
 INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col) VALUES (1, 'f', false, 1, 1, 1, 100, '1_1');
 INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col) VALUES (2, 'f', false, 1, 1, 2, 100, '1_2');

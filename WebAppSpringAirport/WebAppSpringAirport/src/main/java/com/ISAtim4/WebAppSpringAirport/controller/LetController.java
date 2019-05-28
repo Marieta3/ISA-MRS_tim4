@@ -84,6 +84,7 @@ public class LetController {
 				letService.save(let);
 			}
 		}*/
+		System.out.println("vreme polaska: "+pronadjeni.get(0).getVremePolaska());
 		return pronadjeni;
 	}
 	
@@ -139,11 +140,11 @@ public class LetController {
 	public List<Let> pretragaLetova(@Valid @RequestBody LetDTO let) {
 		
 		 if (let.getTipPutovanja().equals("oneway")){
-			return letService.findFlightsOneWay(let.getMestoPolaska(),let.getMestoDolaska());
+			return letService.findFlightsOneWay(let.getMestoPolaska(),let.getMestoDolaska(), let.getVreme1(), let.getVreme2());
 		} else {
 			//onda je round-trip
-			return letService.findFlightsTwoWay(let.getMestoPolaska(),let.getMestoDolaska(),let.getVremePolaska(),
-					let.getVremeDolaska());
+			return letService.findFlightsTwoWay(let.getMestoPolaska(),let.getMestoDolaska(),let.getVreme1(),
+					let.getVreme2());
 		}
 	}
 

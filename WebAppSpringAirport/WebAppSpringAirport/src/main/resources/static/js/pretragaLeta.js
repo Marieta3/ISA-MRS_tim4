@@ -31,7 +31,7 @@ $(document).on(
 				url : "api/let/pretraga",
 				contentType: 'application/json',
 				dataType : 'json',
-				data : letToJSONsearch(radioValue, iz, u, brojPutnika),
+				data : letToJSONsearch(radioValue, iz, u, brojPutnika, vremePolaska, vremeDolaska),
 				beforeSend : function(request) {
 					request.setRequestHeader("Authorization", "Bearer "
 							+ localStorage.getItem("accessToken"));
@@ -39,13 +39,13 @@ $(document).on(
 				success : renderLetovi
 			});
 		});
-function letToJSONsearch(radioValue, iz, u, brojPutnika) {
+function letToJSONsearch(radioValue, iz, u, brojPutnika, vreme1, vreme2) {
 	return JSON.stringify({
 		"tipPutovanja" : radioValue,
 		"mestoPolaska" : iz,
 		"mestoDolaska" : u,
-		//"vremePolaska" : vremePolaska,
-		//"vremeDolaska" : vremeDolaska,
+		"vreme1" : vreme1,
+		"vreme2" : vreme2,
 		"brojPutnika" : brojPutnika
 	});
 }
