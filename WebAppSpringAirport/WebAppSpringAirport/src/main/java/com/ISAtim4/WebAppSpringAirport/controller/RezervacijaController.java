@@ -84,8 +84,11 @@ public class RezervacijaController {
 			Set<Soba> sobe=sobaService.findSobeIds(rezervacijaDTO.getSobe());
 			for(Soba s: sobe) {
 				s.setRezervisana(true);
+				
 			}
 			rezervacija.setOdabraneSobe(sobe);
+			rezervacija.setSobaZauzetaOd(rezervacijaDTO.getSobaOD());
+			rezervacija.setSobaZauzetaDo(rezervacijaDTO.getSobaDO());
 		}
 		if(!rezervacijaDTO.getVozila().isEmpty()) {
 			//rezervacija.setOdabranaVozila(voziloService.updateCarReservation(rezervacijaDTO.getVozila()));
@@ -94,6 +97,8 @@ public class RezervacijaController {
 				v.setRezervisano(true);
 			}
 			rezervacija.setOdabranaVozila(vozila);
+			rezervacija.setVoziloZauzetoOd(rezervacijaDTO.getVoziloOD());
+			rezervacija.setVoziloZauzetoDo(rezervacijaDTO.getVoziloDO());
 		}
 		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
 		rezervacija.setDatumRezervacije(new Date());
