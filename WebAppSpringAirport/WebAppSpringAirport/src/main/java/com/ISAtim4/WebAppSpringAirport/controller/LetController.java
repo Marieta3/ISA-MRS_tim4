@@ -1,6 +1,5 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
+import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.dto.LetDTO;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;
@@ -84,6 +84,10 @@ public class LetController {
 				letService.save(let);
 			}
 		}*/
+		for (Let let : pronadjeni) {
+			List<Ocena> ocene = ocenaService.findAllByLet(let);
+			let.setOcena(Ocena.getProsek(ocene));
+		}
 		System.out.println("vreme polaska: "+pronadjeni.get(0).getVremePolaska());
 		return pronadjeni;
 	}
@@ -161,6 +165,9 @@ public class LetController {
 			let.setSedista(popuniSedista(let));
 			letService.save(let);
 		}
+		List<Ocena> ocene = ocenaService.findAllByLet(let);
+		let.setOcena(Ocena.getProsek(ocene));
+		
 		return ResponseEntity.ok().body(let);
 	}
 	
@@ -206,6 +213,9 @@ public class LetController {
 		let.setBrojRedovaEC(letDetalji.getBrojRedovaEC());
 		let.setBrojRedovaBC(letDetalji.getBrojRedovaBC());
 		let.setBrojRedovaFC(letDetalji.getBrojRedovaFC());
+		
+		List<Ocena> ocene = ocenaService.findAllByLet(let);
+		let.setOcena(Ocena.getProsek(ocene));
 		
 		Let updateLet = letService.save(let);
 		return ResponseEntity.ok().body(updateLet);

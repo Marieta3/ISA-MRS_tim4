@@ -50,7 +50,7 @@ function renderLetovi(data){
 	}
 	$('#prikazLetovaTabela').DataTable().clear().destroy();
 	$("#prikazLetovaTabela").find("tr:gt(0)").remove();
-	$("#prikazLetovaTabela").find("th:gt(6)").remove();
+	$("#prikazLetovaTabela").find("th:gt(7)").remove();
 	
 	$.each(list, function(index, flight) {
 		/*var tr=$('<tr id="flight_'+flight.id+'"></tr>');
@@ -65,14 +65,17 @@ function renderLetovi(data){
 		trow.append('<td><a href="#detaljna-sedista"><button  onclick="selektovanLet(this)"><input type="hidden" id="'+flight.id+'">Select</button></a></td>');
 		$('#prikazLetovaTabela').append(trow);
 	})
+	if ( ! $.fn.DataTable.isDataTable( '#prikazLetovaTabela' ) ) {
 	$('#prikazLetovaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order":[[1,'asc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 0 },
+	                     { "orderable": false, "targets": 7 }
 	                   ]
 	  });
-
+	}
 }
 function pokupiRezervisanaSedista(){
 	var lista_sedista=$('#selected-seats li');

@@ -76,6 +76,7 @@ function renderSobe(data){
 		$('#prikazSobaTabela').append(tr);
 	})
 	
+	if ( ! $.fn.DataTable.isDataTable( '#prikazSobaTabela' ) ) {
 	$('#prikazSobaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
@@ -84,6 +85,7 @@ function renderSobe(data){
 	                     { "orderable": false, "targets": 0 }
 	                   ]
 	  });
+	}
 }
 
 function renderUsluge(data){
