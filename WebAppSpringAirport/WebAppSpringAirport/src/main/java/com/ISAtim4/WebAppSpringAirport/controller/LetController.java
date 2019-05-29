@@ -88,6 +88,7 @@ public class LetController {
 			List<Ocena> ocene = ocenaService.findAllByLet(let);
 			let.setOcena(Ocena.getProsek(ocene));
 		}
+		System.out.println("vreme polaska: "+pronadjeni.get(0).getVremePolaska());
 		return pronadjeni;
 	}
 	
@@ -143,21 +144,11 @@ public class LetController {
 	public List<Let> pretragaLetova(@Valid @RequestBody LetDTO let) {
 		
 		 if (let.getTipPutovanja().equals("oneway")){
-			 List<Let> pronadjeni=  letService.findFlightsOneWay(let.getMestoPolaska(),let.getMestoDolaska());
-			for (Let let2 : pronadjeni) {
-				List<Ocena> ocene = ocenaService.findAllByLet(let2);
-				let2.setOcena(Ocena.getProsek(ocene));
-			}
-			return pronadjeni;
+			return letService.findFlightsOneWay(let.getMestoPolaska(),let.getMestoDolaska(), let.getVreme1(), let.getVreme2());
 		} else {
 			//onda je round-trip
-			List<Let> pronadjeni= letService.findFlightsTwoWay(let.getMestoPolaska(),let.getMestoDolaska(),let.getVremePolaska(),
-					let.getVremeDolaska());
-			for (Let let2 : pronadjeni) {
-				List<Ocena> ocene = ocenaService.findAllByLet(let2);
-				let2.setOcena(Ocena.getProsek(ocene));
-			}
-			return pronadjeni;
+			return letService.findFlightsTwoWay(let.getMestoPolaska(),let.getMestoDolaska(),let.getVreme1(),
+					let.getVreme2());
 		}
 	}
 

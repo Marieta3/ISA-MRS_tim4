@@ -37,10 +37,12 @@ public class LetService {
 		letRepository.deleteById(id);
 	}
 	
-	public List<Let> findFlightsOneWay(String mestoPolaska, String mestoDolaska) {
-		return letRepository.findFlightsOneWay(mestoPolaska,mestoDolaska);
+	public List<Let> findFlightsOneWay(String mestoPolaska, String mestoDolaska, Date vreme1, Date vreme2) {
+		return letRepository.findFlightsOneWay(mestoPolaska,mestoDolaska, vreme1, vreme2);
 	}
-	
+	public List<Let> findFlightsPolazakDolazak(String mestoPolaska, String mestoDolaska) {
+		return letRepository.findFlightsPolazakDolazak(mestoPolaska,mestoDolaska);
+	}
 	public List<Let> findFlightsTwoWay(String mestoPolaska, String mestoDolaska, Date vremePolaska, Date vremeDolaska){
 		return letRepository.findFlightsTwoWay(mestoPolaska,mestoDolaska,vremePolaska,vremeDolaska);
 	}

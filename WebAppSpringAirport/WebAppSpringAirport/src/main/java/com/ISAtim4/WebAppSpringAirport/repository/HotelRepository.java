@@ -19,4 +19,6 @@ public interface HotelRepository extends JpaRepository<Hotel, Long> {
 
 	@Query("select h from Hotel h where h.naziv = ?1")
 	List<Hotel> searchHotelsName(String nazivHotela, Date datumPolaska, Date datumDolaska);
+	
+	
 }

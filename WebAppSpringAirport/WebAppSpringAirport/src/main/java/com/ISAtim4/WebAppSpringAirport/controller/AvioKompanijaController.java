@@ -108,8 +108,8 @@ public class AvioKompanijaController {
 		Date startDate, endDate;
 		start = sLet.getMestoPolaska();
 		end = sLet.getMestoDolaska();
-		startDate = sLet.getVremePolaska();
-		endDate = sLet.getVremeDolaska();
+		startDate = sLet.getVreme1();
+		endDate = sLet.getVreme2();
 		System.out.println(start + end + startDate.toString() + endDate.toString());
 		if(!endDate.after(startDate)){
 			return ResponseEntity.badRequest().build();

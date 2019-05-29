@@ -128,7 +128,7 @@ function letToJSON(start, end, startDate, endDate){
 	return JSON.stringify({
 		"mestoPolaska":start,
 		"mestoDolaska":end,
-		"vremePolaska":startDate,
-		"vremeDolaska":endDate
+		"vreme1":startDate,
+		"vreme2":endDate
 	});
 }

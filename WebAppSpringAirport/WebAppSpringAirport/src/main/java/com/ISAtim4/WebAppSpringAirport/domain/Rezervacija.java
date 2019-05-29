@@ -56,6 +56,21 @@ public class Rezervacija {
 	@Column(nullable = false)
 	private Date datumRezervacije;
 	
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@Column(nullable = true)
+	private Date sobaZauzetaOd;
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@Column(nullable = true)
+	private Date sobaZauzetaDo;
+	
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@Column(nullable = true)
+	private Date voziloZauzetoOd;
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
+	@Column(nullable = true)
+	private Date voziloZauzetoDo;
+	
+	
 	@Column(nullable = false)
 	private Boolean aktivnaRezervacija=true; //da li je prosao datum leta ili ne
 	
@@ -114,6 +129,38 @@ public class Rezervacija {
 
 	public void setKorisnici(Set<RegistrovaniKorisnik> korisnici) {
 		this.korisnici = korisnici;
+	}
+
+	public Date getSobaZauzetaOd() {
+		return sobaZauzetaOd;
+	}
+
+	public void setSobaZauzetaOd(Date sobaZauzetaOd) {
+		this.sobaZauzetaOd = sobaZauzetaOd;
+	}
+
+	public Date getSobaZauzetaDo() {
+		return sobaZauzetaDo;
+	}
+
+	public void setSobaZauzetaDo(Date sobaZauzetaDo) {
+		this.sobaZauzetaDo = sobaZauzetaDo;
+	}
+
+	public Date getVoziloZauzetoOd() {
+		return voziloZauzetoOd;
+	}
+
+	public void setVoziloZauzetoOd(Date voziloZauzetoOd) {
+		this.voziloZauzetoOd = voziloZauzetoOd;
+	}
+
+	public Date getVoziloZauzetoDo() {
+		return voziloZauzetoDo;
+	}
+
+	public void setVoziloZauzetoDo(Date voziloZauzetoDo) {
+		this.voziloZauzetoDo = voziloZauzetoDo;
 	}
 
 	

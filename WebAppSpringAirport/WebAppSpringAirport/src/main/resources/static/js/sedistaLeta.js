@@ -3,6 +3,7 @@
  */
 
 findAllFlights();
+findAllDestinations();
 function findAllFlights(){
 	$.ajax({
 		type : 'GET',
@@ -15,6 +16,28 @@ function findAllFlights(){
 	})
 }
 
+function findAllDestinations(){
+	$.ajax({
+		type:'GET',
+		url:'api/destinacije',
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success : renderDestinacije
+	});
+}
+
+function renderDestinacije(data){
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	$('#from-dest').find('option:gt(0)').remove();
+	$('#to-dest').find('option:gt(0)').remove();
+	
+	$.each(list, function(index, destinacija){
+		$('#from-dest').append('<option value="'+(index+1)+'">'+destinacija.adresa+'</option>');
+		$('#to-dest').append('<option value="'+(index+1)+'">'+destinacija.adresa+'</option>');
+	})
+}
 function renderLetovi(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
@@ -56,6 +79,11 @@ function renderLetovi(data){
 }
 function pokupiRezervisanaSedista(){
 	var lista_sedista=$('#selected-seats li');
+	if(lista_sedista.length==0){
+		console.log("nece moci");
+		notify("Could not proceed reservation. You should reserve at least one seat!", 'info');
+		return;
+	}
 	var lista_soba=$('#selected-rooms li');
 	var lista_vozila=$('#selected-cars li');
 	console.log(lista_sedista);
@@ -71,7 +99,11 @@ function pokupiRezervisanaSedista(){
 	}).get();
 	console.log('odabrana: vozila: '+vozila);
 	console.log('odabran let: '+let_id);
-	
+	var sobeRezervisaneOd=$('#datepicker2').val();
+	var sobeRezervisaneDo=$('#datepicker3').val();
+	var vozilaRezervisanaOd=$('#datepicker4').val();
+	var vozilaRezervisanaDo=$('#datepicker5').val();
+	//var broj_nocenja=$('#broj_nocenja').val();
 	var total=parseInt($('#total').text(), 10)+ parseInt($('#total-rooms').text(), 10)+parseInt($('#total-cars').text(), 10);
 	console.log('total: '+total);
 	$.each(lista_sedista, function(index, item){
@@ -88,7 +120,7 @@ function pokupiRezervisanaSedista(){
 		url:'api/reserve',
 		contentType:'application/json',
 		dataType:'json',
-		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, total),
+		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, total, sobeRezervisaneOd, sobeRezervisaneDo, vozilaRezervisanaOd, vozilaRezervisanaDo),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -99,13 +131,17 @@ function pokupiRezervisanaSedista(){
 	});
 	//$('#hotels-tab').click();
 }
-function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, cena){
+function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, cena, sobeOd, sobeDo, vozilaOd, vozilaDo){
 	return JSON.stringify({
 		"sedista":sedista,
 		"id_leta":let_id,
 		"sobe":sobe,
 		"vozila":vozila,
-		"ukupnaCena":cena
+		"ukupnaCena":cena,
+		"sobaOD":sobeOd,
+		"sobaDO":sobeDo,
+		"voziloOD":vozilaOd, 
+		"voziloDO":vozilaDo
 	});
 }
 var firstSeatLabel = 1;

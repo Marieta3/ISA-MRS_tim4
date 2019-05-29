@@ -10,9 +10,12 @@ import com.ISAtim4.WebAppSpringAirport.domain.Let;
 
 public interface LetRepository extends JpaRepository<Let, Long>{
 	
-	@Query("select l from Let l where l.pocetnaDestinacija = ?1 and l.krajnjaDestinacija = ?2")
-	public List<Let> findFlightsOneWay(String mestoPolaska, String mestoDolaska);
+	@Query("select l from Let l where l.pocetnaDestinacija = ?1 and l.krajnjaDestinacija = ?2 and l.vremePolaska >= ?3 and l.vremePolaska <= ?4")
+	public List<Let> findFlightsOneWay(String mestoPolaska, String mestoDolaska, Date vreme1, Date vreme2);
 
 	@Query("select l from Let l where l.pocetnaDestinacija = ?1 and l.krajnjaDestinacija = ?2")
 	public List<Let> findFlightsTwoWay(String mestoPolaska, String mestoDolaska, Date vremePolaska, Date vremeDolaska);
+	
+	@Query("select l from Let l where l.pocetnaDestinacija = ?1 and l.krajnjaDestinacija = ?2")
+	public List<Let> findFlightsPolazakDolazak(String mestoPolaska, String mestoDolaska);
 }
