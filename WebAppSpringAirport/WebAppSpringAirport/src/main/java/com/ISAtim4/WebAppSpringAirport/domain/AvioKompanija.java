@@ -47,7 +47,7 @@ public class AvioKompanija {
 	@Column(nullable=false)
 	private String opis;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private Double ocena=0.0;
 	
 	@Column(nullable=true)

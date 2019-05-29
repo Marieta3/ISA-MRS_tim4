@@ -5,10 +5,13 @@ uloga="";
 
 $(document).ready(function(){
 	uloga=localStorage.getItem("uloga");
+	localStorage.removeItem("profil_avio");
 	if(uloga=="ROLE_ADMIN"){
 		//$("#nav-bar").append('<li><a href="dodajAvioKompaniju.html">New Airline</a></li>');
 		$("#nav-bar").append('<li><button class="dodajAvioBtn" onclick="otvoriModal(\'id03\')">New Airline</button></li>');
 	}
+
+    
 });
 
 findAll();
@@ -70,8 +73,9 @@ function renderAvioKompanije(data){
 	$('#prikazAvioKompanijaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order": [[1, 'asc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 0 }
 	                   ]
 	  });
 }
@@ -261,3 +265,24 @@ function searchAvioByName() {
 		findAll();
 	}
 }
+
+$('#prikazAvioKompanijaTabela').on('click', 'tbody tr', function() {
+	var uloga = localStorage.getItem("uloga");
+	if(uloga != null ){
+		if(uloga == "ROLE_USER"){
+			console.log("Showing profil aviokompanije");
+		}else{
+			return;
+		}
+	}
+	var table = $('#prikazAvioKompanijaTabela').DataTable();
+	console.log('API row values : ', table.row(this).data());
+	var data = table.row(this).data();
+	var id_avio = data.DT_RowId.split("_")[1];
+	console.log(id_avio);
+	localStorage.setItem("profil_avio", id_avio)
+	window.location.replace("profilAvio.html");
+	})
+	
+	
+

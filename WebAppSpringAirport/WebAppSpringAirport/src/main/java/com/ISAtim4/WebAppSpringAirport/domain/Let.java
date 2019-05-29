@@ -42,6 +42,7 @@ public class Let {
 	
 	@Column(nullable=false)
 	private Integer duzinaPutovanja;
+
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JsonBackReference
@@ -58,6 +59,9 @@ public class Let {
 	
 	@Column(nullable=false)
 	private String model;
+	
+	@Column(nullable=true)
+	private Double ocena=0.0;
 
 	@Column(nullable=false)
 	private int brojRedova;
@@ -162,7 +166,12 @@ public class Let {
 	public Let() {
 		super();
 	}
-	
+	public Double getOcena() {
+		return ocena;
+	}
+	public void setOcena(Double ocena) {
+		this.ocena = ocena;
+	}
 	public Let(Long id, String pocetnaDestinacija, String krajnjaDestinacija,
 			Date vremePolaska, Date vremeDolaska, Integer duzinaPutovanja,
 			AvioKompanija avio_kompanija, Set<Sediste> sedista, String model,

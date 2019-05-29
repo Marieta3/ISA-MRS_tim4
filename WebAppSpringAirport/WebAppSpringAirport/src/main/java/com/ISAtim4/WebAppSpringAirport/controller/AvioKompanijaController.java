@@ -1,5 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
+import com.ISAtim4.WebAppSpringAirport.domain.Let;
+import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
+import com.ISAtim4.WebAppSpringAirport.dto.LetDTO;
 import com.ISAtim4.WebAppSpringAirport.service.AvioKompanijaService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 
@@ -43,7 +48,12 @@ public class AvioKompanijaController {
 	/* da uzmemo sve avioKompanije, svima dozvoljeno */
 	@RequestMapping(value = "/api/avioKompanije", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<AvioKompanija> getAllAvioKompanije() {
-		return aviokompanijaService.findAll();
+		List<AvioKompanija> avios = aviokompanijaService.findAll();
+		for (AvioKompanija a : avios) {
+			List<Ocena> ocene = ocenaService.findAllByAvio(a);
+			a.setOcena(Ocena.getProsek(ocene));
+		}
+		return avios;
 	}
 
 	/* da uzmemo avioKompaniju po id-u, svima dozvoljeno*/
@@ -55,7 +65,67 @@ public class AvioKompanijaController {
 		if (aviokompanija == null) {
 			return ResponseEntity.notFound().build();
 		}
+		List<Ocena> ocene = ocenaService.findAllByAvio(aviokompanija);
+		aviokompanija.setOcena(Ocena.getProsek(ocene));
+		
 		return ResponseEntity.ok().body(aviokompanija);
+	}
+	
+	/* da uzmemo letove po id-u aviokompanije, svima dozvoljeno*/
+	@RequestMapping(value = "/api/avioKompanije/flights/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<Let>> getFlightsOfAvioKompanija(
+			@PathVariable(value = "id") Long idAviokompanije) {
+		AvioKompanija aviokompanija = aviokompanijaService.findOne(idAviokompanije);
+
+		if (aviokompanija == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		//ocene
+		ArrayList<Let> listaLetova = new ArrayList<>();
+		
+		for (Let let : aviokompanija.getListaLetova()) {
+			List<Ocena> ocene = ocenaService.findAllByLet(let);
+			let.setOcena(Ocena.getProsek(ocene));
+			listaLetova.add(let);
+		}
+		return ResponseEntity.ok().body(listaLetova);
+	}
+	
+	/* pretraga letova start, end, startdate, enddate*/
+	@RequestMapping(value = "/api/avioKompanije/searchFlights/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ArrayList<Let>> pretragaLetovaAvioKompanija(
+			@PathVariable(value = "id") Long idAviokompanije,
+			@Valid @RequestBody LetDTO sLet) {
+		AvioKompanija aviokompanija = aviokompanijaService.findOne(idAviokompanije);
+		
+		if (aviokompanija == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		ArrayList<Let> listaLetova = new ArrayList<>();
+		String start,end;
+		Date startDate, endDate;
+		start = sLet.getMestoPolaska();
+		end = sLet.getMestoDolaska();
+		startDate = sLet.getVremePolaska();
+		endDate = sLet.getVremeDolaska();
+		System.out.println(start + end + startDate.toString() + endDate.toString());
+		if(!endDate.after(startDate)){
+			return ResponseEntity.badRequest().build();
+		}
+		
+		for (Let let : aviokompanija.getListaLetova()) {
+			if(let.getPocetnaDestinacija().trim().toLowerCase().contains(start.trim().toLowerCase()) &&
+					let.getKrajnjaDestinacija().trim().toLowerCase().contains(end.trim().toLowerCase())){
+				if((let.getVremePolaska().after(startDate)&&let.getVremePolaska().before(endDate))||
+					(let.getVremeDolaska().after(startDate)&&let.getVremePolaska().before(endDate))	)
+				{
+					listaLetova.add(let);
+				}
+			}
+		}
+		return ResponseEntity.ok().body(listaLetova);
 	}
 	
 	/* da uzmemo avioKompaniju po nazivu, svima dozvoljeno */
@@ -67,6 +137,10 @@ public class AvioKompanijaController {
 
 		if (avioKompanije == null) {
 			return ResponseEntity.notFound().build();
+		}
+		for (AvioKompanija a : avioKompanije) {
+			List<Ocena> ocene = ocenaService.findAllByAvio(a);
+			a.setOcena(Ocena.getProsek(ocene));
 		}
 		return ResponseEntity.ok().body(avioKompanije);
 	}
@@ -90,6 +164,10 @@ public class AvioKompanijaController {
 		avioKompanija.setSlika(avioKompanijaDetalji.getSlika());
 		avioKompanija.setCoord1(avioKompanijaDetalji.getCoord1());
 		avioKompanija.setCoord2(avioKompanijaDetalji.getCoord2());
+		
+		List<Ocena> ocene = ocenaService.findAllByAvio(avioKompanija);
+		avioKompanija.setOcena(Ocena.getProsek(ocene));
+		
 		AvioKompanija updateAviokompanija = aviokompanijaService.save(avioKompanija);
 		return ResponseEntity.ok().body(updateAviokompanija);
 	}
