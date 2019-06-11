@@ -13,6 +13,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @DiscriminatorValue("user")
 public class RegistrovaniKorisnik extends Korisnik {
@@ -24,7 +30,8 @@ public class RegistrovaniKorisnik extends Korisnik {
 	@OneToMany(cascade = CascadeType.ALL)
 	List<Ocena> listaOcena;
 
-
+	
+	
 	public RegistrovaniKorisnik() {
 		super();
 		super.setUlogovanPrviPut(true);
@@ -45,6 +52,8 @@ public class RegistrovaniKorisnik extends Korisnik {
 	public void setListaOcena(List<Ocena> listaOcena) {
 		this.listaOcena = listaOcena;
 	}
+
+	
 	
 
 }

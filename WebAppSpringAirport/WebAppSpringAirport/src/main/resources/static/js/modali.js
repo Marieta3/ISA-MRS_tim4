@@ -132,8 +132,7 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 		if(attr=="naziv" || attr=="adresa" || attr=="opis" || attr=="ocena" || attr=="cena" || attr=="brojKreveta"
 			|| attr=="rezervisana" || attr=="ime" || attr=="prezime" || attr=="korisnickoIme" || attr=="main"
 			|| attr=="telefon" || attr=="proizvodjac" || attr=="godina" || attr=="tablica" || attr=="brojMesta"
-			||attr=="model" || attr=="pocetnaDestinacija" || attr=="krajnjaDestinacija" || attr=="vremePolaska"
-					|| attr=="vremeDolaska"){
+			||attr=="model" || attr=="pocetnaDestinacija" || attr=="krajnjaDestinacija"){
 			var td;
 			if(val == null){
 				td=$('<td>&nbspNo data&nbsp</td>');
@@ -143,6 +142,11 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 			tr.append(td);
 		}else if(attr=="filijala"){
 			var td=$('<td>'+val.adresa+'</td>');
+			tr.append(td);
+		}else if(attr=="vremeDolaska" || attr=="vremePolaska"){
+			var tokens=val.split("T");
+			var tokens1=tokens[1].split(".");
+			var td=$('<td>'+tokens[0]+' '+tokens1[0]+'</td>');
 			tr.append(td);
 		}
 	})

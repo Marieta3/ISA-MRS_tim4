@@ -125,10 +125,16 @@ public class RezervacijaController {
 	}
 	
 	@RequestMapping(value = "/api/myReservations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Rezervacija> getMyReservations(Principal user) {
+	public ArrayList<Rezervacija> getMyReservations(Principal user) {
 		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
-		
-		return rezervacijaService.findAllByUser(me);
+		List<Rezervacija> rezervacije=rezervacijaService.findAll();
+		ArrayList<Rezervacija> moje=new ArrayList<Rezervacija>();
+		for(Rezervacija r: rezervacije) {
+			if(r.getKorisnici().contains(me)) {
+				moje.add(r);
+			}
+		}
+		return moje;
 	}
 
 	/* update rezervacije po id-u */

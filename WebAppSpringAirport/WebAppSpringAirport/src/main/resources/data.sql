@@ -25,8 +25,17 @@ insert into usluga(id,cena,opis,hotel_id) values (5,566,'hrana',1);
 insert into usluga(id,cena,opis,hotel_id) values (6,200,'kupatilo',2);
 
 insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (1,3,'cista soba',1, false, 100);
-insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (2,5,'dobra',2, false, 200);
-insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (3,3,'prelepo',3, false, 400);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (2,3,'Mala soba sa pogledom na plazu',1, false, 44);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (3,3,'opis',1, false, 98);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (4,3,'opis sobe',1, false, 56);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (5,3,'lorem ipsum',1, false, 150);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (6,3,'ne zznam vise',1, false, 100);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (7,3,'sta da napisem',1, false, 95);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (8,3,'kakav opis',1, false, 95);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (9,3,'pojma nemam',1, false, 100);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (10,3,'kad je bal nek je bal',1, false, 100);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (11,5,'dobra',2, false, 200);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (12,3,'prelepo',3, false, 400);
 
 insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 1, 2);
 insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 1, 1);

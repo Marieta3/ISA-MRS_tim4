@@ -33,7 +33,7 @@ function renderHoteli(data){
 	$("#prikazHotelaTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, hotel){
 		var trow=get_row(hotel, "hotel", localStorage.getItem('uloga'), 'nema', 'nema');
-		trow.append('<td><button  onclick="selektovanHotel(this)"><input type="hidden" id="'+hotel.id+'">Select</button></td>');
+		trow.append('<td><a href="#prikaz-soba"><button  onclick="selektovanHotel(this)"><input type="hidden" id="'+hotel.id+'">Select</button></a></td>');
 		$('#prikazHotelaTabela').append(trow);
 	})
 	$('#prikazHotelaTabela').DataTable({
