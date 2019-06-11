@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -39,4 +40,5 @@ public class SedisteService {
 	public Set<Sediste> findAllByLetRowCol(Long id_leta, List<String> row_col){
 		return sedisteRepository.findAllByLetRowCol(id_leta, row_col);
 	}
+	
 }

@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,4 +21,7 @@ public interface SobaRepository extends JpaRepository<Soba, Long>{
 	void updateReservedRooms(List<Long> ids);*/
 	@Query("select s from Soba s where s.id in ?1")
 	Set<Soba> findSobeIds(List<Long> ids);
+	
+	@Query("select s from Soba s where s.id in ?1")
+	ArrayList<Soba> findSobeIdsList(List<Long> ids);
 }

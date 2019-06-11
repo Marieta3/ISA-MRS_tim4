@@ -51,4 +51,13 @@ public class HotelService {
 	public List<Hotel> searchHotelsName(String nazivHotela, Date datumPolaska, Date datumDolaska){
 		return hotelRepository.searchHotelsName(nazivHotela,datumPolaska,datumDolaska);
 	}
+	
+	/*public List<Hotel> searchHotelsNameDate(String nazivHotela, Date datumPolaska, Date datumDolaska){
+		return hotelRepository.searchHotelsNameDate(nazivHotela,datumPolaska,datumDolaska);
+	}
+	
+	public List<Hotel> searchHotelsLocationDate(String lokacija, Date datumPolaska, Date datumDolaska){
+		return hotelRepository.searchHotelsLocationDate(lokacija,datumPolaska,datumDolaska);
+	}*/
+	
 }

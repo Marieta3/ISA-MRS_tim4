@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,9 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
+import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
+import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
+import com.ISAtim4.WebAppSpringAirport.service.RezervacijaService;
 
 @RestController
 public class HotelController {
@@ -32,6 +36,9 @@ public class HotelController {
 	
 	@Autowired
 	private OcenaService ocenaService;
+	
+	@Autowired
+	private RezervacijaService rezervacijaService;
 
 	/* da dodamo hotel */
 	@RequestMapping(value = "/api/hotels", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
@@ -50,22 +57,68 @@ public class HotelController {
 	//za PRETRAGU HOTELA
 	@RequestMapping(value = "/api/hotels/pretraga", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public List<Hotel> pretragaHotel(@Valid @RequestBody HotelDTO hotel) {
+		System.out.println("tip: "+hotel.getTipPretrage()+"\nstring: "+hotel.getLokNaziv()+"\nvreme1: "+hotel.getDatumPolaska()+"\nvreme2: "+hotel.getDatumDolaska());
+		List<Rezervacija> rezervacije=rezervacijaService.findAll();
+		ArrayList<Hotel> ne_moze=new ArrayList<>();
+		ArrayList<Hotel> pronadjeni=new ArrayList<>();
+		ArrayList<Hotel> pronadjeni2=new ArrayList<>();
+		for(Rezervacija r: rezervacije) {
+			//moze samo ako su oba pre pocetka ili oba posle kraja
+			if( (r.getSobaZauzetaOd().compareTo(hotel.getDatumPolaska())<=0 && r.getSobaZauzetaDo().compareTo(hotel.getDatumPolaska())>=0) 
+					|| (r.getSobaZauzetaOd().compareTo(hotel.getDatumDolaska())<=0 && r.getSobaZauzetaDo().compareTo(hotel.getDatumDolaska()) >= 0) 
+					|| (r.getSobaZauzetaOd().compareTo(hotel.getDatumPolaska())>=0 && r.getSobaZauzetaDo().compareTo(hotel.getDatumDolaska())<=0) ) {
+				for(Soba s: r.getOdabraneSobe()) {
+					if(!ne_moze.contains(s.getHotel())) {
+						ne_moze.add(s.getHotel());
+					}
+				}
+			}
+			/*if( (hotel.getDatumPolaska().before(r.getSobaZauzetaOd()) && hotel.getDatumDolaska().before(r.getSobaZauzetaOd())) 
+					|| (hotel.getDatumPolaska().after(r.getSobaZauzetaDo()) && hotel.getDatumDolaska().after(r.getSobaZauzetaDo())) ) {
+				for(Soba s: r.getOdabraneSobe()) {
+					if(!pronadjeni.contains(s.getHotel())) {
+						pronadjeni.add(s.getHotel());
+					}
+				}
+			}*/
+		}
+		ArrayList<Hotel> hoteli=(ArrayList<Hotel>) hotelService.findAll();
+		for(Hotel h:hoteli) {
+			if(!ne_moze.contains(h)) {
+				pronadjeni.add(h);
+			}
+		}
+		System.out.println("pretraga po datumu: "+pronadjeni.size());
 		if (hotel.getTipPretrage().equals("location")){
 			//pretraga po lokaciji
-			List<Hotel> hoteli = hotelService.searchHotelsLocation(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumDolaska());
+			for(Hotel h: pronadjeni) {
+				List<Ocena> ocene = ocenaService.findAllByHotel(h);
+				h.setOcena(Ocena.getProsek(ocene));
+				if(h.getAdresa().contains(hotel.getLokNaziv())) {
+					pronadjeni2.add(h);
+				}
+			}
+			/*List<Hotel> hoteli = hotelService.searchHotelsLocation(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumDolaska());
 			for (Hotel hotel2 : hoteli) {
 				List<Ocena> ocene = ocenaService.findAllByHotel(hotel2);
 				hotel2.setOcena(Ocena.getProsek(ocene));
-			}
-			return hoteli;
-		} else {
+			}*/
+			return pronadjeni2;
+		} else{
 			//pretraga po nazivu hotela
-			List<Hotel> hoteli = hotelService.searchHotelsName(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumDolaska());
+			for(Hotel h: pronadjeni) {
+				List<Ocena> ocene = ocenaService.findAllByHotel(h);
+				h.setOcena(Ocena.getProsek(ocene));
+				if(h.getNaziv().contains(hotel.getLokNaziv())) {
+					pronadjeni2.add(h);
+				}
+			}
+			/*List<Hotel> hoteli = hotelService.searchHotelsName(hotel.getLokNaziv(),hotel.getDatumPolaska(),hotel.getDatumDolaska());
 			for (Hotel hotel2 : hoteli) {
 				List<Ocena> ocene = ocenaService.findAllByHotel(hotel2);
 				hotel2.setOcena(Ocena.getProsek(ocene));
-			}
-			return hoteli;
+			}*/
+			return pronadjeni2;
 		}
 	}
 

@@ -14,8 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Rezervacija {
@@ -39,18 +43,31 @@ public class Rezervacija {
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "rezervacija_sediste", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "sediste_id", referencedColumnName = "id"))
 	private Set<Sediste> odabranaSedista=new HashSet<>();
+	/*@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	//@JsonBackReference
+	@JsonIgnoreProperties("rezervacije")
+	private Sediste sediste;*/
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "rezervacija_soba", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "soba_id", referencedColumnName = "id"))
 	private Set<Soba> odabraneSobe=new HashSet<>();
+	/*@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@JsonIgnoreProperties("rezervacije")
+	private Soba soba;*/
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "rezervacija_vozilo", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "vozilo_id", referencedColumnName = "id"))
 	private Set<Vozilo> odabranaVozila=new HashSet<>();
+	/*@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@JsonIgnoreProperties("rezervacije")
+	private Vozilo vozilo;*/
 	
 	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinTable(name = "rezervacija_korisnik", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "korisnik_id", referencedColumnName = "id"))
 	private Set<RegistrovaniKorisnik> korisnici=new HashSet<>(); 
+	/*@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@JsonIgnoreProperties("rezervacije")
+	private RegistrovaniKorisnik putnik ;*/
 	
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column(nullable = false)
@@ -86,29 +103,7 @@ public class Rezervacija {
 	}
 	
 	
-	public Set<Sediste> getOdabranaSedista() {
-		return odabranaSedista;
-	}
-
-	public void setOdabranaSedista(Set<Sediste> odabranaSedista) {
-		this.odabranaSedista = odabranaSedista;
-	}
-
-	public Set<Soba> getOdabraneSobe() {
-		return odabraneSobe;
-	}
-
-	public void setOdabraneSobe(Set<Soba> odabraneSobe) {
-		this.odabraneSobe = odabraneSobe;
-	}
-
-	public Set<Vozilo> getOdabranaVozila() {
-		return odabranaVozila;
-	}
-
-	public void setOdabranaVozila(Set<Vozilo> odabranaVozila) {
-		this.odabranaVozila = odabranaVozila;
-	}
+	
 
 	public Date getDatumRezervacije() {
 		return datumRezervacije;
@@ -123,13 +118,7 @@ public class Rezervacija {
 		this.aktivnaRezervacija = aktivnaRezervacija;
 	}
 
-	public Set<RegistrovaniKorisnik> getKorisnici() {
-		return korisnici;
-	}
-
-	public void setKorisnici(Set<RegistrovaniKorisnik> korisnici) {
-		this.korisnici = korisnici;
-	}
+	
 
 	public Date getSobaZauzetaOd() {
 		return sobaZauzetaOd;
@@ -163,6 +152,39 @@ public class Rezervacija {
 		this.voziloZauzetoDo = voziloZauzetoDo;
 	}
 
+	public Set<Sediste> getOdabranaSedista() {
+		return odabranaSedista;
+	}
+
+	public void setOdabranaSedista(Set<Sediste> odabranaSedista) {
+		this.odabranaSedista = odabranaSedista;
+	}
+
+	public Set<Soba> getOdabraneSobe() {
+		return odabraneSobe;
+	}
+
+	public void setOdabraneSobe(Set<Soba> odabraneSobe) {
+		this.odabraneSobe = odabraneSobe;
+	}
+
+	public Set<Vozilo> getOdabranaVozila() {
+		return odabranaVozila;
+	}
+
+	public void setOdabranaVozila(Set<Vozilo> odabranaVozila) {
+		this.odabranaVozila = odabranaVozila;
+	}
+
+	public Set<RegistrovaniKorisnik> getKorisnici() {
+		return korisnici;
+	}
+
+	public void setKorisnici(Set<RegistrovaniKorisnik> korisnici) {
+		this.korisnici = korisnici;
+	}
+
+	
 	
 
 }

@@ -1,6 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.repository;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -18,4 +19,5 @@ public interface VoziloRepository extends JpaRepository<Vozilo, Long>{
 	void updateCarReservation(List<Long> ids);*/
 	@Query("select v from Vozilo v where v.id in ?1")
 	Set<Vozilo> findVozilaIds(List<Long> ids);
+	
 }
