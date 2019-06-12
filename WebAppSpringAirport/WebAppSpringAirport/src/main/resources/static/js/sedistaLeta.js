@@ -99,8 +99,9 @@ function pokupiRezervisanaSedista(){
 	}).get();
 	console.log('odabrana: vozila: '+vozila);
 	console.log('odabran let: '+let_id);
-	var sobeRezervisaneOd=$('#datepicker2').val();
-	var sobeRezervisaneDo=$('#datepicker3').val();
+	var sobeRezervisaneOd=$('#datepicker6').val();
+	var broj_nocenja=$('#broj_nocenja').val();
+	//var sobeRezervisaneDo=$('#datepicker3').val();
 	var vozilaRezervisanaOd=$('#datepicker4').val();
 	var vozilaRezervisanaDo=$('#datepicker5').val();
 	//var broj_nocenja=$('#broj_nocenja').val();
@@ -120,7 +121,7 @@ function pokupiRezervisanaSedista(){
 		url:'api/reserve',
 		contentType:'application/json',
 		dataType:'json',
-		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, total, sobeRezervisaneOd, sobeRezervisaneDo, vozilaRezervisanaOd, vozilaRezervisanaDo),
+		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, vozilaRezervisanaDo),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -131,7 +132,7 @@ function pokupiRezervisanaSedista(){
 	});
 	//$('#hotels-tab').click();
 }
-function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, cena, sobeOd, sobeDo, vozilaOd, vozilaDo){
+function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, cena, sobeOd, broj_nocenja, vozilaOd, vozilaDo){
 	return JSON.stringify({
 		"sedista":sedista,
 		"id_leta":let_id,
@@ -139,7 +140,7 @@ function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, cena, sobeOd, sobeD
 		"vozila":vozila,
 		"ukupnaCena":cena,
 		"sobaOD":sobeOd,
-		"sobaDO":sobeDo,
+		"brojNocenja":broj_nocenja,
 		"voziloOD":vozilaOd, 
 		"voziloDO":vozilaDo
 	});
@@ -259,7 +260,8 @@ function renderDetaljanLet(){
 						click: function () {
 							if (this.status() == 'available') {
 								//let's create a new <li> which we'll add to the cart items
-								$('<li>'+this.data().category+' Seat # '+this.settings.label+': <b>$'+this.data().price+'</b> <a href="#" class="cancel-cart-item">[cancel]</a></li>')
+								
+								$('<li>'+this.data().category+' Seat # '+this.settings.label+': <b>$'+this.data().price+'</b> <a href="#detaljna-sedista" class="cancel-cart-item">[cancel]</a></li>')
 									.attr('id', 'cart-item-'+this.settings.id)
 									.data('seatId', this.settings.id)
 									.appendTo($cart);
