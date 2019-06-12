@@ -2,6 +2,7 @@ package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.List;
@@ -88,7 +89,11 @@ public class RezervacijaController {
 			}
 			rezervacija.setOdabraneSobe(sobe);
 			rezervacija.setSobaZauzetaOd(rezervacijaDTO.getSobaOD());
-			rezervacija.setSobaZauzetaDo(rezervacijaDTO.getSobaDO());
+			Calendar cal=Calendar.getInstance();
+			cal.setTime(rezervacijaDTO.getSobaOD());
+			cal.add(Calendar.DATE, rezervacijaDTO.getBrojNocenja());
+			Date sobaRezervisanaDo=cal.getTime();
+			rezervacija.setSobaZauzetaDo(sobaRezervisanaDo);
 		}
 		if(!rezervacijaDTO.getVozila().isEmpty()) {
 			//rezervacija.setOdabranaVozila(voziloService.updateCarReservation(rezervacijaDTO.getVozila()));

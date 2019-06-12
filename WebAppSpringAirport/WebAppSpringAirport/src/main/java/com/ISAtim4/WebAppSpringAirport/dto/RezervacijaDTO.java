@@ -16,7 +16,8 @@ public class RezervacijaDTO {
 	private ArrayList<Long> vozila=new ArrayList<>();
 	private double ukupnaCena=0.0;
 	private Date sobaOD;
-	private Date sobaDO;
+	//private Date sobaDO;
+	private int brojNocenja;
 	private Date voziloOD;
 	private Date voziloDO;
 	public double getUkupnaCena() {
@@ -52,12 +53,7 @@ public class RezervacijaDTO {
 	public void setSobaOD(Date sobaOD) {
 		this.sobaOD = sobaOD;
 	}
-	public Date getSobaDO() {
-		return sobaDO;
-	}
-	public void setSobaDO(Date sobaDO) {
-		this.sobaDO = sobaDO;
-	}
+	
 	public Date getVoziloOD() {
 		return voziloOD;
 	}
@@ -69,6 +65,12 @@ public class RezervacijaDTO {
 	}
 	public void setVoziloDO(Date voziloDO) {
 		this.voziloDO = voziloDO;
+	}
+	public int getBrojNocenja() {
+		return brojNocenja;
+	}
+	public void setBrojNocenja(int brojNocenja) {
+		this.brojNocenja = brojNocenja;
 	}
 	
 	

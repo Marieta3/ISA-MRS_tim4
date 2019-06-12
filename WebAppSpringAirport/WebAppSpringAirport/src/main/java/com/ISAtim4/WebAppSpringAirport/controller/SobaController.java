@@ -2,10 +2,14 @@ package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.assertj.core.util.DateUtil;
+import org.joda.time.DateTimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +27,16 @@ import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
+import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Usluga;
+import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaDTO;
+import com.ISAtim4.WebAppSpringAirport.dto.SobaPretragaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
+import com.ISAtim4.WebAppSpringAirport.service.RezervacijaService;
 import com.ISAtim4.WebAppSpringAirport.service.SobaService;
 import com.ISAtim4.WebAppSpringAirport.service.UslugaService;
 
@@ -50,6 +58,9 @@ public class SobaController {
 
 	@Autowired
 	OcenaService ocenaService;
+	
+	@Autowired
+	RezervacijaService rezervacijaService;
 	
 	/* da snimimo sobu */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
@@ -91,6 +102,56 @@ public class SobaController {
 			soba.setOcena(Ocena.getProsek(ocene));
 		}
 		return sobe;
+		
+	}
+	
+	@RequestMapping(value = "/api/sobeHotela/pretraga/{hotel_id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Soba> getSobeByHotelPretraga(@PathVariable(value = "hotel_id") Long hotel_id, @Valid @RequestBody SobaPretragaDTO sobaDTO) {
+		
+		Hotel hotel=hotelService.findOne(hotel_id);
+		
+		//List<Soba> sobe = sobaService.findAllByHotel(hotel);
+		List<Rezervacija> rezervacije=rezervacijaService.findAll();
+		ArrayList<Soba> ne_moze=new ArrayList<>();
+		ArrayList<Soba> pronadjene=new ArrayList<>();
+		Date datum1=sobaDTO.getVremeDolaska();
+		Calendar cal =Calendar.getInstance();
+		cal.setTime(datum1);
+		cal.add(Calendar.DATE, sobaDTO.getBrojNocenja());
+		Date datum2=cal.getTime();
+		//za svaku rezervaciju
+		for(Rezervacija r: rezervacije) {
+			//ako se preklapaju datumi
+			if( (r.getSobaZauzetaOd().compareTo(datum1)<=0 && r.getSobaZauzetaDo().compareTo(datum1)>=0) 
+					|| (r.getSobaZauzetaOd().compareTo(datum2)<=0 && r.getSobaZauzetaDo().compareTo(datum2) >= 0) 
+					|| (r.getSobaZauzetaOd().compareTo(datum1)>=0 && r.getSobaZauzetaDo().compareTo(datum2)<=0) ) {
+				System.out.println("+++---***\n\n\t broj soba u rezervaciji: "+r.getOdabraneSobe().size());
+				//za svaku sobu u rezervaciji
+				for(Soba s: r.getOdabraneSobe()) {
+					//ako soba pripada trazenom hotelu
+					if(s.getHotel().equals(hotel)) {
+						System.out.println("------------to je taj hotel "+hotel.getNaziv());
+						//ako jos nije dodata u listu zauzetih
+						if(!ne_moze.contains(s) ){
+							//dodaj u listu zauzetih
+							ne_moze.add(s);
+						}
+					}
+				}
+			}
+		}
+		System.out.println("broj rezervisanih soba: "+ne_moze.size());
+		//za svaku sobu trazenog hotela
+		for (Soba soba : hotel.getSobe()) {
+			List<Ocena> ocene = ocenaService.findAllBySoba(soba);
+			soba.setOcena(Ocena.getProsek(ocene));
+			//ako se ne nalazi u listi zauzetih
+			if(!ne_moze.contains(soba)) {
+				//dodaj u listu pronadjenih
+				pronadjene.add(soba);
+			}
+		}
+		return pronadjene;
 		
 	}
 	@PreAuthorize("hasRole('ROLE_HOTEL')")

@@ -141,18 +141,21 @@
 		<!-- pretraga soba -->
 		<br> <br>
 		<div id="prikaz-soba">
+		<h1 id="hotel-naziv-adresa"  style="padding-left:25px;">Hotel</h1>.
+		<input type="hidden" id="selektovan-hotel-id">
 		<br> <br>
-		<form>
+		<form id="pretragaSoba" style="padding-left:25px;">
 			
 				<label id="label1">Datum dolaska:</label> &nbsp;
 				&nbsp; <input type="date" name="dolazak_date" id="datepicker6"
-					placeholder="Pick a date" required /> <label>Nights</label><input
-					type="number" id="broj_nocenja">
+					placeholder="Pick a date" required />&nbsp;&nbsp; <label>Nights: </label>&nbsp;&nbsp;<input style="width:150px;"
+					type="number" id="broj_nocenja" min="1">&nbsp;&nbsp;<input type="submit" value="Search Rooms">
 		</form>
 		<!-- tabela soba-->
 		<br> <br>
 		<div class='rezervisanje-soba'>
 			<div class="container">
+			
 				<h2>List of Rooms</h2>
 				<table id="prikazSobaTabela"
 					class="table table-striped table-bordered" style="width: 100%">

@@ -88,7 +88,7 @@ ul#nav-bar {
   text-decoration: none;
   cursor:pointer;
 }
-#nav-bar li a:active, li a:visited{
+#nav-bar li a:active, #nav-bar li a:visited{
 	color:white;
 	text-decoration: none;
 }

@@ -1,6 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -59,17 +60,21 @@ public class HotelController {
 	public List<Hotel> pretragaHotel(@Valid @RequestBody HotelDTO hotel) {
 		System.out.println("tip: "+hotel.getTipPretrage()+"\nstring: "+hotel.getLokNaziv()+"\nvreme1: "+hotel.getDatumPolaska()+"\nvreme2: "+hotel.getDatumDolaska());
 		List<Rezervacija> rezervacije=rezervacijaService.findAll();
-		ArrayList<Hotel> ne_moze=new ArrayList<>();
+		//ArrayList<Hotel> ne_moze=new ArrayList<>();
+		ArrayList<Soba> ne_moze=new ArrayList<>();
 		ArrayList<Hotel> pronadjeni=new ArrayList<>();
 		ArrayList<Hotel> pronadjeni2=new ArrayList<>();
+		Date pocetak=hotel.getDatumPolaska();
+		Date kraj=hotel.getDatumDolaska();
 		for(Rezervacija r: rezervacije) {
 			//moze samo ako su oba pre pocetka ili oba posle kraja
-			if( (r.getSobaZauzetaOd().compareTo(hotel.getDatumPolaska())<=0 && r.getSobaZauzetaDo().compareTo(hotel.getDatumPolaska())>=0) 
-					|| (r.getSobaZauzetaOd().compareTo(hotel.getDatumDolaska())<=0 && r.getSobaZauzetaDo().compareTo(hotel.getDatumDolaska()) >= 0) 
-					|| (r.getSobaZauzetaOd().compareTo(hotel.getDatumPolaska())>=0 && r.getSobaZauzetaDo().compareTo(hotel.getDatumDolaska())<=0) ) {
+			if( (r.getSobaZauzetaOd().compareTo(pocetak)<=0 && r.getSobaZauzetaDo().compareTo(pocetak)>=0) 
+					|| (r.getSobaZauzetaOd().compareTo(kraj)<=0 && r.getSobaZauzetaDo().compareTo(kraj) >= 0) 
+					|| (r.getSobaZauzetaOd().compareTo(pocetak)>=0 && r.getSobaZauzetaDo().compareTo(kraj)<=0) ) {
+				//dodaju se sve sobe koje su zauzete
 				for(Soba s: r.getOdabraneSobe()) {
-					if(!ne_moze.contains(s.getHotel())) {
-						ne_moze.add(s.getHotel());
+					if(!ne_moze.contains(s)) {
+						ne_moze.add(s);
 					}
 				}
 			}
@@ -84,8 +89,12 @@ public class HotelController {
 		}
 		ArrayList<Hotel> hoteli=(ArrayList<Hotel>) hotelService.findAll();
 		for(Hotel h:hoteli) {
-			if(!ne_moze.contains(h)) {
-				pronadjeni.add(h);
+			for(Soba s: h.getSobe()) {
+				//ako se soba ne nalazi u listi zauzetih, dodaj hotel kome pripada i iteriraj sledeci hotel
+				if(!ne_moze.contains(s)) {
+					pronadjeni.add(h);
+					break;
+				}
 			}
 		}
 		System.out.println("pretraga po datumu: "+pronadjeni.size());
