@@ -47,6 +47,8 @@ $(window).click(function(e){
 
 function ponistavanje(forma){
 	$("#"+forma).find('img').attr('src', '../slike/avatar.png');
+	$("#"+forma).find('.progress-bar').css('width', 0+'%');
+	$("#"+forma).find('.progress-bar').prop('id', 0);
 	$("#"+forma).find(':input').each(function() {
 	    switch(this.type) {
 	        case 'password':

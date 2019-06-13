@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,4 +54,7 @@ public class KorisnikService {
 		return korisnikRepository.findNotConnectedPeople(ids);
 	}
 	
+	public ArrayList<Korisnik> findAllIds(List<Long> ids){
+		return korisnikRepository.findKorisniciIds(ids);
+	}
 }

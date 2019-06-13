@@ -30,7 +30,8 @@ public class RegistrovaniKorisnik extends Korisnik {
 	@OneToMany(cascade = CascadeType.ALL)
 	List<Ocena> listaOcena;
 
-	
+	@OneToMany(cascade = CascadeType.ALL)
+	List<Pozivnica> listaPozivnica;
 	
 	public RegistrovaniKorisnik() {
 		super();

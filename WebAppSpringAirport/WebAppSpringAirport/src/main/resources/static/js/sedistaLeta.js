@@ -4,6 +4,82 @@
 
 findAllFlights();
 findAllDestinations();
+findAllFriendsForInvitation();
+
+function findAllFriendsForInvitation(){
+	$.ajax({
+		type:'GET',
+		url:'/api/friends/',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:renderFrendovi
+	})
+}
+
+function renderFrendovi(data){
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	$('#prikazFrendovaTabela').DataTable().clear().destroy();
+	
+	$.each(list, function(index, frend){
+		var tr=$('<tr id="frend_'+frend.id+'"></tr>');
+		var slika=frend.slika;
+		if(slika==null || slika==""){
+			slika="../slike/avatar.png";
+		}
+		tr.append('<td align="center" width=100px height=100px><div class="divEntitet"><img class="imgEntitet" src="'+slika+'"></div></td>');
+		tr.append('<td>'+frend.ime+' '+frend.prezime+'</td>');
+		tr.append('<td>'+frend.korisnickoIme+'</td>');
+		//tr.append('<td><input type="button" value="Invite"></td>');
+		//tr.append('<td><button onclick="pozvanPrijatelj(event, this)"><input type="hidden" id="friend_name" value="'+frend.ime+' '+frend.prezime+'"><input type="hidden" id="friend_id" value="'+frend.id+'">Invite</button></td>')
+		tr.append('<td><input type="checkbox" class="invited-friend" id="friend_id'+frend.id+'" name="'+frend.ime+', '+frend.prezime+'" value="'+frend.id+'" onclick="selektovanFrend(this)"></td>');
+		$('#prikazFrendovaTabela').append(tr);
+	})
+	
+	$('#prikazFrendovaTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 3 }
+	                   ]
+	  });
+}
+function selektovanFrend(checkbox){
+	var br_sedista=$('#selected-seats li').length; //broj selektovanih sedista
+	//update progress bar
+	var br_pozivnica=br_sedista-1;
+	var procenat=100/br_pozivnica;
+	console.log(br_sedista);
+	console.log(br_pozivnica);
+	console.log(procenat);
+	var stari_procenat=$('.progress-bar').prop('id');
+	var nova_vrednost;
+	console.log(stari_procenat);
+	
+	if($(checkbox).prop('checked')==true){
+		nova_vrednost=parseInt(stari_procenat, 10)+procenat;
+		$('.progress-bar').css('width', nova_vrednost+'%');
+		$('.progress-bar').attr('id', nova_vrednost);
+	}else{
+		nova_vrednost=parseInt(stari_procenat, 10)-procenat;
+		$('.progress-bar').css('width',nova_vrednost+'%');
+		$('.progress-bar').attr('id', nova_vrednost);
+	}
+	
+	
+}
+/*function pozvanPrijatelj(e, btn){
+	e.preventDefault();
+	
+	var br_sedista=$('#broj-sedista-hidden').val();
+	var frend_name=$(btn).find('#friend_name').val();
+	var frend_id=$(btn).find('#friend_id').val();
+	$('#pozvan_za_'+br_sedista).text(frend_name);
+	
+	$('#pozvan_za_'+br_sedista+'_frend').val(frend_id);
+	zatvoriModal('id01');
+	
+}*/
 function findAllFlights(){
 	$.ajax({
 		type : 'GET',
@@ -77,6 +153,23 @@ function renderLetovi(data){
 	  });
 	}
 }
+
+function pokupiPozvanePrijatelje(e){
+	e.preventDefault();
+	
+	$('#invited-friends').empty();
+	$.each($('.invited-friend:checked'), function(index, fren){
+		console.log(fren);
+		
+		var fren_id=fren.value;
+		var li=$('<li id="'+fren_id+'">'+fren.name+'</li>');
+		$('#invited-friends').append(li);
+	})
+	
+	zatvoriModal('id01');
+	
+	
+}
 function pokupiRezervisanaSedista(){
 	var lista_sedista=$('#selected-seats li');
 	if(lista_sedista.length==0){
@@ -84,6 +177,20 @@ function pokupiRezervisanaSedista(){
 		notify("Could not proceed reservation. You should reserve at least one seat!", 'info');
 		return;
 	}
+	
+	
+	var lista_pozvanih=$('#invited-friends li');
+	if(lista_sedista.length - 1 != lista_pozvanih.length){
+		notify("Could not proceed reservation. Invite friends!", 'info');
+		return;
+	}
+	var pozvani_prijatelji=[];
+	$.each(lista_pozvanih, function(index, item){
+		pozvani_prijatelji.push(item.id);
+	})
+	console.log('pozvani prijatelji: '+pozvani_prijatelji);
+	
+	
 	var lista_soba=$('#selected-rooms li');
 	var lista_vozila=$('#selected-cars li');
 	console.log(lista_sedista);
@@ -121,7 +228,7 @@ function pokupiRezervisanaSedista(){
 		url:'api/reserve',
 		contentType:'application/json',
 		dataType:'json',
-		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, vozilaRezervisanaDo),
+		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, vozilaRezervisanaDo),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -132,12 +239,13 @@ function pokupiRezervisanaSedista(){
 	});
 	//$('#hotels-tab').click();
 }
-function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, cena, sobeOd, broj_nocenja, vozilaOd, vozilaDo){
+function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, cena, sobeOd, broj_nocenja, vozilaOd, vozilaDo){
 	return JSON.stringify({
 		"sedista":sedista,
 		"id_leta":let_id,
 		"sobe":sobe,
 		"vozila":vozila,
+		"pozvani_prijatelji":pozvani_prijatelji,
 		"ukupnaCena":cena,
 		"sobaOD":sobeOd,
 		"brojNocenja":broj_nocenja,
@@ -164,7 +272,9 @@ function renderDetaljanLet(){
 					'<ul id="selected-seats"></ul>'+
 
 					'Total: <b>$<span id="total">0</span></b>'+
-
+					'<br/><h3>Invited Friends</h3>'+
+					'<ul id="invited-friends"></ul>'+
+					'<br/><button class="invite-button" disabled onclick="otvoriModal(\'id01\')">Invite Friends</button>'+
 					'<button class="checkout-button"'+
 						'onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>'+
 					'<button class=\'next-button\' onclick="$(\'#hotels-tab\').click()">Next &raquo;</button>'+
@@ -260,12 +370,19 @@ function renderDetaljanLet(){
 						click: function () {
 							if (this.status() == 'available') {
 								//let's create a new <li> which we'll add to the cart items
+								//var invite_friend="";
 								
 								$('<li>'+this.data().category+' Seat # '+this.settings.label+': <b>$'+this.data().price+'</b> <a href="#detaljna-sedista" class="cancel-cart-item">[cancel]</a></li>')
 									.attr('id', 'cart-item-'+this.settings.id)
 									.data('seatId', this.settings.id)
 									.appendTo($cart);
-								
+								console.log('duzina: '+$('#selected-seats li').length);
+								if($('#selected-seats li').length>=2){
+									//invite_friend='<input type="button" value="Invite a Friend" onclick="otvoriModal(\'id01\'), $(\'#broj-sedista-hidden\').val('+this.settings.label+')">';
+									$('.invite-button').prop('disabled', false);
+								}else{
+									$('.invite-button').prop('disabled', true);
+								}
 								/*
 								 * Lets update the counter and total
 								 *
@@ -284,7 +401,11 @@ function renderDetaljanLet(){
 							
 								//remove the item from our cart
 								$('#cart-item-'+this.settings.id).remove();
-							
+								//$('#selected-seats').find('li:eq(0)').find('input[type=button]').remove();
+								if($('#selected-seats li').length<=1){
+									//invite_friend='<input type="button" value="Invite a Friend" onclick="otvoriModal(\'id01\'), $(\'#broj-sedista-hidden\').val('+this.settings.label+')">';
+									$('.invite-button').prop('disabled', true);
+								}
 								//seat has been vacated
 								return 'available';
 							} else if (this.status() == 'unavailable') {

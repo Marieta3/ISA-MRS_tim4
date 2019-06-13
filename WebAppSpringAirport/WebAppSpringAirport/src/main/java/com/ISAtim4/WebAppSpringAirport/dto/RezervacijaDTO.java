@@ -14,6 +14,8 @@ public class RezervacijaDTO {
 	private ArrayList<String> sedista=new ArrayList<>();
 	private ArrayList<Long> sobe=new ArrayList<>();
 	private ArrayList<Long> vozila=new ArrayList<>();
+	private ArrayList<Long> pozvani_prijatelji=new ArrayList<>();
+	
 	private double ukupnaCena=0.0;
 	private Date sobaOD;
 	//private Date sobaDO;
@@ -71,6 +73,12 @@ public class RezervacijaDTO {
 	}
 	public void setBrojNocenja(int brojNocenja) {
 		this.brojNocenja = brojNocenja;
+	}
+	public ArrayList<Long> getPozvani_prijatelji() {
+		return pozvani_prijatelji;
+	}
+	public void setPozvani_prijatelji(ArrayList<Long> pozvani_prijatelji) {
+		this.pozvani_prijatelji = pozvani_prijatelji;
 	}
 	
 	

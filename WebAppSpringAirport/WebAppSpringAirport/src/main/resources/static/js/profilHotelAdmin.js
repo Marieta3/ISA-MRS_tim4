@@ -66,7 +66,7 @@ function getUslugeSobe(add, upd){
 			var padding=0;
 			$.each(list, function(index, usluga){
 				if(index%2==0){
-					padding=padding+80;
+					//padding=padding+90;
 				}
 				var grid_item=$('<div class="grid-item">'+usluga.opis+'<br><input type="checkbox" value="'+usluga.id+'"></div>');
 				grid_container.append(grid_item);
@@ -96,7 +96,7 @@ function dodajUslugeUModalAdd(add, upd){
 			var padding=0;
 			$.each(list, function(index, usluga){
 				if(index%2==0){
-					padding=padding+80;
+					padding=padding+85;
 				}
 				var grid_item=$('<div class="grid-item">'+usluga.opis+'<br><input type="checkbox" value="'+usluga.id+'"></div>');
 				grid_container.append(grid_item);
@@ -128,7 +128,7 @@ function dodajUslugeUModalUpd(upd){
 			var padding=0;
 			$.each(list, function(index, usluga){
 				if(index%2==0){
-					padding=padding+80;
+					padding=padding+85;
 				}
 				var grid_item=$('<div class="grid-item">'+usluga.opis+'<br><input type="checkbox" id="usluga_soba_upd'+usluga.id+'" value="'+usluga.id+'"></div>');
 				grid_container.append(grid_item);
