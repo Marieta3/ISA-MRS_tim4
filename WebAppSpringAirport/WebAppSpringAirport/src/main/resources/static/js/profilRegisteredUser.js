@@ -2,6 +2,19 @@ findAllFriends();
 findAllRequests();
 findAllPotentialFriends();
 findAllReservations();
+findAllInvitations();
+function findAllInvitations(){
+	console.log('fff');
+	$.ajax({
+		type:'GET',
+		url:'api/myInvitations',
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:renderInvitations
+	});
+}
 function findAllFriends(){
 	$.ajax({
 		type:'GET',
@@ -49,6 +62,38 @@ function findAllReservations(){
 		success:renderReservations
 	});
 	
+}
+
+function renderInvitations(data){
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	$.each(list, function(index, poziv){
+		var tr=$('<tr id="poziv_'+poziv.id+'"></tr>');
+		var rezervacija=poziv.rezervacija;
+		if(poziv.rezervacija.odabranaSedista.length>0){
+			tr.append('<td>'+poziv.rezervacija.odabranaSedista[0].let.pocetnaDestinacija+'-'+poziv.rezervacija.odabranaSedista[0].let.krajnjaDestinacija+'</td>');
+		}else{
+			notify("Error! No seats reserved!");
+		}
+		if(rezervacija.odabraneSobe.length>0){
+			tr.append('<td>'+rezervacija.odabraneSobe[0].hotel.naziv+'</td>');
+		}else{
+			tr.append('<td>-</td>');
+		}
+		if(rezervacija.odabranaVozila.length>0){
+			tr.append('<td>'+rezervacija.odabranaVozila[0].filijala.rentACar.naziv+'</td>');
+		}else{
+			tr.append('<td>-</td>');
+		}
+		var tokens=rezervacija.datumRezervacije.split("T");
+		var tokens1=tokens[1].split(".");
+		tr.append('<td>'+tokens[0]+' '+tokens1[0]+'</td>');
+		
+		tr.append('<td>'+poziv.koSalje.ime+' '+poziv.koSalje.prezime+'</td>');
+		tr.append('<td>'+rezervacija.cena+'</td>');
+		tr.append('<td><button>Accept</button></td>');
+		tr.append('<td><button>Decline</button></td>');
+		$("#invitationsTable").find("tbody").append(tr);
+	})
 }
 function renderReservations(data){
 	console.log(data);

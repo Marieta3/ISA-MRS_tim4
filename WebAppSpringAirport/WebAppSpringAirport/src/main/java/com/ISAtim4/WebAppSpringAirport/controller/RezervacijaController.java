@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
+import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
@@ -34,6 +36,7 @@ import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.RezervacijaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;
+import com.ISAtim4.WebAppSpringAirport.service.PozivnicaService;
 import com.ISAtim4.WebAppSpringAirport.service.RezervacijaService;
 import com.ISAtim4.WebAppSpringAirport.service.SedisteService;
 import com.ISAtim4.WebAppSpringAirport.service.SobaService;
@@ -61,13 +64,18 @@ public class RezervacijaController {
 	@Autowired
 	SedisteService sedisteService;
 	
+	@Autowired
+	PozivnicaService pozivnicaService;
+	
 	/* da dodamo rezervaciju */
 	@RequestMapping(value = "/api/reserve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public Rezervacija createReservation(@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
-		
-		Rezervacija rezervacija=new Rezervacija();
 		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
+		
+		//rezervacija
+		Rezervacija rezervacija=new Rezervacija();
+		
 		rezervacija.getKorisnici().add(me);
 		
 		if(!rezervacijaDTO.getSedista().isEmpty()) {
@@ -108,6 +116,20 @@ public class RezervacijaController {
 		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
 		rezervacija.setDatumRezervacije(new Date());
 		//me.getRezervacije().add(rezervacija);
+		
+		//pozivnice
+		ArrayList<Korisnik> pozvani=korisnikService.findAllIds(rezervacijaDTO.getPozvani_prijatelji());
+		//ne bi trebalo u for petljiii
+		for(Korisnik k: pozvani) {
+			Pozivnica pozivnica=new Pozivnica();
+			pozivnica.setDatumSlanja(new Date());
+			pozivnica.setKoSalje(me);
+			pozivnica.setKomeSalje((RegistrovaniKorisnik) k);
+			pozivnica.setRezervacija(rezervacija);
+			pozivnica.setPrihvacen(false);
+			pozivnica.setReagovanoNaPoziv(false);
+			pozivnicaService.save(pozivnica);
+		}
 		return rezervacijaService.save(rezervacija);
 	}
 

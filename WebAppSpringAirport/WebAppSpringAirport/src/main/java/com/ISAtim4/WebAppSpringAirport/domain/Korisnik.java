@@ -27,6 +27,8 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "korisnik", uniqueConstraints = {
 		@UniqueConstraint(columnNames = "id"),
@@ -48,6 +50,7 @@ public class Korisnik implements UserDetails {
 	@Column(name = "korisnickoIme", unique = true, nullable = false, length = 30)
 	private String korisnickoIme;
 	@Column(name = "lozinka", nullable = false, length = 70)
+	@JsonBackReference
 	private String lozinka;
 
 	@Column(name = "mail", unique = true, nullable = true, length = 50)
