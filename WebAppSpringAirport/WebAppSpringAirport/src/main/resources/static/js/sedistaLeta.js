@@ -406,6 +406,7 @@ function renderDetaljanLet(){
 									//invite_friend='<input type="button" value="Invite a Friend" onclick="otvoriModal(\'id01\'), $(\'#broj-sedista-hidden\').val('+this.settings.label+')">';
 									$('.invite-button').prop('disabled', true);
 								}
+								$('#invited-friends').empty();
 								//seat has been vacated
 								return 'available';
 							} else if (this.status() == 'unavailable') {
