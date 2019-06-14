@@ -128,7 +128,7 @@
 						</tbody>
 					</table>
 				</div>
-				<button class="addSubmitBtn inviteSubmitBtn" type="submit" onclick="pokupiPozvanePrijatelje(event)")>Invite</button>
+				<button class="addSubmitBtn inviteSubmitBtn" type="submit" onclick="pokupiPozvanePrijatelje(event)">Invite</button>
 				<button type="button" onclick="zatvoriModal('id01')"
 					class="cancelbtn">Cancel</button>
 				<div class="hidden">
@@ -231,7 +231,7 @@
 					Total: <b>$<span id="total-rooms">0</span></b>
 
 					<button class="checkout-button" id="checkout-button-rooms"
-						onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>
+						onclick="previewRezervacije()">Checkout &raquo;</button>
 					<button class='next-button' onclick="$('#cars-tab').click()">Next
 						&raquo;</button>
 				</div>
@@ -317,13 +317,57 @@
 				Total: <b>$<span id="total-cars">0</span></b>
 
 				<button class="checkout-button" id="checkout-button-cars"
-					onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>
+					onclick="previewRezervacije()">Checkout &raquo;</button>
 
 			</div>
 		</div>
 
 	</div>
+	<div id="id02" class="modal">
+			<form class="modal-content4 animate" id="previewRezervacije">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id02')">&times;</span>
+					<!-- slika -->
+				</div>
+				<h1>Reservation Preview</h1>
+				<br> <br>
+				<div class="preview-container">
+					<div class="preview flight-preview">
+					<h2 id="flight">Flight</h2>
+					<h3 id="relacija"></h3>
+					<ul class="preview-list" id="sedista-preview"></ul>
+					</div>
+					<div class="preview hotel-preview">
+					<h2 id="hotel">Hotel</h2>
+					<h3 id="hotel-name"></h3>
+					<ul class="preview-list" id="sobe-preview"></ul>
+					</div>
+					<div class="preview car-preview">
+					<h2 id="car">Car</h2>
+					<ul class="preview-list" id="car-preview"></ul>
+					</div>
+				</div>
+				<br> <br>
+				<div class="preview-container">
+					<div class="preview pozvani-preview">
+						<h2>Registered Passengers</h2>
+						<ul class="preview-list" id="pozvani-lista-preview"></ul>
+					</div>
+					<div class="preview neregistrovani-preview">
+						<h2>Other Passengers</h2>
+						<ul class="preview-list" id="nereg-lista-preview"></ul>
+					</div>
+				</div>
+				<button class="preview-btn addSubmitBtn confirmSubmitBtn" type="submit" onclick="zatvoriModal('id02'), pokupiRezervisanaSedista(event)">Confirm</button>
+				<button type="button" onclick="zatvoriModal('id02')"
+					class="cancelbtn">Cancel</button>
+				<div class="hidden">
 
+					<input type="hidden" id="broj-sedista-hidden">
+				</div>
+			</form>
+		</div>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script

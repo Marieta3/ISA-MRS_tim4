@@ -170,7 +170,87 @@ function pokupiPozvanePrijatelje(e){
 	
 	
 }
-function pokupiRezervisanaSedista(){
+
+function previewRezervacije(){
+	var lista_sedista=$('#selected-seats li');
+	if(lista_sedista.length==0){
+		console.log("nece moci");
+		notify("Could not proceed reservation. You should reserve at least one seat!", 'info');
+		return;
+	}
+	
+	
+	var lista_pozvanih=$('#invited-friends li');
+	if(lista_sedista.length - 1 != lista_pozvanih.length){
+		notify("Could not proceed reservation. Invite friends!", 'info');
+		return;
+	}
+	
+	var pozvani_prijatelji=[];
+	$.each(lista_pozvanih, function(index, item){
+		pozvani_prijatelji.push(item.id);
+	})
+	
+	
+	var lista_soba=$('#selected-rooms li');
+	var lista_vozila=$('#selected-cars li');
+	
+	var let_id=$('#id-odabranog-leta').val();
+	var sedista=[];
+	var sobe= $('.cart-item-room:checked').map(function() {
+		return this.value;
+	}).get();
+	
+	var vozila=$('.cart-item-car:checked').map(function() {
+		return this.value;
+	}).get();
+	
+	var sobeRezervisaneOd=$('#datepicker6').val();
+	var broj_nocenja=$('#broj_nocenja').val();
+	
+	var vozilaRezervisanaOd=$('#datepicker4').val();
+	var vozilaRezervisanaDo=$('#datepicker5').val();
+	
+	var total=parseInt($('#total').text(), 10)+ parseInt($('#total-rooms').text(), 10)+parseInt($('#total-cars').text(), 10);
+	console.log('total: '+total);
+	$.each(lista_sedista, function(index, item){
+		var tokens=item.id.split('-');
+		sedista.push(tokens[2]);
+		var row_col=tokens[2].split('_');
+		var row=row_col[0];
+		var col=row_col[1];
+		console.log('red: '+row+', kolona: '+col);
+	})
+	$.ajax({
+		type:'POST',
+		url:'api/reserve/preview',
+		contentType:'application/json',
+		dataType:'json',
+		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, vozilaRezervisanaDo),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:function(data){
+			$('#id02 #relacija').text($('#relacija-leta').text());
+			$.each(data.odabranaSedista, function(index, sediste){
+				$('#id02 #sedista-preview').append('<li>Seat: '+sediste.row_col+', Class: '+sediste.klasa+'</li>');
+			})
+			$.each(data.odabraneSobe, function(index, soba){
+				$('#id02 #sobe-preview').append('<li>'+soba.opis+', '+soba.hotel.naziv+'</li>');
+			})
+			$.each(data.odabranaVozila, function(index, vozilo){
+				$('#id02 #car-preview').append('<li>'+vozilo.model+', '+vozilo.filijala.rentACar.naziv+'</li>');
+			})
+			$.each(data.korisnici, function(index, korisnik){
+				$('#id02 #pozvani-lista-preview').append('<li>'+korisnik.ime+' '+korisnik.prezime+'</li>');
+			})
+			otvoriModal('id02');
+		}
+	});
+	
+}
+function pokupiRezervisanaSedista(e){
+	e.preventDefault();
 	var lista_sedista=$('#selected-seats li');
 	if(lista_sedista.length==0){
 		console.log("nece moci");
@@ -276,7 +356,7 @@ function renderDetaljanLet(){
 					'<ul id="invited-friends"></ul>'+
 					'<br/><button class="invite-button" disabled onclick="otvoriModal(\'id01\')">Invite Friends</button>'+
 					'<button class="checkout-button"'+
-						'onclick="pokupiRezervisanaSedista()">Checkout &raquo;</button>'+
+						'onclick="previewRezervacije()">Checkout &raquo;</button>'+
 					'<button class=\'next-button\' onclick="$(\'#hotels-tab\').click()">Next &raquo;</button>'+
 					'<br><br><br>'+
 					'<div id="legend"></div>'+
