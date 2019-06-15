@@ -19,17 +19,36 @@ $(document).ready(function () {
         findProfile();
         findAllFlightsByAvio();
         findAllDestinations();
+    	ymaps.ready(init);
 });
+
+function init(){
+	//pokupiti koordinate iz hidden polja
+	var coords= $('#avio_coords').val();
+	console.log("aaa"+coords);
+	var coord_list=coords.split(',');
+	var map = new ymaps.Map('map', {
+        center: [coord_list[0], coord_list[1]],
+        zoom: 12,
+        controls: ['zoomControl', 'searchControl'],
+        behaviors: ['drag']
+    });
+	var placemark=new ymaps.Placemark([coord_list[0], coord_list[1]], {
+		
+	});
+	map.geoObjects.add(placemark);
+}
+
  $("#pretragaLetova button").click(function(ev){
 	    ev.preventDefault()// cancel form submission
 	    if($(this).attr("name")=="find"){
 	    	if ( ($("#selected_text").val() == "") || ($("#selected_text1").val() == "")|| ($("#startDate").val() == "") || ($("#endDate").val() == ""))
     		{
-	    		notify("Do not leave any fields blank!", "danger")
+	    		notify("Do not leave any fields blank!", "danger", "top")
     		}
 	    	else if($("#selected_text").val() == $("#selected_text1").val())
 
-	    		notify("Departure and destination must be different!", "danger")
+	    		notify("Departure and destination must be different!", "danger", "top")
 	    	else{
     	    	pretraga();
     		}
@@ -106,6 +125,8 @@ function renderProfil(data){
 	$("#naziv").val(data.naziv);
 	$("#adresa").val(data.adresa);
 	$("#opis").val(data.opis);
+
+	$('#avio_coords').val(data.coord1+','+data.coord2);
 }
 
 function findAllFlightsByAvio(){
@@ -165,7 +186,7 @@ function pretraga() {
 	var endDate = $("#endDate").val();
 
 	if(startDate > endDate){
-		notify("Start must be before return date!" , "danger");
+		notify("Start must be before return date!" , "danger", "top");
 		return;
 	}
 	searchOn = true;
