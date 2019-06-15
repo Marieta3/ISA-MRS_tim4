@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -74,7 +75,7 @@ public class AvioKompanijaController {
 	/* da uzmemo letove po id-u aviokompanije, svima dozvoljeno*/
 	@RequestMapping(value = "/api/avioKompanije/flights/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<Let>> getFlightsOfAvioKompanija(
-			@PathVariable(value = "id") Long idAviokompanije) {
+			@PathVariable(value = "id") Long idAviokompanije) throws ParseException {
 		AvioKompanija aviokompanija = aviokompanijaService.findOne(idAviokompanije);
 
 		if (aviokompanija == null) {
@@ -83,6 +84,8 @@ public class AvioKompanijaController {
 		
 		//ocene
 		ArrayList<Let> listaLetova = new ArrayList<>();
+		
+		//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		for (Let let : aviokompanija.getListaLetova()) {
 			List<Ocena> ocene = ocenaService.findAllByLet(let);
@@ -93,7 +96,7 @@ public class AvioKompanijaController {
 	}
 	
 	/* pretraga letova start, end, startdate, enddate*/
-	@RequestMapping(value = "/api/avioKompanije/searchFlights/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/avioKompanije/searchFlights/{id}", method = RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<Let>> pretragaLetovaAvioKompanija(
 			@PathVariable(value = "id") Long idAviokompanije,
 			@Valid @RequestBody LetDTO sLet) {

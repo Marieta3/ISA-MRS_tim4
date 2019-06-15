@@ -8,8 +8,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.assertj.core.util.DateUtil;
-import org.joda.time.DateTimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
-import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Usluga;
-import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaPretragaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;

@@ -151,6 +151,12 @@ public class LetController {
 					let.getVreme2());
 		}
 	}
+	
+	@RequestMapping(value = "/api/let/pretraga/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	public List<Let> pretragaLetova(@PathVariable(value = "id") Long id,
+			@Valid @RequestBody LetDTO let) {
+		return letService.findFlightsByAvio(let.getMestoPolaska(),let.getMestoDolaska(), let.getVreme1(), let.getVreme2(), id);
+	}
 
 	/* da uzmemo let po id-u, svima dozvoljeno*/
 	@RequestMapping(value = "/api/let/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
