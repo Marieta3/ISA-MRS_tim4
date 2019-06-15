@@ -333,6 +333,11 @@ function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji,
 		"voziloDO":vozilaDo
 	});
 }
+
+function pokupiNeregPutnik(e){
+	e.preventDefault();
+	console.log('nereg putnik');
+}
 var firstSeatLabel = 1;
 function renderDetaljanLet(){
 	firstSeatLabel=1;
@@ -352,9 +357,12 @@ function renderDetaljanLet(){
 					'<ul id="selected-seats"></ul>'+
 
 					'Total: <b>$<span id="total">0</span></b>'+
-					'<br/><h3>Invited Friends</h3>'+
+					'<br/><div class="grid-container2" id="user-container"><div class="grid-item" id="invited-friends-container"><h3>Invited Friends</h3>'+
 					'<ul id="invited-friends"></ul>'+
-					'<br/><button class="invite-button" disabled onclick="otvoriModal(\'id01\')">Invite Friends</button>'+
+					'<br/><button class="invite-button" disabled onclick="otvoriModal(\'id01\')">Invite Friends</button></div>'+
+					
+					'<div class="grid-item" id="nereg-container"><h3>Other Passengers</h3><ul id="nereg-lista"></ul>'+
+					'<br/><button class="add-nereg-button" disabled onclick="otvoriModal(\'id03\')">Add Passenger</button></div></div>'+
 					'<button class="checkout-button"'+
 						'onclick="previewRezervacije()">Checkout &raquo;</button>'+
 					'<button class=\'next-button\' onclick="$(\'#hotels-tab\').click()">Next &raquo;</button>'+
@@ -459,9 +467,13 @@ function renderDetaljanLet(){
 								console.log('duzina: '+$('#selected-seats li').length);
 								if($('#selected-seats li').length>=2){
 									//invite_friend='<input type="button" value="Invite a Friend" onclick="otvoriModal(\'id01\'), $(\'#broj-sedista-hidden\').val('+this.settings.label+')">';
+									$('.add-nereg-button').prop('disabled', false);
 									$('.invite-button').prop('disabled', false);
+									
 								}else{
+									$('.add-nereg-button').prop('disabled', true);
 									$('.invite-button').prop('disabled', true);
+									
 								}
 								/*
 								 * Lets update the counter and total
@@ -485,6 +497,7 @@ function renderDetaljanLet(){
 								if($('#selected-seats li').length<=1){
 									//invite_friend='<input type="button" value="Invite a Friend" onclick="otvoriModal(\'id01\'), $(\'#broj-sedista-hidden\').val('+this.settings.label+')">';
 									$('.invite-button').prop('disabled', true);
+									$('.add-nereg-button').prop('disabled', true);
 								}
 								$('#invited-friends').empty();
 								//seat has been vacated

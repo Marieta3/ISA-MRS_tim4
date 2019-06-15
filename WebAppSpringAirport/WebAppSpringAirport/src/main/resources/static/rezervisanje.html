@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="css/jquery.seat-charts.css">
 <link rel="stylesheet" type="text/css" href="css/sedistaLeta.css">
 <link rel="stylesheet" type="text/css" href="css/tabelarniPrikaz.css">
+<link rel="stylesheet" type="text/css" href="css/editProfile.css">
 
 <title>Booking</title>
 
@@ -368,7 +369,43 @@
 				</div>
 			</form>
 		</div>
+		
+		<div id="id03" class="modal">
+			<form class="modal-content1 animate" id="podaciNeregistrovanog">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id03')">&times;</span>
+					<!-- slika -->
+				</div>
+				<div class="container-modal" id="div-container-modal">
+				<h1></h1>
+				<br> <br>
+				<label>First Name</label>
+				<br/>
+				<input type="text" id="nereg-ime">
+				
+				<label>Last Name</label>
+				<br/>
+				<input type="text" id="nereg-prezime">
+				
+				<label>Passport</label>
+				<br/>
+				<input type="text" id="nereg-pasos">
+				
+				<label>Date of Birth</label>
+				<br/>
+				<input type="date" id="nereg-datum-rodjenja">
+				
+				<button class="addSubmitBtn confirmSubmitBtn" type="submit" onclick="zatvoriModal('id03'), pokupiNeregPutnik(event)">Confirm</button>
+				<button type="button" onclick="zatvoriModal('id03')"
+					class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
 
+					<input type="hidden" id="broj-sedista-hidden">
+				</div>
+			</form>
+		</div>
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script
 		src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>

@@ -5,7 +5,13 @@
 	margin-left: 100px;
 	float: left;
 }
-
+.grid-container2{
+	display: grid;
+	align-self: left;
+	grid-template-columns: 200px 200px;
+	
+	float: right;
+}
 .grid-item {
 	padding: 10px;
 	font-size: 18px;
@@ -37,7 +43,7 @@ input[type=submit] {
 	margin-top: 10px
 }
 
-input[type=text], input[type=email], input[type=password], textarea {
+input[type=text]:not(#locName, #rentName), input[type=email], input[type=password], textarea{
 	width: 100%;
 	padding: 12px 20px;
 	margin: 8px 0;
