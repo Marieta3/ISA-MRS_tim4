@@ -48,7 +48,7 @@ h1 .link:hover{
 	object-fit:cover;
 }
 /* Full-width input fields */
-.container-modal input[type=text],.container-modal input[type=email],.container-modal input[type=password], .container-modal select, input[type=number] {
+.container-modal input[type=text],.container-modal input[type=email],.container-modal input[type=password], .container-modal select, input[type=number], .container-modal ul li {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -137,7 +137,7 @@ span.psw {
 }
 
 /* Modal Content/Box */
-.modal-content1, .modal-content2, .modal-content3 {
+.modal-content1, .modal-content2, .modal-content3, .modal-content4 {
   background-color: #fefefe;
   margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
@@ -146,7 +146,42 @@ span.psw {
   padding-right:10px;
   padding-bottom: 20px;
 }
+.modal-content4{
+	width: 80%;
+	min-height:600px;
+	
+}
+.preview-list{
+	max-height: 90px;
+	overflow-y: scroll;
+	overflow-x: none;
+	padding-bottom: 20px;
+}
+.preview-container{
+	display:block;
+	position: relative;
+	width:100%;
+}
+.preview{
+	display:inline;
+	float:left;
+	width:33.33%;
+	min-height:200px;
+	position: relative;
+}
 
+.neregistrovani-preview, .pozvani-preview{
+	width:50%;
+}
+
+.preview:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.hotel-preview, .car-preview, .neregistrovani-preview{
+	border-left: 1px dotted #adadad;
+}
 /* Style the horizontal ruler */
 hr {
   border: 1px solid #f1f1f1;

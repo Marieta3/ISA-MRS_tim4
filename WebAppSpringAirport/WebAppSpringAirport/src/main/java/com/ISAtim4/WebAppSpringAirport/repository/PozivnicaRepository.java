@@ -10,6 +10,6 @@ import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
 
 public interface PozivnicaRepository extends JpaRepository<Pozivnica, Long> {
-	@Query("select p from Pozivnica p where p.komeSalje = ?1")
+	@Query("select p from Pozivnica p where p.komeSalje = ?1 and p.reagovanoNaPoziv = false")
 	ArrayList<Pozivnica> findMyInvitations(Korisnik k);
 }

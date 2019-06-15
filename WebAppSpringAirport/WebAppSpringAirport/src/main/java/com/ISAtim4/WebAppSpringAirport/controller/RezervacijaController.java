@@ -118,6 +118,7 @@ public class RezervacijaController {
 		//me.getRezervacije().add(rezervacija);
 		
 		//pozivnice
+		if(!rezervacijaDTO.getPozvani_prijatelji().isEmpty()) {
 		ArrayList<Korisnik> pozvani=korisnikService.findAllIds(rezervacijaDTO.getPozvani_prijatelji());
 		//ne bi trebalo u for petljiii
 		for(Korisnik k: pozvani) {
@@ -130,9 +131,63 @@ public class RezervacijaController {
 			pozivnica.setReagovanoNaPoziv(false);
 			pozivnicaService.save(pozivnica);
 		}
+		}
 		return rezervacijaService.save(rezervacija);
 	}
-
+	
+	/*
+	 * kreira se rezervacija za preview ali se nista ne cuva u bazi
+	 * pozvani korisnici se dodaju u listu putnika kako bi se prikazali u preview-u
+	 */
+	@RequestMapping(value = "/api/reserve/preview", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public Rezervacija previewReservation(@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
+		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
+		
+		//rezervacija
+		Rezervacija rezervacija=new Rezervacija();
+		
+		rezervacija.getKorisnici().add(me);
+		
+		if(!rezervacijaDTO.getSedista().isEmpty()) {
+			Set<Sediste> sedista=sedisteService.findAllByLetRowCol(rezervacijaDTO.getId_leta(),rezervacijaDTO.getSedista());
+			
+			rezervacija.setOdabranaSedista(sedista);
+		}else {
+			//greska, mora se rezervisati sediste
+		}
+		if(!rezervacijaDTO.getSobe().isEmpty()) {
+			//rezervacija.setOdabraneSobe(sobaService.updateReservedRooms(rezervacijaDTO.getSobe()));
+			Set<Soba> sobe=sobaService.findSobeIds(rezervacijaDTO.getSobe());
+			
+			rezervacija.setOdabraneSobe(sobe);
+			rezervacija.setSobaZauzetaOd(rezervacijaDTO.getSobaOD());
+			Calendar cal=Calendar.getInstance();
+			cal.setTime(rezervacijaDTO.getSobaOD());
+			cal.add(Calendar.DATE, rezervacijaDTO.getBrojNocenja());
+			Date sobaRezervisanaDo=cal.getTime();
+			rezervacija.setSobaZauzetaDo(sobaRezervisanaDo);
+		}
+		if(!rezervacijaDTO.getVozila().isEmpty()) {
+			//rezervacija.setOdabranaVozila(voziloService.updateCarReservation(rezervacijaDTO.getVozila()));
+			Set<Vozilo> vozila=voziloService.findVozilaIds(rezervacijaDTO.getVozila());
+			
+			rezervacija.setOdabranaVozila(vozila);
+			rezervacija.setVoziloZauzetoOd(rezervacijaDTO.getVoziloOD());
+			rezervacija.setVoziloZauzetoDo(rezervacijaDTO.getVoziloDO());
+		}
+		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
+		rezervacija.setDatumRezervacije(new Date());
+		//me.getRezervacije().add(rezervacija);
+		
+		if(!rezervacijaDTO.getPozvani_prijatelji().isEmpty()) {
+		ArrayList<Korisnik> pozvani=korisnikService.findAllIds(rezervacijaDTO.getPozvani_prijatelji());
+		for(Korisnik rk: pozvani) {
+			rezervacija.getKorisnici().add((RegistrovaniKorisnik)rk);
+		}
+		}
+		return rezervacija;
+	}
 	/* da uzmemo sve rezervacije, svima je dozvoljeno */
 	@RequestMapping(value = "/api/reserve", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Rezervacija> getAllReservations() {
