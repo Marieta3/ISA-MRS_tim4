@@ -143,7 +143,7 @@ function renderFlights(data){
 		$('#prikazLetovaTabela').append(tr);
 	})
 	
-	if ( ! $.fn.DataTable.isDataTable( '#prikazLetovaTabela' ) ) {
+	$('#prikazLetovaTabela').DataTable().destroy();
 	$('#prikazLetovaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
@@ -167,7 +167,7 @@ function pretraga() {
 		return;
 	}
 	searchOn = true;
-	alert(letToJSONsearch("oneway",start, end,1 ,startDate, endDate));
+	//alert(letToJSONsearch("oneway",start, end,1 ,startDate, endDate));
 	$.ajax({
 		type:'POST',
 		url:'/api/let/pretraga/' + localStorage.getItem("profil_avio"),
