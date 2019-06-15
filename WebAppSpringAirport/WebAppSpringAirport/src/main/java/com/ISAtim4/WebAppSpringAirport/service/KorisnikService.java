@@ -2,6 +2,7 @@ package com.ISAtim4.WebAppSpringAirport.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,5 +57,9 @@ public class KorisnikService {
 	
 	public ArrayList<Korisnik> findAllIds(List<Long> ids){
 		return korisnikRepository.findKorisniciIds(ids);
+	}
+	
+	public Set<Korisnik> findAllIdsSet(List<Long> ids){
+		return korisnikRepository.findKorisniciIdsSet(ids);
 	}
 }

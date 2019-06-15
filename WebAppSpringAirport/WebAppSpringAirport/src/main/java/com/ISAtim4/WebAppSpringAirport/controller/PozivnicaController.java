@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,4 +32,21 @@ public class PozivnicaController {
 		return pozivnicaService.findMyInvitations(me);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value = "/api/pozivi/Accept/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Pozivnica> acceptInvitation(@PathVariable(value = "id") Long pozivId){
+		Pozivnica p=pozivnicaService.findOne(pozivId);
+		p.setReagovanoNaPoziv(true);
+		p.setPrihvacen(true);
+		return ResponseEntity.ok().body(pozivnicaService.save(p)); 
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value = "/api/pozivi/Decline/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Pozivnica> declineInvitation(@PathVariable(value = "id") Long pozivId){
+		Pozivnica p=pozivnicaService.findOne(pozivId);
+		p.setReagovanoNaPoziv(true);
+		p.setPrihvacen(false);
+		return ResponseEntity.ok().body(pozivnicaService.save(p)); 
+	}
 }

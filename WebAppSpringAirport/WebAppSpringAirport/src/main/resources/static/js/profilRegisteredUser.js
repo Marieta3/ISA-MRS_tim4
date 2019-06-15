@@ -90,10 +90,38 @@ function renderInvitations(data){
 		
 		tr.append('<td>'+poziv.koSalje.ime+' '+poziv.koSalje.prezime+'</td>');
 		tr.append('<td>'+rezervacija.cena+'</td>');
-		tr.append('<td><button>Accept</button></td>');
-		tr.append('<td><button>Decline</button></td>');
+		tr.append('<td><button id="accept_'+poziv.id+'" value="'+poziv.id+'" onclick="reagujNaPoziv(event, this)">Accept</button></td>');
+		tr.append('<td><button id="decline_'+poziv.id+'" value="'+poziv.id+'" onclick="reagujNaPoziv(event, this)">Decline</button></td>');
 		$("#invitationsTable").find("tbody").append(tr);
 	})
+	$('#invitationsTable').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 4 }
+	                   ]
+	  });
+}
+
+function reagujNaPoziv(e, btn){
+	e.preventDefault();
+	var id_poziva=btn.value;
+	console.log($(btn).text());
+	console.log('api/pozivi/'+$(btn).text()+'/'+id_poziva);
+	
+	$.ajax({
+		type:'PUT',
+		url:'api/pozivi/'+$(btn).text()+'/'+id_poziva,
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:function(data){
+			console.log('jdsjadisad');
+			console.log(data);
+			$('#invitationsTable').DataTable().clear().destroy();
+			findAllInvitations();
+		}
+	});
 }
 function renderReservations(data){
 	console.log(data);

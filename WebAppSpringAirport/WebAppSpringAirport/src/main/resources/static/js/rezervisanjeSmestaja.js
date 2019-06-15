@@ -69,6 +69,7 @@ function selektovanHotel(btn){
 function renderSobe(data){
 var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	uloga=localStorage.getItem("uloga");
+	$('#selected-rooms').empty();
 	$('#prikazSobaTabela').DataTable().clear().destroy();
 	//findAllByHotel();
 	$('#hotel-naziv-adresa').text(data[0].hotel.naziv+', '+data[0].hotel.adresa);
