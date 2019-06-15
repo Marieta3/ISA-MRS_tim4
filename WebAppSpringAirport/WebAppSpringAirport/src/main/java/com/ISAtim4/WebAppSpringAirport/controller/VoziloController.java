@@ -1,6 +1,8 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -20,13 +22,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Filijala;
+import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
+import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
+import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
+import com.ISAtim4.WebAppSpringAirport.dto.SobaPretragaDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.VoziloDTO;
+import com.ISAtim4.WebAppSpringAirport.dto.VoziloPretragaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.FilijalaService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 import com.ISAtim4.WebAppSpringAirport.service.RentACarService;
+import com.ISAtim4.WebAppSpringAirport.service.RezervacijaService;
 import com.ISAtim4.WebAppSpringAirport.service.VoziloService;
 
 
@@ -36,6 +44,9 @@ public class VoziloController {
 
 	@Autowired
 	private VoziloService voziloService;
+	
+	@Autowired
+	private RezervacijaService rezervacijaService;
 	
 	@Autowired
 	private FilijalaService filijalaService;
@@ -107,6 +118,63 @@ public class VoziloController {
 		}
 		
 		return cars;
+	}
+	
+
+	@RequestMapping(value = "/api/voziloRent/pretraga/{rent_id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Vozilo> getVozilaByRACPretraga(@PathVariable(value = "rent_id") Long rent_id, @Valid @RequestBody VoziloPretragaDTO voziloDTO) {
+		
+		RentACar rentAC = rentService.findOne(rent_id);
+		List<Filijala> filijale =  filijalaService.findAllByRentACar(rentAC);
+
+		List<Rezervacija> rezervacije=rezervacijaService.findAll();
+		ArrayList<Vozilo> ne_moze=new ArrayList<>();
+		ArrayList<Vozilo> pronadjene=new ArrayList<>();
+		Date datum1=voziloDTO.getVremeDolaska();
+		Calendar cal =Calendar.getInstance();
+		cal.setTime(datum1);
+		cal.add(Calendar.DATE, voziloDTO.getBrojDana());
+		Date datum2=cal.getTime();
+		//za svaku rezervaciju
+		for(Rezervacija r: rezervacije) {
+			//ako se preklapaju datumi	
+			//  if v1 <= datum1  and   v2 >= datum1
+			if( (r.getVoziloZauzetoOd().compareTo(datum1)<=0 && r.getVoziloZauzetoDo().compareTo(datum1)>=0) 
+					// if v1 <= datum2  and v2 >= datum2
+					|| (r.getVoziloZauzetoOd().compareTo(datum2)<=0 && r.getVoziloZauzetoDo().compareTo(datum2) >= 0) 
+					// v1 >= datum1 and v2 <= datum2
+					|| (r.getVoziloZauzetoOd().compareTo(datum1)>=0 && r.getVoziloZauzetoDo().compareTo(datum2)<=0) ) {
+				System.out.println("+++---***\n\n\t broj vozila u rezervaciji: "+r.getOdabraneSobe().size());
+				//za svako vozilo u rezervaciji
+				for(Vozilo v: r.getOdabranaVozila()) {
+					//ako soba pripada trazenom hotelu
+					if(v.getFilijala().getRentACar().equals(rentAC)) {
+						System.out.println("------------to je taj RAC "+rentAC.getNaziv());
+						//ako jos nije dodata u listu zauzetih
+						if(!ne_moze.contains(v) ){
+							//dodaj u listu zauzetih
+							ne_moze.add(v);
+						}
+					}
+				}
+			}
+		}
+		System.out.println("broj rezervisanih soba: "+ne_moze.size());
+		for (Filijala filijala : filijale) {
+			Set<Vozilo> carList =  filijala.getVozila();
+			for (Vozilo v : carList) {
+				List<Ocena> ocene = ocenaService.findAllByVozilo(v);
+				v.setOcena(Ocena.getProsek(ocene));
+
+				//ako se ne nalazi u listi zauzetih
+				if(!ne_moze.contains(v)) {
+					//dodaj u listu pronadjenih
+					pronadjene.add(v);
+				}
+			}
+		}
+		return pronadjene;
+		
 	}
 
 	/* update vozila po id-u */

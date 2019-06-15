@@ -39,8 +39,10 @@ function renderHoteli(data){
 	$('#prikazHotelaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order":[[1,'asc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 0 },
+	                     { "orderable": false, "targets": 5 }
 	                   ]
 	  });
 }
@@ -84,8 +86,10 @@ var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#prikazSobaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order":[[1,'asc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 0 },
+	                     { "orderable": false, "targets": 6 }
 	                   ]
 	  });
 }

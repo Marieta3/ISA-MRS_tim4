@@ -1,4 +1,15 @@
+let searchOn = false;
+
 $(document).ready(function () {
+    var today = new Date();
+    var day=today.getDate()>9?today.getDate():"0"+today.getDate(); // format should be "DD" not "D" e.g 09
+    var month=(today.getMonth()+1)>9?(today.getMonth()+1):"0"+(today.getMonth()+1);
+    var year=today.getFullYear();
+
+    $("#startDate").attr('min', year + "-" + month + "-" + day);
+    $("#startDate").attr('max', "2025-01-01");
+    
+    
     var hotel_id = localStorage.getItem("profil_hotel")
     if(hotel_id == null){
         window.location.replace("prikazHotela.html")
@@ -7,6 +18,29 @@ $(document).ready(function () {
     findProfile();
     findAllRoomsByHotel();
     findAllServicesByHotel();
+});
+
+$("#pretragaSoba button").click(function(ev){
+    ev.preventDefault()// cancel form submission
+    if($(this).attr("name")=="find"){
+    	if (($("#startDate").val() == "") || ($("#broj_nocenja").val() == ""))
+		{
+    		notify("Do not leave any fields blank!", "danger")
+		}
+    	else{
+	    	pretraga();
+		}
+    }
+    else if($(this).attr("name")=="reset"){
+    	
+    	$("#startDate").val("");
+    	$("#broj_nocenja").val("");
+    	
+    	if(searchOn){
+    		findAllRoomsByHotel();
+	        searchOn = false;
+    	}
+    }
 });
 
 function findProfile(){
@@ -60,6 +94,7 @@ function renderProfil(data){
 }
 
 function renderSobe(data){
+	console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	
 	uloga=localStorage.getItem("uloga");
@@ -67,6 +102,8 @@ function renderSobe(data){
 	$("#prikazSobaTabela").find("tr:gt(0)").remove();
 	$("#prikazSobaTabela").find("th:gt(5)").remove();
 	slika = "slike/room.jpg"
+
+	$('#prikazSobaTabela').DataTable().clear().destroy();
 	$.each(list, function(index, soba){
 		var tr=$('<tr id="room_' + soba.id + '"></tr>');
 		tr.append('<td align="center" width=100px height=100px><div class="divEntitet"><img class="imgEntitet" src="'+slika+'"></div></td>');
@@ -75,8 +112,6 @@ function renderSobe(data){
 				+ soba.cena + '</td>');
 		$('#prikazSobaTabela').append(tr);
 	})
-	
-	if ( ! $.fn.DataTable.isDataTable( '#prikazSobaTabela' ) ) {
 	$('#prikazSobaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
@@ -85,7 +120,7 @@ function renderSobe(data){
 	                     { "orderable": false, "targets": 0 }
 	                   ]
 	  });
-	}
+	
 }
 
 function renderUsluge(data){
@@ -106,4 +141,31 @@ function renderUsluge(data){
 		      "iDisplayLength": 5
 		  });
 	}
+}
+
+function pretraga() {
+	var startDate = $("#startDate").val();
+	var broj_nocenja = $("#broj_nocenja").val();
+
+	searchOn = true;
+	//alert(sobaToJSONsearch(startDate, broj_nocenja));
+	$.ajax({
+		type:'POST',
+		url:'/api/sobeHotela/pretraga/' + localStorage.getItem("profil_hotel"),
+		dataType:'json',
+		contentType: 'application/json',
+		data:sobaToJSONsearch(startDate, broj_nocenja),
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success:renderSobe
+	});
+}
+
+function sobaToJSONsearch(dolazak, broj_nocenja) {
+	return JSON.stringify({
+		"vremeDolaska" : dolazak,
+		"brojNocenja" : broj_nocenja
+	});
 }

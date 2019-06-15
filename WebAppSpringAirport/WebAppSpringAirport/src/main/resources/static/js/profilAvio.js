@@ -125,10 +125,13 @@ function renderFlights(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	//notify("RenderFlights","info");
 	uloga=localStorage.getItem("uloga");
+	console.log(data);
 	
 	$("#prikazLetovaTabela").find("tr:gt(0)").remove();
 	$("#prikazLetovaTabela").find("th:gt(5)").remove();
 	slika = "slike/aereo2.jpg"
+
+	$('#prikazLetovaTabela').DataTable().clear().destroy();
 	$.each(list, function(index, let){
 		var pD = let.vremePolaska.split("T");
 		var dD = let.vremeDolaska.split("T");
@@ -143,7 +146,6 @@ function renderFlights(data){
 		$('#prikazLetovaTabela').append(tr);
 	})
 	
-	if ( ! $.fn.DataTable.isDataTable( '#prikazLetovaTabela' ) ) {
 	$('#prikazLetovaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
@@ -151,8 +153,8 @@ function renderFlights(data){
 	      "columnDefs": [
 	                     { "orderable": false, "targets": 0 }
 	                   ]
-	  });
-	}
+	});
+
 }
 
 
@@ -167,7 +169,7 @@ function pretraga() {
 		return;
 	}
 	searchOn = true;
-	alert(letToJSONsearch("oneway",start, end,1 ,startDate, endDate));
+	//alert(letToJSONsearch("oneway",start, end,1 ,startDate, endDate));
 	$.ajax({
 		type:'POST',
 		url:'/api/let/pretraga/' + localStorage.getItem("profil_avio"),
