@@ -102,6 +102,8 @@ function renderSobe(data){
 	$("#prikazSobaTabela").find("tr:gt(0)").remove();
 	$("#prikazSobaTabela").find("th:gt(5)").remove();
 	slika = "slike/room.jpg"
+
+	$('#prikazSobaTabela').DataTable().clear().destroy();
 	$.each(list, function(index, soba){
 		var tr=$('<tr id="room_' + soba.id + '"></tr>');
 		tr.append('<td align="center" width=100px height=100px><div class="divEntitet"><img class="imgEntitet" src="'+slika+'"></div></td>');
@@ -110,7 +112,6 @@ function renderSobe(data){
 				+ soba.cena + '</td>');
 		$('#prikazSobaTabela').append(tr);
 	})
-	$('#prikazSobaTabela').DataTable().destroy();
 	$('#prikazSobaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
