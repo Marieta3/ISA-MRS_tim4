@@ -14,5 +14,5 @@ public class WebAppSpringAirportApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WebAppSpringAirportApplication.class, args);
 	}
-
 }
+

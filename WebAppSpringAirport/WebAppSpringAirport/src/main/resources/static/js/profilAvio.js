@@ -1,4 +1,6 @@
- $(document).ready(function () {
+let searchOn = false; 
+
+$(document).ready(function () {
         var today = new Date();
         var day=today.getDate()>9?today.getDate():"0"+today.getDate(); // format should be "DD" not "D" e.g 09
         var month=(today.getMonth()+1)>9?(today.getMonth()+1):"0"+(today.getMonth()+1);
@@ -16,7 +18,71 @@
         
         findProfile();
         findAllFlightsByAvio();
+        findAllDestinations();
 });
+ $("#pretragaLetova button").click(function(ev){
+	    ev.preventDefault()// cancel form submission
+	    if($(this).attr("name")=="find"){
+	    	if ( ($("#selected_text").val() == "") || ($("#selected_text1").val() == "")|| ($("#startDate").val() == "") || ($("#endDate").val() == ""))
+    		{
+	    		notify("Do not leave any fields blank!", "danger")
+    		}
+	    	else if($("#selected_text").val() == $("#selected_text1").val())
+
+	    		notify("Departure and destination must be different!", "danger")
+	    	else{
+    	    	pretraga();
+    		}
+	    }
+	    if($(this).attr("name")=="reset"){
+
+	    	$("#from-dest option:first").removeAttr("disabled");
+	    	$("#to-dest option:first").removeAttr("disabled");
+	    	
+	    	$("#from-dest").val("0");
+	    	$("#to-dest").val("0");
+	    	$("#selected_text").val("");
+	    	$("#selected_text1").val("");
+
+	    	$("#from-dest option:first").attr("disabled","disabled");
+	    	$("#to-dest option:first").attr("disabled","disabled");
+	    	$("#startDate").val("");
+	    	$("#endDate").val("");
+	    	
+	    	if(searchOn){
+		        findAllFlightsByAvio();
+		        searchOn = false;
+	    	}
+	    }
+	    // $("#my-form").submit(); if you want to submit the form
+	});
+ 
+ 
+ 
+ 
+ function findAllDestinations(){
+		$.ajax({
+			type:'GET',
+		url:'api/destinacije',
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success : renderDestinacije
+	});
+}
+
+function renderDestinacije(data){
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	$('#from-dest').find('option:gt(0)').remove();
+	$('#to-dest').find('option:gt(0)').remove();
+	
+	$.each(list, function(index, destinacija){
+		$('#from-dest').append('<option value="'+(index+1)+'">'+destinacija.adresa+'</option>');
+		$('#to-dest').append('<option value="'+(index+1)+'">'+destinacija.adresa+'</option>');
+	})
+}
+	
  
 function findProfile(){
 		$.ajax({
@@ -64,11 +130,16 @@ function renderFlights(data){
 	$("#prikazLetovaTabela").find("th:gt(5)").remove();
 	slika = "slike/aereo2.jpg"
 	$.each(list, function(index, let){
+		var pD = let.vremePolaska.split("T");
+		var dD = let.vremeDolaska.split("T");
+		var polazakS = pD[0] + " &nbsp; " + pD[1].split(".")[0];
+		var dolazakS = dD[0] + " &nbsp; " + dD[1].split(".")[0];
+		
 		var tr=$('<tr id="flight_' + let.id + '"></tr>');
 		tr.append('<td align="center" width=100px height=100px><div class="divEntitet"><img class="imgEntitet" src="'+slika+'"></div></td>');
 		tr.append('<td align="center">' + let.pocetnaDestinacija + '</td>'+ '<td align="center">' + 
-				let.krajnjaDestinacija + '</td>'+'<td align="center">' + let.vremePolaska + '</td>' + '<td>'
-				+ let.vremeDolaska + '</td>' + '</td>'+'<td align="center">' + let.model + '</td>');
+				let.krajnjaDestinacija + '</td>'+'<td align="center">' + polazakS + '</td>' + '<td align="center">'
+				+ dolazakS + '</td>' + '</td>'+'<td align="center">' + let.model + '</td>');
 		$('#prikazLetovaTabela').append(tr);
 	})
 	
@@ -83,52 +154,42 @@ function renderFlights(data){
 	  });
 	}
 }
-$("#resetBtn").on('click',function () {
 
-	alert('resetting');
-	findAllFlightsByAvio();
-})
 
-$(document).on('submit','#pretragaLetova',function () {
-	alert("submit");
-	var start = $("#departure").val();
-	var end = $("#destination").val();
+function pretraga() {
+	var start = $("#selected_text").val();
+	var end = $("#selected_text1").val();
 	var startDate = $("#startDate").val();
 	var endDate = $("#endDate").val();
 
 	if(startDate > endDate){
-		$.bootstrapGrowl("Start must be after end date!", {
-			  ele: 'body', // which element to append to
-			  type: "danger", // (null, 'info', 'danger', 'success')
-			  offset: {from: 'top', amount: 50}, // 'top', or 'bottom'
-			  align: 'center', // ('left', 'right', or 'center')
-			  width: 'auto', // (integer, or 'auto')
-			  delay: 1500, // Time while the message will be displayed. It's not equivalent to the demo timeOut!
-			  allow_dismiss: false, // If true then will display a cross to close the popup.
-			  stackup_spacing: 10 // spacing between consecutively stacked growls.
-			});
+		notify("Start must be before return date!" , "danger");
 		return;
 	}
-	alert(start + end + startDate + endDate);
-	
+	searchOn = true;
+	alert(letToJSONsearch("oneway",start, end,1 ,startDate, endDate));
 	$.ajax({
-		type:'GET',
-		url:'api/avioKompanije/searchFlights/' + localStorage.getItem("profil_avio"),
+		type:'POST',
+		url:'/api/let/pretraga/' + localStorage.getItem("profil_avio"),
 		dataType:'json',
-		data:letToJSON(start, end, startDate, endDate),
+		contentType: 'application/json',
+		data:letToJSONsearch("oneway",start, end,1 ,startDate, endDate),
 		beforeSend : function(request) {
 			request.setRequestHeader("Authorization", "Bearer "
 					+ localStorage.getItem("accessToken"));
 		},
 		success:renderFlights
 	});
-})
+	
+}
 
-function letToJSON(start, end, startDate, endDate){
+function letToJSONsearch(radioValue, iz, u, brojPutnika, vreme1, vreme2) {
 	return JSON.stringify({
-		"mestoPolaska":start,
-		"mestoDolaska":end,
-		"vreme1":startDate,
-		"vreme2":endDate
+		"tipPutovanja" : radioValue,
+		"mestoPolaska" : iz,
+		"mestoDolaska" : u,
+		"vreme1" : vreme1,
+		"vreme2" : vreme2,
+		"brojPutnika" : brojPutnika
 	});
 }

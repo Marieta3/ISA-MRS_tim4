@@ -16,6 +16,9 @@ public interface LetRepository extends JpaRepository<Let, Long>{
 	@Query("select l from Let l where l.pocetnaDestinacija = ?1 and l.krajnjaDestinacija = ?2")
 	public List<Let> findFlightsTwoWay(String mestoPolaska, String mestoDolaska, Date vremePolaska, Date vremeDolaska);
 	
+	@Query("select l from Let l where l.pocetnaDestinacija = ?1 and l.krajnjaDestinacija = ?2 and l.vremePolaska >= ?3 and l.vremePolaska <= ?4 and l.avio_kompanija.id = ?5")
+	public List<Let> findFlightsByAvio(String mestoPolaska, String mestoDolaska, Date vremePolaska, Date vremeDolaska, Long idAvio);
+	
 	@Query("select l from Let l where l.pocetnaDestinacija = ?1 and l.krajnjaDestinacija = ?2")
 	public List<Let> findFlightsPolazakDolazak(String mestoPolaska, String mestoDolaska);
 }
