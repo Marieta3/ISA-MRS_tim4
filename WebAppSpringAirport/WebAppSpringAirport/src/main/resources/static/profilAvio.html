@@ -59,28 +59,51 @@
     	<div class="container">
     		
 			<form id="pretragaLetova">
-    		<div> 
 	    	<div class="row">
-    		<div class="col-6"><label for="departure">Departure</label> <input type="text" id="departure" value="" placeholder="Leaving from..." required></div>
-    		<div class="col-6"><label for="destination">Destination</label> <input type="text" id="destination" value="" placeholder="Going to..." required></div>
+	    	
+    		<div class="col">
+    			<label for="from-dest">From:</label>
+    		</div>
+    		<div class="col">
+	    		<select id="from-dest" name="Make" required="required" 
+					onchange="document.getElementById('selected_text').value=this.options[this.selectedIndex].text">
+						<option value="0" selected="selected" disabled="disabled"
+							id="place">Leaving from...</option>
+				</select>
+			</div>
+			
+    		<div class="col">
+    			<label for="to-dest">To:</label>
+    		</div>
+    		<div class="col">
+    			<select id="to-dest" name="Make1" required 
+					onchange="document.getElementById('selected_text1').value=this.options[this.selectedIndex].text">
+					<option value="0" selected="selected" disabled="disabled"
+						id="place">Going to...</option>
+				</select>
+			</div>
     		</div>
     		
 	    	<div class="row">
-    		<div class="col-6"><label for="startDate">Start date</label> <input type="date" id="startDate" value="" placeholder="Leaving from..." required></div>
-    		<div class="col-6"><label for="endDate">End date</label> <input type="date" id="endDate" value="" placeholder="Going to..." required></div>
+    		<div class="col"><label for="startDate" >Start date</label></div> <div class="col"><input type="date" id="startDate" value="" placeholder="Leaving from..." required></div>
+    		<div class="col"><label for="endDate">End date</label></div> <div class="col"><input type="date" id="endDate" value="" placeholder="Going to..." required></div>
     		</div>
     		
 	    	<div class="row" align="center" style="margin-top: 5px">
 		    	<div class="col-6">
-	    		<input type="submit"  class="btn btn-primary" id="findBtn" value="Search"  />
+	    		<button type="submit"  class="btn btn-primary" id="resetBtn" name="reset"  >Reset</button>
 	    		</div>
-	    		
-			</form>
 		    	<div class="col-6">
-	    		<button class="btn btn-primary" id="resetBtn" value="Show all flights" >Show all flights</button>
+	    		<button type="submit"  class="btn btn-primary" id="findBtn" name="find" >Search</button>
 	    		</div>
 	    	</div>
-			</div>
+	    		
+			<input type="hidden" name="selected_text" id="selected_text" value="" />
+			<input type="hidden" name="selected_text1" id="selected_text1"
+				value="" /> <input type="hidden" name="selected_text2"
+				id="selected_text2" value="" /> <br>
+	    		
+			</form>
 			<br/>
 			
 			<h2>List of flights</h2>
@@ -99,9 +122,10 @@
 				<tbody>
 				</tbody>
 			</table>
+			
+	    	</div>
+			</div>
 		
-		</div>
-    </div>
     <!-- 
     <div class="d-flex justify-content-center"  style="margin-top: 5px">
   		<div class="container">
