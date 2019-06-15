@@ -96,7 +96,7 @@ public class AvioKompanijaController {
 	}
 	
 	/* pretraga letova start, end, startdate, enddate*/
-	@RequestMapping(value = "/api/avioKompanije/searchFlights/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/avioKompanije/searchFlights/{id}", method = RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<Let>> pretragaLetovaAvioKompanija(
 			@PathVariable(value = "id") Long idAviokompanije,
 			@Valid @RequestBody LetDTO sLet) {

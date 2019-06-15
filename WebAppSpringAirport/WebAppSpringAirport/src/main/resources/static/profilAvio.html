@@ -62,10 +62,10 @@
 	    	<div class="row">
 	    	
     		<div class="col">
-    			<label for="from-dest">From:</label>
+    			<label for="from-dest">Departure:</label>
     		</div>
     		<div class="col">
-	    		<select id="from-dest" name="Make" required="required" 
+	    		<select id="from-dest" name="Make" required
 					onchange="document.getElementById('selected_text').value=this.options[this.selectedIndex].text">
 						<option value="0" selected="selected" disabled="disabled"
 							id="place">Leaving from...</option>
@@ -73,7 +73,7 @@
 			</div>
 			
     		<div class="col">
-    			<label for="to-dest">To:</label>
+    			<label for="to-dest">Destination:</label>
     		</div>
     		<div class="col">
     			<select id="to-dest" name="Make1" required 

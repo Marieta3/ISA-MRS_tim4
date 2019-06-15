@@ -46,6 +46,9 @@ public class LetService {
 	public List<Let> findFlightsTwoWay(String mestoPolaska, String mestoDolaska, Date vremePolaska, Date vremeDolaska){
 		return letRepository.findFlightsTwoWay(mestoPolaska,mestoDolaska,vremePolaska,vremeDolaska);
 	}
-
-
+	
+	public List<Let> findFlightsByAvio(String mestoPolaska, String mestoDolaska, Date vremePolaska, Date vremeDolaska, Long idAvio)
+	{
+		return letRepository.findFlightsByAvio(mestoPolaska, mestoDolaska, vremePolaska, vremeDolaska, idAvio);
+	}
 }

@@ -23,7 +23,16 @@ $(document).ready(function () {
  $("#pretragaLetova button").click(function(ev){
 	    ev.preventDefault()// cancel form submission
 	    if($(this).attr("name")=="find"){
-	    	pretraga();
+	    	if ( ($("#selected_text").val() == "") || ($("#selected_text1").val() == "")|| ($("#startDate").val() == "") || ($("#endDate").val() == ""))
+    		{
+	    		notify("Do not leave any fields blank!", "danger")
+    		}
+	    	else if($("#selected_text").val() == $("#selected_text1").val())
+
+	    		notify("Departure and destination must be different!", "danger")
+	    	else{
+    	    	pretraga();
+    		}
 	    }
 	    if($(this).attr("name")=="reset"){
 
@@ -32,6 +41,8 @@ $(document).ready(function () {
 	    	
 	    	$("#from-dest").val("0");
 	    	$("#to-dest").val("0");
+	    	$("#selected_text").val("");
+	    	$("#selected_text1").val("");
 
 	    	$("#from-dest option:first").attr("disabled","disabled");
 	    	$("#to-dest option:first").attr("disabled","disabled");
@@ -155,13 +166,14 @@ function pretraga() {
 		notify("Start must be before return date!" , "danger");
 		return;
 	}
-	alert(start + end + startDate + endDate);
 	searchOn = true;
+	alert(letToJSONsearch("oneway",start, end,1 ,startDate, endDate));
 	$.ajax({
 		type:'POST',
-		url:'/api/avioKompanije/searchFlights/' + localStorage.getItem("profil_avio"),
+		url:'/api/let/pretraga/' + localStorage.getItem("profil_avio"),
 		dataType:'json',
-		data:letToJSON(start, end, startDate, endDate),
+		contentType: 'application/json',
+		data:letToJSONsearch("oneway",start, end,1 ,startDate, endDate),
 		beforeSend : function(request) {
 			request.setRequestHeader("Authorization", "Bearer "
 					+ localStorage.getItem("accessToken"));
@@ -171,11 +183,13 @@ function pretraga() {
 	
 }
 
-function letToJSON(start, end, startDate, endDate){
+function letToJSONsearch(radioValue, iz, u, brojPutnika, vreme1, vreme2) {
 	return JSON.stringify({
-		"mestoPolaska":start,
-		"mestoDolaska":end,
-		"vreme1":startDate,
-		"vreme2":endDate
+		"tipPutovanja" : radioValue,
+		"mestoPolaska" : iz,
+		"mestoDolaska" : u,
+		"vreme1" : vreme1,
+		"vreme2" : vreme2,
+		"brojPutnika" : brojPutnika
 	});
 }
