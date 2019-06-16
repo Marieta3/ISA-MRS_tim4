@@ -48,7 +48,7 @@ h1 .link:hover{
 	object-fit:cover;
 }
 /* Full-width input fields */
-.container-modal input[type=text],.container-modal input[type=email],.container-modal input[type=password], .container-modal select, input[type=number], .container-modal ul li {
+.container-modal input[type=text],.container-modal input[type=email],.container-modal input[type=password], .container-modal select, input[type=number], .container-modal ul li,.container-modal input[type=date] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -59,7 +59,7 @@ h1 .link:hover{
 }
 
 /* Add a background color when the inputs get focus */
-input[type=text]:focus,input[type=email]:focus, input[type=password]:focus, .container-modal select:focus, input[type=number]:focus, textarea:focus {
+input[type=text]:focus,input[type=email]:focus, input[type=password]:focus, .container-modal select:focus, input[type=number]:focus, textarea:focus ,input[type=password]:focus{
   background-color: #ddd;
   outline: none;
 }
@@ -179,7 +179,7 @@ span.psw {
   display: table;
   clear: both;
 }
-.hotel-preview, .car-preview, .neregistrovani-preview{
+.hotel-preview, .car-preview, .neregistrovani-preview, #nereg-container{
 	border-left: 1px dotted #adadad;
 }
 /* Style the horizontal ruler */

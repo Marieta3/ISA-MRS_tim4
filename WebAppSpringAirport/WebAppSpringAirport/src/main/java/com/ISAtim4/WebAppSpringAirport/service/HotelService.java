@@ -7,15 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.repository.HotelRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class HotelService {
 	@Autowired
 	private HotelRepository hotelRepository;
 
+	@Transactional(readOnly = false)
 	public Hotel save(Hotel hotel) {
 		return hotelRepository.save(hotel);
 	}
@@ -40,6 +43,7 @@ public class HotelService {
 		return hotelRepository.pronadjiHotelSadrziNaziv(name);
 	}
 
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		hotelRepository.deleteById(id);
 	}

@@ -80,6 +80,12 @@ public class RezervacijaDTO {
 	public void setPozvani_prijatelji(ArrayList<Long> pozvani_prijatelji) {
 		this.pozvani_prijatelji = pozvani_prijatelji;
 	}
+	@Override
+	public String toString() {
+		return "RezervacijaDTO [id_leta=" + id_leta + ", sedista=" + sedista + ", sobe=" + sobe + ", vozila=" + vozila
+				+ ", pozvani_prijatelji=" + pozvani_prijatelji + ", ukupnaCena=" + ukupnaCena + ", sobaOD=" + sobaOD
+				+ ", brojNocenja=" + brojNocenja + ", voziloOD=" + voziloOD + ", voziloDO=" + voziloDO + "]";
+	}
 	
 	
 }

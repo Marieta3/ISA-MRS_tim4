@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
@@ -18,10 +19,12 @@ import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.repository.OcenaRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class OcenaService {
 	@Autowired
 	private OcenaRepository ocenaRepository;
 
+	@Transactional(readOnly = false)
 	public Ocena save(Ocena ocena) {
 		return ocenaRepository.save(ocena);
 	}
@@ -61,6 +64,7 @@ public class OcenaService {
 		return ocenaRepository.findAll(page);
 	}
 
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		ocenaRepository.deleteById(id);
 	}

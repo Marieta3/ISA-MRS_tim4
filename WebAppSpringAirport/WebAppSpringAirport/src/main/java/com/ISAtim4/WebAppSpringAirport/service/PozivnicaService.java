@@ -7,16 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
 import com.ISAtim4.WebAppSpringAirport.repository.PozivnicaRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class PozivnicaService {
 	@Autowired
 	private PozivnicaRepository pozivnicaRepository; 
 	
+	@Transactional(readOnly = false)
 	public Pozivnica save(Pozivnica pozivnica) {
 		return pozivnicaRepository.save(pozivnica);
 	}
@@ -33,6 +36,7 @@ public class PozivnicaService {
 		return pozivnicaRepository.findAll(page);
 	}
 
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		pozivnicaRepository.deleteById(id);
 	}

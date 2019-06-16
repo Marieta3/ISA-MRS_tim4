@@ -16,8 +16,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = false)
 public class CustomUserDetailsService implements UserDetailsService {
 	protected final Log LOGGER = LogFactory.getLog(getClass());
 
@@ -42,6 +44,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	}
 
 	// Funkcija pomocu koje korisnik menja svoju lozinku
+	@Transactional(readOnly = false)
 	public void changePassword(String oldPassword, String newPassword) {
 
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();

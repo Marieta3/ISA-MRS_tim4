@@ -1,5 +1,8 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -8,19 +11,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
+import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
+import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
+import com.ISAtim4.WebAppSpringAirport.domain.Soba;
+import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
+import com.ISAtim4.WebAppSpringAirport.dto.RezervacijaDTO;
 import com.ISAtim4.WebAppSpringAirport.repository.RezervacijaRepository;
 
 
 @Service
+@Transactional(readOnly = true)
 public class RezervacijaService {
 	@Autowired
 	private RezervacijaRepository rezervacijaRepository;
-
-	public Rezervacija save(Rezervacija hotel) {
-		return rezervacijaRepository.save(hotel);
+	
+	@Autowired
+	LetService letservice;
+	
+	@Autowired
+	SobaService sobaService;
+	
+	@Autowired
+	VoziloService voziloService;
+	
+	@Autowired
+	KorisnikService korisnikService;
+	
+	@Autowired
+	SedisteService sedisteService;
+	
+	@Autowired
+	PozivnicaService pozivnicaService;
+	
+	@Transactional(readOnly = false)
+	public Rezervacija save(Rezervacija rezervacija) {
+		return rezervacijaRepository.save(rezervacija);
 	}
 
 	public Rezervacija findOne(Long id) {
@@ -39,9 +70,81 @@ public class RezervacijaService {
 		return rezervacijaRepository.findAllByUser(rk);
 	}
 	
-
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		rezervacijaRepository.deleteById(id);
 	}
 	
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public Rezervacija create(RezervacijaDTO rezervacijaDTO, Principal user) {
+		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
+		System.out.println("\n\n\tservice\n\t"+rezervacijaDTO.toString());
+		//rezervacija
+		Rezervacija rezervacija=new Rezervacija();
+		
+		rezervacija.getKorisnici().add(me);
+		
+		if(!rezervacijaDTO.getSedista().isEmpty()) {
+			Set<Sediste> sedista=sedisteService.findAllByLetRowCol(rezervacijaDTO.getId_leta(),rezervacijaDTO.getSedista());
+			for(Sediste s: sedista) {
+				if(!s.isRezervisano()) {
+					s.setRezervisano(true);
+					System.out.println("\n\n\tservice\n\t"+s.toString());
+				}else {
+					throw new RuntimeException("Error: seat already reserved");
+				}
+				
+			}
+			rezervacija.setOdabranaSedista(sedista);
+		}else {
+			//greska, mora se rezervisati sediste
+		}
+		if(!rezervacijaDTO.getSobe().isEmpty()) {
+			//rezervacija.setOdabraneSobe(sobaService.updateReservedRooms(rezervacijaDTO.getSobe()));
+			Set<Soba> sobe=sobaService.findSobeIds(rezervacijaDTO.getSobe());
+			for(Soba s: sobe) {
+				s.setRezervisana(true);
+				
+			}
+			rezervacija.setOdabraneSobe(sobe);
+			rezervacija.setSobaZauzetaOd(rezervacijaDTO.getSobaOD());
+			Calendar cal=Calendar.getInstance();
+			cal.setTime(rezervacijaDTO.getSobaOD());
+			cal.add(Calendar.DATE, rezervacijaDTO.getBrojNocenja());
+			Date sobaRezervisanaDo=cal.getTime();
+			rezervacija.setSobaZauzetaDo(sobaRezervisanaDo);
+		}
+		if(!rezervacijaDTO.getVozila().isEmpty()) {
+			//rezervacija.setOdabranaVozila(voziloService.updateCarReservation(rezervacijaDTO.getVozila()));
+			Set<Vozilo> vozila=voziloService.findVozilaIds(rezervacijaDTO.getVozila());
+			for(Vozilo v:vozila) {
+				v.setRezervisano(true);
+			}
+			rezervacija.setOdabranaVozila(vozila);
+			rezervacija.setVoziloZauzetoOd(rezervacijaDTO.getVoziloOD());
+			rezervacija.setVoziloZauzetoDo(rezervacijaDTO.getVoziloDO());
+		}
+		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
+		rezervacija.setDatumRezervacije(new Date());
+		//me.getRezervacije().add(rezervacija);
+		
+		//pozivnice
+		if(!rezervacijaDTO.getPozvani_prijatelji().isEmpty()) {
+		ArrayList<Korisnik> pozvani=korisnikService.findAllIds(rezervacijaDTO.getPozvani_prijatelji());
+		//ne bi trebalo u for petljiii
+		for(Korisnik k: pozvani) {
+			Pozivnica pozivnica=new Pozivnica();
+			pozivnica.setDatumSlanja(new Date());
+			pozivnica.setKoSalje(me);
+			pozivnica.setKomeSalje((RegistrovaniKorisnik) k);
+			pozivnica.setRezervacija(rezervacija);
+			pozivnica.setPrihvacen(false);
+			pozivnica.setReagovanoNaPoziv(false);
+			pozivnicaService.save(pozivnica);
+		}
+		}
+		System.out.println("\n\n\tservice\n\t"+rezervacija.toString());
+		return save(rezervacija);
+	}
 }

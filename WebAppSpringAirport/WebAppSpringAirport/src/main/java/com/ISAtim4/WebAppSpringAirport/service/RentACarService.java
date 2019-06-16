@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
 import com.ISAtim4.WebAppSpringAirport.repository.RentacarRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class RentACarService {
 	@Autowired
 	private RentacarRepository rentacarRepository;
@@ -28,6 +30,7 @@ public class RentACarService {
 		return rentacarRepository.findAll(page);
 	}
 
+	@Transactional(readOnly = false)
 	public RentACar save(RentACar rentACar) {
 		return rentacarRepository.save(rentACar);
 	}
@@ -40,6 +43,7 @@ public class RentACarService {
 		return rentacarRepository.pronadjiRentacarSadrziNaziv(name);
 	}
 
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		rentacarRepository.deleteById(id);
 	}

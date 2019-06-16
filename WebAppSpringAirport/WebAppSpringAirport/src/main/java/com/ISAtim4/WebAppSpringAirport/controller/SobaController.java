@@ -72,8 +72,12 @@ public class SobaController {
 		soba.setHotel(hotel);
 		
 		//ne trb pristupati bazi kroz for petlju!!!
-		ArrayList<Usluga> usluge=(ArrayList<Usluga>) uslugaService.findAllSelected(sobaDTO.getUsluge());
-		soba.setUsluge(usluge);
+		System.out.println("\n\n\tbroj usluga: "+sobaDTO.getUsluge().size());
+		if(!sobaDTO.getUsluge().isEmpty()) {
+			System.out.println("ako sobaDTO.usluge nije prazna lista");
+			ArrayList<Usluga> usluge=(ArrayList<Usluga>) uslugaService.findAllSelected(sobaDTO.getUsluge());
+			soba.setUsluge(usluge);
+		}
 		return sobaService.save(soba);
 	}
 
@@ -198,8 +202,10 @@ public class SobaController {
 		soba.setSlika(sobaDTO.getSlika());
 		soba.setBrojKreveta(sobaDTO.getBrojKreveta());
 		
-		ArrayList<Usluga> usluge=(ArrayList<Usluga>) uslugaService.findAllSelected(sobaDTO.getUsluge());
-		soba.setUsluge(usluge);		
+		if(!sobaDTO.getUsluge().isEmpty()) {
+			ArrayList<Usluga> usluge=(ArrayList<Usluga>) uslugaService.findAllSelected(sobaDTO.getUsluge());
+			soba.setUsluge(usluge);		
+		}
 		Soba updateSoba = sobaService.save(soba);
 		return ResponseEntity.ok().body(updateSoba);
 	}

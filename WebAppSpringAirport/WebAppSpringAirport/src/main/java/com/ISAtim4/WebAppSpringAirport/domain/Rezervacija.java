@@ -184,6 +184,15 @@ public class Rezervacija {
 		this.korisnici = korisnici;
 	}
 
+	@Override
+	public String toString() {
+		return "Rezervacija [id=" + id + ", cena=" + cena + ", odabranaSedista=" + odabranaSedista + ", odabraneSobe="
+				+ odabraneSobe + ", odabranaVozila=" + odabranaVozila + ", korisnici=" + korisnici
+				+ ", datumRezervacije=" + datumRezervacije + ", sobaZauzetaOd=" + sobaZauzetaOd + ", sobaZauzetaDo="
+				+ sobaZauzetaDo + ", voziloZauzetoOd=" + voziloZauzetoOd + ", voziloZauzetoDo=" + voziloZauzetoDo
+				+ ", aktivnaRezervacija=" + aktivnaRezervacija + "]";
+	}
+
 	
 	
 

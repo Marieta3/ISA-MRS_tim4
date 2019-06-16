@@ -7,16 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
 import com.ISAtim4.WebAppSpringAirport.repository.LetRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class LetService {
 
 	@Autowired
 	private LetRepository letRepository;
 
+	@Transactional(readOnly = false)
 	public Let save(Let let) {
 		return letRepository.save(let);
 	}
@@ -33,6 +36,7 @@ public class LetService {
 		return letRepository.findAll(page);
 	}
 
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		letRepository.deleteById(id);
 	}

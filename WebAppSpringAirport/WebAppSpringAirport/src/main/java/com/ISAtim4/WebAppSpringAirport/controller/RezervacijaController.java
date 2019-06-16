@@ -71,7 +71,7 @@ public class RezervacijaController {
 	@RequestMapping(value = "/api/reserve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public Rezervacija createReservation(@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
-		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
+		/*RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
 		
 		//rezervacija
 		Rezervacija rezervacija=new Rezervacija();
@@ -131,8 +131,11 @@ public class RezervacijaController {
 			pozivnica.setReagovanoNaPoziv(false);
 			pozivnicaService.save(pozivnica);
 		}
-		}
-		return rezervacijaService.save(rezervacija);
+		}*/
+		Rezervacija rez=rezervacijaService.create(rezervacijaDTO, user);
+		System.out.println("\n\n\tcontroller\n\t"+rez.toString());
+		return rez;
+		//return rezervacijaService.save(rezervacija);
 	}
 	
 	/*
