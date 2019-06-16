@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
@@ -15,10 +16,12 @@ import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.repository.SobaRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class SobaService {
 	@Autowired
 	private SobaRepository sobaRepository;
 
+	@Transactional(readOnly = false)
 	public Soba save(Soba soba) {
 		return sobaRepository.save(soba);
 	}
@@ -35,6 +38,7 @@ public class SobaService {
 		return sobaRepository.findAll(page);
 	}
 
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		sobaRepository.deleteById(id);
 	}

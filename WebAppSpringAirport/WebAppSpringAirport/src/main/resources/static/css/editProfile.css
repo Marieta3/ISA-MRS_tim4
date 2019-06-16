@@ -9,7 +9,7 @@
 	display: grid;
 	align-self: left;
 	grid-template-columns: 200px 200px;
-	
+	font-size: 12px;
 	float: right;
 }
 .grid-item {
@@ -19,6 +19,14 @@
 	margin-top: 10px;
 }
 
+.grid-item.nereg, .grid-item.invited{
+	font-size: 12px;
+}
+.quick-container{
+	margin-left:0px;
+	float:none;
+	grid-template-columns: 50% 50%;
+}
 div.imagePicker {
 	height: 200px;
 	width: 200px;

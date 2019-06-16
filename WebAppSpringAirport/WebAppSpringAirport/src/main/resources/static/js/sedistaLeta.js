@@ -341,7 +341,8 @@ function pokupiNeregPutnik(e){
 	var prezime=$('#nereg-prezime').val();
 	var pasos=$('#nereg-pasos').val();
 	var datum=$('#nereg-datum-rodjenja').val();
-	$('#nereg-lista').append('<li>'+ime+' '+prezime+' '+pasos+' '+datum+'</li>')
+	var email=$('#nereg-email').val();
+	$('#nereg-lista').append('<li>'+ime+' '+prezime+' '+pasos+' '+datum+' '+email+'</li>')
 }
 var firstSeatLabel = 1;
 function renderDetaljanLet(){
@@ -362,11 +363,11 @@ function renderDetaljanLet(){
 					'<ul id="selected-seats"></ul>'+
 
 					'Total: <b>$<span id="total">0</span></b>'+
-					'<br/><div class="grid-container2" id="user-container"><div class="grid-item" id="invited-friends-container"><h3>Invited Friends</h3>'+
+					'<br/><div class="grid-container2" id="user-container"><div class="grid-item invited" id="invited-friends-container"><h3>Invited Friends</h3>'+
 					'<ul id="invited-friends"></ul>'+
 					'<br/><button class="invite-button" disabled onclick="otvoriModal(\'id01\')">Invite Friends</button></div>'+
 					
-					'<div class="grid-item" id="nereg-container"><h3>Other Passengers</h3><ul id="nereg-lista"></ul>'+
+					'<div class="grid-item nereg" id="nereg-container"><h3>Other Passengers</h3><ul id="nereg-lista"></ul>'+
 					'<br/><button class="add-nereg-button" disabled onclick="otvoriModal(\'id03\')">Add Passenger</button></div></div>'+
 					'<button class="checkout-button"'+
 						'onclick="previewRezervacije()">Checkout &raquo;</button>'+

@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -67,6 +69,10 @@ public class Soba {
 	@JoinTable(name = "soba_usluga", joinColumns = @JoinColumn(name = "soba_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "usluga_id", referencedColumnName = "id"))
 	private List<Usluga> usluge;
 
+	@OneToOne(mappedBy="soba", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("soba")
+	private BrzaSoba brza_soba;
+	
 	public Soba() {
 	}
 
