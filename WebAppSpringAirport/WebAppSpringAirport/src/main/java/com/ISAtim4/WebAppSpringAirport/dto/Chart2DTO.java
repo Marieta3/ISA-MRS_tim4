@@ -1,14 +1,14 @@
 package com.ISAtim4.WebAppSpringAirport.dto;
 
-public class RentChart2DTO {
+public class Chart2DTO {
 	private String car;
 	private Double carRating;
 
-	public RentChart2DTO() {
+	public Chart2DTO() {
 		super();
 	}
 
-	public RentChart2DTO(String car, Double carRating) {
+	public Chart2DTO(String car, Double carRating) {
 		super();
 		this.car = car;
 		this.carRating = carRating;

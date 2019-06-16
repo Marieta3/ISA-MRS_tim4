@@ -1,9 +1,12 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -23,8 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
+import com.ISAtim4.WebAppSpringAirport.dto.Chart1DTO;
+import com.ISAtim4.WebAppSpringAirport.dto.Chart2DTO;
 import com.ISAtim4.WebAppSpringAirport.dto.LetDTO;
 import com.ISAtim4.WebAppSpringAirport.service.AvioKompanijaService;
+import com.ISAtim4.WebAppSpringAirport.service.LetService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 
 @RestController
@@ -33,6 +39,9 @@ public class AvioKompanijaController {
 	
 	@Autowired
 	private AvioKompanijaService aviokompanijaService;
+	
+	@Autowired
+	private LetService letService;
 	
 	@Autowired
 	private OcenaService ocenaService;
@@ -146,6 +155,90 @@ public class AvioKompanijaController {
 			a.setOcena(Ocena.getProsek(ocene));
 		}
 		return ResponseEntity.ok().body(avioKompanije);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_AVIO')")
+	@RequestMapping(value = "/api/avioKompanije/chart1/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Chart1DTO> getChart1(
+			@PathVariable(value = "id") Long avioId) {
+		AvioKompanija avio = aviokompanijaService.findOne(avioId);
+		
+		if (avio == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		List<Ocena> ocene = ocenaService.findAllByAvio(avio);
+		avio.setOcena(Ocena.getProsek(ocene));
+		
+		
+		double sum = 0.0;
+		int i = 0;
+		
+		List<AvioKompanija> avios = aviokompanijaService.findAll();
+		for (AvioKompanija r : avios) {
+			List<Ocena> oceneR = ocenaService.findAllByAvio(r);
+			r.setOcena(Ocena.getProsek(oceneR));
+			if(r.getOcena()!= 0.0)
+			{
+				++i;
+				sum += r.getOcena();
+			}
+		}
+		double avg = 0.0;
+		if(i != 0){
+			avg =  sum/i;
+		}
+		avg = BigDecimal.valueOf(avg)
+			    .setScale(2, RoundingMode.HALF_UP)
+			    .doubleValue();
+		
+		Chart1DTO retval = new Chart1DTO();
+		retval.setService(avio.getNaziv());
+		retval.setServiceRating(avio.getOcena());
+		retval.setOthers("Services average");
+		retval.setOthersRating(avg);
+		
+		return ResponseEntity.ok().body(retval);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_AVIO')")
+	@RequestMapping(value = "/api/avioKompanije/chart2/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Chart2DTO>> getChart2(
+			@PathVariable(value = "id") Long avioId) {
+		AvioKompanija avio = aviokompanijaService.findOne(avioId);
+		Set<Let> flights =  avio.getListaLetova();
+
+		List<Chart2DTO> retVal = new ArrayList<>();
+		
+		double sum = 0.0;
+		int i = 0;
+
+		for (Let v : flights) {
+			List<Ocena> ocene = ocenaService.findAllByLet(v);
+			v.setOcena(Ocena.getProsek(ocene));
+			if(v.getOcena()!= 0.0)
+			{
+				++i;
+				sum += v.getOcena();
+			}
+			Chart2DTO r2 = new Chart2DTO();
+			r2.setCar(v.getPocetnaDestinacija() + "-" + v.getKrajnjaDestinacija());
+			r2.setCarRating(v.getOcena());
+			retVal.add(r2);
+		}
+		
+
+		double avg = 0.0;
+		if(i != 0){
+			avg =  sum/i;
+		}
+		avg = BigDecimal.valueOf(avg)
+			    .setScale(2, RoundingMode.HALF_UP)
+			    .doubleValue();
+		
+		retVal.add(new Chart2DTO("Average", avg));
+		
+		return ResponseEntity.ok().body(retVal);
 	}
 
 	/* update avioKompanije po id-u */

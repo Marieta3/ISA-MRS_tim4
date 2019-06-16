@@ -23,8 +23,8 @@ import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.dto.RentAcarDTO;
-import com.ISAtim4.WebAppSpringAirport.dto.RentChart1DTO;
-import com.ISAtim4.WebAppSpringAirport.dto.RentChart2DTO;
+import com.ISAtim4.WebAppSpringAirport.dto.Chart1DTO;
+import com.ISAtim4.WebAppSpringAirport.dto.Chart2DTO;
 import com.ISAtim4.WebAppSpringAirport.service.FilijalaService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 import com.ISAtim4.WebAppSpringAirport.service.RentACarService;
@@ -112,7 +112,7 @@ public class RentACarController {
 
 	@PreAuthorize("hasRole('ROLE_RENT')")
 	@RequestMapping(value = "/api/rentACars/chart1/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<RentChart1DTO> getChart1(
+	public ResponseEntity<Chart1DTO> getChart1(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rentACar = rentACarService.findOne(rentAcarId);
 		
@@ -125,15 +125,24 @@ public class RentACarController {
 		
 		
 		double sum = 0.0;
+		int i = 0;
+		
 		List<RentACar> rents = rentACarService.findAll();
 		for (RentACar r : rents) {
 			List<Ocena> oceneR = ocenaService.findAllByRent(r);
 			r.setOcena(Ocena.getProsek(oceneR));
-			sum += r.getOcena();
+			if(r.getOcena()!= 0.0)
+			{
+				++i;
+				sum += r.getOcena();
+			}
 		}
-		double avg =  sum/rents.size();
+		double avg = 0.0;
+		if(i != 0){
+			avg =  sum/i;
+		}
 		
-		RentChart1DTO retval = new RentChart1DTO();
+		Chart1DTO retval = new Chart1DTO();
 		retval.setService(rentACar.getNaziv());
 		retval.setServiceRating(rentACar.getOcena());
 		retval.setOthers("Services average");
@@ -144,24 +153,26 @@ public class RentACarController {
 	
 	@PreAuthorize("hasRole('ROLE_RENT')")
 	@RequestMapping(value = "/api/rentACars/chart2/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<RentChart2DTO>> getChart2(
+	public ResponseEntity<List<Chart2DTO>> getChart2(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rent = rentACarService.findOne(rentAcarId);
 		List<Filijala> filijale =  filijalaService.findAllByRentACar(rent);
-		List<Vozilo> cars = new ArrayList<Vozilo>();
 
-		List<RentChart2DTO> retVal = new ArrayList<>();
+		List<Chart2DTO> retVal = new ArrayList<>();
 		
 		double sum = 0.0;
 		int i = 0;
 		for (Filijala filijala : filijale) {
 			Set<Vozilo> carList =  filijala.getVozila();
 			for (Vozilo v : carList) {
-				++i;
 				List<Ocena> ocene = ocenaService.findAllByVozilo(v);
 				v.setOcena(Ocena.getProsek(ocene));
-				sum += v.getOcena();
-				RentChart2DTO r2 = new RentChart2DTO();
+				if(v.getOcena()!= 0.0)
+				{
+					++i;
+					sum += v.getOcena();
+				}
+				Chart2DTO r2 = new Chart2DTO();
 				r2.setCar(v.getProizvodjac() + " " + v.getModel() + " (" +v.getGodina() + ")" );
 				r2.setCarRating(v.getOcena());
 				retVal.add(r2);
@@ -173,7 +184,7 @@ public class RentACarController {
 			avg =  sum/i;
 		}
 		
-		retVal.add(new RentChart2DTO("Average", avg));
+		retVal.add(new Chart2DTO("Average", avg));
 		
 		return ResponseEntity.ok().body(retVal);
 	}

@@ -29,6 +29,7 @@
 		<li><button class="tablinks"
 				onclick="openTab(event, 'Airplanes')">Airplanes</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Flights')">Flights</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Insights')">Insights</button></li>
 	</ul>
 
 	<div id="EditProfile" class="tabcontent">
@@ -435,6 +436,15 @@
 			</form>
 		</div>
 	</div>
+	
+	<div id="Insights" class="tabcontent">
+    	<div class="d-flex justify-content-center"  style="margin-top: 15px">
+    	<div class="container">
+ 			 <div id="chart_serviceRating" style="margin-bottom: 20px"></div>
+ 			 <div id="chart_flightsRating" style="margin-bottom: 20px" ></div>
+		</div>
+		</div>		
+	</div>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -450,6 +460,7 @@
 <script type="text/javascript" src="js/updateAvioKompanija.js"></script>
 <script type="text/javascript" src="js/imagePreview.js"></script>
 <script type="text/javascript" src="js/profilAvioAdmin.js"></script>
+<script type="text/javascript" src="js/chartsAvio.js"></script>
 
 </body>
 
