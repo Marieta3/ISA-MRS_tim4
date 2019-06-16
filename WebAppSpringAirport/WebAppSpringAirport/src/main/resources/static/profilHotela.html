@@ -55,8 +55,27 @@
 
     </div>
 
-    <div class="d-flex justify-content-center"  style="margin-top: 5px">
+    <div class="d-flex justify-content-center"  style="margin-top: 15px">
     	<div class="container">
+    	<form id="pretragaSoba" style="padding-left: 25px;">
+    		<div class="row">
+			<div class="col"><label style="width: 150px; height: 40px" id="label1">Check-in date:</label>  </div>
+			<div class="col"><input style="width: 150px; height: 40px" value="" type="date" name="startDate" id="startDate" placeholder="Pick a date" size="20" required /> </div>
+			<div class="col"><label style="width: 150px; height: 40px">No. of nights:</label> </div>
+			<div class="col"><input style="width: 150px; height: 40px; margin-top: 0px " value="" type="number" id="broj_nocenja" min="1" max="15" required> </div>
+			</div>
+			
+	    	<div class="row" align="center" style="margin-top: 5px">
+		    	<div class="col-6">
+	    		<button type="submit"  class="btn btn-primary" id="resetBtn" name="reset"  >Reset</button>
+	    		</div>
+		    	<div class="col-6">
+	    		<button type="submit"  class="btn btn-primary" id="findBtn" name="find" >Search</button>
+	    		</div>
+	    	</div>
+		</form>
+		
+		
 		<h2>List of Rooms</h2>
 		<table id="prikazSobaTabela" class="table table-striped table-bordered">
 			<thead>
@@ -65,7 +84,7 @@
 				<th>Bed count</th>
 				<th>Description</th>
 				<th>Rating</th>
-				<th>Price</th>
+				<th>Price per night</th>
 			</tr>
 			</thead>
 			<tbody></tbody>

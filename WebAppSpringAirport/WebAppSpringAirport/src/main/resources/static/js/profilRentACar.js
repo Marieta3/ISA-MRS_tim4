@@ -1,4 +1,15 @@
+let searchOn = false;
+
 $(document).ready(function () {
+    var today = new Date();
+    var day=today.getDate()>9?today.getDate():"0"+today.getDate(); // format should be "DD" not "D" e.g 09
+    var month=(today.getMonth()+1)>9?(today.getMonth()+1):"0"+(today.getMonth()+1);
+    var year=today.getFullYear();
+
+    $("#startDate").attr('min', year + "-" + month + "-" + day);
+    $("#startDate").attr('max', "2025-01-01");
+    
+    
     var rent_id = localStorage.getItem("profil_rent")
     if(rent_id == null){
         window.location.replace("prikazRentACar.html")
@@ -7,6 +18,29 @@ $(document).ready(function () {
     findProfile();
     findAllBranchesByRent();
     findAllCarsByRent();
+});
+
+$("#pretragaVozilo button").click(function(ev){
+    ev.preventDefault()// cancel form submission
+    if($(this).attr("name")=="find"){
+    	if (($("#startDate").val() == "") || ($("#broj_dana").val() == ""))
+		{
+    		notify("Do not leave any fields blank!", "danger")
+		}
+    	else{
+	    	pretraga();
+		}
+    }
+    else if($(this).attr("name")=="reset"){
+    	
+    	$("#startDate").val("");
+    	$("#broj_dana").val("");
+    	
+    	if(searchOn){
+    		findAllCarsByRent();
+	        searchOn = false;
+    	}
+    }
 });
 
 function findProfile(){
@@ -61,10 +95,10 @@ function renderProfil(data){
 
 function renderFilijale(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
-	/*
+	
 	$("#prikazBranchTabela").find("tr:gt(0)").remove();
-	$("#prikazBranchTabela").find("th:gt(4)").remove();
-	*/
+	$("#prikazBranchTabela").find("th:gt(3)").remove();
+	
 	$.each(list, function(index, filijala){
 		$('#prikazBranchTabela').append(get_row(filijala, "branch", localStorage.getItem('uloga'), null, null));
 	})
@@ -85,21 +119,52 @@ function renderVozila(data){
 	
 	console.log(data);
 	uloga=localStorage.getItem("uloga");
-	/*
+	
 	$("#prikazVoziloTabela").find("tr:gt(0)").remove();
-	$("#prikazVoziloTabela").find("th:gt(6)").remove();
-	*/
+	$("#prikazVoziloTabela").find("th:gt(8)").remove();
+	
+
+	$('#prikazVoziloTabela').DataTable().clear().destroy();
 	$.each(list, function(index, car){
 		$('#prikazVoziloTabela tbody').append(get_row(car, "car", localStorage.getItem('uloga'), null, null));
 	})
-	if ( ! $.fn.DataTable.isDataTable( '#prikazVoziloTabela' ) ) {
-		$('#prikazVoziloTabela').DataTable({
-		      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
-		      "iDisplayLength": 5,
-		      "order":[[1,'asc']],
-		      "columnDefs": [
-		                     { "orderable": false, "targets": 0 }
-		                   ]
-		  });
-	}
+
+
+	$('#prikazVoziloTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "order":[[1,'asc']],
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 0 }
+	                   ]
+	  });
+	
+}
+
+
+function pretraga() {
+	var startDate = $("#startDate").val();
+	var broj_dana = $("#broj_dana").val();
+
+	searchOn = true;
+	//alert(sobaToJSONsearch(startDate, broj_nocenja));
+	$.ajax({
+		type:'POST',
+		url:'/api/voziloRent/pretraga/' + localStorage.getItem("profil_rent"),
+		dataType:'json',
+		contentType: 'application/json',
+		data:voziloToJSONsearch(startDate, broj_dana),
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success:renderVozila
+	});
+}
+
+function voziloToJSONsearch(dolazak, broj_dana) {
+	return JSON.stringify({
+		"vremeDolaska" : dolazak,
+		"brojDana" : broj_dana
+	});
 }
