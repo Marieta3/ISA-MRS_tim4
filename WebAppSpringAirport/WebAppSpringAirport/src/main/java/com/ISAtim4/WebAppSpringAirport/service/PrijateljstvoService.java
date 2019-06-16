@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Prijateljstvo;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.repository.PrijateljstvoRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class PrijateljstvoService {
 	@Autowired
 	private PrijateljstvoRepository prijateljstvoRepository;
@@ -28,6 +30,7 @@ public class PrijateljstvoService {
 		return prijateljstvoRepository.findAll(page);
 	}
 
+	@Transactional(readOnly = false)
 	public Prijateljstvo save(Prijateljstvo friend) {
 		return prijateljstvoRepository.save(friend);
 	}
@@ -55,6 +58,7 @@ public class PrijateljstvoService {
 		return prijateljstvoRepository.findPotentionalFriends(me);
 	}
 	
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		prijateljstvoRepository.deleteById(id);
 	}

@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,7 +26,8 @@ public class Sediste {
 	@Column(name="id", unique=true, nullable=false)
 	private Long id;
 	
-	
+	@Version
+	private int version=1;
 	
 	@Column(nullable=false)
 	private String klasa;

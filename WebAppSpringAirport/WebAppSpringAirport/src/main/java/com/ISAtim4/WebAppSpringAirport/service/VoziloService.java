@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.repository.VoziloRepository;
 
 
 @Service
+@Transactional(readOnly = true)
 public class VoziloService{
 	@Autowired
 	private VoziloRepository voziloRepository;
@@ -30,10 +32,12 @@ public class VoziloService{
 		return voziloRepository.findAll(page);
 	}
 
+	@Transactional(readOnly = false)
 	public Vozilo save(Vozilo vozilo) {
 		return voziloRepository.save(vozilo);
 	}
 
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		voziloRepository.deleteById(id);
 	}

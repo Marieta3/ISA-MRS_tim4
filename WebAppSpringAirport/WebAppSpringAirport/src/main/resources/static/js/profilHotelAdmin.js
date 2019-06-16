@@ -209,13 +209,16 @@ function renderSobe(data){
 	if(uloga=="ROLE_HOTEL"){
 		var th_nbsp=$('<th>&nbsp;</th>');
 		var th_nbsp1=$('<th>&nbsp;</th>');
-		$('#prikazSobaTabela').find('tr:eq(0)').append(th_nbsp);
+		var th_nbsp2=$('<th>&nbsp;</th>');
+		$('#prikazSobaTabela').find('tr:eq(0)').append('<th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>');
 		$('#prikazSobaTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	$("#prikazSobaTabela").find("tr:gt(0)").remove();
-	$("#prikazSobaTabela").find("th:gt(7)").remove();
+	$("#prikazSobaTabela").find("th:gt(8)").remove();
 	$.each(list, function(index, soba){
-		$('#prikazSobaTabela').append(get_row(soba, "room", localStorage.getItem('uloga'), 'id01', 'id04'));
+		var row=get_row(soba, "room", localStorage.getItem('uloga'), 'id01', 'id04');
+		row.append('<td><button name="'+soba.id+'" id="quick_'+soba.id+'" onclick="selektovanaSobaBrzaRezervacija(this), otvoriModal(\'id07\')">Make Quick</button></td>');
+		$('#prikazSobaTabela').append(row);
 	})
 	$('#prikazSobaTabela').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
@@ -229,6 +232,56 @@ function renderSobe(data){
 	  });
 }
 
+function selektovanaSobaBrzaRezervacija(btn){
+	var soba_id=$(btn).attr('name');
+	console.log(soba_id);
+	$('#quick-room-id').val(soba_id);
+	$.ajax({
+		type:'GET',
+		url:'api/sobe/'+soba_id,
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	$('#quick-room-opis').val(data.opis);
+        	if(data.slika!="" && data.slika!=null){
+        		$('#quick-room-img').attr('src', data.slika);
+        	}
+        	$('#quick-room-old-cena').val(data.cena);
+        	
+        }
+	});
+}
+function dodavanjeBrzeRezervacije(e){
+	e.preventDefault();
+	var soba_id=$('#quick-room-id').val();
+	console.log(soba_id);
+	var nova_cena=$('#quick-room-new-cena').val();
+	var start_datum=$('#quick-room-start').val();
+	var end_datum=$('#quick-room-end').val();
+	
+	$.ajax({
+		type:'POST',
+		url:'api/quick/room',
+		contentType:'application/json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        data:brzaSobaToJSON(soba_id, nova_cena, start_datum, end_datum),
+        success:function(data){
+        	zatvoriModal('id07');
+        }
+	});
+}
+
+function brzaSobaToJSON(soba_id, nova_cena, start_datum, end_datum){
+	return JSON.stringify({
+		"idSobe":soba_id,
+		"novaCena":nova_cena,
+		"startDatum":start_datum,
+		"endDatum":end_datum
+	});
+}
 function formaUpdateservice(e, forma){
 	e.preventDefault();
 	var id_usluge = $(forma).find('input[type=hidden]').val();

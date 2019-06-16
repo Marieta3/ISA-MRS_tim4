@@ -41,6 +41,10 @@ $(window).click(function(e){
 		$("#id06").css("display", "none");
 		ponistavanje($("#id06").find('form').attr('id'));
 		$("body").removeClass("modal-open");
+	}else if(e.target==document.getElementById("id07")){
+		$("#id07").css("display", "none");
+		ponistavanje($("#id07").find('form').attr('id'));
+		$("body").removeClass("modal-open");
 	}
 	
 })

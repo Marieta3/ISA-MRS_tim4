@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.repository.KorisnikRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class KorisnikService {
 	@Autowired
 	private KorisnikRepository korisnikRepository;
@@ -29,10 +31,12 @@ public class KorisnikService {
 		return korisnikRepository.findAll(page);
 	}
 
+	@Transactional(readOnly = false)
 	public Korisnik save(Korisnik korisnik) {
 		return korisnikRepository.save(korisnik);
 	}
 
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		korisnikRepository.deleteById(id);
 	}

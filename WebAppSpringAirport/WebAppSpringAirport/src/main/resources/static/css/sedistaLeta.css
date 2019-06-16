@@ -17,11 +17,11 @@ a {
 	width: 100%;
 	text-align: center;
 }
-.container {
+.container{
 	margin: 0 auto;
 	width: 100%;
 }
-.booking-details {
+.booking-details{
 	float: left;
 	text-align: left;
 	margin-left: 35px;
@@ -29,6 +29,7 @@ a {
 	position: relative;
 	height: 401px;
 }
+
 .booking-details h2 {
 	margin: 25px 0 20px 0;
 	font-size: 17px;
@@ -92,12 +93,12 @@ span.seatCharts-legendDescription {
 	margin-left: 5px;
 	line-height: 30px;
 }
-.checkout-button, .invite-button, .next-button {
+.checkout-button, .invite-button, .next-button, .add-nereg-button, .glupavo-dugme {
 	display: block;
 	margin: 10px 0;
 	font-size: 14px;
 }
-#selected-seats, #selected-rooms, #selected-cars, #invited-friends {
+#selected-seats, #selected-rooms, #selected-cars, #invited-friends, #invited-friends, #nereg-lista {
 	max-height: 90px;
 	overflow-y: scroll;
 	overflow-x: none;

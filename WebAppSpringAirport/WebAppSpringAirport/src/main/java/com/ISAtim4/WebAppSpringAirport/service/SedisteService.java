@@ -8,15 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.repository.SedisteRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class SedisteService {
 	@Autowired
 	private SedisteRepository sedisteRepository;
 
+	@Transactional(readOnly = false)
 	public Sediste save(Sediste sediste) {
 		return sedisteRepository.save(sediste);
 	}
@@ -33,6 +36,7 @@ public class SedisteService {
 		return sedisteRepository.findAll(page);
 	}
 
+	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		sedisteRepository.deleteById(id);
 	}
