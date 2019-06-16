@@ -47,6 +47,9 @@
             <div class="grid-item">
                 Address <br> <input type="text" id="adresa" readonly="readonly"  value="Adresa1">
             </div>
+     		<div class="grid-item" style="height:300px; widht:400px">Map<br><div id="map" class="map" style="height:250px; widht:400px"></div>
+				<input type="hidden" id="rent_coords">
+			</div>
             <div class="grid-item" id="textarea">
                 Description <br>
                 <textarea id="opis" rows="5" cols="60" readonly="readonly">Description of a great Rent-a-Car</textarea>
@@ -116,6 +119,7 @@
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
+<script src="https://api-maps.yandex.ru/2.1/?apikey=<9ea24de0-3dda-4e4d-b830-25ca34e7ffc8>&lang=en_US&format=json" type="text/javascript"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/profilRentACar.js"></script>
