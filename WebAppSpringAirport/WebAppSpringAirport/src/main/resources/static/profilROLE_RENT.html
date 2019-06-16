@@ -26,6 +26,7 @@
 				id="defaultOpen">Rent-a-car</button></li>
 		<li><button id="btnBranchList" class="tablinks" onclick="openTab(event, 'Branches')">Branches</button></li>
 		<li><button id="btnCarList" class="tablinks" onclick="openTab(event, 'Cars')">Cars</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Insights')">Insights</button></li>
 	</ul>
 	
 	<div id="EditProfile" class="tabcontent">
@@ -273,6 +274,9 @@
 				<th>Price</th>
 				<th>Seats</th>
 				<th>Rating</th>
+				<th>Branch Address</th>
+				<th></th>
+				<th></th>
 			</tr>
 			</thead>
 			<tbody></tbody>
@@ -384,6 +388,16 @@
 	</div>
 	
 	</div>
+	
+	
+	<div id="Insights" class="tabcontent">
+    <div class="d-flex justify-content-center"  style="margin-top: 15px">
+    	<div class="container">
+ 			 <div id="chart_serviceRating" style="margin-bottom: 20px"></div>
+ 			 <div id="chart_carsRating" style="margin-bottom: 20px" ></div>
+		</div>
+		</div>		
+	</div>
 		
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -391,6 +405,7 @@
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
 <script src="https://api-maps.yandex.ru/2.1/?apikey=<9ea24de0-3dda-4e4d-b830-25ca34e7ffc8>&lang=en_US&format=json" type="text/javascript"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="js/navBar.js"></script>
 <script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
@@ -398,6 +413,7 @@
 <script type="text/javascript" src="js/updateRentACar.js"></script>
 <script type="text/javascript" src="js/imagePreview.js"></script>
 <script type="text/javascript" src="js/profilRentAdmin.js"></script>
+<script type="text/javascript" src="js/chartsRent.js"></script>
 
 </body>
 </html>
