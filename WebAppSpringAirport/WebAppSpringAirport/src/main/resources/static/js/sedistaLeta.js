@@ -337,6 +337,11 @@ function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji,
 function pokupiNeregPutnik(e){
 	e.preventDefault();
 	console.log('nereg putnik');
+	var ime=$('#nereg-ime').val();
+	var prezime=$('#nereg-prezime').val();
+	var pasos=$('#nereg-pasos').val();
+	var datum=$('#nereg-datum-rodjenja').val();
+	$('#nereg-lista').append('<li>'+ime+' '+prezime+' '+pasos+' '+datum+'</li>')
 }
 var firstSeatLabel = 1;
 function renderDetaljanLet(){
@@ -499,7 +504,9 @@ function renderDetaljanLet(){
 									$('.invite-button').prop('disabled', true);
 									$('.add-nereg-button').prop('disabled', true);
 								}
+								//kad se neko sediste deselektuje, brisu se liste pozvanih jbg
 								$('#invited-friends').empty();
+								$('#nereg-lista').empty();
 								//seat has been vacated
 								return 'available';
 							} else if (this.status() == 'unavailable') {
