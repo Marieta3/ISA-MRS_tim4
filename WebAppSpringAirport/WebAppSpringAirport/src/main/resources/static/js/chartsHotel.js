@@ -1,6 +1,22 @@
-google.charts.load('current', {packages: ['corechart', 'bar']});
+google.charts.load('current', {packages: ['corechart', 'bar', 'line']});
 google.charts.setOnLoadCallback(drawChart1);
 
+test();
+function test() {
+	$.ajax({
+		type:'GET',
+		url:'/api/hotels/chart4/' + localStorage.getItem("hotel_id"),
+		dataType:'json',
+		contentType: 'application/json',
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success:function(data){
+			console.log(data);
+		}
+	});
+}
 
 
 function drawChart1() {

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -26,12 +27,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
+import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
+import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.dto.Chart1DTO;
 import com.ISAtim4.WebAppSpringAirport.dto.Chart2DTO;
 import com.ISAtim4.WebAppSpringAirport.dto.LetDTO;
 import com.ISAtim4.WebAppSpringAirport.service.AvioKompanijaService;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
+import com.ISAtim4.WebAppSpringAirport.service.RezervacijaService;
 
 @RestController
 public class AvioKompanijaController {
@@ -42,6 +46,9 @@ public class AvioKompanijaController {
 	
 	@Autowired
 	private LetService letService;
+	
+	@Autowired
+	private RezervacijaService rezervacijaService;
 	
 	@Autowired
 	private OcenaService ocenaService;
@@ -237,6 +244,80 @@ public class AvioKompanijaController {
 			    .doubleValue();
 		
 		retVal.add(new Chart2DTO("Average", avg));
+		
+		return ResponseEntity.ok().body(retVal);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_AVIO')")
+	@RequestMapping(value = "/api/avioKompanije/chart4/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Double>> getChart4(
+			@PathVariable(value = "id") Long avioId) {
+		AvioKompanija avio = aviokompanijaService.findOne(avioId);
+		List<Rezervacija> rezervacije = new ArrayList<>( rezervacijaService.findAll());
+
+		List<Double> retVal = new ArrayList<>();
+		for(int i = 0; i<= 11; i++)
+		{
+			retVal.add(0.0);
+		}
+		
+		Calendar currDate = Calendar.getInstance();
+		Calendar reserveDate = Calendar.getInstance();
+
+		currDate.setTime(new Date());
+		
+		for (Rezervacija r : rezervacije) {
+			reserveDate.setTime(r.getDatumRezervacije());
+			if(currDate.get(Calendar.YEAR) == reserveDate.get(Calendar.YEAR)) {  //gledamo samo ovogodišnje rezervacije 
+					for (Sediste s : r.getOdabranaSedista()) {
+						if(s.getLet().getAvio_kompanija().equals(avio))
+						{						    
+						    switch (reserveDate.get(Calendar.MONTH)) {
+							case 0:
+								retVal.set(0, retVal.get(0) + s.getCena());
+								break;
+							case 1:
+								retVal.set(1, retVal.get(1) + s.getCena());
+								break;
+							case 2:
+								retVal.set(2, retVal.get(2) + s.getCena());
+								break;
+							case 3:
+								retVal.set(3, retVal.get(3) + s.getCena());
+								break;
+							case 4:
+								retVal.set(4, retVal.get(4) + s.getCena());
+								break;
+							case 5:
+								retVal.set(5, retVal.get(5) + s.getCena());
+								break;
+							case 6:
+								retVal.set(6, retVal.get(6) + s.getCena());
+								break;
+							case 7:
+								retVal.set(7, retVal.get(7) + s.getCena());
+								break;
+							case 8:
+								retVal.set(8, retVal.get(8) + s.getCena());
+								break;
+							case 9:
+								retVal.set(9, retVal.get(9) + s.getCena());
+								break;
+							case 10:
+								retVal.set(10, retVal.get(10) + s.getCena());
+								break;
+							case 11:
+								retVal.set(11, retVal.get(11) + s.getCena());
+								break;
+							default:
+								break;
+							}
+							
+						
+					}
+				}
+			}
+		}
 		
 		return ResponseEntity.ok().body(retVal);
 	}
