@@ -28,6 +28,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.dto.Chart1DTO;
+import com.ISAtim4.WebAppSpringAirport.dto.Chart2DTO;
 import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
@@ -222,6 +223,42 @@ public class HotelController {
 		retval.setOthersRating(avg);
 		
 		return ResponseEntity.ok().body(retval);
+	}
+	
+
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
+	@RequestMapping(value = "/api/hotels/chart2/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Chart2DTO>> getChart2(
+			@PathVariable(value = "id") Long hotelId) {
+		Hotel hotel = hotelService.findOne(hotelId);
+
+		List<Chart2DTO> retVal = new ArrayList<>();
+		
+		double sum = 0.0;
+		int i = 0;
+		for (Soba soba : hotel.getSobe()) {
+			List<Ocena> ocene = ocenaService.findAllBySoba(soba);
+			soba.setOcena(Ocena.getProsek(ocene));
+			if(soba.getOcena()!= 0.0)
+			{
+				++i;
+				sum += soba.getOcena();
+			}
+			Chart2DTO r2 = new Chart2DTO();
+			r2.setCar(soba.getHotel().getNaziv() + "_" + soba.getId());
+			r2.setCarRating(soba.getOcena());
+			retVal.add(r2);
+		
+		}
+
+		double avg = 0.0;
+		if(i != 0){
+			avg =  sum/i;
+		}
+		
+		retVal.add(new Chart2DTO("Average", avg));
+		
+		return ResponseEntity.ok().body(retVal);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
