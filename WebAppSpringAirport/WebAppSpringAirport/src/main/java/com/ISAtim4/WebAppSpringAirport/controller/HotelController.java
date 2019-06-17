@@ -1,5 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +25,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
+import com.ISAtim4.WebAppSpringAirport.dto.Chart1DTO;
 import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
@@ -173,6 +176,50 @@ public class HotelController {
 			hotel2.setOcena(Ocena.getProsek(ocene));
 		}
 		return ResponseEntity.ok().body(hotels);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
+	@RequestMapping(value = "/api/hotels/chart1/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Chart1DTO> getChart1(
+			@PathVariable(value = "id") Long hotelId) {
+		Hotel hotel = hotelService.findOne(hotelId);
+		
+		if (hotel == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		List<Ocena> ocene = ocenaService.findAllByHotel(hotel);
+		hotel.setOcena(Ocena.getProsek(ocene));
+		
+		
+		double sum = 0.0;
+		int i = 0;
+		
+		List<Hotel> hotels = hotelService.findAll();
+		for (Hotel r : hotels) {
+			List<Ocena> oceneR = ocenaService.findAllByHotel(r);
+			r.setOcena(Ocena.getProsek(oceneR));
+			if(r.getOcena()!= 0.0)
+			{
+				++i;
+				sum += r.getOcena();
+			}
+		}
+		double avg = 0.0;
+		if(i != 0){
+			avg =  sum/i;
+		}
+		avg = BigDecimal.valueOf(avg)
+			    .setScale(2, RoundingMode.HALF_UP)
+			    .doubleValue();
+		
+		Chart1DTO retval = new Chart1DTO();
+		retval.setService(hotel.getNaziv());
+		retval.setServiceRating(hotel.getOcena());
+		retval.setOthers("Services average");
+		retval.setOthersRating(avg);
+		
+		return ResponseEntity.ok().body(retval);
 	}
 
 	/* update hotela po id-u */

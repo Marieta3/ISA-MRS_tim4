@@ -4,16 +4,14 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +23,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
-import com.ISAtim4.WebAppSpringAirport.domain.Let;
-import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
-import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.RezervacijaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;

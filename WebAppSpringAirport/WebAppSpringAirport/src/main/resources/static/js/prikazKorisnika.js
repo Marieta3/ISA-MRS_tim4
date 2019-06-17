@@ -177,7 +177,7 @@ $(document).on('submit', "#newUserForma", function(e){
 			$('#prikazKorisnikaTabela').DataTable().clear().destroy();
 			findAll();
 			//dodajNoviEntitet('prikazKorisnikaTabela', get_row(data, "user", localStorage.getItem('uloga'), 'id02', 'id01'));
-			$.bootstrapGrowl("An error occured!", {
+			$.bootstrapGrowl("User added!", {
 				  ele: 'body', // which element to append to
 				  type: 'success', // (null, 'info', 'danger', 'success')
 				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'

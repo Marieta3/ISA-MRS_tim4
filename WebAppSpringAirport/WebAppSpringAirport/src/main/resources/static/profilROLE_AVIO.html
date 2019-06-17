@@ -29,6 +29,7 @@
 		<li><button class="tablinks"
 				onclick="openTab(event, 'Airplanes')">Airplanes</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Flights')">Flights</button></li>
+		<li><button class="tablinks" onclick="openTab(event, 'Insights')">Insights</button></li>
 	</ul>
 
 	<div id="EditProfile" class="tabcontent">
@@ -435,6 +436,15 @@
 			</form>
 		</div>
 	</div>
+	
+	<div id="Insights" class="tabcontent">
+    	<div class="d-flex justify-content-center"  style="margin-top: 15px">
+    	<div class="container">
+ 			 <div id="chart_serviceRating" style="margin-bottom: 20px"></div>
+ 			 <div id="chart_flightsRating" style="margin-bottom: 20px" ></div>
+		</div>
+		</div>		
+	</div>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -443,12 +453,14 @@
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
 <script src="https://api-maps.yandex.ru/2.1/?apikey=<9ea24de0-3dda-4e4d-b830-25ca34e7ffc8>&lang=en_US&format=json" type="text/javascript"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
 <script type="text/javascript" src="js/editProfile.js"></script>
 <script type="text/javascript" src="js/updateAvioKompanija.js"></script>
 <script type="text/javascript" src="js/imagePreview.js"></script>
 <script type="text/javascript" src="js/profilAvioAdmin.js"></script>
+<script type="text/javascript" src="js/chartsAvio.js"></script>
 
 </body>
 

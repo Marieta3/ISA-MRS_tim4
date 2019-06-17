@@ -44,7 +44,7 @@ public class NotificationService {
 		mail.setSubject("Verification mail for "+uloga);//+korisnik.getUsername());
 		
 		
-		mail.setText("Your temporary password is "+lozinka+". Please change this password on your first login.");
+		mail.setText("Your username is " + k.getKorisnickoIme()+ " .Your temporary password is "+lozinka+". Please change this password on your first login.");
 		javaMailSender.send(mail);
 	}
 }

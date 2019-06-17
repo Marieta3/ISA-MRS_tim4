@@ -22,13 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Filijala;
-import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
-import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
-import com.ISAtim4.WebAppSpringAirport.dto.SobaPretragaDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.VoziloDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.VoziloPretragaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.FilijalaService;
@@ -99,7 +96,7 @@ public class VoziloController {
 	
 	/* da uzmemo sve vozila za neki rent-a-car, svima dozvoljeno */
 	@RequestMapping(value = "/api/cars/rent/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Vozilo> getAllBranchesByRentACar(
+	public List<Vozilo> getAllCarsByRentACar(
 			@PathVariable(value = "id") Long rentId) {
 		logger.info("ID je " + rentId);
 		RentACar rent = rentService.findOne(rentId);

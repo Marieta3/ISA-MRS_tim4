@@ -175,7 +175,7 @@ function renderVozila(data){
 		$('#prikazVoziloTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	$("#prikazVoziloTabela").find("tr:gt(0)").remove();
-	$("#prikazVoziloTabela").find("th:gt(9)").remove();
+	$("#prikazVoziloTabela").find("th:gt(10)").remove();
 	$.each(list, function(index, car){
 		console.log("render vozila.....")
 		console.log(car)
@@ -188,8 +188,8 @@ function renderVozila(data){
 		      "order":[[1,'desc']],
 		      "columnDefs": [
 		                     { "orderable": false, "targets": 0 },
-		                     { "orderable": false, "targets": 8 },
-		                     { "orderable": false, "targets": 9 }
+		                     { "orderable": false, "targets": 9 },
+		                     { "orderable": false, "targets": 10 }
 		                   ]
 		  });
 	}
