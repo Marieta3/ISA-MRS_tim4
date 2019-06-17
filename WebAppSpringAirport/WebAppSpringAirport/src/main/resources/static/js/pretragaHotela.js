@@ -47,7 +47,4 @@ function hotelsToJSONsearch(lokacijaNaziv,vremePolaska,vremeDolaska,tipPretrage)
 	});
 }
 
-function ograniciDatum2(datum1_id, datum2_id){
-	var datum1=$('#'+datum1_id).val();
-	$('#'+datum2_id).attr('min', datum1);
-}
+

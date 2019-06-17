@@ -3,26 +3,28 @@ package com.ISAtim4.WebAppSpringAirport.dto;
 import java.util.Date;
 
 public class VoziloPretragaDTO {
-	private Date vremeDolaska;
-	private Integer brojDana;
+	private Date vreme1;
+	private Date vreme2;
 	
 	public VoziloPretragaDTO() {
 		
 	}
 
-	public Date getVremeDolaska() {
-		return vremeDolaska;
+	public Date getVreme1() {
+		return vreme1;
 	}
 
-	public void setVremeDolaska(Date vremeDolaska) {
-		this.vremeDolaska = vremeDolaska;
+	public void setVreme1(Date vreme1) {
+		this.vreme1 = vreme1;
 	}
 
-	public Integer getBrojDana() {
-		return brojDana;
+	public Date getVreme2() {
+		return vreme2;
 	}
 
-	public void setBrojDana(Integer brojDana) {
-		this.brojDana = brojDana;
+	public void setVreme2(Date vreme2) {
+		this.vreme2 = vreme2;
 	}
+
+	
 }

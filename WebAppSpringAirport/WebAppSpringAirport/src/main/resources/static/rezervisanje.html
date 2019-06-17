@@ -253,7 +253,7 @@
 					placeholder="Enter location/rent-a-car name" id="rentName">
 				&nbsp; &nbsp; <label id="label0">Depart date:</label> <input
 					type="date" name="depart_date" id="datepicker4"
-					placeholder="Pick a date" /> <label id="label1">Return
+					placeholder="Pick a date" onchange="ograniciDatum2('datepicker4','datepicker5')" /> <label id="label1">Return
 					date:</label> &nbsp; &nbsp; <input type="date" name="return_date"
 					id="datepicker5" placeholder="Pick a date" />&nbsp; &nbsp; <input
 					type="submit" name="search" id="find3"
@@ -283,6 +283,18 @@
 			</table>
 		</div>
 		<!-- pretraga vozila-->
+		<br><br>
+		<div id="prikaz-vozila">
+		<form id="pretragaVozila" style="padding-left: 25px;">
+				<h1 id="rent-naziv-adresa" style="padding-left: 25px;">Rent-a-car</h1>
+			. <input type="hidden" id="selektovan-rent-id"> <br> <br>
+				<label id="label1">Datum dolaska:</label> &nbsp; &nbsp; <input
+					type="date" name="dolazak_date1" id="datepicker7" onchange="ograniciDatum2('datepicker7','datepicker8')"
+					placeholder="Pick a date" required />&nbsp;&nbsp; <label>Nights:
+				</label>&nbsp;&nbsp;<input style="width: 150px;" type="date"
+					id="datepicker8">&nbsp;&nbsp;<input type="submit"
+					value="Search Vehicles">
+			</form>
 		<!-- tabela vozila-->
 		<br> <br>
 		<div class='rezervisanje-vozila'>
@@ -322,7 +334,7 @@
 
 			</div>
 		</div>
-
+	</div>
 	</div>
 	<div id="id02" class="modal">
 			<form class="modal-content4 animate" id="previewRezervacije">
