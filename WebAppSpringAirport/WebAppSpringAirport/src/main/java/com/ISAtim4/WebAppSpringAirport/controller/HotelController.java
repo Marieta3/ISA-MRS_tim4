@@ -3,8 +3,10 @@ package com.ISAtim4.WebAppSpringAirport.controller;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
@@ -26,6 +28,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.dto.Chart1DTO;
+import com.ISAtim4.WebAppSpringAirport.dto.Chart2DTO;
 import com.ISAtim4.WebAppSpringAirport.dto.HotelDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
@@ -221,6 +224,132 @@ public class HotelController {
 		
 		return ResponseEntity.ok().body(retval);
 	}
+	
+
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
+	@RequestMapping(value = "/api/hotels/chart2/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Chart2DTO>> getChart2(
+			@PathVariable(value = "id") Long hotelId) {
+		Hotel hotel = hotelService.findOne(hotelId);
+
+		List<Chart2DTO> retVal = new ArrayList<>();
+		
+		double sum = 0.0;
+		int i = 0;
+		for (Soba soba : hotel.getSobe()) {
+			List<Ocena> ocene = ocenaService.findAllBySoba(soba);
+			soba.setOcena(Ocena.getProsek(ocene));
+			if(soba.getOcena()!= 0.0)
+			{
+				++i;
+				sum += soba.getOcena();
+			}
+			Chart2DTO r2 = new Chart2DTO();
+			r2.setCar(soba.getHotel().getNaziv() + "_" + soba.getId());
+			r2.setCarRating(soba.getOcena());
+			retVal.add(r2);
+		
+		}
+
+		double avg = 0.0;
+		if(i != 0){
+			avg =  sum/i;
+		}
+		
+		retVal.add(new Chart2DTO("Average", avg));
+		
+		return ResponseEntity.ok().body(retVal);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_HOTEL')")
+	@RequestMapping(value = "/api/hotels/chart4/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Double>> getChart4(
+			@PathVariable(value = "id") Long hotelId) {
+		Hotel hotel = hotelService.findOne(hotelId);
+		List<Rezervacija> rezervacije = new ArrayList<>( rezervacijaService.findAll());
+
+		List<Double> retVal = new ArrayList<>();
+		for(int i = 0; i<= 11; i++)
+		{
+			retVal.add(0.0);
+		}
+		System.out.println(retVal.size());
+		
+
+		Calendar currDate = Calendar.getInstance();
+		Calendar reserveDate = Calendar.getInstance();
+
+		currDate.setTime(new Date());
+		
+		for (Rezervacija r : rezervacije) {
+			reserveDate.setTime(r.getDatumRezervacije());
+			if(currDate.get(Calendar.YEAR) == reserveDate.get(Calendar.YEAR)) {  //gledamo samo ovogodišnje rezervacije 
+				if(r.getOdabraneSobe().size()!= 0){	//ako je korisnik rezervisao sobu
+					for (Soba s : r.getOdabraneSobe()) {
+						if(s.getHotel().equals(hotel))
+						{
+							/*
+							 * ili
+						    float days = (diff / (1000*60*60*24));
+							Math.round(days); //Output is 9 
+							itt tesztelsz h melyik a helyes    
+							 * */
+						    long diff = r.getSobaZauzetaDo().getTime() - r.getSobaZauzetaOd().getTime();
+						    int brojDana =  (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+						    System.out.println(r.getSobaZauzetaDo());
+						    System.out.println(r.getSobaZauzetaOd());
+						    System.out.println(brojDana);
+						    
+						    switch (reserveDate.get(Calendar.MONTH)) {
+							case 0:
+								retVal.set(0, retVal.get(0) + (brojDana * s.getCena() ));
+								break;
+							case 1:
+								retVal.set(1, retVal.get(1) + (brojDana * s.getCena() ));
+								break;
+							case 2:
+								retVal.set(2, retVal.get(2) + (brojDana * s.getCena() ));
+								break;
+							case 3:
+								retVal.set(3, retVal.get(3) + (brojDana * s.getCena() ));
+								break;
+							case 4:
+								retVal.set(4, retVal.get(4) + (brojDana * s.getCena() ));
+								break;
+							case 5:
+								retVal.set(5, retVal.get(5) + (brojDana * s.getCena() ));
+								break;
+							case 6:
+								retVal.set(6, retVal.get(6) + (brojDana * s.getCena() ));
+								break;
+							case 7:
+								retVal.set(7, retVal.get(7) + (brojDana * s.getCena() ));
+								break;
+							case 8:
+								retVal.set(8, retVal.get(8) + (brojDana * s.getCena() ));
+								break;
+							case 9:
+								retVal.set(9, retVal.get(9) + (brojDana * s.getCena() ));
+								break;
+							case 10:
+								retVal.set(10, retVal.get(10) + (brojDana * s.getCena() ));
+								break;
+							case 11:
+								retVal.set(11, retVal.get(11) + (brojDana * s.getCena() ));
+								break;
+							default:
+								break;
+							}
+							
+						}
+					}
+				}
+			}
+		}
+		
+		return ResponseEntity.ok().body(retVal);
+	}
+
 
 	/* update hotela po id-u */
 	@RequestMapping(value = "/api/hotels/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
