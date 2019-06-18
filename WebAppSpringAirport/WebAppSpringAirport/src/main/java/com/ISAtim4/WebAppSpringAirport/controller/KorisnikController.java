@@ -207,7 +207,7 @@ public class KorisnikController {
 		/*
 		 * Marieta: posto trenutno nema izmene lozinke u azuriranju profila
 		 */
-		korisnik.setLozinka(korisnikDetalji.getLozinka());
+		//korisnik.setLozinka(korisnikDetalji.getLozinka());
 		korisnik.setMail(korisnikDetalji.getMail());
 		korisnik.setSlika(korisnikDetalji.getSlika());
 		korisnik.setAdresa(korisnikDetalji.getAdresa());

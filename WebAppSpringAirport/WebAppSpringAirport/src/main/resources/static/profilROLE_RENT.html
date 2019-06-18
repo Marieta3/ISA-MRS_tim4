@@ -31,17 +31,21 @@
 	
 	<div id="EditProfile" class="tabcontent">
 	
-		<h1 id="imePrezime">Ime Prezime</h1>
 		<form id="editProfileForma">
-			<div id="imgContainer" style="margin-left: 10px">
+			<div id="imgContainer" style="margin-left: 15px;margin-top: 15px">
+				<h1 id="imePrezime">Ime Prezime</h1>
 				<div class="imagePicker">
 					<img id="profile_img" src="slike/avatar.png" alt="Image preview..."> <br>
 				</div>
 				<div class="upload-btn-wrapper">
 					<button class="upload-file-btn">Upload a file</button>
-					<input id="slikaEdit" type="file" accept="image/*" title="Choose file"
+					<input style="width: 200px" id="slikaEdit" type="file" accept="image/*" title="Choose file"
 						onchange="previewFile('slikaEdit', 'profile_img')" name="myfile" />
 				</div><br>
+				<div style="margin-top: 10px">
+					<a class="btn btn-primary" href="prvaPromenaLozinke.html" role="button">Promena lozinke</a>
+				</div>
+				
 			</div>
 			<div class="grid-container">
 				<div class="grid-item">
@@ -82,9 +86,9 @@
 	
 	<div id="Rent" class="tabcontent">
 
-		<h1 id="rentNazivAdmin">Rent, Admin</h1>
 		<form id="updateRentForma">
-			<div id="imgContainer" style="margin-left: 10px">
+			<div id="imgContainer" style="margin-left: 15px;margin-top: 15px">
+				<h1 id="rentNazivAdmin">Rent, Admin</h1>
 				<div class="imagePicker">
 					<img id="rent_img" src="slike/avatar.png" alt="Image preview..."> <br>
 
@@ -95,7 +99,7 @@
 						onchange="previewFile('slika_rent', 'rent_img')" name="myfile" />
 				</div>
 				<br>
-				<span>Rating:</span>
+				<span><b>Rating:</b></span>
 				<span id="rating_rent"></span>
 				<br>
 				<div class="containerdiv">
@@ -115,7 +119,7 @@
 				<div class="grid-item">
 					Address <br> <input type="text" id="adresa">
 				</div>
-				<div class="grid-item" style="height:350px; widht:450px">Map<br><div id="map" class="map"></div>
+				<div class="grid-item" style="height:380px; widht:400px">Map<br><div id="map" class="map"></div>
 					<input type="hidden" id="rent_coords">
 				</div>
 				<br><br>
