@@ -207,11 +207,9 @@ function renderSobe(data){
 	uloga=localStorage.getItem("uloga");
 	
 	if(uloga=="ROLE_HOTEL"){
-		var th_nbsp=$('<th>&nbsp;</th>');
-		var th_nbsp1=$('<th>&nbsp;</th>');
-		var th_nbsp2=$('<th>&nbsp;</th>');
+		
 		$('#prikazSobaTabela').find('tr:eq(0)').append('<th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>');
-		$('#prikazSobaTabela').find('tr:eq(0)').append(th_nbsp1);
+		//$('#prikazSobaTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	$("#prikazSobaTabela").find("tr:gt(0)").remove();
 	$("#prikazSobaTabela").find("th:gt(8)").remove();
