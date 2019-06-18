@@ -268,6 +268,7 @@ function dodavanjeBrzeRezervacije(e){
         data:brzaSobaToJSON(soba_id, nova_cena, start_datum, end_datum),
         success:function(data){
         	zatvoriModal('id07');
+        	notify("Successfully added quick room reservation!", 'info');
         }
 	});
 }

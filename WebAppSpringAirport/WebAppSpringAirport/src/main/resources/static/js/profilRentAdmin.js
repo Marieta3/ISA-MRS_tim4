@@ -198,7 +198,7 @@ function renderVozila(data){
 
 function selektovanoVoziloBrzaRezervacija(btn){
 	var car_id=$(btn).attr('name');
-	$('#quick-car-id').val(soba_id);
+	$('#quick-car-id').val(car_id);
 	$.ajax({
 		type:'GET',
 		url:'api/cars/'+car_id,
@@ -206,7 +206,7 @@ function selektovanoVoziloBrzaRezervacija(btn){
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
         success:function(data){
-        	$('#quick-car-opis').val(data.opis);
+        	$('#quick-car-opis').val(data.proizvodjac+' '+data.model+' '+data.tablica);
         	if(data.slika!="" && data.slika!=null){
         		$('#quick-car-img').attr('src', data.slika);
         	}
@@ -234,13 +234,14 @@ function dodavanjeBrzeRezervacije(e){
         data:brzoVoziloToJSON(car_id, nova_cena, start_datum, end_datum),
         success:function(data){
         	zatvoriModal('id07');
+        	notify("Successfully added quick vehicle reservation!", 'info');
         }
 	});
 }
 
 function brzoVoziloToJSON(car_id, nova_cena, start_datum, end_datum){
 	return JSON.stringify({
-		"id":soba_id,
+		"id":car_id,
 		"novaCena":nova_cena,
 		"startDatum":start_datum,
 		"endDatum":end_datum

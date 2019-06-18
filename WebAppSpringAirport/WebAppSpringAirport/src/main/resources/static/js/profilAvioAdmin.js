@@ -856,7 +856,7 @@ function dodavanjeBrzeRezervacije(e){
 	
 	$.ajax({
 		type:'POST',
-		url:'api/quick/flight',
+		url:'api/quick/seat',
 		contentType:'application/json',
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
@@ -864,6 +864,10 @@ function dodavanjeBrzeRezervacije(e){
         data:brzoSedisteToJSON(let_id, row_col, nova_cena),
         success:function(data){
         	zatvoriModal('id07');
+        	notify("Successfully added quick seat reservation!", 'info');
+        },
+        error:function(data){
+        	notify("Cannot add more than one quick seat reservation to the same seat!", 'warning');
         }
 	});
 }

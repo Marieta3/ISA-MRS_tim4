@@ -34,9 +34,8 @@ public class BrzoSedisteController {
 	public BrzoSediste createBrzoSediste(@Valid @RequestBody BrzaRezervacijaDTO brzoSedisteDTO) {
 		BrzoSediste brzoSediste=new BrzoSediste();
 		brzoSediste.setNova_cena(brzoSedisteDTO.getNovaCena());
-		brzoSediste.setStart_date(brzoSedisteDTO.getStartDatum());
-		brzoSediste.setEnd_date(brzoSedisteDTO.getEndDatum());
-		Sediste sediste=sedisteService.findOne(brzoSedisteDTO.getId());
+		
+		Sediste sediste=sedisteService.findOneByLetRowCol(brzoSedisteDTO.getId(), brzoSedisteDTO.getRow_col());
 		//TODO: ubaciti proveru da li je mozda rezervisano u tom periodu
 		brzoSediste.setSediste(sediste);
 		return brzoSedisteService.save(brzoSediste);

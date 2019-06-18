@@ -1,5 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,9 +45,9 @@ public class Vozilo {
 	@Column(nullable = true)
 	private Double ocena;
 
-	@OneToOne(mappedBy="vozilo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="vozilo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("vozilo")
-	private BrzoVozilo brzo_vozilo;
+	private Set<BrzoVozilo> brza_vozila;
 	
 	public boolean isRezervisano() {
 		return rezervisano;
@@ -185,6 +187,14 @@ public class Vozilo {
 		return "Vozilo [id=" + id + ", proizvodjac=" + proizvodjac + ", model="
 				+ model + ", godina=" + godina + ", tablica=" + tablica
 				+ ", cena=" + cena + "]";
+	}
+
+	public Set<BrzoVozilo> getBrza_vozila() {
+		return brza_vozila;
+	}
+
+	public void setBrza_vozila(Set<BrzoVozilo> brza_vozila) {
+		this.brza_vozila = brza_vozila;
 	}
 
 	

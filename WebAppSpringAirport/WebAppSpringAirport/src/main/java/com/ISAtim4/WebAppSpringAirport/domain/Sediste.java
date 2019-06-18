@@ -135,6 +135,22 @@ public class Sediste {
 		this.row_col = row_col;
 	}
 
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public BrzoSediste getBrzo_sediste() {
+		return brzo_sediste;
+	}
+
+	public void setBrzo_sediste(BrzoSediste brzo_sediste) {
+		this.brzo_sediste = brzo_sediste;
+	}
+
 	
 	
 	
