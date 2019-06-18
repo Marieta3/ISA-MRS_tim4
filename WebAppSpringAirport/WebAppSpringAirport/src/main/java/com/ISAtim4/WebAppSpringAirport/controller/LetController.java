@@ -209,7 +209,7 @@ public class LetController {
 		let.setDuzinaPutovanja(letDetalji.getDuzinaPutovanja());
 		
 		//ova dva mogu da izazovu problem
-		let.setAvio_kompanija(letDetalji.getAvio_kompanija()); 
+		let.setAvioKompanija(letDetalji.getAvioKompanija()); 
 		let.setSedista(letDetalji.getSedista());
 		
 		

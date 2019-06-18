@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -37,8 +38,9 @@ public class AvioKompanija {
 	private Set<Destinacija> listaDestinacija= new HashSet<>();
 	*/
 	
-	@OneToMany(mappedBy="avio_kompanija",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@OneToMany(mappedBy="avioKompanija",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	//@JsonManagedReference
+	@JsonIgnoreProperties("avioKompanija")
 	private Set<Let> listaLetova= new HashSet<>();
 	
 	@Column(nullable=false)

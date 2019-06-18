@@ -195,10 +195,12 @@ public class RezervacijaController {
 	public ResponseEntity<Rezervacija> getReservation(
 			@PathVariable(value = "id") Long reservationId) {
 		Rezervacija rezervacija = rezervacijaService.findOne(reservationId);
-
+		
 		if (rezervacija == null) {
 			return ResponseEntity.notFound().build();
 		}
+		System.out.println(rezervacija.getOdabranaSedista().iterator().next().getLet().getAvioKompanija().getNaziv());
+		
 		return ResponseEntity.ok().body(rezervacija);
 	}
 
