@@ -3,9 +3,11 @@ package com.ISAtim4.WebAppSpringAirport.controller;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +33,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.dto.Chart1DTO;
 import com.ISAtim4.WebAppSpringAirport.dto.Chart2DTO;
+import com.ISAtim4.WebAppSpringAirport.dto.Chart3DTO;
 import com.ISAtim4.WebAppSpringAirport.dto.LetDTO;
 import com.ISAtim4.WebAppSpringAirport.service.AvioKompanijaService;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;
@@ -244,6 +247,153 @@ public class AvioKompanijaController {
 			    .doubleValue();
 		
 		retVal.add(new Chart2DTO("Average", avg));
+		
+		return ResponseEntity.ok().body(retVal);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_AVIO')")
+	@RequestMapping(value = "/api/avioKompanije/chart3/daily/{id}", method = RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Integer>> getChart3Daily(
+			@PathVariable(value = "id") Long avioId,
+			@Valid @RequestBody Chart3DTO chartData) {
+		AvioKompanija avio = aviokompanijaService.findOne(avioId);
+
+		if(!chartData.getType().equals("daily")){
+			return ResponseEntity.badRequest().build();
+		}
+		
+		List<Integer> retVal = new ArrayList<>();
+		for(int i = 0; i<= 23; i++)
+		{
+			retVal.add(0);
+		}
+		
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		Date searchDate;
+		try {
+			searchDate = sf.parse(chartData.getValue());
+		} catch (ParseException e) {
+			searchDate = new Date();
+			e.printStackTrace();
+		}
+		Calendar searchCal = Calendar.getInstance();
+		searchCal.setTime(searchDate);
+		
+		Calendar rezCal = Calendar.getInstance();
+		
+		for (Rezervacija r : rezervacijaService.findAll()) {
+			rezCal.setTime(r.getDatumRezervacije());
+			boolean sameDay = searchCal.get(Calendar.DAY_OF_YEAR) == rezCal.get(Calendar.DAY_OF_YEAR) &&
+					searchCal.get(Calendar.YEAR) == rezCal.get(Calendar.YEAR);		
+			if(sameDay) {  //svaka rezervacija na taj dan
+				for (Sediste s : r.getOdabranaSedista()) {
+					if(s.getLet().getAvio_kompanija().equals(avio))
+					{						    
+						int hour = rezCal.get(Calendar.HOUR_OF_DAY);
+						int value = retVal.get(hour); 
+						value = value + 1; 
+						retVal.set(hour, value );
+					}
+				}
+			}
+			
+		}
+		
+		return ResponseEntity.ok().body(retVal);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_AVIO')")
+	@RequestMapping(value = "/api/avioKompanije/chart3/weekly/{id}", method = RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Integer>> getChart3Weekly(
+			@PathVariable(value = "id") Long avioId,
+			@Valid @RequestBody Chart3DTO chartData) {
+		AvioKompanija avio = aviokompanijaService.findOne(avioId);
+		
+		if(!chartData.getType().equals("weekly")){
+			return ResponseEntity.badRequest().build();
+		}
+		String[] dm = chartData.getValue().split("-W");
+		int iYear = Integer.parseInt(dm[0]);
+		int iWeek = Integer.parseInt(dm[1]); // (months begin with 0) --> -1
+		
+		Calendar searchCal = Calendar.getInstance();
+		searchCal.clear();
+		searchCal.set(Calendar.WEEK_OF_YEAR, iWeek);
+		searchCal.set(Calendar.YEAR, iYear);
+		
+		List<Integer> retVal = new ArrayList<>();
+		for(int i = 0; i < 7; i++)			//7 dana
+		{
+			retVal.add(0);
+		}
+
+		Calendar rezCal = Calendar.getInstance();
+		for (Rezervacija r : rezervacijaService.findAll()) {
+			rezCal.setTime(r.getDatumRezervacije());
+			boolean sameWeek = searchCal.get(Calendar.YEAR) == rezCal.get(Calendar.YEAR) &&
+					searchCal.get(Calendar.WEEK_OF_YEAR) == rezCal.get(Calendar.WEEK_OF_YEAR);				//same month
+			if(sameWeek) {  //svaka rezervacija na taj dan
+				for (Sediste s : r.getOdabranaSedista()) {
+					if(s.getLet().getAvio_kompanija().equals(avio))
+					{						    
+						int day = rezCal.get(Calendar.DAY_OF_WEEK);
+						int value = retVal.get(day-2); // DAY_OF_MONTH not zero based, retval is
+						value = value + 1; 
+						retVal.set(day-2, value );
+					}
+				}
+			}
+			
+		}
+		
+		
+		return ResponseEntity.ok().body(retVal);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_AVIO')")
+	@RequestMapping(value = "/api/avioKompanije/chart3/monthly/{id}", method = RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Integer>> getChart3Monthly(
+			@PathVariable(value = "id") Long avioId,
+			@Valid @RequestBody Chart3DTO chartData) {
+		AvioKompanija avio = aviokompanijaService.findOne(avioId);
+		
+		if(!chartData.getType().equals("monthly")){
+			return ResponseEntity.badRequest().build();
+		}
+		String[] dm = chartData.getValue().split("-");
+		int iYear = Integer.parseInt(dm[0]);
+		int iMonth = Integer.parseInt(dm[1])-1; // (months begin with 0) --> -1
+		int iDay = 1;
+		// Create a calendar object and set year and month
+		Calendar searchCal = new GregorianCalendar(iYear, iMonth, iDay);
+		int daysInMonth = searchCal.getActualMaximum(Calendar.DAY_OF_MONTH);  //retval lenght
+		
+		List<Integer> retVal = new ArrayList<>();
+		for(int i = 0; i < daysInMonth; i++)
+		{
+			retVal.add(0);
+		}
+		System.out.println(retVal.size());
+
+		Calendar rezCal = Calendar.getInstance();
+		for (Rezervacija r : rezervacijaService.findAll()) {
+			rezCal.setTime(r.getDatumRezervacije());
+			boolean sameMonth = searchCal.get(Calendar.YEAR) == rezCal.get(Calendar.YEAR) &&
+					searchCal.get(Calendar.MONTH) == rezCal.get(Calendar.MONTH);				//same month
+			if(sameMonth) {  //svaka rezervacija na taj dan
+				for (Sediste s : r.getOdabranaSedista()) {
+					if(s.getLet().getAvio_kompanija().equals(avio))
+					{						    
+						int day = rezCal.get(Calendar.DAY_OF_MONTH);
+						int value = retVal.get(day-1); // DAY_OF_MONTH not zero based, retval is
+						value = value + 1; 
+						retVal.set(day-1, value );
+					}
+				}
+			}
+			
+		}
+		
 		
 		return ResponseEntity.ok().body(retVal);
 	}
