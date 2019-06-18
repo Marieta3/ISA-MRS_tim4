@@ -163,8 +163,8 @@ function renderVozila(data){
 
 function pretraga() {
 	var startDate = $("#startDate").val();
-	var broj_dana = $("#broj_dana").val();
-
+	//var broj_dana = $("#broj_dana").val();
+	var endDate=$("#endDate").val();
 	searchOn = true;
 	//alert(sobaToJSONsearch(startDate, broj_nocenja));
 	$.ajax({
@@ -172,7 +172,7 @@ function pretraga() {
 		url:'/api/voziloRent/pretraga/' + localStorage.getItem("profil_rent"),
 		dataType:'json',
 		contentType: 'application/json',
-		data:voziloToJSONsearch(startDate, broj_dana),
+		data:voziloToJSONsearch(startDate, endDate),
 		beforeSend : function(request) {
 			request.setRequestHeader("Authorization", "Bearer "
 					+ localStorage.getItem("accessToken"));
@@ -181,9 +181,9 @@ function pretraga() {
 	});
 }
 
-function voziloToJSONsearch(dolazak, broj_dana) {
+function voziloToJSONsearch(dolazak, endDate) {
 	return JSON.stringify({
-		"vremeDolaska" : dolazak,
-		"brojDana" : broj_dana
+		"vreme1" : dolazak,
+		"vreme2" : endDate
 	});
 }

@@ -77,6 +77,16 @@ public class Let {
 	@Column(nullable=false)
 	//broj redova u bussiness class-i
 	private int brojRedovaBC;
+	
+	@Column(nullable=false)
+	private double cenaFC;
+	
+	@Column(nullable=false)
+	private double cenaEC;
+	
+	@Column(nullable=false)
+	private double cenaBC;
+	
 	public Long getId() {
 		return id;
 	}
@@ -120,6 +130,7 @@ public class Let {
 	public void setAvioKompanija(AvioKompanija avioKompanija) {
 		this.avioKompanija = avioKompanija;
 	}
+
 	public Set<Sediste> getSedista() {
 		return sedista;
 	}

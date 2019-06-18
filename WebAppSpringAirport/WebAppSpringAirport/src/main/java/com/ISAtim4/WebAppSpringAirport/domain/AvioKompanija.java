@@ -39,7 +39,6 @@ public class AvioKompanija {
 	*/
 	
 	@OneToMany(mappedBy="avioKompanija",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	//@JsonManagedReference
 	@JsonIgnoreProperties("avioKompanija")
 	private Set<Let> listaLetova= new HashSet<>();
 	

@@ -127,11 +127,10 @@ public class VoziloController {
 		List<Rezervacija> rezervacije=rezervacijaService.findAll();
 		ArrayList<Vozilo> ne_moze=new ArrayList<>();
 		ArrayList<Vozilo> pronadjene=new ArrayList<>();
-		Date datum1=voziloDTO.getVremeDolaska();
-		Calendar cal =Calendar.getInstance();
-		cal.setTime(datum1);
-		cal.add(Calendar.DATE, voziloDTO.getBrojDana());
-		Date datum2=cal.getTime();
+		Date datum1=voziloDTO.getVreme1();
+		
+		Date datum2=voziloDTO.getVreme2();
+		System.out.println("\n\n\t"+datum2);
 		//za svaku rezervaciju
 		for(Rezervacija r: rezervacije) {
 			//ako se preklapaju datumi	

@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,10 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ISAtim4.WebAppSpringAirport.domain.AdminAvio;
+import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
+import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.dto.LetDTO;
+import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 
@@ -32,6 +37,10 @@ public class LetController {
 
 	@Autowired
 	private OcenaService ocenaService;
+	
+	@Autowired
+	KorisnikService korisnikService;
+	
 	
 	/* da snimimo let */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
@@ -240,5 +249,23 @@ public class LetController {
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_AVIO')")
+	@RequestMapping(value = "/api/letoviKompanije", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Let> getLetoviKompanije(Principal user) {
+		AdminAvio me = null;
+
+		if (user != null) {
+			me = (AdminAvio) this.korisnikService.findByKorisnickoIme(user.getName());
+		}
+		List<Let> letovi =  letService.findAllByAvioKompanija(me.getAvio_kompanija());
+		
+		for (Let let : letovi) {
+			List<Ocena> ocene = ocenaService.findAllByLet(let);
+			let.setOcena(Ocena.getProsek(ocene));
+		}
+		
+		return letovi;
 	}
 }

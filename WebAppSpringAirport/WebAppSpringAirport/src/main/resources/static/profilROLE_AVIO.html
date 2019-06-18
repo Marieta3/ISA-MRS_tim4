@@ -11,6 +11,8 @@
 <link rel="stylesheet" type="text/css" href="css/indexLogin.css">
 <link rel="stylesheet" type="text/css" href="css/editProfile.css">
 <link rel="stylesheet" type="text/css" href="css/uploadFileStil.css">
+<link rel="stylesheet" type="text/css" href="css/jquery.seat-charts.css">
+<link rel="stylesheet" type="text/css" href="css/sedistaLeta.css">
 <link rel="stylesheet" type="text/css" href="css/tabelarniPrikaz.css">
 <link rel="stylesheet" type="text/css" href="css/mapa.css">
 
@@ -27,8 +29,7 @@
 				onclick="openTab(event, 'AvioKompanija')" id="defaultOpen">Airline</button></li>
 		<li><button class="tablinks"
 				onclick="openTab(event, 'Destinations')">Destinations</button></li>
-		<li><button class="tablinks"
-				onclick="openTab(event, 'Airplanes')">Airplanes</button></li>
+		
 		<li><button class="tablinks" onclick="openTab(event, 'Flights')">Flights</button></li>
 		<li><button class="tablinks" onclick="openTab(event, 'Insights')">Insights</button></li>
 	</ul>
@@ -260,7 +261,7 @@
 	</div>
 
 
-	<div id="Airplanes" class="tabcontent">
+<!--	<div id="Airplanes" class="tabcontent">
 		<h1>Airplanes</h1>
 		<button class="newAirplaneBtn" value="New airplane"
 			onClick="otvoriModal('id04')">New Airplane</button>
@@ -280,14 +281,15 @@
 			<tbody></tbody>
 		</table>
 		</div>
-		<!-- za DODAVANJE novog aviona -->
+		
+		
 		<div id="id04" class="modal">
 			<form class="modal-content3 animate" id="newAirplaneForma">
 				<div class="imgcontainer">
 					<span class="close" title="Close Modal"
 						onClick="zatvoriModal('id04')">&times;</span>
 
-					<!-- slika-->
+					
 					<div class="imagePicker1"
 						style="height: 200px; width: 200px; border-radius: 50%">
 						<img id="avio_img2" src="slike/aereo2.jpg" alt="Image preview..."
@@ -322,13 +324,13 @@
 				<div class="hidden"></div>
 			</form>
 		</div>
-		<!-- za BRISANJE aviona -->
+		
 		<div id="id05" class="modal">
 			<form class="modal-content1 animate" id="deleteAvionForma">
 				<div class="imgcontainer">
 					<span class="close" title="Close Modal"
 						onclick="zatvoriModal('id05')">&times;</span>
-					<!-- slika -->
+					
 				</div>
 				<div class="container-modal" id="div-container-modal">
 					<h1>Are you sure you want to delete airplane:</h1>
@@ -342,14 +344,14 @@
 				</div>
 			</form>
 		</div>
-		<!-- za AZURIRANJE aviona -->
+		
 		<div id="id06" class="modal">
 			<form class="modal-content1 animate" id="editAvionaForma">
 				<div class="imgcontainer">
 					<span class="close" title="Close Modal"
 						onclick="zatvoriModal('id06')">&times;</span>
 
-					<!-- slika-->
+					
 					<div class="imagePicker1"
 						style="height: 200px; width: 200px; border-radius: 50%">
 						<img id="avio_img3" src="slike/aereo2.jpg" alt="Image preview..."
@@ -386,18 +388,77 @@
 				</div>
 			</form>
 		</div>
-	</div>
+	</div>-->
 
 
 	<div id="Flights" class="tabcontent">
 		<h1>Flights</h1>
 		<button class="newFlightBtn" value="New flight"
-			onClick="otvoriModal('id07')">New flight</button>
+			onClick="otvoriModal('id04')">New flight</button>
+		<!-- tabela -->
+		<div class="container">
+			<h2>List of Flights</h2>
+			<input type="hidden" id='id-odabranog-leta'>
+			<table class="table table-striped table-bordered"
+				id="prikazLetovaTabela">
+				<thead>
+					<tr>
+						<th>Picture</th>
+						<th>From</th>
+						<th>To</th>
+						<th>Departure</th>
+						<th>Landing &nbsp;</th>
+						<th>Model</th>
+						<th>Rating</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<div class="wrapper" id="detaljna-sedista"></div>
+		<!-- Brza rezervacija -->
 		<div id="id07" class="modal">
+
+			<form class="modal-content1 animate" id="brzaRezervacija">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id07')">&times;</span>
+					
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1 id="quick-seat-flight">Flight</h1>
+					<h2 id="quick-seat-h1">Seat</h2>
+					
+					<div class="grid-container quick-container">
+						<div class="grid-item">
+							<label><b>Old Price</b></label>
+							<input type="number" id="quick-seat-old-cena" disabled>
+						</div>
+						<div class="grid-item">
+							<label><b>New Price</b></label>
+							<input type="number" id="quick-seat-new-cena" required/>
+						</div>
+						
+					</div>
+					<button class="addSubmitBtn" type="submit" onclick="dodavanjeBrzeRezervacije(event)">Add</button>
+					<button type="button" onclick="zatvoriModal('id07')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="quick-seat-row-col">
+					<input type="hidden" id="quick-seat-flight-id">
+				</div>
+			</form>
+		</div>
+		<div id="id04" class="modal">
 			<form class="modal-content3 animate" id="newFlightForma">
 				<div class="imgcontainer">
 					<span class="close" title="Close Modal"
-						onClick="zatvoriModal('id07')">&times;</span>
+						onClick="zatvoriModal('id04')">&times;</span>
 				</div>
 
 				<div class="container-modal" id="div-container-modal">
@@ -430,7 +491,7 @@
 
 					<button class="addSubmitBtn" type="submit">Add</button>
 					<button type="button"
-						onclick="document.getElementById('id07').style.display='none', ponistavanje('newAvionForma')"
+						onclick="document.getElementById('id04').style.display='none', ponistavanje('newAvionForma')"
 						class="cancelbtn">Cancel</button>
 				</div>
 				<div class="hidden"></div>
@@ -479,11 +540,13 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="js/modali.js"></script>
 <script type="text/javascript" src="js/prviLoginRedirekt.js"></script>
+<script type="text/javascript" src="js/jquery.seat-charts.js"></script>
 <script type="text/javascript" src="js/editProfile.js"></script>
 <script type="text/javascript" src="js/updateAvioKompanija.js"></script>
 <script type="text/javascript" src="js/imagePreview.js"></script>
 <script type="text/javascript" src="js/profilAvioAdmin.js"></script>
 <script type="text/javascript" src="js/chartsAvio.js"></script>
+
 
 </body>
 
