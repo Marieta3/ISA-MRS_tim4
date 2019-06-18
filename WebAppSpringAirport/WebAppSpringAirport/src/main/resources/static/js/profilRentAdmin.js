@@ -240,7 +240,7 @@ function dodavanjeBrzeRezervacije(e){
 
 function brzoVoziloToJSON(car_id, nova_cena, start_datum, end_datum){
 	return JSON.stringify({
-		"idVozila":soba_id,
+		"id":soba_id,
 		"novaCena":nova_cena,
 		"startDatum":start_datum,
 		"endDatum":end_datum

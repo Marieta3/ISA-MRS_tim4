@@ -46,8 +46,8 @@ public class Let {
 
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-	@JsonBackReference
-	private AvioKompanija avio_kompanija;
+	@JsonIgnoreProperties("listaLetova")
+	private AvioKompanija avioKompanija;
 	
 	@OneToMany(mappedBy = "let", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	//@JsonManagedReference
@@ -80,6 +80,16 @@ public class Let {
 	@Column(nullable=false)
 	//broj redova u bussiness class-i
 	private int brojRedovaBC;
+	
+	@Column(nullable=false)
+	private double cenaFC;
+	
+	@Column(nullable=false)
+	private double cenaEC;
+	
+	@Column(nullable=false)
+	private double cenaBC;
+	
 	public Long getId() {
 		return id;
 	}
@@ -116,12 +126,7 @@ public class Let {
 	public void setDuzinaPutovanja(Integer duzinaPutovanja) {
 		this.duzinaPutovanja = duzinaPutovanja;
 	}
-	public AvioKompanija getAvio_kompanija() {
-		return avio_kompanija;
-	}
-	public void setAvio_kompanija(AvioKompanija avio_kompanija) {
-		this.avio_kompanija = avio_kompanija;
-	}
+	
 	public Set<Sediste> getSedista() {
 		return sedista;
 	}
@@ -184,7 +189,7 @@ public class Let {
 		this.vremePolaska = vremePolaska;
 		this.vremeDolaska = vremeDolaska;
 		this.duzinaPutovanja = duzinaPutovanja;
-		this.avio_kompanija = avio_kompanija;
+		this.avioKompanija = avio_kompanija;
 		this.sedista = sedista;
 		this.model = model;
 		this.brojRedova = brojRedova;
@@ -192,5 +197,11 @@ public class Let {
 		this.brojRedovaFC = brojRedovaFC;
 		this.brojRedovaEC = brojRedovaEC;
 		this.brojRedovaBC = brojRedovaBC;
+	}
+	public AvioKompanija getAvioKompanija() {
+		return avioKompanija;
+	}
+	public void setAvioKompanija(AvioKompanija avioKompanija) {
+		this.avioKompanija = avioKompanija;
 	}
 }

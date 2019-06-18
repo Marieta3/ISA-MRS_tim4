@@ -287,7 +287,7 @@ public class AvioKompanijaController {
 					searchCal.get(Calendar.YEAR) == rezCal.get(Calendar.YEAR);		
 			if(sameDay) {  //svaka rezervacija na taj dan
 				for (Sediste s : r.getOdabranaSedista()) {
-					if(s.getLet().getAvio_kompanija().equals(avio))
+					if(s.getLet().getAvioKompanija().equals(avio))
 					{						    
 						int hour = rezCal.get(Calendar.HOUR_OF_DAY);
 						int value = retVal.get(hour); 
@@ -334,7 +334,7 @@ public class AvioKompanijaController {
 					searchCal.get(Calendar.WEEK_OF_YEAR) == rezCal.get(Calendar.WEEK_OF_YEAR);				//same month
 			if(sameWeek) {  //svaka rezervacija na taj dan
 				for (Sediste s : r.getOdabranaSedista()) {
-					if(s.getLet().getAvio_kompanija().equals(avio))
+					if(s.getLet().getAvioKompanija().equals(avio))
 					{						    
 						int day = rezCal.get(Calendar.DAY_OF_WEEK);
 						int value = retVal.get(day-2); // DAY_OF_MONTH not zero based, retval is
@@ -382,7 +382,7 @@ public class AvioKompanijaController {
 					searchCal.get(Calendar.MONTH) == rezCal.get(Calendar.MONTH);				//same month
 			if(sameMonth) {  //svaka rezervacija na taj dan
 				for (Sediste s : r.getOdabranaSedista()) {
-					if(s.getLet().getAvio_kompanija().equals(avio))
+					if(s.getLet().getAvioKompanija().equals(avio))
 					{						    
 						int day = rezCal.get(Calendar.DAY_OF_MONTH);
 						int value = retVal.get(day-1); // DAY_OF_MONTH not zero based, retval is
@@ -420,7 +420,7 @@ public class AvioKompanijaController {
 			reserveDate.setTime(r.getDatumRezervacije());
 			if(currDate.get(Calendar.YEAR) == reserveDate.get(Calendar.YEAR)) {  //gledamo samo ovogodišnje rezervacije 
 					for (Sediste s : r.getOdabranaSedista()) {
-						if(s.getLet().getAvio_kompanija().equals(avio))
+						if(s.getLet().getAvioKompanija().equals(avio))
 						{						    
 						    switch (reserveDate.get(Calendar.MONTH)) {
 							case 0:

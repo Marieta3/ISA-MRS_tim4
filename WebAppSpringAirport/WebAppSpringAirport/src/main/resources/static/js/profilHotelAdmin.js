@@ -274,7 +274,7 @@ function dodavanjeBrzeRezervacije(e){
 
 function brzaSobaToJSON(soba_id, nova_cena, start_datum, end_datum){
 	return JSON.stringify({
-		"idSobe":soba_id,
+		"id":soba_id,
 		"novaCena":nova_cena,
 		"startDatum":start_datum,
 		"endDatum":end_datum

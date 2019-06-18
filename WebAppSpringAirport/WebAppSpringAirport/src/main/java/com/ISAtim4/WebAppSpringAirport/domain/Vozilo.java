@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -47,6 +48,10 @@ public class Vozilo {
 	@Column(nullable = true)
 	private Double ocena;
 
+	@OneToOne(mappedBy="vozilo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("vozilo")
+	private BrzoVozilo brzo_vozilo;
+	
 	public boolean isRezervisano() {
 		return rezervisano;
 	}

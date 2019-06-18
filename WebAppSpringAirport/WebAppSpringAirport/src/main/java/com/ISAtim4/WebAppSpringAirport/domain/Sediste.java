@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -53,6 +54,10 @@ public class Sediste {
 	
 	@Column(nullable=false)
 	private double cena;
+	
+	@OneToOne(mappedBy="sediste", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("sediste")
+	private BrzoSediste brzo_sediste;
 
 	public Long getId() {
 		return id;
