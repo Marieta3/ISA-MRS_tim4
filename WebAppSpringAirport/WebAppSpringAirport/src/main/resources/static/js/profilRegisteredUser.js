@@ -1,6 +1,7 @@
 findAllFriends();
 findAllRequests();
 findAllPotentialFriends();
+findAllReservationHistory();
 findAllReservations();
 findAllInvitations();
 function findAllInvitations(){
@@ -64,6 +65,19 @@ function findAllReservations(){
 	
 }
 
+function findAllReservationHistory(){
+	$.ajax({
+		type:'GET',
+		url:'api/myReservationHistory',
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success:renderReservationHistory
+	});
+	
+}
+
 function renderInvitations(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$.each(list, function(index, poziv){
@@ -97,8 +111,10 @@ function renderInvitations(data){
 	$('#invitationsTable').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order":[[0,'asc']],
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 0 },
+	                     { "orderable": false, "targets": 6 }
 	                   ]
 	  });
 }
@@ -170,15 +186,120 @@ function renderReservations(data){
 	                     { "orderable": false, "targets": 4 }
 	                   ]
 	  });
-	/*
+}
+
+function renderReservationHistory(data){
+	console.log(data);
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	$("#reservationHistoryTable").find("tr:gt(0)").remove();
+	$("#reservationHistoryTable").find("th:gt(6)").remove();
+	$.each(list, function(index, rezervacija){
+		var tr=$('<tr id="history_rez_'+rezervacija.id+'"></tr>');
+		if(rezervacija.odabranaSedista.length>0){
+			tr.append('<td>'+rezervacija.odabranaSedista[0].let.pocetnaDestinacija+'-'+rezervacija.odabranaSedista[0].let.krajnjaDestinacija+'</td>');
+		}else{
+			notify("Error! No seats reserved!");
+		}
+		if(rezervacija.odabraneSobe.length>0){
+			tr.append('<td>'+rezervacija.odabraneSobe[0].hotel.naziv+'</td>');
+		}else{
+			tr.append('<td>-</td>');
+		}
+		if(rezervacija.odabranaVozila.length>0){
+			tr.append('<td>'+rezervacija.odabranaVozila[0].filijala.rentACar.naziv+'</td>');
+		}else{
+			tr.append('<td>-</td>');
+		}
+		var tokens=rezervacija.datumRezervacije.split("T");
+		var tokens1=tokens[1].split(".");
+		tr.append('<td>'+tokens[0]+' '+tokens1[0]+'</td>');
+		var td_putnici=$('<td></td>');
+		var putnici_list=$('<select></select>');
+		$.each(rezervacija.korisnici, function(index, putnik){
+			if(index==0){
+				putnici_list.append('<option disabled="disabled" selected="selected">'+putnik.ime+' '+putnik.prezime+'</option>');
+			}else{
+				putnici_list.append('<option disabled="disabled">'+putnik.ime+' '+putnik.prezime+'</option>');
+			}
+		})
+		td_putnici.append(putnici_list);
+		tr.append(td_putnici);
+		tr.append('<td>'+rezervacija.cena+'</td>');
+		tr.append("<td align='center'><button class='oceni' onClick = 'oceni(" + rezervacija.id + ")'>Rate services</button></td>");
+		
+		$("#reservationHistoryTable").find("tbody").append(tr);
+	})
 	$('#reservationHistoryTable').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
 	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
+	                     { "orderable": false, "targets": 4 },
+	                     { "orderable": false, "targets": 6 }
 	                   ]
-	  });*/
+	  });
 }
+
+function oceni ( id )
+{
+	var arr = 
+		[
+		 {
+			 'entitetId' : "avio_1",
+			 'ocena' : 3,
+		     'rezervacijaId' : 1
+		 },
+		 {
+			 'entitetId' : "let_6",
+			 'ocena' : 3 ,
+		     'rezervacijaId' : 1
+		 },
+		 {
+			 'entitetId' : "hotel_1",
+			 'ocena' : 3 ,
+		     'rezervacijaId' : 1
+		 },
+		 {
+			 'entitetId' : "soba_1",
+			 'ocena' : 3 ,
+		     'rezervacijaId' : 1
+		 },
+		 {
+			 'entitetId' : "rent_1",
+			 'ocena' : 3 ,
+		     'rezervacijaId' : 1
+		 },
+		 {
+			 'entitetId' : "vozilo_1",
+			 'ocena' : 3 ,
+		     'rezervacijaId' : 1
+		 }
+		 ]
+	$.ajax({
+		type:'POST',
+		url:'/api/ocenjivanje' ,
+		dataType:'json',
+		contentType: 'application/json',
+		data : ocenaDTOToJSON(arr),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success: function(data)
+		{
+			console.log(data);
+			notify('success', 'info');
+		},
+		error:function(){
+			//BEDOBHATOD PL AZT HOGY A MEGLÉVŐEKET UPDATELD DE AZT MAJD CSAK HA LESZ MODAL BERAKVA
+			notify('You have already rated the services!', 'danger');
+		}
+	});
+}
+
+function ocenaDTOToJSON(arr)
+{
+	return JSON.stringify(arr);
+}
+
 function renderKorisnici(data){
 	console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);

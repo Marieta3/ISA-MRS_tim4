@@ -189,6 +189,7 @@ INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_
 INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC,avio_kompanija_id) VALUES(3,'London','Belgrade','2019-07-20 14:00:00','2019-07-20 18:00:00',3,'Boeing 747',9,9,5,3,1,2);
 INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC,avio_kompanija_id) VALUES(4,'Dubai','Belgrade','2019-07-21 19:00:00','2019-07-22 00:00:00',3,'Boeing 737',8,8,4,3,1,1);
 INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC,avio_kompanija_id) VALUES(5,'Belgrade','Dubai','2019-07-23 19:00:00','2019-07-23 23:50:00',3,'Boeing 737',8,8,4,3,1,1);
+INSERT INTO LET (id,pocetna_destinacija,krajnja_destinacija,vreme_polaska,vreme_dolaska,duzina_putovanja,model,broj_redova, broj_kolona,broj_redovaEC,broj_redovaBC,broj_redovaFC,avio_kompanija_id) VALUES(6,'Belgrade','Paris','2019-04-14 15:45:32','2019-04-14 18:45:32',3,'Airbus A380',3,2,1,1,1,1);
 
 insert into ocena(datum_ocenjivanja, let_id, ocena) values('2019-05-14 23:00:05', 1, 3);
 insert into ocena(datum_ocenjivanja, let_id, ocena) values('2019-05-14 23:00:05', 1, 2);
@@ -208,9 +209,20 @@ INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cen
 INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col, version) VALUES (4, 'e', false, 1, 2, 2, 40, '2_2', 1);
 INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col, version) VALUES (5, 'b', false, 1, 3, 1, 90, '3_1', 1);
 INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col, version) VALUES (6, 'b', false, 1, 3, 2, 90, '3_2', 1);
-/*INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije, cena) VALUES (1,true,'2019-05-14 15:45:32', 100);
-INSERT INTO REZERVACIJA_SOBA(rezervacija_id,soba_id) VALUES (1,1);
+INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col, version) VALUES (7, 'f', true, 6, 1, 1, 100, '1_1', 1);
+INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col, version) VALUES (8, 'f', false, 6, 1, 2, 100, '1_2', 1);
+INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col, version) VALUES (9, 'e', false, 6, 2, 1, 40, '2_1', 1);
+INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col, version) VALUES (10, 'e', false, 6, 2, 2, 40, '2_2', 1);
+INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col, version) VALUES (11, 'b', false, 6, 3, 1, 90, '3_1', 1);
+INSERT INTO SEDISTE (id, klasa, rezervisano, let_id, broj_reda, broj_kolone, cena, row_col, version) VALUES (12, 'b', false, 6, 3, 2, 90, '3_2', 1);
 
+INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije, cena, soba_zauzeta_od, soba_zauzeta_do, vozilo_zauzeto_od, vozilo_zauzeto_do) VALUES (1,false,'2019-03-14 15:45:32', 2000,'2019-04-14 19:45:00','2019-04-20 10:45:00','2019-04-14 19:45:00','2019-04-20 10:45:00' );
+INSERT INTO REZERVACIJA_KORISNIK(rezervacija_id,korisnik_id) VALUES (1,5);
+INSERT INTO REZERVACIJA_SEDISTE(rezervacija_id,sediste_id) VALUES (1,7);
+INSERT INTO REZERVACIJA_SOBA(rezervacija_id,soba_id) VALUES (1,1);
+INSERT INTO REZERVACIJA_VOZILO(rezervacija_id,vozilo_id) VALUES (1,1);
+
+/*
 INSERT INTO REZERVACIJA(id,aktivna_rezervacija,datum_rezervacije, cena) VALUES (2,true,'2019-05-14 18:00:00', 200);
 INSERT INTO REZERVACIJA_SOBA(rezervacija_id,soba_id) VALUES (2,2);
 
