@@ -431,7 +431,9 @@ $(document).on('submit', "#deleteBranchForma", function(e){
 				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			$.bootstrapGrowl("An error occured!", {
+			$("#id01").css("display", "none");
+			$("body").removeClass("modal-open");
+			$.bootstrapGrowl("Cannot delete branch with reserved cars!", {
 				  ele: 'body', // which element to append to
 				  type: 'danger', // (null, 'info', 'danger', 'success')
 				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
@@ -549,7 +551,8 @@ function formaUpdatecar(e, forma){
         	$("#licenseCar1").val(data.tablica);
         	$("#priceCar1").val(data.cena);
         	$("#seatsCar1").val(data.brojMesta);
-        	//fali jos select
+        	$("#branchCar1").val(data.filijala.adresa);
+        	$("#identifikatorVoziloUpd").val(data.id);
         }
 		
 	})
@@ -573,12 +576,12 @@ $(document).on('submit', "#editVoziloForma", function(e){
 	console.log(filijala_id);
 	var id_rent=localStorage.getItem("rent_id");
 	
-	var id = $("identifikatorVoziloUpd").val();
+	var id = $("#identifikatorVoziloUpd").val();
 	$.ajax({
 		type:"PUT",
 		url:"api/cars/"+id,
 		contentType:'application/json',
-		dataType:'text',
+		dataType:'json',
 		data:carsToJSONadd(manufacturer, model, year, license, price, seats, filijala_id),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
@@ -604,7 +607,11 @@ $(document).on('submit', "#editVoziloForma", function(e){
 				});
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
-        	$.bootstrapGrowl("An error occured!", {
+
+        	$("#id06").css("display", "none");
+			$("body").removeClass("modal-open");
+			ponistavanje('editVoziloForma');
+        	$.bootstrapGrowl("Cannot change reserved car!", {
         		  ele: 'body', // which element to append to
         		  type: 'danger', // (null, 'info', 'danger', 'success')
         		  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
@@ -648,7 +655,10 @@ $(document).on('submit', "#deleteVoziloForma", function(e){
 				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			$.bootstrapGrowl("An error occured!", {
+
+			$("#id05").css("display", "none");
+			$("body").removeClass("modal-open");
+			$.bootstrapGrowl("Cannot delete reserved car!", {
 				  ele: 'body', // which element to append to
 				  type: 'danger', // (null, 'info', 'danger', 'success')
 				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'

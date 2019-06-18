@@ -178,11 +178,23 @@ public class VoziloController {
 	@RequestMapping(value = "/api/cars/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vozilo> updateCar(
 			@PathVariable(value = "id") Long carId,
-			@Valid @RequestBody Vozilo voziloDetalji) {
+			@Valid @RequestBody VoziloDTO voziloDetalji) {
 
 		Vozilo vozilo = voziloService.findOne(carId);
 		if (vozilo == null) {
 			return ResponseEntity.notFound().build();
+		}else{
+			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
+			for (Rezervacija rezervacija : aktivne) {
+				if(rezervacija.getAktivnaRezervacija()){
+					Set<Vozilo>  v= rezervacija.getOdabranaVozila();
+					for (Vozilo vozilo2 : v) {
+						if(vozilo2.getId() == vozilo.getId()){
+							return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+					}
+					}
+				}
+			}
 		}
 
 		vozilo.setProizvodjac(voziloDetalji.getProizvodjac());
@@ -204,6 +216,17 @@ public class VoziloController {
 		Vozilo vozilo = voziloService.findOne(carId);
 
 		if (vozilo != null) {
+			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
+			for (Rezervacija rezervacija : aktivne) {
+				if(rezervacija.getAktivnaRezervacija()){
+					Set<Vozilo>  v= rezervacija.getOdabranaVozila();
+					for (Vozilo vozilo2 : v) {
+						if(vozilo2.getId() == vozilo.getId()){
+							return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+					}
+					}
+				}
+			}
 			voziloService.remove(carId);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {

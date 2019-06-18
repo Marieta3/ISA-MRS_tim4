@@ -426,7 +426,9 @@ $(document).on('submit', "#editRoomForma", function(e){
 				});
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
-        	$.bootstrapGrowl("An error occured!", {
+        	$("#id04").css("display", "none");
+			$("body").removeClass("modal-open");
+        	$.bootstrapGrowl("Cannot change reserved room!", {
         		  ele: 'body', // which element to append to
         		  type: 'danger', // (null, 'info', 'danger', 'success')
         		  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
@@ -601,7 +603,9 @@ $(document).on('submit', "#deleteSobaForma", function(e){
 				});
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			$.bootstrapGrowl("An error occured!", {
+			$("#id01").css("display", "none");
+			$("body").removeClass("modal-open");
+			$.bootstrapGrowl("Cannot delete reserved room!", {
 				  ele: 'body', // which element to append to
 				  type: 'danger', // (null, 'info', 'danger', 'success')
 				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'

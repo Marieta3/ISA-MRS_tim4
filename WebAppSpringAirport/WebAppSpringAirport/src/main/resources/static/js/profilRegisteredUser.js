@@ -225,7 +225,9 @@ function renderReservationHistory(data){
 		td_putnici.append(putnici_list);
 		tr.append(td_putnici);
 		tr.append('<td>'+rezervacija.cena+'</td>');
-		tr.append("<td align='center'><button class='oceni' onClick = 'oceni(" + rezervacija.id + ")'>Rate services</button></td>");
+		var funDummy = " onclick= \"otvoriModal('id04')\""
+		tr.append("<td align = 'center' ><form id='formaRateServices' onsubmit= 'formaRateServices(event,this)'><input type='hidden' value='" + rezervacija.id 
+				+ "'><input type='submit' value='Rate services' " + funDummy + " style=\'margin-left:0px ; margin-top : 0px\'></form> </td>");
 		
 		$("#reservationHistoryTable").find("tbody").append(tr);
 	})
@@ -239,41 +241,97 @@ function renderReservationHistory(data){
 	  });
 }
 
-function oceni ( id )
+function formaRateServices(e, forma){
+	e.preventDefault();
+	resetLabels();
+	$('.page-link').css('z-index','auto');
+	var id_rezervacija = $(forma).find('input[type=hidden]').val();
+	console.log(id_rezervacija);
+	$.ajax({
+		type:"GET",
+		url:"api/reserve/"+id_rezervacija,
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	console.log(data);
+        	var idLet = data.odabranaSedista[0].let.id;
+        	$("#lab1").append(data.odabranaSedista[0].let.avioKompanija.naziv);
+        	$("#lab2").append(data.odabranaSedista[0].let.pocetnaDestinacija+'-'+data.odabranaSedista[0].let.krajnjaDestinacija);
+        	$("#hidden1").val(data.odabranaSedista[0].let.avioKompanija.id);
+        	$("#hidden2").val(data.odabranaSedista[0].let.id);
+
+    		if(data.odabraneSobe.length>0){
+    			$("#lab3").append(data.odabraneSobe[0].hotel.naziv);
+            	$("#lab4").append(data.odabraneSobe[0].opis);
+            	$("#hidden3").val(data.odabraneSobe[0].hotel.id);
+            	$("#hidden4").val(data.odabraneSobe[0].id);
+    		}else{
+    			$("#lab3").append('-');
+            	$("#lab4").append('-');
+                $("#hotelRating").attr('disabled','disabled');   
+                $("#roomRating").attr('disabled','disabled');   
+    		}
+    		if(data.odabranaVozila.length>0){
+            	$("#lab5").append(data.odabranaVozila[0].filijala.rentACar.naziv);
+            	$("#lab6").append(data.odabranaVozila[0].proizvodjac + " " + data.odabranaVozila[0].model);
+            	$("#hidden5").val(data.odabranaVozila[0].filijala.rentACar.id);
+            	$("#hidden6").val(data.odabranaVozila[0].id);
+    		}else{
+    			tr.append('<td>-</td>');
+    		}
+    		
+        	$("#identifikatorRezervacijaUpd").val(id_rezervacija);
+        }
+		
+	})
+}
+
+function resetLabels()
 {
-	var arr = 
-		[
-		 {
-			 'entitetId' : "avio_1",
-			 'ocena' : 3,
-		     'rezervacijaId' : 1
-		 },
-		 {
-			 'entitetId' : "let_6",
-			 'ocena' : 3 ,
-		     'rezervacijaId' : 1
-		 },
-		 {
-			 'entitetId' : "hotel_1",
-			 'ocena' : 3 ,
-		     'rezervacijaId' : 1
-		 },
-		 {
-			 'entitetId' : "soba_1",
-			 'ocena' : 3 ,
-		     'rezervacijaId' : 1
-		 },
-		 {
-			 'entitetId' : "rent_1",
-			 'ocena' : 3 ,
-		     'rezervacijaId' : 1
-		 },
-		 {
-			 'entitetId' : "vozilo_1",
-			 'ocena' : 3 ,
-		     'rezervacijaId' : 1
-		 }
-		 ]
+	$("#lab1").text("Rate airline: ");
+	$("#lab2").text("Rate flight: ");
+	$("#lab3").text("Rate hotel: ");
+	$("#lab4").text("Rate room: ");
+	$("#lab5").text("Rate rent-a-car: ");
+	$("#lab6").text("Rate car: ");
+
+	$("#airlineRating").val($("#airlineRating option:first").val());
+	$("#flightRating").val($("#flightRating option:first").val());
+	$("#hotelRating").val($("#hotelRating option:first").val());
+	$("#roomRating").val($("#roomRating option:first").val());
+	$("#rentRating").val($("#rentRating option:first").val());
+	$("#carRating").val($("#carRating option:first").val());
+}
+
+$(document).on('submit', "#rateServicesForma", function(e){
+	e.preventDefault();
+	var arr = [];
+	
+	var ocena1=$("#airlineRating option:selected").val();
+	var ocena2=$("#flightRating option:selected").val();
+	var ocena3=$("#hotelRating option:selected").val();
+	var ocena4=$("#roomRating option:selected").val();
+	var ocena5=$("#rentRating option:selected").val();
+	var ocena6=$("#carRating option:selected").val();
+	var id1 = $("#hidden1").val();
+	var id2 = $("#hidden2").val();
+	var id3 = $("#hidden3").val();
+	var id4 = $("#hidden4").val();
+	var id5 = $("#hidden5").val();
+	var id6 = $("#hidden6").val();
+	
+	var rezId = $("#identifikatorRezervacijaUpd").val();
+	var ent = ['avio', 'let', 'hotel', 'soba', 'rent', 'vozilo'];
+	
+	arr.push({ 'entitetId' : ent[0] + '_' + id1, 'ocena' : ocena1, 'rezervacijaId' : rezId})
+	arr.push({ 'entitetId' : ent[1] + '_' + id2, 'ocena' : ocena2, 'rezervacijaId' : rezId})
+	arr.push({ 'entitetId' : ent[2] + '_' + id3, 'ocena' : ocena3, 'rezervacijaId' : rezId})
+	arr.push({ 'entitetId' : ent[3] + '_' + id4, 'ocena' : ocena4, 'rezervacijaId' : rezId})
+	arr.push({ 'entitetId' : ent[4] + '_' + id5, 'ocena' : ocena5, 'rezervacijaId' : rezId})
+	arr.push({ 'entitetId' : ent[5] + '_' + id6, 'ocena' : ocena6, 'rezervacijaId' : rezId})
+	console.log(arr);
+
 	$.ajax({
 		type:'POST',
 		url:'/api/ocenjivanje' ,
@@ -285,15 +343,39 @@ function oceni ( id )
         },
 		success: function(data)
 		{
-			console.log(data);
-			notify('success', 'info');
+
+			$("#id04").css("display", "none");
+			$("body").removeClass("modal-open");
+			resetLabels();
+			$.bootstrapGrowl("Services rated!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		},
 		error:function(){
-			//BEDOBHATOD PL AZT HOGY A MEGLÉVŐEKET UPDATELD DE AZT MAJD CSAK HA LESZ MODAL BERAKVA
-			notify('You have already rated the services!', 'danger');
+
+			$("#id04").css("display", "none");
+			$("body").removeClass("modal-open");
+			resetLabels();
+			$.bootstrapGrowl("No new rating inputted", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
 		}
 	});
-}
+})
 
 function ocenaDTOToJSON(arr)
 {
@@ -576,3 +658,5 @@ function addFriend(id){
 		}
 	})
 }
+
+

@@ -90,12 +90,16 @@ public class OcenjivanjeController {
 			}
 			
 			for (Ocena o1 : svakaOcena) {	//proverimo da li je korisnik već ocenjivao ovaj servis
-											//ako jeste, onda vracamo na mainLoop
+											//ako jeste, onda izmenimo ocenu
 				if(entity.equals("avio")){
 					if(o1.getAvio()!= null && o1.getKorisnik_id()!= null)
 					{
 						if(o1.getAvio().getId() == id && o1.getKorisnik_id().equals(me.getId()))
 						{
+							o1.setOcena(ocena);
+							o1.setDatumOcenjivanja(new Date());
+							ocenaService.save(o1);
+							kreiraneOcene.add(o1);
 							continue mainLoop;
 						}
 					}
@@ -104,6 +108,10 @@ public class OcenjivanjeController {
 					{
 						if(o1.getLet().getId() == id && o1.getKorisnik_id().equals(me.getId()))
 						{
+							o1.setOcena(ocena);
+							o1.setDatumOcenjivanja(new Date());
+							ocenaService.save(o1);
+							kreiraneOcene.add(o1);
 							continue mainLoop;
 						}
 					}	
@@ -112,6 +120,10 @@ public class OcenjivanjeController {
 					{
 						if(o1.getHotel().getId() == id && o1.getKorisnik_id().equals(me.getId()))
 						{
+							o1.setOcena(ocena);
+							o1.setDatumOcenjivanja(new Date());
+							ocenaService.save(o1);
+							kreiraneOcene.add(o1);
 							continue mainLoop;
 						}
 					}	
@@ -120,6 +132,10 @@ public class OcenjivanjeController {
 					{
 						if(o1.getSoba().getId() == id && o1.getKorisnik_id().equals(me.getId()))
 						{
+							o1.setOcena(ocena);
+							o1.setDatumOcenjivanja(new Date());
+							ocenaService.save(o1);
+							kreiraneOcene.add(o1);
 							continue mainLoop;
 						}
 					}
@@ -128,6 +144,10 @@ public class OcenjivanjeController {
 					{
 						if(o1.getRent().getId() == id && o1.getKorisnik_id().equals(me.getId()))
 						{
+							o1.setOcena(ocena);
+							o1.setDatumOcenjivanja(new Date());
+							ocenaService.save(o1);
+							kreiraneOcene.add(o1);
 							continue mainLoop;
 						}
 					}
@@ -136,6 +156,10 @@ public class OcenjivanjeController {
 					{
 						if(o1.getVozilo().getId() == id && o1.getKorisnik_id().equals(me.getId()))
 						{
+							o1.setOcena(ocena);
+							o1.setDatumOcenjivanja(new Date());
+							ocenaService.save(o1);
+							kreiraneOcene.add(o1);
 							continue mainLoop;
 						}
 					}

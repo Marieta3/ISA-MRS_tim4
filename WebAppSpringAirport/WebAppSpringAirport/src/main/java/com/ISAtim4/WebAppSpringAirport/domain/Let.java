@@ -1,6 +1,5 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,9 +15,7 @@ import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Let {
@@ -126,7 +123,14 @@ public class Let {
 	public void setDuzinaPutovanja(Integer duzinaPutovanja) {
 		this.duzinaPutovanja = duzinaPutovanja;
 	}
-	
+
+	public AvioKompanija getAvioKompanija() {
+		return avioKompanija;
+	}
+	public void setAvioKompanija(AvioKompanija avioKompanija) {
+		this.avioKompanija = avioKompanija;
+	}
+
 	public Set<Sediste> getSedista() {
 		return sedista;
 	}
@@ -180,7 +184,7 @@ public class Let {
 	}
 	public Let(Long id, String pocetnaDestinacija, String krajnjaDestinacija,
 			Date vremePolaska, Date vremeDolaska, Integer duzinaPutovanja,
-			AvioKompanija avio_kompanija, Set<Sediste> sedista, String model,
+			AvioKompanija avioKompanija, Set<Sediste> sedista, String model,
 			int brojRedova, int brojKolona, int brojRedovaFC, int brojRedovaEC,
 			int brojRedovaBC) {
 		this.id = id;
@@ -189,7 +193,7 @@ public class Let {
 		this.vremePolaska = vremePolaska;
 		this.vremeDolaska = vremeDolaska;
 		this.duzinaPutovanja = duzinaPutovanja;
-		this.avioKompanija = avio_kompanija;
+		this.avioKompanija = avioKompanija;
 		this.sedista = sedista;
 		this.model = model;
 		this.brojRedova = brojRedova;
@@ -197,11 +201,5 @@ public class Let {
 		this.brojRedovaFC = brojRedovaFC;
 		this.brojRedovaEC = brojRedovaEC;
 		this.brojRedovaBC = brojRedovaBC;
-	}
-	public AvioKompanija getAvioKompanija() {
-		return avioKompanija;
-	}
-	public void setAvioKompanija(AvioKompanija avioKompanija) {
-		this.avioKompanija = avioKompanija;
 	}
 }
