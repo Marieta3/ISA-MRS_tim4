@@ -43,7 +43,7 @@ function renderRentACars(data){
 	$("#prikazRentACarTabela").find("th:gt(5)").remove();
 	$.each(list, function(index, rentACar) {
 		var trow=get_row(rentACar, "rent", localStorage.getItem('uloga'), 'nema', 'nema');
-		trow.append('<td><button  onclick="selektovanRent(this)"><input type="hidden" id="'+rentACar.id+'">Select</button></td>');
+		trow.append('<td><a href="#prikaz-vozila"><button  onclick="selektovanRent(this)"><input type="hidden" id="'+rentACar.id+'">Select</button></a></td>');
 		$('#prikazRentACarTabela').append(trow);
 	})
 	$('#prikazRentACarTabela').DataTable({
@@ -63,6 +63,7 @@ function selektovanRent(btn){
 	$('#selected-cars').empty();
 	$('#counter-cars').text('0');
 	$('#total-cars').text('0');
+	$('#selektovan-rent-id').val(rent_id);
 	$.ajax({
 		type:'GET',
 		url:'api/cars/rent/'+rent_id,
@@ -82,7 +83,7 @@ function renderCars(data){
 var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$('#prikazVoziloTabela').DataTable().clear().destroy();
 	uloga=localStorage.getItem("uloga");
-	
+	$('#rent-naziv-adresa').text(data[0].filijala.rentACar.naziv+', '+data[0].filijala.rentACar.adresa);
 	$("#prikazVoziloTabela").find("tr:gt(0)").remove();
 	$("#prikazVoziloTabela").find("th:gt(9)").remove();
 	$.each(list, function(index, car){
@@ -102,6 +103,32 @@ var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	                   ]
 	  });
 	
+}
+
+$(document).on('submit', '#pretragaVozila', function(e){
+	e.preventDefault();
+	var dat1=$('#datepicker7').val();
+	var dat2=$('#datepicker8').val();
+	var rent_id=$('#selektovan-rent-id').val();
+	$.ajax({
+		type:'POST',
+		url:'api/voziloRent/pretraga/'+rent_id,
+		contentType: 'application/json',
+		dataType : 'json',
+		data : voziloToJSONsearch(dat1, dat2),
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success : renderCars
+	})
+})
+
+function voziloToJSONsearch(dat1, dat2) {
+	return JSON.stringify({
+		"vreme1" : dat1,
+		"vreme2" : dat2
+	});
 }
 function selektovanoVozilo(checkbox){
 	//ako je cekirano dodati u listu, ako nije onda izbaciti iz liste

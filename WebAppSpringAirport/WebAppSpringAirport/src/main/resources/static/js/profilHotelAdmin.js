@@ -207,11 +207,9 @@ function renderSobe(data){
 	uloga=localStorage.getItem("uloga");
 	
 	if(uloga=="ROLE_HOTEL"){
-		var th_nbsp=$('<th>&nbsp;</th>');
-		var th_nbsp1=$('<th>&nbsp;</th>');
-		var th_nbsp2=$('<th>&nbsp;</th>');
+		
 		$('#prikazSobaTabela').find('tr:eq(0)').append('<th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th>');
-		$('#prikazSobaTabela').find('tr:eq(0)').append(th_nbsp1);
+		//$('#prikazSobaTabela').find('tr:eq(0)').append(th_nbsp1);
 	}
 	$("#prikazSobaTabela").find("tr:gt(0)").remove();
 	$("#prikazSobaTabela").find("th:gt(8)").remove();
@@ -270,13 +268,14 @@ function dodavanjeBrzeRezervacije(e){
         data:brzaSobaToJSON(soba_id, nova_cena, start_datum, end_datum),
         success:function(data){
         	zatvoriModal('id07');
+        	notify("Successfully added quick room reservation!", 'info');
         }
 	});
 }
 
 function brzaSobaToJSON(soba_id, nova_cena, start_datum, end_datum){
 	return JSON.stringify({
-		"idSobe":soba_id,
+		"id":soba_id,
 		"novaCena":nova_cena,
 		"startDatum":start_datum,
 		"endDatum":end_datum

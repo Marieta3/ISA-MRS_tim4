@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.BrzaSoba;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
-import com.ISAtim4.WebAppSpringAirport.dto.BrzaSobaDTO;
+import com.ISAtim4.WebAppSpringAirport.dto.BrzaRezervacijaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.BrzaSobaService;
 import com.ISAtim4.WebAppSpringAirport.service.SobaService;
 
@@ -32,13 +32,13 @@ public class BrzaSobaController {
 	
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	@RequestMapping(value = "/api/quick/room", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
-	public BrzaSoba createBrzaSoba(@Valid @RequestBody BrzaSobaDTO brzaSobaDTO) {
+	public BrzaSoba createBrzaSoba(@Valid @RequestBody BrzaRezervacijaDTO brzaSobaDTO) {
 		BrzaSoba brzaSoba=new BrzaSoba();
 		brzaSoba.setNova_cena(brzaSobaDTO.getNovaCena());
 		brzaSoba.setStart_date(brzaSobaDTO.getStartDatum());
 		brzaSoba.setEnd_date(brzaSobaDTO.getEndDatum());
-		Soba soba=sobaService.findOne(brzaSobaDTO.getIdSobe());
-		//TODO: ubaciti proveru da li je mozda rezervisana u top periodu
+		Soba soba=sobaService.findOne(brzaSobaDTO.getId());
+		//TODO: ubaciti proveru da li je mozda rezervisana u tom periodu
 		brzaSoba.setSoba(soba);
 		return brzaSobaService.save(brzaSoba);
 	}

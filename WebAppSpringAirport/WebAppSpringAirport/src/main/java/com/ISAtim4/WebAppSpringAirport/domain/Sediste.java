@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -47,6 +49,10 @@ public class Sediste {
 	
 	@Column(nullable=false)
 	private double cena;
+	
+	@OneToOne(mappedBy="sediste", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("sediste")
+	private BrzoSediste brzo_sediste;
 
 	public Long getId() {
 		return id;
@@ -127,6 +133,22 @@ public class Sediste {
 
 	public void setRow_col(String row_col) {
 		this.row_col = row_col;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public BrzoSediste getBrzo_sediste() {
+		return brzo_sediste;
+	}
+
+	public void setBrzo_sediste(BrzoSediste brzo_sediste) {
+		this.brzo_sediste = brzo_sediste;
 	}
 
 	

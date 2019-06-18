@@ -6,7 +6,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
+import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
+import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 
 public interface LetRepository extends JpaRepository<Let, Long>{
 	
@@ -21,4 +24,6 @@ public interface LetRepository extends JpaRepository<Let, Long>{
 	
 	@Query("select l from Let l where l.pocetnaDestinacija = ?1 and l.krajnjaDestinacija = ?2")
 	public List<Let> findFlightsPolazakDolazak(String mestoPolaska, String mestoDolaska);
+	
+	public List<Let> findAllByAvioKompanija(AvioKompanija avio_kompanija);
 }
