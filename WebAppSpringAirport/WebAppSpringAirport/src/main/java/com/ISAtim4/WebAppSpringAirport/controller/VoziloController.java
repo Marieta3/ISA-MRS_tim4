@@ -15,10 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Filijala;
@@ -56,7 +58,7 @@ public class VoziloController {
 
 	/* da snimimo vozilo */
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@RequestMapping(value = "/api/cars", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/cars", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Vozilo createCar(@Valid @RequestBody VoziloDTO v) {
 		Vozilo vozilo = new Vozilo();
 		vozilo.setProizvodjac(v.getProizvodjac());
@@ -70,7 +72,7 @@ public class VoziloController {
 	}
 
 	/* da uzmemo sve vozila, svima dozvoljeno */
-	@RequestMapping(value = "/api/cars", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/cars",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Vozilo> getAllCars() {
 		List<Vozilo> cars = voziloService.findAll();
 		for (Vozilo vozilo : cars) {
@@ -81,7 +83,7 @@ public class VoziloController {
 	}
 
 	/* da uzmemo vozilo po id-u, svima dozvoljeno  */
-	@RequestMapping(value = "/api/cars/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/cars/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vozilo> getCar(
 			@PathVariable(value = "id") Long hotelId) {
 		Vozilo vozilo = voziloService.findOne(hotelId);
@@ -95,7 +97,7 @@ public class VoziloController {
 	}
 	
 	/* da uzmemo sve vozila za neki rent-a-car, svima dozvoljeno */
-	@RequestMapping(value = "/api/cars/rent/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/cars/rent/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Vozilo> getAllCarsByRentACar(
 			@PathVariable(value = "id") Long rentId) {
 		logger.info("ID je " + rentId);
@@ -118,7 +120,7 @@ public class VoziloController {
 	}
 	
 
-	@RequestMapping(value = "/api/voziloRent/pretraga/{rent_id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/voziloRent/pretraga/{rent_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Vozilo> getVozilaByRACPretraga(@PathVariable(value = "rent_id") Long rent_id, @Valid @RequestBody VoziloPretragaDTO voziloDTO) {
 		
 		RentACar rentAC = rentService.findOne(rent_id);
@@ -175,7 +177,7 @@ public class VoziloController {
 
 	/* update vozila po id-u */
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@RequestMapping(value = "/api/cars/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/cars/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vozilo> updateCar(
 			@PathVariable(value = "id") Long carId,
 			@Valid @RequestBody VoziloDTO voziloDetalji) {
@@ -210,7 +212,7 @@ public class VoziloController {
 
 	/* brisanje vozila */
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@RequestMapping(value = "/api/cars/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/cars/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vozilo> deleteCar(
 			@PathVariable(value = "id") Long carId) {
 		Vozilo vozilo = voziloService.findOne(carId);

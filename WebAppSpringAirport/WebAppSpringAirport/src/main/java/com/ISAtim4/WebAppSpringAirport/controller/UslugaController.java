@@ -12,10 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
@@ -40,7 +42,7 @@ public class UslugaController {
 	KorisnikService korisnikService;
 	/* da snimimo uslugu */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/usluge", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/usluge",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Usluga createUsluga(@Valid @RequestBody UslugaDTO uslugaDTO) {
 		Usluga usluga=new Usluga();
 		usluga.setCena(uslugaDTO.getCena());
@@ -51,28 +53,28 @@ public class UslugaController {
 	}
 
 	/* da uzmemo sve usluge, svima dozvoljeno */
-	@RequestMapping(value = "/api/usluge", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/usluge",produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Usluga> getAllUsluge() {
 		return uslugaService.findAll();
 	}
 	
-	@RequestMapping(value = "/api/uslugeHotela/{hotel_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/uslugeHotela/{hotel_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Usluga> getUslugeByHotel(@PathVariable(value = "hotel_id") Long hotel_id) {
 		Hotel hotel=hotelService.findOne(hotel_id);
 		return uslugaService.findAllByHotel(hotel);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/uslugeHotela", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/uslugeHotela", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Usluga> getUslugeHotela(Principal user) {
-		AdminHotel me=null;
+		AdminHotel me=new AdminHotel();
 		if(user!=null) {
 			me=(AdminHotel) korisnikService.findByKorisnickoIme(user.getName());
 		}
 		return uslugaService.findAllByHotel(me.getHotel());
 	}
 	/* da uzmemo uslugu po id-u, svima dozvoljeno */
-	@RequestMapping(value = "/api/usluge/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/usluge/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Usluga> getUsluga(
 			@PathVariable(value = "id") Long uslugaId) {
 		Usluga usluga = uslugaService.findOne(uslugaId);
@@ -85,7 +87,7 @@ public class UslugaController {
 
 	/* update usluge po id-u */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/usluge/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/usluge/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Usluga> updateUsluge(
 			@PathVariable(value = "id") Long uslugaId,
 			@Valid @RequestBody Usluga uslugaDetalji) {
@@ -104,7 +106,7 @@ public class UslugaController {
 
 	/* brisanje usluge */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/usluge/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/usluge/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Usluga> deleteUsluga(
 			@PathVariable(value = "id") Long uslugaId) {
 		Usluga usluga = uslugaService.findOne(uslugaId);

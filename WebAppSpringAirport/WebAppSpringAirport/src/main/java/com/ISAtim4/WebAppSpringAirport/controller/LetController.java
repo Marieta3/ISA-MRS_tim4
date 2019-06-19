@@ -12,10 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AdminAvio;
@@ -44,7 +46,7 @@ public class LetController {
 	
 	/* da snimimo let */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
-	@RequestMapping(value = "/api/let", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/let", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Let createLet(@Valid @RequestBody Let let) {
 		let.setBrojRedova(let.getBrojRedovaFC()+let.getBrojRedovaEC()+let.getBrojRedovaBC());
 		for(int i = 1; i <= let.getBrojRedovaFC();i++){
@@ -84,7 +86,7 @@ public class LetController {
 	}
 
 	/* da uzmemo sve letove, svima dozvoljeno */
-	@RequestMapping(value = "/api/let", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/let",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Let> getAllLetovi() {
 		List<Let> pronadjeni=letService.findAll();
 		/*for(Let let:pronadjeni) {
@@ -149,7 +151,7 @@ public class LetController {
 		return sedista;
 	}
 	/* PRETRAGA letova, svima dozvoljeno */
-	@RequestMapping(value = "/api/let/pretraga", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/let/pretraga", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public List<Let> pretragaLetova(@Valid @RequestBody LetDTO let) {
 		
 		 if (let.getTipPutovanja().equals("oneway")){
@@ -161,14 +163,14 @@ public class LetController {
 		}
 	}
 	
-	@RequestMapping(value = "/api/let/pretraga/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/let/pretraga/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public List<Let> pretragaLetova(@PathVariable(value = "id") Long id,
 			@Valid @RequestBody LetDTO let) {
 		return letService.findFlightsByAvio(let.getMestoPolaska(),let.getMestoDolaska(), let.getVreme1(), let.getVreme2(), id);
 	}
 
 	/* da uzmemo let po id-u, svima dozvoljeno*/
-	@RequestMapping(value = "/api/let/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/let/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Let> getLet(
 			@PathVariable(value = "id") Long idLeta) {
 		Let let = letService.findOne(idLeta);
@@ -201,7 +203,7 @@ public class LetController {
 
 	/* update leta po id-u */
 	@PreAuthorize("hasAnyRole('ROLE_AVIO', 'ROLE_ADMIN')")
-	@RequestMapping(value = "/api/let/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/let/{id}",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Let> updateLeta(
 			@PathVariable(value = "id") Long letId,
 			@Valid @RequestBody Let letDetalji) {
@@ -238,7 +240,7 @@ public class LetController {
 
 	/* brisanje leta */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
-	@RequestMapping(value = "/api/let/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/let/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Let> deleteLeta(
 			@PathVariable(value = "id") Long letId) {
 		Let let = letService.findOne(letId);
@@ -252,7 +254,7 @@ public class LetController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@RequestMapping(value = "/api/letoviKompanije", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/letoviKompanije",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Let> getLetoviKompanije(Principal user) {
 		AdminAvio me = null;
 

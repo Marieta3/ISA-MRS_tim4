@@ -12,9 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
@@ -35,7 +37,7 @@ public class PrijateljstvoController {
 
 	// Ulogovan korisnik šalji zahtev za {id}
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = "/api/friends/sendrequest/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/friends/sendrequest/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Prijateljstvo> sendRequest(Principal user,
 			@PathVariable(value = "id") Long korisnikId) {
 
@@ -56,7 +58,7 @@ public class PrijateljstvoController {
 			logger.info("Receiver user is null!");
 			return ResponseEntity.notFound().build();
 
-		} else if (receiver.getId() == me.getId()) {
+		} else if (receiver.getId().equals(me.getId())) {
 			logger.info("Cant send request to myself!");
 			return ResponseEntity.badRequest().build();
 
@@ -76,7 +78,7 @@ public class PrijateljstvoController {
 
 	// Ulogovan korisnik trazi svoje prijatelje
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = "/api/friends/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/friends/",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Korisnik>> getFriends(Principal user) {
 		RegistrovaniKorisnik me = null;
 
@@ -86,14 +88,14 @@ public class PrijateljstvoController {
 		}
 		List<Prijateljstvo> potential_friends = prijateljstvoService
 				.findMyFriends(me);
-		List<Korisnik> friends = new ArrayList<Korisnik>();
+		List<Korisnik> friends = new ArrayList<>();
 		for (Prijateljstvo p : potential_friends) {
 			if (p.getAccepted() && p.getReacted()) {
-				if (p.getReceiver().getId() == me.getId()
-						&& p.getSender().getId() != me.getId()) {
+				if (p.getReceiver().getId().equals(me.getId())
+						&& !p.getSender().getId().equals(me.getId())) {
 					friends.add(p.getSender());
-				} else if (p.getSender().getId() == me.getId()
-						&& p.getReceiver().getId() != me.getId()) {
+				} else if (p.getSender().getId().equals(me.getId())
+						&& !p.getReceiver().getId().equals(me.getId())) {
 					friends.add(p.getReceiver());
 				}
 			}
@@ -104,7 +106,7 @@ public class PrijateljstvoController {
 	
 	// Ulogovan korisnik trazi svoje friend requeste, dobije listu reg.kor. koji su saljili request
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = "/api/friendrequests", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/friendrequests", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RegistrovaniKorisnik>> getFriendsRequests(Principal user) {
 		RegistrovaniKorisnik me = null;
 		List<Prijateljstvo> requests = new ArrayList<>();
@@ -123,7 +125,7 @@ public class PrijateljstvoController {
 	
 	// Ulogovan korisnik trazi nove prijatelje, dobije listu reg.kor. koji jos nisu poslali request, nema odbijen request i nije vec prijatelj
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = "/api/potentialfriends", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/potentialfriends", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Korisnik>> getPossibleFriends(Principal user) {
 		RegistrovaniKorisnik me = null;
 		List<Prijateljstvo> connectedPeople = new ArrayList<>();
@@ -134,15 +136,15 @@ public class PrijateljstvoController {
 		}
 		connectedPeople = prijateljstvoService.findPotentionalFriends(me);
 		
-		List<Long> ids = new ArrayList<Long>();
+		List<Long> ids = new ArrayList<>();
 		for (Prijateljstvo p : connectedPeople) {
-			if (p.getReceiver().getId() == me.getId()
-					&& p.getSender().getId() != me.getId()) {
+			if (p.getReceiver().getId().equals(me.getId())
+					&& !p.getSender().getId().equals(me.getId())) {
 				if(!ids.contains(p.getSender().getId())){
 					ids.add(p.getSender().getId());
 				}
-			} else if (p.getSender().getId() == me.getId()
-					&& p.getReceiver().getId() != me.getId()) {
+			} else if (p.getSender().getId().equals(me.getId())
+					&& !p.getReceiver().getId().equals(me.getId())) {
 				if(!ids.contains(p.getReceiver().getId())){
 					ids.add(p.getReceiver().getId());
 					
@@ -154,7 +156,7 @@ public class PrijateljstvoController {
 		//izbacimo sve korisnike koje nisu regKor
 		List<Korisnik>finalList = new ArrayList<>();
 		for (Korisnik k : potentialFriends) {
-			if(k.getId()==me.getId()){
+			if(k.getId().equals(me.getId())){
 				continue;
 			}
 			System.out.println(k.getUloga() + " " + k.getUloga().equals("ROLE_USER") );
@@ -168,7 +170,7 @@ public class PrijateljstvoController {
 	
 	/* prihvata friend requesta od korisnika sa ID om id */
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = "/api/friendrequests/accept/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/friendrequests/accept/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Prijateljstvo> acceptRequest(Principal user,
 			@PathVariable(value = "id") Long friendId) {
 
@@ -195,7 +197,7 @@ public class PrijateljstvoController {
 	
 	/* odbije friend requesta od korisnika sa ID om id */
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = "/api/friendrequests/reject/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/friendrequests/reject/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Prijateljstvo> rejectRequest(Principal user,
 			@PathVariable(value = "id") Long friendId) {
 		RegistrovaniKorisnik me = null;
@@ -221,7 +223,7 @@ public class PrijateljstvoController {
 
 	/* brisanje prijatelja */
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = "/api/friends/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/friends/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Prijateljstvo> deleteFriend(Principal user,
 			@PathVariable(value = "id") Long friendId) {
 		System.out.println("Az ID " + friendId);

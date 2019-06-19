@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
+
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
