@@ -112,6 +112,10 @@ $(document).on('submit', ".modal-content1", function(e){
 	var adresa=$("#adresaHotela").val();
 	var opis=$("#opisHotela").val();
 	var id=$("#identifikator").val();
+	console.log(id);
+	console.log(naziv);
+	console.log(adresa);
+	console.log(opis);
 	$.ajax({
 		type:"PUT",
 		url:"api/hotels/"+id,

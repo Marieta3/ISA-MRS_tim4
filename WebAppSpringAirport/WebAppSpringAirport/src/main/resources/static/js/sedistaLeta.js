@@ -181,15 +181,25 @@ function previewRezervacije(){
 	
 	
 	var lista_pozvanih=$('#invited-friends li');
-	if(lista_sedista.length - 1 != lista_pozvanih.length){
+	var lista_nereg=$('#nereg-lista li');
+	if(lista_sedista.length - 1 < lista_pozvanih.length + lista_nereg.length){
+		notify("Could not proceed reservation. Too many passengers!", 'info');
+		return;
+	}else if(lista_sedista.length - 1 > lista_pozvanih.length + lista_nereg.length){
 		notify("Could not proceed reservation. Invite friends!", 'info');
 		return;
 	}
-	
 	var pozvani_prijatelji=[];
 	$.each(lista_pozvanih, function(index, item){
 		pozvani_prijatelji.push(item.id);
 	})
+	console.log('pozvani prijatelji: '+pozvani_prijatelji);
+	
+	var neregistrovani=[]
+	$.each(lista_nereg, function(index, item){
+		neregistrovani.push($(item).text());
+	})
+	console.log(neregistrovani);
 	
 	
 	var lista_soba=$('#selected-rooms li');
@@ -226,7 +236,7 @@ function previewRezervacije(){
 		url:'api/reserve/preview',
 		contentType:'application/json',
 		dataType:'json',
-		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, vozilaRezervisanaDo),
+		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, vozilaRezervisanaDo, neregistrovani),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -244,6 +254,10 @@ function previewRezervacije(){
 			$.each(data.korisnici, function(index, korisnik){
 				$('#id02 #pozvani-lista-preview').append('<li>'+korisnik.ime+' '+korisnik.prezime+'</li>');
 			})
+			console.log(data.neregistrovani);
+			$.each(data.neregistrovani, function(index, nereg){
+				$('#id02 #nereg-lista-preview').append('<li>'+nereg.ime+' '+nereg.prezime+' '+nereg.datumRodjenja+' '+nereg.brojPasosa+' '+nereg.email+'</li>')
+			})
 			otvoriModal('id02');
 		}
 	});
@@ -260,7 +274,11 @@ function pokupiRezervisanaSedista(e){
 	
 	
 	var lista_pozvanih=$('#invited-friends li');
-	if(lista_sedista.length - 1 != lista_pozvanih.length){
+	var lista_nereg=$('#nereg-lista li');
+	if(lista_sedista.length - 1 < lista_pozvanih.length + lista_nereg.length){
+		notify("Could not proceed reservation. Too many passengers!", 'info');
+		return;
+	}else if(lista_sedista.length - 1 > lista_pozvanih.length + lista_nereg.length){
 		notify("Could not proceed reservation. Invite friends!", 'info');
 		return;
 	}
@@ -270,7 +288,11 @@ function pokupiRezervisanaSedista(e){
 	})
 	console.log('pozvani prijatelji: '+pozvani_prijatelji);
 	
-	
+	var neregistrovani=[]
+	$.each(lista_nereg, function(index, item){
+		neregistrovani.push($(item).text());
+	})
+	console.log(neregistrovani);
 	var lista_soba=$('#selected-rooms li');
 	var lista_vozila=$('#selected-cars li');
 	console.log(lista_sedista);
@@ -308,7 +330,7 @@ function pokupiRezervisanaSedista(e){
 		url:'api/reserve',
 		contentType:'application/json',
 		dataType:'json',
-		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, vozilaRezervisanaDo),
+		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, vozilaRezervisanaDo, neregistrovani),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -319,7 +341,7 @@ function pokupiRezervisanaSedista(e){
 	});
 	//$('#hotels-tab').click();
 }
-function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, cena, sobeOd, broj_nocenja, vozilaOd, vozilaDo){
+function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, cena, sobeOd, broj_nocenja, vozilaOd, vozilaDo, neregistrovani){
 	return JSON.stringify({
 		"sedista":sedista,
 		"id_leta":let_id,
@@ -330,7 +352,8 @@ function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji,
 		"sobaOD":sobeOd,
 		"brojNocenja":broj_nocenja,
 		"voziloOD":vozilaOd, 
-		"voziloDO":vozilaDo
+		"voziloDO":vozilaDo,
+		"neregistrovani":neregistrovani
 	});
 }
 

@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
@@ -60,7 +62,7 @@ public class AvioKompanijaController {
 
 	/* da snimimo avioKompaniju */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping(value = "/api/avioKompanije", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/avioKompanije", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public AvioKompanija createAvioKompanija(@Valid @RequestBody AvioKompanija avioKompanija) {
 		avioKompanija.setCoord1(31.214535);
 		avioKompanija.setCoord2(29.945663);
@@ -68,7 +70,7 @@ public class AvioKompanijaController {
 	}
 
 	/* da uzmemo sve avioKompanije, svima dozvoljeno */
-	@GetMapping(value = "/api/avioKompanije", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/avioKompanije", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<AvioKompanija> getAllAvioKompanije() {
 		List<AvioKompanija> avios = aviokompanijaService.findAll();
 		for (AvioKompanija a : avios) {
@@ -79,7 +81,7 @@ public class AvioKompanijaController {
 	}
 
 	/* da uzmemo avioKompaniju po id-u, svima dozvoljeno*/
-	@GetMapping(value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> getAvioKompanija(
 			@PathVariable(value = "id") Long idAviokompanije) {
 		AvioKompanija aviokompanija = aviokompanijaService.findOne(idAviokompanije);
@@ -94,7 +96,7 @@ public class AvioKompanijaController {
 	}
 	
 	/* da uzmemo letove po id-u aviokompanije, svima dozvoljeno*/
-	@GetMapping(value = "/api/avioKompanije/flights/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/avioKompanije/flights/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<Let>> getFlightsOfAvioKompanija(
 			@PathVariable(value = "id") Long idAviokompanije) {
 		AvioKompanija aviokompanija = aviokompanijaService.findOne(idAviokompanije);
@@ -117,7 +119,7 @@ public class AvioKompanijaController {
 	}
 	
 	/* pretraga letova start, end, startdate, enddate*/
-	@PostMapping(value = "/api/avioKompanije/searchFlights/{id}", consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/avioKompanije/searchFlights/{id}", consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<Let>> pretragaLetovaAvioKompanija(
 			@PathVariable(value = "id") Long idAviokompanije,
 			@Valid @RequestBody LetDTO sLet) {
@@ -156,7 +158,7 @@ public class AvioKompanijaController {
 	
 	/* da uzmemo avioKompaniju po nazivu, svima dozvoljeno */
 	
-	@GetMapping(value = "/api/avioKompanije/search/{name}",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/avioKompanije/search/{name}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AvioKompanija>> getAvioKompanijaByName(
 			@PathVariable(value = "name") String avioKompanijaName) {
 		List<AvioKompanija> avioKompanije = aviokompanijaService.containsName(avioKompanijaName);
@@ -172,7 +174,7 @@ public class AvioKompanijaController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@GetMapping(value = "/api/avioKompanije/chart1/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/avioKompanije/chart1/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Chart1DTO> getChart1(
 			@PathVariable(value = "id") Long avioId) {
 		AvioKompanija avio = aviokompanijaService.findOne(avioId);
@@ -216,7 +218,7 @@ public class AvioKompanijaController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@GetMapping(value = "/api/avioKompanije/chart2/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/avioKompanije/chart2/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Chart2DTO>> getChart2(
 			@PathVariable(value = "id") Long avioId) {
 		AvioKompanija avio = aviokompanijaService.findOne(avioId);
@@ -256,7 +258,7 @@ public class AvioKompanijaController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@PostMapping(value = "/api/avioKompanije/chart3/daily/{id}",consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/avioKompanije/chart3/daily/{id}",consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Integer>> getChart3Daily(
 			@PathVariable(value = "id") Long avioId,
 			@Valid @RequestBody Chart3DTO chartData) {
@@ -307,7 +309,7 @@ public class AvioKompanijaController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@PostMapping(value = "/api/avioKompanije/chart3/weekly/{id}",consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/avioKompanije/chart3/weekly/{id}",consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Integer>> getChart3Weekly(
 			@PathVariable(value = "id") Long avioId,
 			@Valid @RequestBody Chart3DTO chartData) {
@@ -355,7 +357,7 @@ public class AvioKompanijaController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@PostMapping(value = "/api/avioKompanije/chart3/monthly/{id}",consumes= MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/avioKompanije/chart3/monthly/{id}",consumes= MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Integer>> getChart3Monthly(
 			@PathVariable(value = "id") Long avioId,
 			@Valid @RequestBody Chart3DTO chartData) {
@@ -403,7 +405,7 @@ public class AvioKompanijaController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@GetMapping(value = "/api/avioKompanije/chart4/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/avioKompanije/chart4/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Double>> getChart4(
 			@PathVariable(value = "id") Long avioId) {
 		AvioKompanija avio = aviokompanijaService.findOne(avioId);
@@ -478,7 +480,7 @@ public class AvioKompanijaController {
 
 	/* update avioKompanije po id-u */
 	@PreAuthorize("hasAnyRole('ROLE_AVIO', 'ROLE_ADMIN')")
-	@PutMapping(value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.PUT,value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> updateAviokompanije(
 			@PathVariable(value = "id") Long aviokompanijaId,
 			@Valid @RequestBody AvioKompanija avioKompanijaDetalji) {
@@ -505,7 +507,7 @@ public class AvioKompanijaController {
 
 	/* brisanje avioKompanije */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@DeleteMapping(value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.DELETE,value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> deleteAviokompanije(
 			@PathVariable(value = "id") Long avioKompanijaId) {
 		AvioKompanija aviokompanija = aviokompanijaService.findOne(avioKompanijaId);

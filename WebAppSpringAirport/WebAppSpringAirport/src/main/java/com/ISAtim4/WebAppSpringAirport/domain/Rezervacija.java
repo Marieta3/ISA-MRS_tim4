@@ -65,6 +65,10 @@ public class Rezervacija {
 	@JsonIgnoreProperties("rezervacije")
 	private RegistrovaniKorisnik putnik ;*/
 	
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name = "rezervacija_neregistrovani", joinColumns = @JoinColumn(name = "rezervacija_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "neregistrovani_id", referencedColumnName = "id"))
+	private Set<NeregistrovaniPutnik> neregistrovani=new HashSet<>(); 
+	
 	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm:ss")
 	@Column(nullable = false)
 	private Date datumRezervacije;
@@ -187,6 +191,14 @@ public class Rezervacija {
 				+ ", datumRezervacije=" + datumRezervacije + ", sobaZauzetaOd=" + sobaZauzetaOd + ", sobaZauzetaDo="
 				+ sobaZauzetaDo + ", voziloZauzetoOd=" + voziloZauzetoOd + ", voziloZauzetoDo=" + voziloZauzetoDo
 				+ ", aktivnaRezervacija=" + aktivnaRezervacija + "]";
+	}
+
+	public Set<NeregistrovaniPutnik> getNeregistrovani() {
+		return neregistrovani;
+	}
+
+	public void setNeregistrovani(Set<NeregistrovaniPutnik> neregistrovani) {
+		this.neregistrovani = neregistrovani;
 	}
 
 	

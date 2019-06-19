@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
@@ -54,7 +56,7 @@ public class HotelController {
 	private RezervacijaService rezervacijaService;
 
 	/* da dodamo hotel */
-	@PostMapping(value = "/api/hotels", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/hotels", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	/*
 	 * Milan: trenutno sam dodao proveru da li trenutno
 	 * ulogovan korisnik ima rolu ADMIN. Kada sredite model svih korisnika i dodate adekvatne role
@@ -68,7 +70,7 @@ public class HotelController {
 	}
 	
 	//za PRETRAGU HOTELA
-	@PostMapping(value = "/api/hotels/pretraga", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/hotels/pretraga", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public List<Hotel> pretragaHotel(@Valid @RequestBody HotelDTO hotel) {
 		List<Rezervacija> rezervacije=rezervacijaService.findAll();
 		//ArrayList<Hotel> ne_moze=new ArrayList<>();
@@ -143,7 +145,7 @@ public class HotelController {
 	}
 
 	/* da uzmemo sve hotele, svima je dozvoljeno */
-	@GetMapping(value = "/api/hotels", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/hotels", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Hotel> getAllHotels() {
 		List<Hotel> hoteli = hotelService.findAll();
 		for (Hotel hotel2 : hoteli) {
@@ -154,7 +156,7 @@ public class HotelController {
 	}
 
 	/* da uzmemo hotel po id-u, svima dozvoljeno */
-	@GetMapping(value = "/api/hotels/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/hotels/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Hotel> getHotel(
 			@PathVariable(value = "id") Long hotelId) {
 		Hotel hotel = hotelService.findOne(hotelId);
@@ -170,7 +172,7 @@ public class HotelController {
 	
 	/* da uzmemo RentAcar po nazivu, svima dozvoljeno */
 	
-	@GetMapping(value = "/api/hotels/search/{name}",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/hotels/search/{name}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Hotel>> getHotelsByName(
 			@PathVariable(value = "name") String hotelName) {
 		List<Hotel> hotels = hotelService.containsName(hotelName);
@@ -187,7 +189,7 @@ public class HotelController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@GetMapping(value = "/api/hotels/chart1/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/hotels/chart1/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Chart1DTO> getChart1(
 			@PathVariable(value = "id") Long hotelId) {
 		Hotel hotel = hotelService.findOne(hotelId);
@@ -232,7 +234,7 @@ public class HotelController {
 	
 
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@GetMapping(value = "/api/hotels/chart2/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/hotels/chart2/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Chart2DTO>> getChart2(
 			@PathVariable(value = "id") Long hotelId) {
 		Hotel hotel = hotelService.findOne(hotelId);
@@ -268,7 +270,7 @@ public class HotelController {
 	
 	
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@PostMapping(value = "/api/hotels/chart3/daily/{id}",consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/hotels/chart3/daily/{id}",consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Integer>> getChart3Daily(
 			@PathVariable(value = "id") Long hotelId,
 			@Valid @RequestBody Chart3DTO chartData) {
@@ -319,7 +321,7 @@ public class HotelController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@PostMapping(value = "/api/hotels/chart3/weekly/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/hotels/chart3/weekly/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Integer>> getChart3Weekly(
 			@PathVariable(value = "id") Long hotelId,
 			@Valid @RequestBody Chart3DTO chartData) {
@@ -367,7 +369,7 @@ public class HotelController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@PostMapping(value = "/api/hotels/chart3/monthly/{id}", consumes= MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/hotels/chart3/monthly/{id}", consumes= MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Integer>> getChart3Monthly(
 			@PathVariable(value = "id") Long hotelId,
 			@Valid @RequestBody Chart3DTO chartData) {
@@ -414,7 +416,7 @@ public class HotelController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@GetMapping(value = "/api/hotels/chart4/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/hotels/chart4/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Double>> getChart4(
 			@PathVariable(value = "id") Long hotelId) {
 		Hotel hotel = hotelService.findOne(hotelId);
@@ -501,8 +503,8 @@ public class HotelController {
 
 
 	/* update hotela po id-u */
-	@PutMapping(value = "/api/hotels/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAnyRole('ROLE_HOTEL', 'ROLE_ADMIN')")
+	@RequestMapping(method = RequestMethod.PUT,value = "/api/hotels/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Hotel> updateHotela(
 			@PathVariable(value = "id") Long hotelId,
 			@Valid @RequestBody Hotel hotelDetalji) {
@@ -525,13 +527,15 @@ public class HotelController {
 	}
 
 	/* brisanje hotela */
-	@DeleteMapping(value = "/api/hotels/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.DELETE,value = "/api/hotels/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Hotel> deleteHotel(
 			@PathVariable(value = "id") Long hotelId) {
+		System.out.println("\n\n\t"+hotelId+"\n\n");
 		Hotel hotel = hotelService.findOne(hotelId);
-
+		System.out.println("\n\n\t"+hotel+"\n\n");
 		if (hotel != null) {
+			System.out.println("\n\n\t"+"nije null hotel"+"\n\n");
 			hotelService.remove(hotelId);
 			logger.info("Hotel " + hotelId + " deleted.");
 			return new ResponseEntity<>(HttpStatus.OK);

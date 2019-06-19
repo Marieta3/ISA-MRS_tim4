@@ -22,8 +22,7 @@ public class Hotel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Version
-	private Long version;
+	
 	
 	@Column(nullable = false)
 	private String naziv;
@@ -49,11 +48,13 @@ public class Hotel {
 	private Set<Soba> sobe = new HashSet<>();
 	
 	@OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonManagedReference(value="uslugahotela")
+	//@JsonIgnoreProperties("hotel")
 	private Set<Usluga> usluge = new HashSet<>();
 	
 	@OneToMany(mappedBy="hotel", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonManagedReference(value="adminhotela")
+	//@JsonIgnoreProperties("hotel")
 	private Set<AdminHotel> admini_hotela=new HashSet<>();
 	
 	public Set<AdminHotel> getAdmini_hotela() {
