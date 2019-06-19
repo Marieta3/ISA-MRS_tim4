@@ -28,7 +28,7 @@ function init(){
 	var map = new ymaps.Map('map', {
         center: [coord_list[0], coord_list[1]],
         zoom: 12,
-        controls: ['zoomControl', 'searchControl'],
+        controls: ['zoomControl'],
         behaviors: ['drag']
     });
 	var placemark=new ymaps.Placemark([coord_list[0], coord_list[1]], {

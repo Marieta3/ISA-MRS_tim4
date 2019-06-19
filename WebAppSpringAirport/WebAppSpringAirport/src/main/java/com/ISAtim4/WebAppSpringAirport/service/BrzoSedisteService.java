@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.BrzoSediste;
+import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.repository.BrzoSedisteRepository;
 
 @Service
@@ -37,5 +38,9 @@ public class BrzoSedisteService {
 	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		brzoSedisteRepository.deleteById(id);
+	}
+	
+	public BrzoSediste findOneBySediste(Sediste sediste) {
+		return brzoSedisteRepository.findOneBySediste(sediste);
 	}
 }

@@ -1,6 +1,8 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
+import com.ISAtim4.WebAppSpringAirport.domain.NeregistrovaniPutnik;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
@@ -66,7 +69,7 @@ public class RezervacijaController {
 	@RequestMapping(value = "/api/reserve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public Rezervacija createReservation(
-			@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
+			@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) throws ParseException {
 		/*
 		 * RegistrovaniKorisnik me=(RegistrovaniKorisnik)
 		 * korisnikService.findByKorisnickoIme(user.getName());
@@ -132,7 +135,7 @@ public class RezervacijaController {
 	@RequestMapping(value = "/api/reserve/preview", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public Rezervacija previewReservation(
-			@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
+			@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) throws ParseException {
 		RegistrovaniKorisnik me = (RegistrovaniKorisnik) korisnikService
 				.findByKorisnickoIme(user.getName());
 
@@ -179,6 +182,20 @@ public class RezervacijaController {
 					.findAllIds(rezervacijaDTO.getPozvani_prijatelji());
 			for (Korisnik rk : pozvani) {
 				rezervacija.getKorisnici().add((RegistrovaniKorisnik) rk);
+			}
+		}
+		
+		if(!rezervacijaDTO.getNeregistrovani().isEmpty()) {
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			for(String str: rezervacijaDTO.getNeregistrovani()) {
+				NeregistrovaniPutnik nereg=new NeregistrovaniPutnik();
+				String tokens[]=str.split(" ");
+				nereg.setIme(tokens[0]);
+				nereg.setPrezime(tokens[1]);
+				nereg.setBrojPasosa(tokens[2]);
+				nereg.setDatumRodjenja(sdf.parse(tokens[3]));
+				nereg.setEmail(tokens[4]);
+				rezervacija.getNeregistrovani().add(nereg);
 			}
 		}
 		return rezervacija;
