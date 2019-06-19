@@ -29,5 +29,4 @@ public class AdminAvio extends Korisnik {
 	public void setAvio_kompanija(AvioKompanija avio_kompanija) {
 		this.avio_kompanija = avio_kompanija;
 	}
-
 }

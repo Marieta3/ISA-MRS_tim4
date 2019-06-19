@@ -1,6 +1,5 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
-import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.repository.SobaRepository;
 
 @Service

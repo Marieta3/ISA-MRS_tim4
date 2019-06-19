@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.BrzaSoba;
-import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.repository.BrzaSobaRepository;
 @Service
 @Transactional(readOnly = true)

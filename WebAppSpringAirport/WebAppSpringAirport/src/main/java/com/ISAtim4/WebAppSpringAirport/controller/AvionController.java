@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Avion;
@@ -27,20 +29,20 @@ public class AvionController {
 	
 	/* da snimimo avion */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
-	@RequestMapping(value = "/api/avion", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/avion",produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Avion createAvion(@Valid @RequestBody Avion avion) {
 		
 		return avionService.save(avion);
 	}
 
 	/* da uzmemo sve avione, svima dozvoljeno */
-	@RequestMapping(value = "/api/avion", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/avion",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Avion> getAllAvioni() {
 		return avionService.findAll();
 	}
 
 	/* da uzmemo avion po id-u, svima dozvoljeno*/
-	@RequestMapping(value = "/api/avion/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/avion/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Avion> getAvion(
 			@PathVariable(value = "id") Long idAviona) {
 		Avion avion = avionService.findOne(idAviona);
@@ -66,7 +68,7 @@ public class AvionController {
 
 	/* update aviona po id-u */
 	@PreAuthorize("hasAnyRole('ROLE_AVIO', 'ROLE_ADMIN')")
-	@RequestMapping(value = "/api/avion/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/avion/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Avion> updateAviona(
 			@PathVariable(value = "id") Long avionId,
 			@Valid @RequestBody Avion avionDetalji) {
@@ -90,7 +92,7 @@ public class AvionController {
 
 	/* brisanje aviona */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
-	@RequestMapping(value = "/api/avion/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/avion/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Destinacija> deleteAviona(
 			@PathVariable(value = "id") Long avionId) {
 		Avion avion = avionService.findOne(avionId);
