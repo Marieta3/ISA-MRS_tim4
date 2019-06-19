@@ -45,149 +45,147 @@ public class RezervacijaController {
 
 	@Autowired
 	RezervacijaService rezervacijaService;
-	
+
 	@Autowired
 	LetService letservice;
-	
+
 	@Autowired
 	SobaService sobaService;
-	
+
 	@Autowired
 	VoziloService voziloService;
-	
+
 	@Autowired
 	KorisnikService korisnikService;
-	
+
 	@Autowired
 	SedisteService sedisteService;
-	
+
 	@Autowired
 	PozivnicaService pozivnicaService;
-	
+
 	/* da dodamo rezervaciju */
 	@PostMapping(value = "/api/reserve", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public Rezervacija createReservation(@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
-		/*RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
-		
-		//rezervacija
-		Rezervacija rezervacija=new Rezervacija();
-		
-		rezervacija.getKorisnici().add(me);
-		
-		if(!rezervacijaDTO.getSedista().isEmpty()) {
-			Set<Sediste> sedista=sedisteService.findAllByLetRowCol(rezervacijaDTO.getId_leta(),rezervacijaDTO.getSedista());
-			for(Sediste s: sedista) {
-				s.setRezervisano(true);
-				
-			}
-			rezervacija.setOdabranaSedista(sedista);
-		}else {
-			//greska, mora se rezervisati sediste
-		}
-		if(!rezervacijaDTO.getSobe().isEmpty()) {
-			//rezervacija.setOdabraneSobe(sobaService.updateReservedRooms(rezervacijaDTO.getSobe()));
-			Set<Soba> sobe=sobaService.findSobeIds(rezervacijaDTO.getSobe());
-			for(Soba s: sobe) {
-				s.setRezervisana(true);
-				
-			}
-			rezervacija.setOdabraneSobe(sobe);
-			rezervacija.setSobaZauzetaOd(rezervacijaDTO.getSobaOD());
-			Calendar cal=Calendar.getInstance();
-			cal.setTime(rezervacijaDTO.getSobaOD());
-			cal.add(Calendar.DATE, rezervacijaDTO.getBrojNocenja());
-			Date sobaRezervisanaDo=cal.getTime();
-			rezervacija.setSobaZauzetaDo(sobaRezervisanaDo);
-		}
-		if(!rezervacijaDTO.getVozila().isEmpty()) {
-			//rezervacija.setOdabranaVozila(voziloService.updateCarReservation(rezervacijaDTO.getVozila()));
-			Set<Vozilo> vozila=voziloService.findVozilaIds(rezervacijaDTO.getVozila());
-			for(Vozilo v:vozila) {
-				v.setRezervisano(true);
-			}
-			rezervacija.setOdabranaVozila(vozila);
-			rezervacija.setVoziloZauzetoOd(rezervacijaDTO.getVoziloOD());
-			rezervacija.setVoziloZauzetoDo(rezervacijaDTO.getVoziloDO());
-		}
-		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
-		rezervacija.setDatumRezervacije(new Date());
-		//me.getRezervacije().add(rezervacija);
-		
-		//pozivnice
-		if(!rezervacijaDTO.getPozvani_prijatelji().isEmpty()) {
-		ArrayList<Korisnik> pozvani=korisnikService.findAllIds(rezervacijaDTO.getPozvani_prijatelji());
-		//ne bi trebalo u for petljiii
-		for(Korisnik k: pozvani) {
-			Pozivnica pozivnica=new Pozivnica();
-			pozivnica.setDatumSlanja(new Date());
-			pozivnica.setKoSalje(me);
-			pozivnica.setKomeSalje((RegistrovaniKorisnik) k);
-			pozivnica.setRezervacija(rezervacija);
-			pozivnica.setPrihvacen(false);
-			pozivnica.setReagovanoNaPoziv(false);
-			pozivnicaService.save(pozivnica);
-		}
-		}*/
-		Rezervacija rez=rezervacijaService.create(rezervacijaDTO, user);
-		System.out.println("\n\n\tcontroller\n\t"+rez.toString());
+	public Rezervacija createReservation(
+			@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
+		/*
+		 * RegistrovaniKorisnik me=(RegistrovaniKorisnik)
+		 * korisnikService.findByKorisnickoIme(user.getName());
+		 * 
+		 * //rezervacija Rezervacija rezervacija=new Rezervacija();
+		 * 
+		 * rezervacija.getKorisnici().add(me);
+		 * 
+		 * if(!rezervacijaDTO.getSedista().isEmpty()) { Set<Sediste>
+		 * sedista=sedisteService
+		 * .findAllByLetRowCol(rezervacijaDTO.getId_leta(),
+		 * rezervacijaDTO.getSedista()); for(Sediste s: sedista) {
+		 * s.setRezervisano(true);
+		 * 
+		 * } rezervacija.setOdabranaSedista(sedista); }else { //greska, mora se
+		 * rezervisati sediste } if(!rezervacijaDTO.getSobe().isEmpty()) {
+		 * //rezervacija
+		 * .setOdabraneSobe(sobaService.updateReservedRooms(rezervacijaDTO
+		 * .getSobe())); Set<Soba>
+		 * sobe=sobaService.findSobeIds(rezervacijaDTO.getSobe()); for(Soba s:
+		 * sobe) { s.setRezervisana(true);
+		 * 
+		 * } rezervacija.setOdabraneSobe(sobe);
+		 * rezervacija.setSobaZauzetaOd(rezervacijaDTO.getSobaOD()); Calendar
+		 * cal=Calendar.getInstance(); cal.setTime(rezervacijaDTO.getSobaOD());
+		 * cal.add(Calendar.DATE, rezervacijaDTO.getBrojNocenja()); Date
+		 * sobaRezervisanaDo=cal.getTime();
+		 * rezervacija.setSobaZauzetaDo(sobaRezervisanaDo); }
+		 * if(!rezervacijaDTO.getVozila().isEmpty()) {
+		 * //rezervacija.setOdabranaVozila
+		 * (voziloService.updateCarReservation(rezervacijaDTO.getVozila()));
+		 * Set<Vozilo>
+		 * vozila=voziloService.findVozilaIds(rezervacijaDTO.getVozila());
+		 * for(Vozilo v:vozila) { v.setRezervisano(true); }
+		 * rezervacija.setOdabranaVozila(vozila);
+		 * rezervacija.setVoziloZauzetoOd(rezervacijaDTO.getVoziloOD());
+		 * rezervacija.setVoziloZauzetoDo(rezervacijaDTO.getVoziloDO()); }
+		 * rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
+		 * rezervacija.setDatumRezervacije(new Date());
+		 * //me.getRezervacije().add(rezervacija);
+		 * 
+		 * //pozivnice if(!rezervacijaDTO.getPozvani_prijatelji().isEmpty()) {
+		 * ArrayList<Korisnik>
+		 * pozvani=korisnikService.findAllIds(rezervacijaDTO.
+		 * getPozvani_prijatelji()); //ne bi trebalo u for petljiii for(Korisnik
+		 * k: pozvani) { Pozivnica pozivnica=new Pozivnica();
+		 * pozivnica.setDatumSlanja(new Date()); pozivnica.setKoSalje(me);
+		 * pozivnica.setKomeSalje((RegistrovaniKorisnik) k);
+		 * pozivnica.setRezervacija(rezervacija); pozivnica.setPrihvacen(false);
+		 * pozivnica.setReagovanoNaPoziv(false);
+		 * pozivnicaService.save(pozivnica); } }
+		 */
+		Rezervacija rez = rezervacijaService.create(rezervacijaDTO, user);
+		System.out.println("\n\n\tcontroller\n\t" + rez.toString());
 		return rez;
-		//return rezervacijaService.save(rezervacija);
+		// return rezervacijaService.save(rezervacija);
 	}
-	
+
 	/*
-	 * kreira se rezervacija za preview ali se nista ne cuva u bazi
-	 * pozvani korisnici se dodaju u listu putnika kako bi se prikazali u preview-u
+	 * kreira se rezervacija za preview ali se nista ne cuva u bazi pozvani
+	 * korisnici se dodaju u listu putnika kako bi se prikazali u preview-u
 	 */
 	@PostMapping(value = "/api/reserve/preview", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public Rezervacija previewReservation(@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
-		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
-		
-		//rezervacija
-		Rezervacija rezervacija=new Rezervacija();
-		
+	public Rezervacija previewReservation(
+			@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
+		RegistrovaniKorisnik me = (RegistrovaniKorisnik) korisnikService
+				.findByKorisnickoIme(user.getName());
+
+		// rezervacija
+		Rezervacija rezervacija = new Rezervacija();
+
 		rezervacija.getKorisnici().add(me);
-		
-		if(!rezervacijaDTO.getSedista().isEmpty()) {
-			Set<Sediste> sedista=sedisteService.findAllByLetRowCol(rezervacijaDTO.getId_leta(),rezervacijaDTO.getSedista());
-			
+
+		if (!rezervacijaDTO.getSedista().isEmpty()) {
+			Set<Sediste> sedista = sedisteService.findAllByLetRowCol(
+					rezervacijaDTO.getId_leta(), rezervacijaDTO.getSedista());
+
 			rezervacija.setOdabranaSedista(sedista);
-		}else {
-			//greska, mora se rezervisati sediste
+		} else {
+			// greska, mora se rezervisati sediste
 		}
-		if(!rezervacijaDTO.getSobe().isEmpty()) {
-			//rezervacija.setOdabraneSobe(sobaService.updateReservedRooms(rezervacijaDTO.getSobe()));
-			Set<Soba> sobe=sobaService.findSobeIds(rezervacijaDTO.getSobe());
-			
+		if (!rezervacijaDTO.getSobe().isEmpty()) {
+			// rezervacija.setOdabraneSobe(sobaService.updateReservedRooms(rezervacijaDTO.getSobe()));
+			Set<Soba> sobe = sobaService.findSobeIds(rezervacijaDTO.getSobe());
+
 			rezervacija.setOdabraneSobe(sobe);
 			rezervacija.setSobaZauzetaOd(rezervacijaDTO.getSobaOD());
-			Calendar cal=Calendar.getInstance();
+			Calendar cal = Calendar.getInstance();
 			cal.setTime(rezervacijaDTO.getSobaOD());
 			cal.add(Calendar.DATE, rezervacijaDTO.getBrojNocenja());
-			Date sobaRezervisanaDo=cal.getTime();
+			Date sobaRezervisanaDo = cal.getTime();
 			rezervacija.setSobaZauzetaDo(sobaRezervisanaDo);
 		}
-		if(!rezervacijaDTO.getVozila().isEmpty()) {
-			//rezervacija.setOdabranaVozila(voziloService.updateCarReservation(rezervacijaDTO.getVozila()));
-			Set<Vozilo> vozila=voziloService.findVozilaIds(rezervacijaDTO.getVozila());
-			
+		if (!rezervacijaDTO.getVozila().isEmpty()) {
+			// rezervacija.setOdabranaVozila(voziloService.updateCarReservation(rezervacijaDTO.getVozila()));
+			Set<Vozilo> vozila = voziloService.findVozilaIds(rezervacijaDTO
+					.getVozila());
+
 			rezervacija.setOdabranaVozila(vozila);
 			rezervacija.setVoziloZauzetoOd(rezervacijaDTO.getVoziloOD());
 			rezervacija.setVoziloZauzetoDo(rezervacijaDTO.getVoziloDO());
 		}
 		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
 		rezervacija.setDatumRezervacije(new Date());
-		//me.getRezervacije().add(rezervacija);
-		
-		if(!rezervacijaDTO.getPozvani_prijatelji().isEmpty()) {
-		ArrayList<Korisnik> pozvani=korisnikService.findAllIds(rezervacijaDTO.getPozvani_prijatelji());
-		for(Korisnik rk: pozvani) {
-			rezervacija.getKorisnici().add((RegistrovaniKorisnik)rk);
-		}
+		// me.getRezervacije().add(rezervacija);
+
+		if (!rezervacijaDTO.getPozvani_prijatelji().isEmpty()) {
+			ArrayList<Korisnik> pozvani = korisnikService
+					.findAllIds(rezervacijaDTO.getPozvani_prijatelji());
+			for (Korisnik rk : pozvani) {
+				rezervacija.getKorisnici().add((RegistrovaniKorisnik) rk);
+			}
 		}
 		return rezervacija;
 	}
+
 	/* da uzmemo sve rezervacije, svima je dozvoljeno */
 	@GetMapping(value = "/api/reserve", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Rezervacija> getAllReservations() {
@@ -199,21 +197,76 @@ public class RezervacijaController {
 	public ResponseEntity<Rezervacija> getReservation(
 			@PathVariable(value = "id") Long reservationId) {
 		Rezervacija rezervacija = rezervacijaService.findOne(reservationId);
-
+		
 		if (rezervacija == null) {
 			return ResponseEntity.notFound().build();
 		}
+		System.out.println(rezervacija.getOdabranaSedista().iterator().next().getLet().getAvioKompanija().getNaziv());
+		
 		return ResponseEntity.ok().body(rezervacija);
 	}
-	
+
 	@GetMapping(value = "/api/myReservations", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ArrayList<Rezervacija> getMyReservations(Principal user) {
-		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
-		List<Rezervacija> rezervacije=rezervacijaService.findAll();
-		ArrayList<Rezervacija> moje=new ArrayList<>();
-		for(Rezervacija r: rezervacije) {
-			if(r.getKorisnici().contains(me)) {
-				moje.add(r);
+		RegistrovaniKorisnik me = (RegistrovaniKorisnik) korisnikService
+				.findByKorisnickoIme(user.getName());
+		List<Rezervacija> rezervacije = rezervacijaService.findAll();
+		ArrayList<Rezervacija> moje = new ArrayList<Rezervacija>();
+		for (Rezervacija r : rezervacije) {
+			if (r.getKorisnici().contains(me)) {
+				if(r.getAktivnaRezervacija())
+				{
+					moje.add(r);
+				}
+			}
+		}
+		return moje;
+	}
+
+	@GetMapping(value = "/api/myReservationHistory", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ArrayList<Rezervacija> myReservationHistory(Principal user) {
+		RegistrovaniKorisnik me = (RegistrovaniKorisnik) korisnikService
+				.findByKorisnickoIme(user.getName());
+		List<Rezervacija> rezervacije = rezervacijaService.findAll();
+		ArrayList<Rezervacija> moje = new ArrayList<Rezervacija>();
+		Date now = new Date();
+		for (Rezervacija r : rezervacije) {
+			Date d1 = r.getOdabranaSedista().iterator().next().getLet()
+					.getVremeDolaska();
+			if (r.getKorisnici().contains(me)) {
+				if (now.after(d1)) {
+					if (r.getVoziloZauzetoDo() != null) {
+						if (now.after(r.getVoziloZauzetoDo())) {
+							if (r.getSobaZauzetaDo() != null) {	
+								if (now.after(r.getSobaZauzetaDo())) {
+									r.setAktivnaRezervacija(false);
+									moje.add(r);				// korisnik je napustao, vracao i sletio
+								} else {
+									continue; // korisnik jos nije napustao sobu
+								}
+							} else {
+								r.setAktivnaRezervacija(false);
+								moje.add(r); // korisnik je vracao vozilo i sletio
+							}
+						} else {
+							continue; // korisnik jos nije vracao vozilo
+						}
+					} else {	//nije rezervisao vozilo
+						if (r.getSobaZauzetaDo() != null) {
+							if (now.after(r.getSobaZauzetaDo())) {
+								r.setAktivnaRezervacija(false);
+								moje.add(r);	//korinsnik je napustao i sletio
+							} else {
+								continue; // korisnik jos nije napustao sobu
+							}
+						} else { 
+							r.setAktivnaRezervacija(false);
+							moje.add(r); // korisnik je sletio
+						}
+					}
+				} else {
+					continue; // korisnik jos nije sletio
+				}
 			}
 		}
 		return moje;
@@ -230,15 +283,21 @@ public class RezervacijaController {
 		if (rezervacija == null) {
 			return ResponseEntity.notFound().build();
 		}
-		
-		/* OVDE TREBA DA SE DODAJU ATRIBUTI REZERVACIJE
-		*/
-		rezervacija.setAktivnaRezervacija(rezervacijaDetalji.getAktivnaRezervacija());
-		/*rezervacija.setDatumRezervacije(rezervacijaDetalji.getDatumRezervacije());
-		rezervacija.setOdabranaSedista(rezervacijaDetalji.getOdabranaSedista());
-		rezervacija.setOdabranaVozila(rezervacijaDetalji.getOdabranaVozila());
-		rezervacija.setOdabraneSobe(rezervacijaDetalji.getOdabraneSobe());
-		*/
+
+		/*
+		 * OVDE TREBA DA SE DODAJU ATRIBUTI REZERVACIJE
+		 */
+		rezervacija.setAktivnaRezervacija(rezervacijaDetalji
+				.getAktivnaRezervacija());
+		/*
+		 * rezervacija.setDatumRezervacije(rezervacijaDetalji.getDatumRezervacije
+		 * ());
+		 * rezervacija.setOdabranaSedista(rezervacijaDetalji.getOdabranaSedista
+		 * ());
+		 * rezervacija.setOdabranaVozila(rezervacijaDetalji.getOdabranaVozila
+		 * ());
+		 * rezervacija.setOdabraneSobe(rezervacijaDetalji.getOdabraneSobe());
+		 */
 		Rezervacija updateRezervacija = rezervacijaService.save(rezervacija);
 		return ResponseEntity.ok().body(updateRezervacija);
 	}

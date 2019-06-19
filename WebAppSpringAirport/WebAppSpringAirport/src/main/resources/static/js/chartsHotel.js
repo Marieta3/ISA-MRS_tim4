@@ -1,7 +1,93 @@
 google.charts.load('current', {packages: ['corechart', 'bar', 'line']});
-google.charts.setOnLoadCallback(drawChart1);
-google.charts.setOnLoadCallback(drawChart2);
-google.charts.setOnLoadCallback(drawChart4);
+$(document).ready(function () {
+    var today = new Date();
+    var day=today.getDate()>9?today.getDate():"0"+today.getDate(); // format should be "DD" not "D" e.g 09
+    var month=(today.getMonth()+1)>9?(today.getMonth()+1):"0"+(today.getMonth()+1);
+    var year=today.getFullYear();
+    var week = $('#weekChart3').val();
+    console.log(week);
+    $("#monthChart3").attr('min', '2019-01');
+    $("#monthChart3").attr('max', year + '-' + month );
+    $("#monthChart3").attr('value', year + '-' + month );
+
+    $("#weekChart3").attr('min', '2019-W01');
+    $("#weekChart3").attr('max', '2019-W53' );
+    $("#weekChart3").attr('value', '2019-W25' );
+
+    $("#dayChart3").attr('min', '2019-01-01');
+    $("#dayChart3").attr('max', year + '-' + month + '-' + day );
+    $("#dayChart3").attr('value', year + '-' + month + '-' + day );
+
+    $("#monthChart3").removeAttr('disabled');
+    $("#weekChart3").attr('disabled','disabled');
+    $("#dayChart3").attr('disabled','disabled');
+    
+    $("#testBtn").click(function(){
+    	drawChart1();
+    	drawChart2();
+    	drawChart4();
+    }); 
+    /*
+    google.charts.setOnLoadCallback(drawChart1);
+    google.charts.setOnLoadCallback(drawChart2);
+    google.charts.setOnLoadCallback(drawChart4);*/
+    //google.charts.setOnLoadCallback(drawChart3_1);
+    //google.charts.setOnLoadCallback(drawChart3_3);
+    
+    
+    $("#chart3 input:radio").change(function() {
+        if ($(this).val() === "monthly") {
+            $("#monthChart3").removeAttr('disabled');
+            $("#weekChart3").attr('disabled','disabled');
+            $("#dayChart3").attr('disabled','disabled');               
+        }else if ($(this).val() === "weekly") {
+            $("#monthChart3").attr('disabled','disabled');
+            $("#weekChart3").removeAttr('disabled');
+            $("#dayChart3").attr('disabled','disabled');
+        }
+        else {
+            $("#monthChart3").attr('disabled','disabled');
+            $("#weekChart3").attr('disabled','disabled');
+            $("#dayChart3").removeAttr('disabled');
+        }
+      });
+    
+})
+
+$("#showGraph3").click(function(ev){
+    ev.preventDefault()// cancel form submission
+    var checked = $("input[name='category']:checked").val();
+    if( checked  === "monthly")
+	{
+    	var month = $("#monthChart3").val();
+    	if( month === "" )
+		{
+    		notify("Please choose a valid week!", 'danger');
+    		return;
+		}
+    	drawChart3_3();
+	}
+    else if(checked  === "weekly")
+	{
+    	var week = $("#weekChart3").val();
+    	if( week === "" )
+		{
+    		notify("Please choose a valid week!", 'danger');
+    		return;
+		}
+    	drawChart3_2();
+	}
+    else if(checked  === "daily")
+	{
+    	var day = $("#dayChart3").val();
+    	if( day === ""){
+    		notify("Please choose a valid day!", 'danger');
+    		return;
+    	}
+    	drawChart3_1();
+	}
+    
+});
 
 function drawChart1() {
 	var arr =
@@ -33,7 +119,7 @@ function drawChart1() {
 		    dataView.setColumns([{calc: "stringify" , sourceColumn : 0, type:'string'}, 1]);
 			var options = {
 			    title: 'Rating of service',
-			    chartArea: {width: '50%'},
+			    chartArea: {width: '80%'},
 			    hAxis: {
 			      title: 'Rating',
 			      ticks: [1,2,3,4,5],
@@ -43,8 +129,7 @@ function drawChart1() {
 			    	  max:5
 			      },
 		          titleTextStyle: {
-		        	  fontSize: 15,
-		          	  bold : true
+		        	  fontSize: 15
 		          }
 			    },
 		        vAxis: {
@@ -59,11 +144,10 @@ function drawChart1() {
 		          	  bold : true
 		          }
 		        },
-			    width:500,
-			    height:250,
 			    titleTextStyle: {
 			        fontSize: 20
-			    }
+			    },
+			      height:350
 			};
 			
 			var chart = new google.visualization.BarChart(document.getElementById('chart_serviceRating'));	
@@ -103,7 +187,7 @@ function drawChart2() {
 		    dataView.setColumns([{calc: "stringify" , sourceColumn : 0, type:'string'}, 1, 2]);
 		    var options = {
 		      title: 'Room ratings',
-		      chartArea: {width: '50%'},
+		      chartArea: {width: '80%'},
 		      hAxis: {
 			      title: 'Rating',
 			      ticks: [1,2,3,4,5],
@@ -113,8 +197,7 @@ function drawChart2() {
 			    	  max:5
 			      },
 		          titleTextStyle: {
-		        	  fontSize: 15,
-		          	  bold : true
+		        	  fontSize: 15
 		          }
 		      },
 		      vAxis: {
@@ -129,7 +212,7 @@ function drawChart2() {
 		      	  bold : true
 		        }
 		      },
-		      width:500,
+		      height:450,
 
 		      titleTextStyle: {
 		          fontSize: 20
@@ -141,6 +224,214 @@ function drawChart2() {
 	});
   }
 
+function drawChart3_1() {
+	document.getElementById('chart_chart3').html = "";
+	var datumP = $("#dayChart3").val();
+	if(datumP === "")
+	{
+		notify("Please select date!", 'danger');
+	}
+
+    var dataT = new google.visualization.DataTable();
+    dataT.addColumn('timeofday', 'Time of Day');
+    dataT.addColumn('number', 'Issued rooms');
+
+	var day = $("#dayChart3").val();
+	$.ajax({
+		type:'POST',
+		url:'/api/hotels/chart3/daily/' + localStorage.getItem("hotel_id"),
+		dataType:'json',
+		data : chart3Json('daily', datumP),
+		contentType: 'application/json',
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success:function(data){
+			console.log(data);
+		    dataT.addRows([
+		      [{v: [1, 0, 0], f: '1:00'}, data[0]],
+		      [{v: [2, 0, 0], f: '2:00'}, data[1]],
+		      [{v: [3, 0, 0], f: '3:00'}, data[2]],
+		      [{v: [4, 0, 0], f: '4:00'}, data[3]],
+		      [{v: [5, 0, 0], f: '5:00'}, data[4]],
+		      [{v: [6, 0, 0], f: '6:00'}, data[5]],
+		      [{v: [7, 0, 0], f: '7:00'}, data[6]],
+		      [{v: [8, 0, 0], f: '8:00'}, data[7]],
+		      [{v: [9, 0, 0], f: '9:00'}, data[8]],
+		      [{v: [10, 0, 0], f:'10:00'}, data[9]],
+		      [{v: [11, 0, 0], f: '11:00'},data[10]],
+		      [{v: [12, 0, 0], f: '12:00'},data[11]],
+		      [{v: [13, 0, 0], f: '13:00'}, data[12]],
+		      [{v: [14, 0, 0], f: '14:00'}, data[13]],
+		      [{v: [15, 0, 0], f: '15:00'}, data[14]],
+		      [{v: [16, 0, 0], f: '16:00'}, data[15]],
+		      [{v: [17, 0, 0], f: '17:00'}, data[16]],
+		      [{v: [18, 0, 0], f: '18:00'}, data[17]],
+		      [{v: [19, 0, 0], f: '19:00'}, data[18]],
+		      [{v: [20, 0, 0], f: '20:00'}, data[19]],
+		      [{v: [21, 0, 0], f: '21:00'}, data[20]],
+		      [{v: [22, 0, 0], f: '22:00'}, data[21]],
+		      [{v: [23, 0, 0], f: '23:00'}, data[22]],
+		      [{v: [24, 0, 0], f: '24:00'}, data[23]]
+		    ]);
+
+		    var options = {
+		      title: 'Issued rooms on selected day',
+			  chartArea: {width: '50%'},
+		      
+		      hAxis: {
+		        title: 'Time of Day',
+		        format: 'h:mm a'
+		      },
+		      vAxis: {
+		        title: 'Issued rooms',
+		        minValue : 0,
+
+			      viewWindow : {
+			    	  min : 0
+			      },
+		      },
+		      height:450
+		    };
+
+		    var materialChart = new google.charts.Bar(document.getElementById('chart_chart3'));
+		    materialChart.draw(dataT, options);
+		}
+	});
+}
+
+function drawChart3_2() {
+	document.getElementById('chart_chart3').html = "";
+	var datumP = $("#weekChart3").val();
+	if(datumP === "")
+	{
+		notify("Please select date!", 'danger');
+	}
+
+    var dataT = new google.visualization.DataTable();
+    dataT.addColumn('string', 'Day of week');
+    dataT.addColumn('number', 'Issued rooms');
+
+	var day = $("#weekChart3").val();
+	$.ajax({
+		type:'POST',
+		url:'/api/hotels/chart3/weekly/' + localStorage.getItem("hotel_id"),
+		dataType:'json',
+		data : chart3Json('weekly', datumP),
+		contentType: 'application/json',
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success:function(data){
+			console.log(data);
+			dataT.addRows([
+			 		      ["Monday" , data[0]],
+			 		      ["Tuesday" , data[1]],
+			 		      ["Wednesday" , data[2]],
+			 		      ["Thursday" , data[3]],
+			 		      ["Friday", data[4]],
+			 		      ["Saturday", data[5]],
+			 		      ["Sunday", data[6]]
+			 		    ]);
+		    var options = {
+		      title: 'Rooms issued in selected week',
+			  chartArea: {width: '50%'},
+		      
+		      hAxis: {
+		        title: 'Day of week',
+			      viewWindow : {
+			    	  min : 1,
+			    	  max : 31
+			    	  
+			      },
+		      },
+		      vAxis: {
+		        title: 'Issued rooms',
+		        minValue : 0,
+
+			      viewWindow : {
+			    	  min : 0
+			      },
+		      },
+		      height:450,
+		    };
+
+		    var materialChart = new google.charts.Bar(document.getElementById('chart_chart3'));
+		    materialChart.draw(dataT, options);
+		}
+	});
+}
+
+function drawChart3_3() {
+	document.getElementById('chart_chart3').html = "";
+	var datumP = $("#monthChart3").val();
+	if(datumP === "")
+	{
+		notify("Please select date!", 'danger');
+	}
+
+    var dataT = new google.visualization.DataTable();
+    dataT.addColumn('number', 'Day of month');
+    dataT.addColumn('number', 'Issued rooms');
+
+	var day = $("#dayChart3").val();
+	$.ajax({
+		type:'POST',
+		url:'/api/hotels/chart3/monthly/' + localStorage.getItem("hotel_id"),
+		dataType:'json',
+		data : chart3Json('monthly', datumP),
+		contentType: 'application/json',
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success:function(data){
+			console.log(data);
+			var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+
+			var arr = [];
+			$.each(list, function(index, tickets){
+				arr.push([ index+1, tickets ])
+			});
+			console.log(arr);
+		    dataT.addRows(arr);
+		    var options = {
+		      title: 'Rooms issued in selected month',
+			  chartArea: {width: '50%'},
+		      
+		      hAxis: {
+		        title: 'Day of the month',
+			      viewWindow : {
+			    	  min : 1,
+			    	  max : 31
+			    	  
+			      },
+		      },
+		      vAxis: {
+		        title: 'Issued rooms',
+		        minValue : 0,
+
+			      viewWindow : {
+			    	  min : 0
+			      },
+		      },
+		      height:450
+		    };
+
+		    var materialChart = new google.charts.Bar(document.getElementById('chart_chart3'));
+		    materialChart.draw(dataT, options);
+		}
+	});
+}
+
+function chart3Json(type, value) {
+	return JSON.stringify({
+		"type" : type,
+		"value" : value
+	});
+}
 
 function drawChart4() {
 
@@ -178,14 +469,14 @@ function drawChart4() {
 		      [new Date(year, 11), data[11]],
 		    ]);
 
-		    var materialOptions = {
-		      chart: {
-		        title: 'Yearly income by months',
+			var materialOptions = {
 
-			      chartArea: {width: '50%'}
+				      height:450,
+		    		chart: {
+			    		title: 'Yearly income by months',
+
+			    chartArea: {width: '80%'}
 		      },
-		      width: 700,
-		      height: 400,
 		      series: {
 		        // Gives each series an axis name that matches the Y-axis below.
 		        0: {axis: 'Income'}
@@ -195,7 +486,11 @@ function drawChart4() {
 		        y: {
 		        	Income: {label: 'Income (Dollar)'}
 		        }
-		      }
+		      },
+		        titleTextStyle: {
+			      	  fontSize: 20,
+			      	  bold : true
+			        },
 		    };
 
 		    var classicOptions = {
@@ -244,7 +539,7 @@ function drawChart4() {
 		      classicChart.draw(dataT, classicOptions);
 		    }
 
-		    drawClassicChart();
+		    drawMaterialChart();
 		}
 	});
 

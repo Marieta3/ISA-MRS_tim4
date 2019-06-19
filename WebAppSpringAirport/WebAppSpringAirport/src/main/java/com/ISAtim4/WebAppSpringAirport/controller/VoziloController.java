@@ -129,11 +129,10 @@ public class VoziloController {
 		List<Rezervacija> rezervacije=rezervacijaService.findAll();
 		ArrayList<Vozilo> ne_moze=new ArrayList<>();
 		ArrayList<Vozilo> pronadjene=new ArrayList<>();
-		Date datum1=voziloDTO.getVremeDolaska();
-		Calendar cal =Calendar.getInstance();
-		cal.setTime(datum1);
-		cal.add(Calendar.DATE, voziloDTO.getBrojDana());
-		Date datum2=cal.getTime();
+		Date datum1=voziloDTO.getVreme1();
+		
+		Date datum2=voziloDTO.getVreme2();
+		System.out.println("\n\n\t"+datum2);
 		//za svaku rezervaciju
 		for(Rezervacija r: rezervacije) {
 			//ako se preklapaju datumi	
@@ -181,11 +180,23 @@ public class VoziloController {
 	@PutMapping(value = "/api/cars/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vozilo> updateCar(
 			@PathVariable(value = "id") Long carId,
-			@Valid @RequestBody Vozilo voziloDetalji) {
+			@Valid @RequestBody VoziloDTO voziloDetalji) {
 
 		Vozilo vozilo = voziloService.findOne(carId);
 		if (vozilo == null) {
 			return ResponseEntity.notFound().build();
+		}else{
+			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
+			for (Rezervacija rezervacija : aktivne) {
+				if(rezervacija.getAktivnaRezervacija()){
+					Set<Vozilo>  v= rezervacija.getOdabranaVozila();
+					for (Vozilo vozilo2 : v) {
+						if(vozilo2.getId() == vozilo.getId()){
+							return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+					}
+					}
+				}
+			}
 		}
 
 		vozilo.setProizvodjac(voziloDetalji.getProizvodjac());
@@ -207,6 +218,17 @@ public class VoziloController {
 		Vozilo vozilo = voziloService.findOne(carId);
 
 		if (vozilo != null) {
+			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
+			for (Rezervacija rezervacija : aktivne) {
+				if(rezervacija.getAktivnaRezervacija()){
+					Set<Vozilo>  v= rezervacija.getOdabranaVozila();
+					for (Vozilo vozilo2 : v) {
+						if(vozilo2.getId() == vozilo.getId()){
+							return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+					}
+					}
+				}
+			}
 			voziloService.remove(carId);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {

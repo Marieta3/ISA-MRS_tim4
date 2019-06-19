@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -29,6 +30,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Usluga;
+import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaPretragaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
@@ -198,6 +200,18 @@ public class SobaController {
 		Soba soba = sobaService.findOne(sobaId);
 		if (soba == null) {
 			return ResponseEntity.notFound().build();
+		}else{
+			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
+			for (Rezervacija rezervacija : aktivne) {
+				if(rezervacija.getAktivnaRezervacija()){
+					Set<Soba>  s= rezervacija.getOdabraneSobe();
+					for (Soba soba2 : s) {
+						if(soba2.getId() == soba.getId()){
+							return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+					}
+					}
+				}
+			}
 		}
 
 		soba.setOpis(sobaDTO.getOpis());
@@ -220,6 +234,17 @@ public class SobaController {
 		Soba soba = sobaService.findOne(sobaId);
 
 		if (soba != null) {
+			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
+			for (Rezervacija rezervacija : aktivne) {
+				if(rezervacija.getAktivnaRezervacija()){
+					Set<Soba>  s= rezervacija.getOdabraneSobe();
+					for (Soba soba2 : s) {
+						if(soba2.getId() == soba.getId()){
+							return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+					}
+					}
+				}
+			}
 			sobaService.remove(sobaId);
 			logger.info("Room " + sobaId + " deleted!");
 			return new ResponseEntity<>(HttpStatus.OK);

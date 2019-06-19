@@ -208,8 +208,8 @@ function previewRezervacije(){
 	var sobeRezervisaneOd=$('#datepicker6').val();
 	var broj_nocenja=$('#broj_nocenja').val();
 	
-	var vozilaRezervisanaOd=$('#datepicker4').val();
-	var vozilaRezervisanaDo=$('#datepicker5').val();
+	var vozilaRezervisanaOd=$('#datepicker7').val();
+	var vozilaRezervisanaDo=$('#datepicker8').val();
 	
 	var total=parseInt($('#total').text(), 10)+ parseInt($('#total-rooms').text(), 10)+parseInt($('#total-cars').text(), 10);
 	console.log('total: '+total);
@@ -289,8 +289,8 @@ function pokupiRezervisanaSedista(e){
 	var sobeRezervisaneOd=$('#datepicker6').val();
 	var broj_nocenja=$('#broj_nocenja').val();
 	//var sobeRezervisaneDo=$('#datepicker3').val();
-	var vozilaRezervisanaOd=$('#datepicker4').val();
-	var vozilaRezervisanaDo=$('#datepicker5').val();
+	var vozilaRezervisanaOd=$('#datepicker7').val();
+	var vozilaRezervisanaDo=$('#datepicker8').val();
 	//var broj_nocenja=$('#broj_nocenja').val();
 	var total=parseInt($('#total').text(), 10)+ parseInt($('#total-rooms').text(), 10)+parseInt($('#total-cars').text(), 10);
 	console.log('total: '+total);
@@ -378,7 +378,7 @@ function renderDetaljanLet(){
 			'</div>');
 }
 
-		
+	
 		function selektovanLet(btn) {
 				renderDetaljanLet();
 				var let_id=$(btn).find('input[type=hidden]').attr('id');
@@ -529,6 +529,7 @@ function renderDetaljanLet(){
 					//sc.get(['1_2', '4_1', '7_1', '7_2']).status('unavailable');
 					var rezervisana=[];
 					$.each(data.sedista, function(index, sediste){
+						console.log($('#'+sediste.row_col));
 						if(sediste.rezervisano==true){
 							rezervisana.push(sediste.brojReda+'_'+sediste.brojKolone);
 						}
@@ -536,6 +537,7 @@ function renderDetaljanLet(){
 					//rezervisana.push(5+'_'+3);
 					sc.get(rezervisana).status('unavailable');
 					}
+					
 				})
 				
 		

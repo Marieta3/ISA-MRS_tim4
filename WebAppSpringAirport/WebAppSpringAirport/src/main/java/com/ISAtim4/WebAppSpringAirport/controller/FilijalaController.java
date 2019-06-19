@@ -1,6 +1,8 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -21,9 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Filijala;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
+import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
+import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.dto.FilijalaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.FilijalaService;
 import com.ISAtim4.WebAppSpringAirport.service.RentACarService;
+import com.ISAtim4.WebAppSpringAirport.service.RezervacijaService;
+import com.ISAtim4.WebAppSpringAirport.service.VoziloService;
 
 @RestController
 public class FilijalaController {
@@ -35,6 +41,11 @@ public class FilijalaController {
 	@Autowired
 	RentACarService rentService;
 
+	@Autowired
+	RezervacijaService rezervacijaService;
+	
+	@Autowired
+	VoziloService voziloService;
 	/* da snimimo filijalu */
 	@PreAuthorize("hasRole('ROLE_RENT')")
 	@PostMapping(value = "/api/filijala",  produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -105,8 +116,21 @@ public class FilijalaController {
 	public ResponseEntity<Filijala> deleteFilijala(
 			@PathVariable(value = "id") Long filijalaId) {
 		Filijala filijala = filijalaService.findOne(filijalaId);
-
+		ArrayList<Vozilo> carList = (ArrayList<Vozilo>) voziloService.findAll();
 		if (filijala != null) {
+			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
+			for (Rezervacija rezervacija : aktivne) {
+				if(rezervacija.getAktivnaRezervacija()){
+					Set<Vozilo>  v= rezervacija.getOdabranaVozila();
+					for (Vozilo vozilo2 : v) {
+						for (Vozilo vozilo : carList) {		//ne sme brisati filijalu sa rezervisanim vozilama
+							if(vozilo2.getId() == vozilo.getId()){
+								return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+						}
+					}
+					}
+				}
+			}
 			filijalaService.remove(filijalaId);
 			logger.info("Branch with id:" + filijalaId + "deleted.");
 			return new ResponseEntity<>(HttpStatus.OK);

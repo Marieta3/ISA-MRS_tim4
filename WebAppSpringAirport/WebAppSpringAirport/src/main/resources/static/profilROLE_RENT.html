@@ -195,7 +195,7 @@
 		</div>
 		
 		<!-- Update branch modal (id04) -->
-		<div id="id04" class="modal">
+		<div id="id04" class="modal" tabindex="-1" role="dialog">
 
 		<form class="modal-content1 animate" id="editBranchForma">
 			<div class="imgcontainer">
@@ -281,6 +281,54 @@
 			</thead>
 			<tbody></tbody>
 		</table>
+		</div>
+		<!-- Brza rezervacija -->
+		<div id="id07" class="modal">
+
+			<form class="modal-content1 animate" id="brzaRezervacija">
+				<div class="imgcontainer">
+					<span class="close" title="Close Modal"
+						onclick="zatvoriModal('id07')">&times;</span>
+					<div class="imagePicker1"
+						style="height: 200px; width: 200px; border-radius: 50%">
+						<img id="quick-car-img" src="slike/pic1.jpg" alt="Image preview..."
+							style="height: inherit; width: inherit; object-fit: cover; border-radius: inherit">
+						<br>
+					</div>
+				</div>
+
+				<div class="container-modal" id="div-container-modal">
+					<h1 id="quick-car-h1">Vehicle</h1>
+					<label><b>Description</b></label> 
+					<input type="text" id="quick-car-opis" disabled> 
+					
+					<div class="grid-container quick-container">
+						<div class="grid-item">
+							<label><b>Old Price</b></label>
+							<input type="number" id="quick-car-old-cena" disabled>
+						</div>
+						<div class="grid-item">
+							<label><b>New Price</b></label>
+							<input type="number" id="quick-car-new-cena" required/>
+						</div>
+						<div class="grid-item">
+							<label><b>Start</b></label>
+							<input type="date" id="quick-car-start" onchange="ograniciDatum2('quick-car-start', 'quick-car-end')" required/>
+						</div>
+						<div class="grid-item quick-item">
+							<label><b>End</b></label>
+							<input type="date" id="quick-car-end" required/>
+						</div>
+					</div>
+					<button class="addSubmitBtn" type="submit" onclick="dodavanjeBrzeRezervacije(event)">Add</button>
+					<button type="button" onclick="zatvoriModal('id07')"
+						class="cancelbtn">Cancel</button>
+				</div>
+				<div class="hidden">
+
+					<input type="hidden" id="quick-car-id">
+				</div>
+			</form>
 		</div>
 		<div id="id02" class="modal">
 		<form class="modal-content2 animate" id="newCarForma">
@@ -392,10 +440,31 @@
 	
 	<div id="Insights" class="tabcontent">
     <div class="d-flex justify-content-center"  style="margin-top: 15px">
-    	<div class="container">
+    	<div class="container" style="width: 100%">
+ 			 <div  style="margin-bottom: 20px"> <button id="testBtn" class="btn btn-primary" >Render charts</button> </div>
  			 <div id="chart_serviceRating" style="margin-bottom: 20px"></div>
  			 <div id="chart_carsRating" style="margin-bottom: 20px" ></div>
  			 <div id="chart_income" style="margin-bottom: 20px" ></div>
+ 			 <div  style="margin-bottom: 20px" >
+ 			 	<form id="chart3">
+		 		<fieldset>
+		 			<legend>Number of reserved vehicles: </legend>
+		 			<div class="row" style="margin-bottom: 5px">
+		 			<div class="col-3"><input type="radio" name="category" id="g31" value="monthly" checked />Monthly </div> <div class="col-3"> <input id="monthChart3" type = "month" style="min-width: 200px"> </div>
+		 			<div class="col-6"></div>
+					</div>
+		 			<div class="row" style="margin-bottom: 5px">
+					<div class="col-3"><input type="radio" name="category" id="g32" value="weekly"  />Weekly </div> <div class="col-3"> <input id="weekChart3" type="week" style="min-width: 200px"> </div>
+					<div class="col-3"><button type="submit"  class="btn btn-primary" id="showGraph3"  name="reset"  >Show graph</button></div><div class="col-3"></div>
+					</div>
+		 			<div class="row" style="margin-bottom: 5px">
+					<div class="col-3"><input type="radio" name="category" id="g33" value="daily"  />Daily </div> <div class="col-3"> <input id="dayChart3" type="date" style="min-width: 200px"> </div>
+		 			<div class="col-6"></div>
+		 			</div>
+		 		</fieldset>
+ 			 	</form>
+ 			 </div>
+ 			 <div id="chart_chart3" style="margin-bottom: 20px" ></div>
 		</div>
 		</div>		
 	</div>

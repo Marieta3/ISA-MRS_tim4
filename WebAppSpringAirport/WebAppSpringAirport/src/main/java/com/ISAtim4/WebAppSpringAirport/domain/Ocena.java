@@ -65,22 +65,38 @@ public class Ocena {
 
 	@Column(nullable = true)
 	private Date datumOcenjivanja;
+	
+	@Column(nullable = true )
+	private Long korisnik_id;
 
 	public Ocena() {
 		super();
 		datumOcenjivanja = new Date();
 	}
 
-	public Ocena(Long id, Hotel hotel, Soba soba, RentACar rent, Vozilo vozilo,
-			AvioKompanija avio, Let let) {
+	public Ocena(Long id, Integer ocena, Rezervacija rezervacija, Hotel hotel,
+			Soba soba, RentACar rent, Vozilo vozilo, AvioKompanija avio,
+			Let let, Date datumOcenjivanja, Long korisnik) {
 		super();
 		this.id = id;
+		this.ocena = ocena;
+		this.rezervacija = rezervacija;
 		this.hotel = hotel;
 		this.soba = soba;
 		this.rent = rent;
 		this.vozilo = vozilo;
 		this.avio = avio;
 		this.let = let;
+		this.datumOcenjivanja = datumOcenjivanja;
+		this.korisnik_id = korisnik;
+	}
+	
+	public Long getKorisnik_id() {
+		return korisnik_id;
+	}
+
+	public void setKorisnik_id(Long korisnik_id) {
+		this.korisnik_id = korisnik_id;
 	}
 
 	public Long getId() {

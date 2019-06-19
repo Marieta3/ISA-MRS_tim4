@@ -169,8 +169,129 @@
 	
 	<div id="MyReservations" class="tabcontent">
 		<div class="container"> 
-			<h2>List of Active Reservations</h2> 
+			<h2>Active Reservations</h2> 
 			<table id="activeReservationsTable" class="table table-striped table-bordered" style="width:100% "> 
+				<thead> 
+					<tr> 
+						
+						<th>Flight</th> 
+						<th>Hotel</th> 
+						<th>Rent-A-Car</th> 
+						<th>Date of Reservation</th>
+						<th>Passengers</th>
+						<th>Total</th>
+						<th></th>
+					</tr>
+				</thead> 
+				<tbody>
+				</tbody> 
+				</table>
+			
+			<!-- Update branch modal (id04) -->
+			
+		<div id="id04" class="modal">
+		<form class="modal-content1 animate" id="rateServicesForma">
+			<div class="container-modal" id="div-container-modal">
+				<h1> Rate services </h1>
+	            <label id="lab1" for="airlineRating" > 
+	                Rate airline: 
+	            </label>
+	            <select id="airlineRating">
+	                <option value="0">Not rated</option>
+	                <option value="5">5</option>
+	                <option value="4">4</option>
+	                <option value="3">3</option>
+	                <option value="2">2</option>
+	                <option value="1">1</option>
+	            </select>
+	            <input type="hidden" id="hidden1" value="">
+	            <br/>
+	            <label id="lab2" for="flightRating">
+	                Rate flight: 
+	            </label>
+	            <select id="flightRating">
+	                <option value="0">Not rated</option>
+	                <option value="5">5</option>
+	                <option value="4">4</option>
+	                <option value="3">3</option>
+	                <option value="2">2</option>
+	                <option value="1">1</option>
+	            </select>
+	            <input type="hidden" id="hidden2" value="">
+	            <br>
+	            <hr/>
+	                
+	            <label id="lab3" for="hotelRating">
+	                Rate hotel: 
+	            </label>
+	            <select id="hotelRating">
+	                <option value="0">Not rated</option>
+	                <option value="5">5</option>
+	                <option value="4">4</option>
+	                <option value="3">3</option>
+	                <option value="2">2</option>
+	                <option value="1">1</option>
+	            </select>
+	            <input type="hidden" id="hidden3" value="">
+	            <br/>
+	            <label id="lab4" for="roomRating">
+	                Rate room: 
+	            </label>
+	            <select id="roomRating">
+	                <option value="0">Not rated</option>
+	                <option value="5">5</option>
+	                <option value="4">4</option>
+	                <option value="3">3</option>
+	                <option value="2">2</option>
+	                <option value="1">1</option>
+	            </select>
+	            <input type="hidden" id="hidden4" value="">
+	            <br>
+	            <hr/>
+	
+	            <label id="lab5" for="rentRating" >
+	                Rate rent-a-car: 
+	            </label>
+	
+	            <select id="rentRating">
+	                <option value="0">Not rated</option>
+	                <option value="5">5</option>
+	                <option value="4">4</option>
+	                <option value="3">3</option>
+	                <option value="2">2</option>
+	                <option value="1">1</option>
+	            </select>
+	            <input type="hidden" id="hidden5" value="">
+	            <br/>
+	            <label id="lab6" for="carRating" >
+	                Rate car: 
+	            </label>
+	            <select id="carRating">
+	                <option value="0">Not rated</option>
+	                <option value="5">5</option>
+	                <option value="4">4</option>
+	                <option value="3">3</option>
+	                <option value="2">2</option>
+	                <option value="1">1</option>
+	            </select>
+	            <input type="hidden" id="hidden6" value="">
+	            <br>
+	            <hr/>
+	            
+				<button class="updateSubmitBtn" type="submit">Rate</button>
+				<button type="button"
+					onclick="zatvoriModal('id04')"
+					class="cancelbtn">Cancel</button>
+			</div>
+			<div class="hidden">
+
+				<input type="hidden" id="identifikatorRezervacijaUpd">
+			</div>
+			</form>
+		</div>
+				
+			<h2>Reservation history</h2> 
+			<table id="reservationHistoryTable" class="table table-striped table-bordered" style="width:100% "> 
 				<thead> 
 					<tr> 
 						

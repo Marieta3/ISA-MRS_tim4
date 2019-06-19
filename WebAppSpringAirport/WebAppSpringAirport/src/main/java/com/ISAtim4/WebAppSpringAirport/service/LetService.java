@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
 import com.ISAtim4.WebAppSpringAirport.repository.LetRepository;
 
@@ -54,5 +55,9 @@ public class LetService {
 	public List<Let> findFlightsByAvio(String mestoPolaska, String mestoDolaska, Date vremePolaska, Date vremeDolaska, Long idAvio)
 	{
 		return letRepository.findFlightsByAvio(mestoPolaska, mestoDolaska, vremePolaska, vremeDolaska, idAvio);
+	}
+	
+	public List<Let> findAllByAvioKompanija(AvioKompanija avio_kompanija){
+		return letRepository.findAllByAvioKompanija(avio_kompanija);
 	}
 }

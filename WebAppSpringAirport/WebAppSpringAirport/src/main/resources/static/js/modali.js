@@ -223,3 +223,9 @@ function get_row(data, entitet, uloga, del_modal, upd_modal){
 	return tr;
 }
 
+function ograniciDatum2(datum1_id, datum2_id){
+	console.log(datum1_id);
+	var datum1=$('#'+datum1_id).val();
+	$('#'+datum2_id).attr('min', datum1);
+	console.log("ogranici datum2");
+}

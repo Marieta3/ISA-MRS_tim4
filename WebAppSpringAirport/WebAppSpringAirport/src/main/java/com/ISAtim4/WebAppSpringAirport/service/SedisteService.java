@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Let;
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.repository.SedisteRepository;
 
@@ -42,6 +43,10 @@ public class SedisteService {
 
 	public Set<Sediste> findAllByLetRowCol(Long id_leta, List<String> row_col){
 		return sedisteRepository.findAllByLetRowCol(id_leta, row_col);
+	}
+	
+	public Sediste findOneByLetRowCol(Long let_id, String row_col) {
+		return sedisteRepository.findOneByLetRowCol(let_id, row_col);
 	}
 	
 }

@@ -1,6 +1,8 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -42,6 +45,10 @@ public class Vozilo {
 	@Column(nullable = true)
 	private Double ocena;
 
+	@OneToMany(mappedBy="vozilo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("vozilo")
+	private Set<BrzoVozilo> brza_vozila;
+	
 	public boolean isRezervisano() {
 		return rezervisano;
 	}
@@ -180,6 +187,14 @@ public class Vozilo {
 		return "Vozilo [id=" + id + ", proizvodjac=" + proizvodjac + ", model="
 				+ model + ", godina=" + godina + ", tablica=" + tablica
 				+ ", cena=" + cena + "]";
+	}
+
+	public Set<BrzoVozilo> getBrza_vozila() {
+		return brza_vozila;
+	}
+
+	public void setBrza_vozila(Set<BrzoVozilo> brza_vozila) {
+		this.brza_vozila = brza_vozila;
 	}
 
 	

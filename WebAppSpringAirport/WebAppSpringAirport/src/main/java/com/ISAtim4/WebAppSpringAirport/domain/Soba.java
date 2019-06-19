@@ -1,6 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.domain;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Fetch;
@@ -63,9 +65,9 @@ public class Soba {
 	@JoinTable(name = "soba_usluga", joinColumns = @JoinColumn(name = "soba_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "usluga_id", referencedColumnName = "id"))
 	private List<Usluga> usluge;
 
-	@OneToOne(mappedBy="soba", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="soba", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("soba")
-	private BrzaSoba brza_soba;
+	private Set<BrzaSoba> brze_sobe;
 	
 	public Soba() {
 	}
@@ -146,6 +148,14 @@ public class Soba {
 
 	public void setOcena(Double ocena) {
 		this.ocena = ocena;
+	}
+
+	public Set<BrzaSoba> getBrze_sobe() {
+		return brze_sobe;
+	}
+
+	public void setBrze_sobe(Set<BrzaSoba> brze_sobe) {
+		this.brze_sobe = brze_sobe;
 	}
 
 }

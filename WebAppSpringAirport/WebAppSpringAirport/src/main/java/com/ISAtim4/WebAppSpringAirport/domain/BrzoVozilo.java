@@ -15,14 +15,14 @@ import javax.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class BrzaSoba {
+public class BrzoVozilo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("brze_sobe")
-	private Soba soba;
+	@JsonIgnoreProperties("brza_vozila")
+	private Vozilo vozilo;
 	
 	@Column(nullable = false)
 	private Date start_date;
@@ -33,9 +33,8 @@ public class BrzaSoba {
 	@Column(nullable=false)
 	private double nova_cena;
 
-	public BrzaSoba() {
-		
-	}
+	public BrzoVozilo() {}
+	
 	public Long getId() {
 		return id;
 	}
@@ -44,12 +43,12 @@ public class BrzaSoba {
 		this.id = id;
 	}
 
-	public Soba getSoba() {
-		return soba;
+	public Vozilo getVozilo() {
+		return vozilo;
 	}
 
-	public void setSoba(Soba soba) {
-		this.soba = soba;
+	public void setVozilo(Vozilo vozilo) {
+		this.vozilo = vozilo;
 	}
 
 	public Date getStart_date() {
@@ -75,6 +74,4 @@ public class BrzaSoba {
 	public void setNova_cena(double nova_cena) {
 		this.nova_cena = nova_cena;
 	}
-	
-	
 }
