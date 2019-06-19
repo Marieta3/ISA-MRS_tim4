@@ -22,7 +22,7 @@ public class NotificationService {
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
-	public void sendNotification(Korisnik korisnik) throws MailException,InterruptedException{
+	public void sendNotification(Korisnik korisnik) throws MailException{
 		//send email
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(korisnik.getMail());
@@ -34,7 +34,7 @@ public class NotificationService {
 		javaMailSender.send(mail);
 	}
 	
-	public void sendPswToAdmin(Korisnik k, String lozinka)throws MailException,InterruptedException {
+	public void sendPswToAdmin(Korisnik k, String lozinka)throws MailException {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(k.getMail());
 		mail.setFrom(env.getProperty("spring.mail.username"));

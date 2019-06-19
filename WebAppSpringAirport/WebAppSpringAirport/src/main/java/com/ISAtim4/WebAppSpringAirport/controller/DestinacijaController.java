@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Destinacija;
@@ -26,19 +28,19 @@ public class DestinacijaController {
 	
 	/* da snimimo destinaciju */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
-	@RequestMapping(value = "/api/destinacije", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/destinacije", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Destinacija createDestinacija(@Valid @RequestBody Destinacija destinacija) {
 		return destinacijaService.save(destinacija);
 	}
 
 	/* da uzmemo sve destinacije, svima dozvoljeno */
-	@RequestMapping(value = "/api/destinacije", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/destinacije",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Destinacija> getAllDestinacije() {
 		return destinacijaService.findAll();
 	}
 
 	/* da uzmemo destinaciju po id-u, svima dozvoljeno*/
-	@RequestMapping(value = "/api/destinacije/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/destinacije/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Destinacija> getDestinacija(
 			@PathVariable(value = "id") Long idDestinacije) {
 		Destinacija destinacija = destinacijaService.findOne(idDestinacije);
@@ -64,7 +66,7 @@ public class DestinacijaController {
 
 	/* update destinacije po id-u */
 	@PreAuthorize("hasAnyRole('ROLE_AVIO', 'ROLE_ADMIN')")
-	@RequestMapping(value = "/api/destinacije/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/destinacije/{id}",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Destinacija> updateDestinacije(
 			@PathVariable(value = "id") Long destinacijaId,
 			@Valid @RequestBody Destinacija destinacijaDetalji) {
@@ -82,7 +84,7 @@ public class DestinacijaController {
 
 	/* brisanje destinacije */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
-	@RequestMapping(value = "/api/destinacije/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/destinacije/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Destinacija> deleteDestinacije(
 			@PathVariable(value = "id") Long destinacijaId) {
 		Destinacija destinacija = destinacijaService.findOne(destinacijaId);

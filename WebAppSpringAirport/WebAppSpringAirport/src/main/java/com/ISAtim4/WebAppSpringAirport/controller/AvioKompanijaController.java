@@ -2,7 +2,6 @@ package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,10 +17,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
@@ -55,7 +56,7 @@ public class AvioKompanijaController {
 
 	/* da snimimo avioKompaniju */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/api/avioKompanije", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/avioKompanije", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public AvioKompanija createAvioKompanija(@Valid @RequestBody AvioKompanija avioKompanija) {
 		avioKompanija.setCoord1(31.214535);
 		avioKompanija.setCoord2(29.945663);
@@ -63,7 +64,7 @@ public class AvioKompanijaController {
 	}
 
 	/* da uzmemo sve avioKompanije, svima dozvoljeno */
-	@RequestMapping(value = "/api/avioKompanije", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/avioKompanije", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<AvioKompanija> getAllAvioKompanije() {
 		List<AvioKompanija> avios = aviokompanijaService.findAll();
 		for (AvioKompanija a : avios) {
@@ -74,7 +75,7 @@ public class AvioKompanijaController {
 	}
 
 	/* da uzmemo avioKompaniju po id-u, svima dozvoljeno*/
-	@RequestMapping(value = "/api/avioKompanije/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> getAvioKompanija(
 			@PathVariable(value = "id") Long idAviokompanije) {
 		AvioKompanija aviokompanija = aviokompanijaService.findOne(idAviokompanije);
@@ -89,9 +90,9 @@ public class AvioKompanijaController {
 	}
 	
 	/* da uzmemo letove po id-u aviokompanije, svima dozvoljeno*/
-	@RequestMapping(value = "/api/avioKompanije/flights/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/avioKompanije/flights/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<Let>> getFlightsOfAvioKompanija(
-			@PathVariable(value = "id") Long idAviokompanije) throws ParseException {
+			@PathVariable(value = "id") Long idAviokompanije) {
 		AvioKompanija aviokompanija = aviokompanijaService.findOne(idAviokompanije);
 
 		if (aviokompanija == null) {
@@ -112,7 +113,7 @@ public class AvioKompanijaController {
 	}
 	
 	/* pretraga letova start, end, startdate, enddate*/
-	@RequestMapping(value = "/api/avioKompanije/searchFlights/{id}", method = RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/avioKompanije/searchFlights/{id}", consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ArrayList<Let>> pretragaLetovaAvioKompanija(
 			@PathVariable(value = "id") Long idAviokompanije,
 			@Valid @RequestBody LetDTO sLet) {
@@ -123,13 +124,15 @@ public class AvioKompanijaController {
 		}
 		
 		ArrayList<Let> listaLetova = new ArrayList<>();
-		String start,end;
-		Date startDate, endDate;
+		String start;
+		String end;
+		Date startDate;
+		Date endDate;
 		start = sLet.getMestoPolaska();
 		end = sLet.getMestoDolaska();
 		startDate = sLet.getVreme1();
 		endDate = sLet.getVreme2();
-		System.out.println(start + end + startDate.toString() + endDate.toString());
+		logger.info(start + end + startDate.toString() + endDate.toString());
 		if(!endDate.after(startDate)){
 			return ResponseEntity.badRequest().build();
 		}
@@ -149,7 +152,7 @@ public class AvioKompanijaController {
 	
 	/* da uzmemo avioKompaniju po nazivu, svima dozvoljeno */
 	
-	@RequestMapping(value = "/api/avioKompanije/search/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/avioKompanije/search/{name}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<AvioKompanija>> getAvioKompanijaByName(
 			@PathVariable(value = "name") String avioKompanijaName) {
 		List<AvioKompanija> avioKompanije = aviokompanijaService.containsName(avioKompanijaName);
@@ -165,7 +168,7 @@ public class AvioKompanijaController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@RequestMapping(value = "/api/avioKompanije/chart1/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/avioKompanije/chart1/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Chart1DTO> getChart1(
 			@PathVariable(value = "id") Long avioId) {
 		AvioKompanija avio = aviokompanijaService.findOne(avioId);
@@ -209,7 +212,7 @@ public class AvioKompanijaController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@RequestMapping(value = "/api/avioKompanije/chart2/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/avioKompanije/chart2/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Chart2DTO>> getChart2(
 			@PathVariable(value = "id") Long avioId) {
 		AvioKompanija avio = aviokompanijaService.findOne(avioId);
@@ -249,7 +252,7 @@ public class AvioKompanijaController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@RequestMapping(value = "/api/avioKompanije/chart4/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/avioKompanije/chart4/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Double>> getChart4(
 			@PathVariable(value = "id") Long avioId) {
 		AvioKompanija avio = aviokompanijaService.findOne(avioId);
@@ -324,7 +327,7 @@ public class AvioKompanijaController {
 
 	/* update avioKompanije po id-u */
 	@PreAuthorize("hasAnyRole('ROLE_AVIO', 'ROLE_ADMIN')")
-	@RequestMapping(value = "/api/avioKompanije/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> updateAviokompanije(
 			@PathVariable(value = "id") Long aviokompanijaId,
 			@Valid @RequestBody AvioKompanija avioKompanijaDetalji) {
@@ -351,7 +354,7 @@ public class AvioKompanijaController {
 
 	/* brisanje avioKompanije */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/api/avioKompanije/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> deleteAviokompanije(
 			@PathVariable(value = "id") Long avioKompanijaId) {
 		AvioKompanija aviokompanija = aviokompanijaService.findOne(avioKompanijaId);

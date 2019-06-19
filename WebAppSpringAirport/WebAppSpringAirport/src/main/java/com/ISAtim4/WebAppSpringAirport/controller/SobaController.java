@@ -15,10 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
@@ -60,7 +62,7 @@ public class SobaController {
 	
 	/* da snimimo sobu */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/sobe", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/sobe",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Soba createSoba(@Valid @RequestBody SobaDTO sobaDTO) {
 		Soba soba=new Soba();
 		soba.setBrojKreveta(sobaDTO.getBrojKreveta());
@@ -82,7 +84,7 @@ public class SobaController {
 	}
 
 	/* da uzmemo sve sobe, svima dozvoljeno */
-	@RequestMapping(value = "/api/sobe", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/sobe", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Soba> getAllSobe() {
 		List<Soba> sobe = sobaService.findAll();
 		for (Soba soba : sobe) {
@@ -92,7 +94,7 @@ public class SobaController {
 		
 		return sobe;
 	}
-	@RequestMapping(value = "/api/sobeHotela/{hotel_id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/sobeHotela/{hotel_id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Soba> getSobeByHotel(@PathVariable(value = "hotel_id") Long hotel_id) {
 		
 		Hotel hotel=hotelService.findOne(hotel_id);
@@ -105,7 +107,7 @@ public class SobaController {
 		
 	}
 	
-	@RequestMapping(value = "/api/sobeHotela/pretraga/{hotel_id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/sobeHotela/pretraga/{hotel_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Soba> getSobeByHotelPretraga(@PathVariable(value = "hotel_id") Long hotel_id, @Valid @RequestBody SobaPretragaDTO sobaDTO) {
 		
 		Hotel hotel=hotelService.findOne(hotel_id);
@@ -155,9 +157,9 @@ public class SobaController {
 		
 	}
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/sobeHotela", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/sobeHotela", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Soba> getSobeHotela(Principal user) {
-		AdminHotel me = null;
+		AdminHotel me = new AdminHotel();
 
 		if (user != null) {
 			me = (AdminHotel) this.korisnikService.findByKorisnickoIme(user.getName());
@@ -172,7 +174,7 @@ public class SobaController {
 		return sobe;
 	}
 	/* da uzmemo sobu po id-u, svima dozvoljeno */
-	@RequestMapping(value = "/api/sobe/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/sobe/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Soba> getSoba(
 			@PathVariable(value = "id") Long sobaId) {
 		Soba soba = sobaService.findOne(sobaId);
@@ -188,7 +190,7 @@ public class SobaController {
 
 	/* update sobe po id-u */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/sobe/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/sobe/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Soba> updateSobe(
 			@PathVariable(value = "id") Long sobaId,
 			@Valid @RequestBody SobaDTO sobaDTO) {
@@ -212,7 +214,7 @@ public class SobaController {
 
 	/* brisanje sobe */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/sobe/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/sobe/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Soba> deleteSoba(
 			@PathVariable(value = "id") Long sobaId) {
 		Soba soba = sobaService.findOne(sobaId);

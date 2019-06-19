@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @DiscriminatorColumn(name = "uloga", discriminatorType = DiscriminatorType.STRING)
 public class Korisnik implements UserDetails {
 	private static final long serialVersionUID = 5608471345265931458L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
@@ -86,8 +86,8 @@ public class Korisnik implements UserDetails {
 	public void setUlogovanPrviPut(Boolean ulogovanPrviPut) {
 		UlogovanPrviPut = ulogovanPrviPut;
 	}
-	
-	public String getUloga(){
+
+	public String getUloga() {
 		return authorities.get(0).getName();
 	}
 
@@ -262,7 +262,31 @@ public class Korisnik implements UserDetails {
 		this.enabled = enabled;
 	}
 
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((UlogovanPrviPut == null) ? 0 : UlogovanPrviPut.hashCode());
+		result = prime * result + ((adresa == null) ? 0 : adresa.hashCode());
+		result = prime * result
+				+ ((authorities == null) ? 0 : authorities.hashCode());
+		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((ime == null) ? 0 : ime.hashCode());
+		result = prime * result
+				+ ((korisnickoIme == null) ? 0 : korisnickoIme.hashCode());
+		result = prime
+				* result
+				+ ((lastPasswordResetDate == null) ? 0 : lastPasswordResetDate
+						.hashCode());
+		result = prime * result + ((lozinka == null) ? 0 : lozinka.hashCode());
+		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
+		result = prime * result + ((prezime == null) ? 0 : prezime.hashCode());
+		result = prime * result + ((slika == null) ? 0 : slika.hashCode());
+		result = prime * result + ((telefon == null) ? 0 : telefon.hashCode());
+		return result;
+	}
 
 	@Override
 	public boolean equals(Object obj) {

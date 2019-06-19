@@ -10,10 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.BrzaSoba;
@@ -31,7 +33,7 @@ public class BrzaSobaController {
 	private SobaService sobaService;
 	
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/quick/room", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/quick/room",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public BrzaSoba createBrzaSoba(@Valid @RequestBody BrzaSobaDTO brzaSobaDTO) {
 		BrzaSoba brzaSoba=new BrzaSoba();
 		brzaSoba.setNova_cena(brzaSobaDTO.getNovaCena());
@@ -44,14 +46,14 @@ public class BrzaSobaController {
 	}
 
 	/* da uzmemo sve usluge, svima dozvoljeno */
-	@RequestMapping(value = "/api/quick/room", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/quick/room", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<BrzaSoba> getAllBrzeSobe() {
 		return brzaSobaService.findAll();
 	}
 	
 	
 	/* da uzmemo uslugu po id-u, svima dozvoljeno */
-	@RequestMapping(value = "/api/quick/room/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/quick/room/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BrzaSoba> getBrzaSoba(
 			@PathVariable(value = "id") Long brzaSobaId) {
 		BrzaSoba brzaSoba = brzaSobaService.findOne(brzaSobaId);
@@ -64,7 +66,7 @@ public class BrzaSobaController {
 
 	/* update usluge po id-u */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/quick/room/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/quick/room/{id}", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BrzaSoba> updateBrzeSobe(
 			@PathVariable(value = "id") Long brzaSobaId,
 			@Valid @RequestBody BrzaSoba brzaSobaDetalji) {
@@ -81,7 +83,7 @@ public class BrzaSobaController {
 
 	/* brisanje usluge */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@RequestMapping(value = "/api/quick/room/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/quick/room/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BrzaSoba> deleteBrzaSoba(
 			@PathVariable(value = "id") Long brzaSobaId) {
 		BrzaSoba brzaSoba = brzaSobaService.findOne(brzaSobaId);

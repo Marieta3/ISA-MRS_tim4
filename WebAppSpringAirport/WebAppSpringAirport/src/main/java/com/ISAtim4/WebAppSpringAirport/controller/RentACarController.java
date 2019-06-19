@@ -15,10 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Filijala;
@@ -26,9 +28,9 @@ import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
-import com.ISAtim4.WebAppSpringAirport.dto.RentAcarDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.Chart1DTO;
 import com.ISAtim4.WebAppSpringAirport.dto.Chart2DTO;
+import com.ISAtim4.WebAppSpringAirport.dto.RentAcarDTO;
 import com.ISAtim4.WebAppSpringAirport.service.FilijalaService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
 import com.ISAtim4.WebAppSpringAirport.service.RentACarService;
@@ -56,7 +58,7 @@ public class RentACarController {
 	
 	/* da snimimo RentAcar */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/api/rentACars", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/rentACars", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public RentACar createRentAcar(@Valid @RequestBody RentACar rentACar) {
 		rentACar.setCoord1(31.214535);
 		rentACar.setCoord2(29.945663);
@@ -64,7 +66,7 @@ public class RentACarController {
 	}
 
 	//za PRETRAGU rentacar
-	@RequestMapping(value = "/api/rentACars/pretraga", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/rentACars/pretraga", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public List<RentACar> pretragaRentAcar(@Valid @RequestBody RentAcarDTO rent) {
 		if (rent.getTipPretrage().equals("location")){
 			//pretraga po lokaciji
@@ -89,7 +91,7 @@ public class RentACarController {
 	
 	/* da uzmemo sve RentAcar, svima dozvoljeno */
 	
-	@RequestMapping(value = "/api/rentACars", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/rentACars", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<RentACar> getAllRentAcar() {
 		List<RentACar> rents = rentACarService.findAll();
 		for (RentACar r : rents) {
@@ -101,7 +103,7 @@ public class RentACarController {
 	}
 
 	/* da uzmemo RentAcar po id-u, svima dozvoljeno */
-	@RequestMapping(value = "/api/rentACars/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/rentACars/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> getRentAcar(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rentACar = rentACarService.findOne(rentAcarId);
@@ -119,7 +121,7 @@ public class RentACarController {
 	
 
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@RequestMapping(value = "/api/rentACars/chart1/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/rentACars/chart1/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Chart1DTO> getChart1(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rentACar = rentACarService.findOne(rentAcarId);
@@ -160,7 +162,7 @@ public class RentACarController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@RequestMapping(value = "/api/rentACars/chart2/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/rentACars/chart2/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Chart2DTO>> getChart2(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rent = rentACarService.findOne(rentAcarId);
@@ -198,7 +200,7 @@ public class RentACarController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@RequestMapping(value = "/api/rentACars/chart4/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/rentACars/chart4/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Double>> getChart4(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rent = rentACarService.findOne(rentAcarId);
@@ -282,7 +284,7 @@ public class RentACarController {
 
 	/* da uzmemo RentAcar po nazivu, svima dozvoljeno */
 	
-	@RequestMapping(value = "/api/rentACars/search/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/rentACars/search/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RentACar>> getRentAcarByName(
 			@PathVariable(value = "name") String rentACarName) {
 		List<RentACar> rentACars = rentACarService.containsName(rentACarName);
@@ -301,7 +303,7 @@ public class RentACarController {
 
 	/* update RentAcar po id-u */
 	@PreAuthorize("hasAnyRole('ROLE_RENT', 'ROLE_ADMIN')")
-	@RequestMapping(value = "/api/rentACars/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/rentACars/{id}",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> updateRentAcar(
 			@PathVariable(value = "id") Long rentAcarId,
 			@Valid @RequestBody RentACar rentAcarDetalji) {
@@ -322,7 +324,7 @@ public class RentACarController {
 
 	/* brisanje RentAcar */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/api/rentACars/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/rentACars/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> deleteRentAcar(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rentACar = rentACarService.findOne(rentAcarId);

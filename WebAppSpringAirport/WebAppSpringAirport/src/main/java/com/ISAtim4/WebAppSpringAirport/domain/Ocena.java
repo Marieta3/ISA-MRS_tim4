@@ -2,7 +2,6 @@ package com.ISAtim4.WebAppSpringAirport.domain;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -165,7 +164,7 @@ public class Ocena {
 	}
 
 	public static double getProsek(List<Ocena> ocene){
-		if(ocene.size()== 0){
+		if(ocene.isEmpty()){
 			return 0.0;
 		}
 		int counter = ocene.size();
@@ -173,6 +172,7 @@ public class Ocena {
 		for (Ocena ocena : ocene) {
 			sum += ocena.getOcena();
 		}
-		return new BigDecimal(sum/counter).setScale(2, RoundingMode.HALF_UP).doubleValue();
+		BigDecimal big = BigDecimal.valueOf(sum/counter);
+		return big.setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 }

@@ -16,10 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
@@ -63,7 +65,7 @@ public class RezervacijaController {
 	PozivnicaService pozivnicaService;
 	
 	/* da dodamo rezervaciju */
-	@RequestMapping(value = "/api/reserve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/reserve", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public Rezervacija createReservation(@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
 		/*RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
@@ -137,7 +139,7 @@ public class RezervacijaController {
 	 * kreira se rezervacija za preview ali se nista ne cuva u bazi
 	 * pozvani korisnici se dodaju u listu putnika kako bi se prikazali u preview-u
 	 */
-	@RequestMapping(value = "/api/reserve/preview", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/reserve/preview", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public Rezervacija previewReservation(@Valid @RequestBody RezervacijaDTO rezervacijaDTO, Principal user) {
 		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
@@ -187,13 +189,13 @@ public class RezervacijaController {
 		return rezervacija;
 	}
 	/* da uzmemo sve rezervacije, svima je dozvoljeno */
-	@RequestMapping(value = "/api/reserve", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/reserve", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Rezervacija> getAllReservations() {
 		return rezervacijaService.findAll();
 	}
 
 	/* da uzmemo rezervaciju po id-u, svima dozvoljeno */
-	@RequestMapping(value = "/api/reserve/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/reserve/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Rezervacija> getReservation(
 			@PathVariable(value = "id") Long reservationId) {
 		Rezervacija rezervacija = rezervacijaService.findOne(reservationId);
@@ -204,11 +206,11 @@ public class RezervacijaController {
 		return ResponseEntity.ok().body(rezervacija);
 	}
 	
-	@RequestMapping(value = "/api/myReservations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/myReservations", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ArrayList<Rezervacija> getMyReservations(Principal user) {
 		RegistrovaniKorisnik me=(RegistrovaniKorisnik) korisnikService.findByKorisnickoIme(user.getName());
 		List<Rezervacija> rezervacije=rezervacijaService.findAll();
-		ArrayList<Rezervacija> moje=new ArrayList<Rezervacija>();
+		ArrayList<Rezervacija> moje=new ArrayList<>();
 		for(Rezervacija r: rezervacije) {
 			if(r.getKorisnici().contains(me)) {
 				moje.add(r);
@@ -218,7 +220,7 @@ public class RezervacijaController {
 	}
 
 	/* update rezervacije po id-u */
-	@RequestMapping(value = "/api/reserve/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/reserve/{id}",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<Rezervacija> updateRezervacije(
 			@PathVariable(value = "id") Long reservationId,
@@ -242,7 +244,7 @@ public class RezervacijaController {
 	}
 
 	/* brisanje rezervacije */
-	@RequestMapping(value = "/api/reserve/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/reserve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public ResponseEntity<Rezervacija> deleteReservation(
 			@PathVariable(value = "id") Long reservationId) {
