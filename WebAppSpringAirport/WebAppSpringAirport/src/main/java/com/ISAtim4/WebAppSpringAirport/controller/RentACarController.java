@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Filijala;
@@ -62,7 +64,7 @@ public class RentACarController {
 	
 	/* da snimimo RentAcar */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping(value = "/api/rentACars", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/rentACars", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public RentACar createRentAcar(@Valid @RequestBody RentACar rentACar) {
 		rentACar.setCoord1(31.214535);
 		rentACar.setCoord2(29.945663);
@@ -70,7 +72,7 @@ public class RentACarController {
 	}
 
 	//za PRETRAGU rentacar
-	@PostMapping(value = "/api/rentACars/pretraga", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/rentACars/pretraga", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public List<RentACar> pretragaRentAcar(@Valid @RequestBody RentAcarDTO rent) {
 		if (rent.getTipPretrage().equals("location")){
 			//pretraga po lokaciji
@@ -95,7 +97,7 @@ public class RentACarController {
 	
 	/* da uzmemo sve RentAcar, svima dozvoljeno */
 	
-	@GetMapping(value = "/api/rentACars", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/rentACars", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<RentACar> getAllRentAcar() {
 		List<RentACar> rents = rentACarService.findAll();
 		for (RentACar r : rents) {
@@ -107,7 +109,7 @@ public class RentACarController {
 	}
 
 	/* da uzmemo RentAcar po id-u, svima dozvoljeno */
-	@GetMapping(value = "/api/rentACars/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/rentACars/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> getRentAcar(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rentACar = rentACarService.findOne(rentAcarId);
@@ -125,7 +127,7 @@ public class RentACarController {
 	
 
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@GetMapping(value = "/api/rentACars/chart1/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/rentACars/chart1/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Chart1DTO> getChart1(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rentACar = rentACarService.findOne(rentAcarId);
@@ -166,7 +168,7 @@ public class RentACarController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@GetMapping(value = "/api/rentACars/chart2/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/rentACars/chart2/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Chart2DTO>> getChart2(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rent = rentACarService.findOne(rentAcarId);
@@ -204,7 +206,7 @@ public class RentACarController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@PostMapping(value = "/api/rentACars/chart3/daily/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/rentACars/chart3/daily/{id}", consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Integer>> getChart3Daily(
 			@PathVariable(value = "id") Long rentId,
 			@Valid @RequestBody Chart3DTO chartData) {
@@ -255,7 +257,7 @@ public class RentACarController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@PostMapping(value = "/api/rentACars/chart3/weekly/{id}",consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/rentACars/chart3/weekly/{id}",consumes= MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Integer>> getChart3Weekly(
 			@PathVariable(value = "id") Long rentId,
 			@Valid @RequestBody Chart3DTO chartData) {
@@ -303,7 +305,7 @@ public class RentACarController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@PostMapping(value = "/api/rentACars/chart3/monthly/{id}",consumes= MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/rentACars/chart3/monthly/{id}",consumes= MediaType.APPLICATION_JSON_VALUE,  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Integer>> getChart3Monthly(
 			@PathVariable(value = "id") Long rentId,
 			@Valid @RequestBody Chart3DTO chartData) {
@@ -352,7 +354,7 @@ public class RentACarController {
 	
 	
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@GetMapping(value = "/api/rentACars/chart4/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/rentACars/chart4/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Double>> getChart4(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rent = rentACarService.findOne(rentAcarId);
@@ -440,7 +442,7 @@ public class RentACarController {
 
 	/* da uzmemo RentAcar po nazivu, svima dozvoljeno */
 	
-	@GetMapping(value = "/api/rentACars/search/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET,value = "/api/rentACars/search/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RentACar>> getRentAcarByName(
 			@PathVariable(value = "name") String rentACarName) {
 		List<RentACar> rentACars = rentACarService.containsName(rentACarName);
@@ -459,7 +461,7 @@ public class RentACarController {
 
 	/* update RentAcar po id-u */
 	@PreAuthorize("hasAnyRole('ROLE_RENT', 'ROLE_ADMIN')")
-	@PutMapping(value = "/api/rentACars/{id}",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.PUT,value = "/api/rentACars/{id}",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> updateRentAcar(
 			@PathVariable(value = "id") Long rentAcarId,
 			@Valid @RequestBody RentACar rentAcarDetalji) {
@@ -480,7 +482,7 @@ public class RentACarController {
 
 	/* brisanje RentAcar */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@DeleteMapping(value = "/api/rentACars/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.DELETE,value = "/api/rentACars/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> deleteRentAcar(
 			@PathVariable(value = "id") Long rentAcarId) {
 		RentACar rentACar = rentACarService.findOne(rentAcarId);

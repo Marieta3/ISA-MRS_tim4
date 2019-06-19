@@ -22,8 +22,7 @@ public class RentACar {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Version
-	private Long version;
+	
 	
 	@Column(nullable = false)
 	private String naziv;
@@ -47,7 +46,7 @@ public class RentACar {
 	@JsonIgnoreProperties("rentACar")
 	private Set<Filijala> filijale = new HashSet<>();
 	@OneToMany(mappedBy = "rentACar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonManagedReference(value="adminirentacar")
 	private Set<AdminRent> admini = new HashSet<>();
 
 	public RentACar() {

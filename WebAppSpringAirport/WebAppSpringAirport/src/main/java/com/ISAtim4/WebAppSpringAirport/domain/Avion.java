@@ -14,8 +14,7 @@ public class Avion {
 	@Column(name="id", unique=true, nullable=false)
 	private Long id;
 	
-	@Version
-	private Long version;
+	
 	
 	@Column(nullable=false)
 	private String model;
