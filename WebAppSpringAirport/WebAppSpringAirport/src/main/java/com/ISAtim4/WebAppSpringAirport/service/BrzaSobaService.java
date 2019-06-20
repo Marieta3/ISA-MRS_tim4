@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,9 @@ public class BrzaSobaService {
 		//TODO: ubaciti proveru da li je mozda rezervisana u tom periodu
 		brzaSoba.setSoba(soba);
 		return save(brzaSoba);
+	}
+	
+	public List<BrzaSoba> getBrzeSobeHotela(Long hotelId, Date vreme1, Date vreme2){
+		return brzaSobaRepository.getBrzeSobeHotela(hotelId, vreme1, vreme2);
 	}
 }

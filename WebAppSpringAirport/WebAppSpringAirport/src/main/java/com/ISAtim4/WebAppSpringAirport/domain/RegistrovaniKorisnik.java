@@ -6,7 +6,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @DiscriminatorValue("user")
@@ -24,6 +28,10 @@ public class RegistrovaniKorisnik extends Korisnik {
 
 	@Column(nullable = true)
 	private double brojPoena; // mora prvi put da izmeni lozinku, posle
+	
+	@OneToOne(mappedBy="putnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("putnik")
+	private BrzaSoba brza_soba;
 	
 	public RegistrovaniKorisnik() {
 		super();

@@ -26,6 +26,9 @@ public class BrzoSediste {
 	@Column(nullable=false)
 	private double nova_cena;
 
+	@Column(nullable=false)
+	private boolean zauzeto=false;
+	
 	public BrzoSediste() {
 		
 	}
@@ -54,5 +57,13 @@ public class BrzoSediste {
 
 	public void setNova_cena(double nova_cena) {
 		this.nova_cena = nova_cena;
+	}
+
+	public boolean isZauzeto() {
+		return zauzeto;
+	}
+
+	public void setZauzeto(boolean zauzeto) {
+		this.zauzeto = zauzeto;
 	}
 }

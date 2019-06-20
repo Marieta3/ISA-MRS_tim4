@@ -32,6 +32,9 @@ public class BrzoVozilo {
 	@Column(nullable=false)
 	private double nova_cena;
 
+	@Column(nullable=false)
+	private boolean zauzeto=false;
+	
 	public BrzoVozilo() {}
 	
 	public Long getId() {
@@ -72,5 +75,13 @@ public class BrzoVozilo {
 
 	public void setNova_cena(double nova_cena) {
 		this.nova_cena = nova_cena;
+	}
+
+	public boolean isZauzeto() {
+		return zauzeto;
+	}
+
+	public void setZauzeto(boolean zauzeto) {
+		this.zauzeto = zauzeto;
 	}
 }

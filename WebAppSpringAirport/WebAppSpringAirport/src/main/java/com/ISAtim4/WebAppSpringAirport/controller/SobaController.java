@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
+import com.ISAtim4.WebAppSpringAirport.domain.BrzaSoba;
 import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
@@ -32,6 +35,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Usluga;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaPretragaDTO;
+import com.ISAtim4.WebAppSpringAirport.service.BrzaSobaService;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 import com.ISAtim4.WebAppSpringAirport.service.OcenaService;
@@ -61,9 +65,11 @@ public class SobaController {
 	@Autowired
 	RezervacijaService rezervacijaService;
 	
+	@Autowired
+	BrzaSobaService brzaSobaService;
 	/* da snimimo sobu */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@PostMapping(value = "/api/sobe",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/sobe",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Soba createSoba(@Valid @RequestBody SobaDTO sobaDTO) {
 		Soba soba=new Soba();
 		soba.setBrojKreveta(sobaDTO.getBrojKreveta());
@@ -143,13 +149,30 @@ public class SobaController {
 				}
 			}
 		}
+		
+		List<BrzaSoba> brzeSobe=brzaSobaService.findAll();
+		ArrayList<Soba> ne_moze2=new ArrayList<>();
+		for(BrzaSoba bs: brzeSobe) {
+			//ako se datumi poklapaju
+			if( (bs.getStart_date().compareTo(datum1)<=0 && bs.getEnd_date().compareTo(datum1)>=0) 
+					|| (bs.getStart_date().compareTo(datum2)<=0 && bs.getEnd_date().compareTo(datum2) >= 0) 
+					|| (bs.getStart_date().compareTo(datum1)>=0 && bs.getEnd_date().compareTo(datum2)<=0) ) {
+				
+				if(bs.getSoba().getHotel().equals(hotel)) {
+					if(!ne_moze2.contains(bs.getSoba()) ){
+						//dodaj u listu zauzetih
+						ne_moze2.add(bs.getSoba());
+					}
+				}
+			}
+		}
 		System.out.println("broj rezervisanih soba: "+ne_moze.size());
 		//za svaku sobu trazenog hotela
 		for (Soba soba : hotel.getSobe()) {
 			List<Ocena> ocene = ocenaService.findAllBySoba(soba);
 			soba.setOcena(Ocena.getProsek(ocene));
 			//ako se ne nalazi u listi zauzetih
-			if(!ne_moze.contains(soba)) {
+			if(!ne_moze.contains(soba) && !ne_moze2.contains(soba)) {
 				//dodaj u listu pronadjenih
 				pronadjene.add(soba);
 			}

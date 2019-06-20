@@ -24,19 +24,21 @@ insert into usluga(id,cena,opis,hotel_id) values (4,600,'wc',1);
 insert into usluga(id,cena,opis,hotel_id) values (5,566,'hrana',1);
 insert into usluga(id,cena,opis,hotel_id) values (6,200,'kupatilo',2);
 
-insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (1,3,'cista soba',1, false, 100);
-insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (2,3,'Mala soba sa pogledom na plazu',1, false, 44);
-insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (3,3,'opis',1, false, 98);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (1,1,'cista soba',1, false, 100);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (2,1,'Mala soba sa pogledom na plazu',1, false, 44);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (3,2,'opis',1, false, 98);
 insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (4,3,'opis sobe',1, false, 56);
-insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (5,3,'lorem ipsum',1, false, 150);
-insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (6,3,'ne zznam vise',1, false, 100);
-insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (7,3,'sta da napisem',1, false, 95);
-insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (8,3,'kakav opis',1, false, 95);
-insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (9,3,'pojma nemam',1, false, 100);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (5,1,'lorem ipsum',1, false, 150);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (6,2,'ne zznam vise',1, false, 100);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (7,1,'sta da napisem',1, false, 95);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (8,1,'kakav opis',1, false, 95);
+insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (9,1,'pojma nemam',1, false, 100);
 insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (10,3,'kad je bal nek je bal',1, false, 100);
 insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (11,5,'dobra',2, false, 200);
 insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (12,3,'prelepo',3, false, 400);
 
+insert into brza_soba(id, soba_id, datum_rezervacije, nova_cena, start_date, end_date, zauzeto, putnik_id, sediste_id) values (1, 2, '2019-06-20 18:46:44', 38, '2019-07-20 02:00:00', '2019-07-23 02:00:00', 1, 5, 2);
+insert into brza_soba(id, soba_id, datum_rezervacije, nova_cena, start_date, end_date, zauzeto, putnik_id, sediste_id) values (2, 5, null, 100, '2019-07-20 02:00:00', '2019-07-23 02:00:00', 0, null, null);
 insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 1, 2);
 insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 1, 1);
 insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 2, 4);
@@ -133,16 +135,18 @@ insert into ocena(datum_ocenjivanja, vozilo_id, ocena) values('2019-05-14 23:00:
 --Milan: trenutno imate jednog korisnika kojeg sam oznacio kao 'sis' sistemskog, nije vezan za hotel, rent-a-car ili aviokompaniju i zato je prosledjeno null za te kolone
 --Milan: korisnik sme imati samo jednu rolu!
 
-insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga,enabled) values (1,'Nikola','sis','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','123@gmail.com','Maksimovic',true,true,null,null,null,'sis',true);
+insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga,enabled) values (1,'Nikola','sis','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+33@gmail.com','Maksimovic',true,true,null,null,null,'sis',true);
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga, slika,enabled) values (2,'Marieta','hotel','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','lollipop@gmail.com','Rakos',false,true,null,null,1,'hotel', '../slike/marieta.jpg',true);
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga,enabled) values (3,'Arpad','rent','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','arpadVS@gmail.com','Varga Somodji',false,true,1,null,null,'rent',true);
 insert into korisnik(id,ime,korisnicko_ime,lozinka,mail,prezime,predefinisani_admin,ulogovan_prvi_put,rentacar_id,avio_kompanija_id,hotel_id,uloga,slika,enabled) values (4,'Sreten','avio','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','bozic.sreten@gmail.com','Bozic',false,true,null,1,null,'avio','../slike/Airplane-1.png',true);
+
 insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon,broj_poena) values (5,'Mika','Mikic','user1','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+1@gmail.com',true,'user',true,'Asd Street 1,NY','Tel 1', 20);
 insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon,broj_poena) values (6,'Milan','Varga','user2','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+2@gmail.com',true,'user',true,'Asd Street 2,NY','Tel 2' , 10);
 insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon,broj_poena) values (7,'Tom','Hanks','user3','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+3@gmail.com',true,'user',true,'Asd Street 3,NY','Tel 3', 0);
 insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon,broj_poena) values (8,'Brad','Pitt','user4','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+4@gmail.com',true,'user',true,'Asd Street 4,NY','Tel 4', 0);
 insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon,broj_poena) values (9,'Felix','Smith','user5','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+5@gmail.com',true,'user',true,'Asd Street 5,NY','Tel 5', 0);
 insert into korisnik(id,ime,prezime,korisnicko_ime,lozinka,mail,ulogovan_prvi_put,uloga,enabled,adresa,telefon,broj_poena) values (10,'Ragnar','Lothbrok','user6','$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra','tirmann25+6@gmail.com',true,'user',true,'Asd Street 6,NY','Tel 6', 0);
+
 --Milan: trenutno imate samo dve role, treba ubaciti role za razlicite tipove adm3ina
 INSERT INTO AUTHORITY (id, name) VALUES (1, 'ROLE_USER');
 INSERT INTO AUTHORITY (id, name) VALUES (2, 'ROLE_ADMIN');
