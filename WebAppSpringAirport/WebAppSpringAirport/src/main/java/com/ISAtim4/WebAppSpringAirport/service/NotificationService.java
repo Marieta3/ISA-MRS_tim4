@@ -14,6 +14,9 @@ import com.ISAtim4.WebAppSpringAirport.domain.Authority;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.NeregistrovaniPutnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
+import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
+import com.ISAtim4.WebAppSpringAirport.domain.Soba;
+import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 
 @Service
 public class NotificationService {
@@ -44,8 +47,34 @@ public class NotificationService {
 		mail.setSubject("Flight invitation for you ");//+korisnik.getUsername());
 		//String originalInput = "test input";
 		//String uname = Base64.getEncoder().encodeToString(korisnik.getKorisnickoIme().getBytes());
-		mail.setText("Dear, you have invitation for flight with your friend. You can accept or reject the call and also, you can see more travel information at your profile on WebAppSpringAirport app."
-				+ "Link to app: http://localhost:8080/");
+		String str= "";
+		str = "Dear, you have invitation for flight with your friend. You can accept or reject the call and also, you can see more travel information at your profile on WebAppSpringAirport app."
+				+ "Link to app: http://localhost:8080/." ;
+		str += "\nReservation info: ";
+		str += "\n\t- Date of reservation: " + pozivnica.getRezervacija().getDatumRezervacije().toString();
+		str += "\n\t- Price: " + pozivnica.getRezervacija().getCena().toString();
+		str += "\n\t- Seats: \n";
+		for(Sediste s: pozivnica.getRezervacija().getOdabranaSedista()){
+			str += "\t\t== "+s.getRow_col() + ", klasa: " + s.getKlasa() + "\n";
+		}
+		str += "\n\t- Vehicle: ";
+		if (!pozivnica.getRezervacija().getOdabranaVozila().isEmpty()){
+			for (Vozilo v: pozivnica.getRezervacija().getOdabranaVozila()){
+				str += "\n\t\t== "+v.getProizvodjac() + " " + v.getModel();
+			}
+		} else {
+			str += " No vehicle reserved.";
+		}
+		
+		str += "\n\t- Rooms in hotel: ";
+		if (!pozivnica.getRezervacija().getOdabranaVozila().isEmpty()){
+			for (Soba s: pozivnica.getRezervacija().getOdabraneSobe()){
+				str += "\n\t\t== Inside hotel: "+s.getHotel() + ", room with " + s.getBrojKreveta() + " bed/s";
+			}
+		} else {
+			str += " No rooms reserved.";
+		}
+		mail.setText(str);
 		javaMailSender.send(mail);
 	}
 	
