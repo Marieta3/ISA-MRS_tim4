@@ -419,6 +419,21 @@ function renderDetaljanLet(){
 						$('#relacija-leta').text(data.pocetnaDestinacija+'-'+data.krajnjaDestinacija);
 						$('.seatCharts-row').remove();
 						//$('.booking-details').empty();
+						
+						var startDate = data.vremeDolaska;
+						var arr = startDate.split("T");
+
+					    $("#datepicker2").attr("min",arr[0]);
+					    $("#datepicker3").attr("min",arr[0]);
+					    $("#datepicker4").attr("min",arr[0]);
+					    $("#datepicker5").attr("min",arr[0]);
+					    $("#datepicker6").attr("min",arr[0]);
+					    $("#datepicker7").attr("min",arr[0]);
+					    $("#datepicker8").attr("min",arr[0]);
+					    $("#datepicker7").val(arr[0]);
+					    $("#datepicker6").val(arr[0]);
+						
+						
 						var br_kolona=data.brojKolona;
 						var br_redovaFC=data.brojRedovaFC;
 						var br_redovaEC=data.brojRedovaEC;

@@ -2,6 +2,9 @@ package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,7 +32,39 @@ public class PozivnicaController {
 	@GetMapping(value = "/api/myInvitations", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ArrayList<Pozivnica> getPozivnice(Principal user){
 		Korisnik me = this.korisnikService.findByKorisnickoIme(user.getName());
-		return pozivnicaService.findMyInvitations(me);
+		ArrayList<Pozivnica> pozivnice = pozivnicaService.findMyInvitations(me);
+		Calendar now = Calendar.getInstance();
+		Calendar pozivnica = Calendar.getInstance();
+		
+		for (Pozivnica p : pozivnice) {
+			if(p.getKomeSalje().getId().equals(me.getId()))
+			{
+				// provera da li je  korisnik reagovao u tri dana
+				if(!p.getReagovanoNaPoziv())
+				{
+					now.setTime(new Date());
+					pozivnica.setTime(p.getDatumSlanja());
+					pozivnica.add(Calendar.DATE, 3);
+					if(pozivnica.before(now))
+						//prosla su 3 dana
+					{
+						pozivnicaService.decline(p.getId());
+						pozivnice.remove(p);
+					}
+					
+					pozivnica.setTime(p.getRezervacija().getOdabranaSedista().iterator().next().getLet().getVremePolaska());
+					now.add(Calendar.HOUR_OF_DAY, 3);
+					if(now.after(pozivnica))
+						//ima manje od 3 sata do poletanja leta
+					{
+						pozivnicaService.decline(p.getId());
+						pozivnice.remove(p);
+					}
+				}
+			}
+		}
+		
+		return  pozivnice;
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
