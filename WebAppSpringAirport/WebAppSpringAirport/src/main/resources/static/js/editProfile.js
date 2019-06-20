@@ -146,7 +146,7 @@ function dobaviPodatkeKorisnika(){
         	
         	if(localStorage.getItem('uloga') == 'ROLE_USER')
         		{
-        			$("#bonus_user").text(data.brojPoena);
+        			$("#bonus_user").text(parseFloat(Math.round(data.brojPoena * 100) / 100).toFixed(2));
         		}
         	//window.location.replace("profil"+uloga+".html");
         }

@@ -181,7 +181,11 @@ public class RezervacijaController {
 
 			rezervacija.setOdabranaVozila(vozila);
 			rezervacija.setVoziloZauzetoOd(rezervacijaDTO.getVoziloOD());
-			rezervacija.setVoziloZauzetoDo(rezervacijaDTO.getVoziloDO());
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(rezervacijaDTO.getVoziloOD());
+			cal.add(Calendar.DATE, rezervacijaDTO.getBrojDana());
+			Date voziloRezervisanaDo = cal.getTime();
+			rezervacija.setVoziloZauzetoDo(voziloRezervisanaDo);
 		}
 		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
 		rezervacija.setDatumRezervacije(new Date());

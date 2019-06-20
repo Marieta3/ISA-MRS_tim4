@@ -221,14 +221,23 @@ function previewRezervacije(){
 		return;
 	}
 	var broj_nocenja=$('#broj_nocenja').val();
-	
+	/*
 	if(broj_nocenja==null || broj_nocenja==0){
 		console.log("izaberite broj nocenja");
 		return;
-	}
+	}*/
 	
 	var vozilaRezervisanaOd=$('#datepicker7').val();
-	var vozilaRezervisanaDo=$('#datepicker8').val();
+	if(vozilaRezervisanaOd==null || vozilaRezervisanaOd==""){
+		console.log("izaberite pocetni datum");
+		return;
+	}
+	var broj_dana=$('#broj_dana').val();
+	/*
+	if(broj_dana==null || broj_dana==0){
+		console.log("izaberite broj dana");
+		return;
+	}*/
 	
 	var total=parseInt($('#total').text(), 10)+ parseInt($('#total-rooms').text(), 10)+parseInt($('#total-cars').text(), 10);
 	console.log('total: '+total);
@@ -245,7 +254,7 @@ function previewRezervacije(){
 		url:'api/reserve/preview',
 		contentType:'application/json',
 		dataType:'json',
-		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, vozilaRezervisanaDo, neregistrovani),
+		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, broj_dana, neregistrovani),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -325,15 +334,14 @@ function pokupiRezervisanaSedista(e){
 		return;
 	}
 	var broj_nocenja=$('#broj_nocenja').val();
-	
+	/*
 	if(broj_nocenja==null || broj_nocenja==0){
 		console.log("izaberite broj nocenja");
 		return;
-	}
+	}*/
 	//var sobeRezervisaneDo=$('#datepicker3').val();
 	var vozilaRezervisanaOd=$('#datepicker7').val();
-	var vozilaRezervisanaDo=$('#datepicker8').val();
-	//var broj_nocenja=$('#broj_nocenja').val();
+	var broj_dana=$('#broj_dana').val();
 	var total=parseInt($('#total').text(), 10)+ parseInt($('#total-rooms').text(), 10)+parseInt($('#total-cars').text(), 10);
 	console.log('total: '+total);
 	$.each(lista_sedista, function(index, item){
@@ -350,7 +358,7 @@ function pokupiRezervisanaSedista(e){
 		url:'api/reserve',
 		contentType:'application/json',
 		dataType:'json',
-		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, vozilaRezervisanaDo, neregistrovani),
+		data:rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, total, sobeRezervisaneOd, broj_nocenja, vozilaRezervisanaOd, broj_dana, neregistrovani),
 		beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
@@ -365,7 +373,7 @@ function pokupiRezervisanaSedista(e){
 	});
 	//$('#hotels-tab').click();
 }
-function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, cena, sobeOd, broj_nocenja, vozilaOd, vozilaDo, neregistrovani){
+function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji, cena, sobeOd, broj_nocenja, vozilaOd, broj_dana, neregistrovani){
 	return JSON.stringify({
 		"sedista":sedista,
 		"id_leta":let_id,
@@ -376,7 +384,7 @@ function rezervacijaToJSONadd(let_id, sedista, sobe, vozila, pozvani_prijatelji,
 		"sobaOD":sobeOd,
 		"brojNocenja":broj_nocenja,
 		"voziloOD":vozilaOd, 
-		"voziloDO":vozilaDo,
+		"brojDana":broj_dana,
 		"neregistrovani":neregistrovani
 	});
 }

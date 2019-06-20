@@ -22,7 +22,7 @@ public class RezervacijaDTO {
 	//private Date sobaDO;
 	private int brojNocenja;
 	private Date voziloOD;
-	private Date voziloDO;
+	private int brojDana;
 	public double getUkupnaCena() {
 		return ukupnaCena;
 	}
@@ -63,11 +63,12 @@ public class RezervacijaDTO {
 	public void setVoziloOD(Date voziloOD) {
 		this.voziloOD = voziloOD;
 	}
-	public Date getVoziloDO() {
-		return voziloDO;
+	
+	public int getBrojDana() {
+		return brojDana;
 	}
-	public void setVoziloDO(Date voziloDO) {
-		this.voziloDO = voziloDO;
+	public void setBrojDana(int brojDana) {
+		this.brojDana = brojDana;
 	}
 	public int getBrojNocenja() {
 		return brojNocenja;
@@ -85,7 +86,7 @@ public class RezervacijaDTO {
 	public String toString() {
 		return "RezervacijaDTO [id_leta=" + id_leta + ", sedista=" + sedista + ", sobe=" + sobe + ", vozila=" + vozila
 				+ ", pozvani_prijatelji=" + pozvani_prijatelji + ", ukupnaCena=" + ukupnaCena + ", sobaOD=" + sobaOD
-				+ ", brojNocenja=" + brojNocenja + ", voziloOD=" + voziloOD + ", voziloDO=" + voziloDO + "]";
+				+ ", brojNocenja=" + brojNocenja + ", voziloOD=" + voziloOD + ", voziloDO=" + brojDana + "]";
 	}
 	public ArrayList<String> getNeregistrovani() {
 		return neregistrovani;
