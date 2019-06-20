@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
@@ -28,11 +29,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.NeregistrovaniPutnik;
+import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
+import com.ISAtim4.WebAppSpringAirport.dto.CancelReservationDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.RezervacijaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;
@@ -257,12 +260,14 @@ public class RezervacijaController {
 							if (r.getSobaZauzetaDo() != null) {	
 								if (now.after(r.getSobaZauzetaDo())) {
 									r.setAktivnaRezervacija(false);
+									rezervacijaService.save(r);
 									moje.add(r);				// korisnik je napustao, vracao i sletio
 								} else {
 									continue; // korisnik jos nije napustao sobu
 								}
 							} else {
 								r.setAktivnaRezervacija(false);
+								rezervacijaService.save(r);
 								moje.add(r); // korisnik je vracao vozilo i sletio
 							}
 						} else {
@@ -272,12 +277,14 @@ public class RezervacijaController {
 						if (r.getSobaZauzetaDo() != null) {
 							if (now.after(r.getSobaZauzetaDo())) {
 								r.setAktivnaRezervacija(false);
+								rezervacijaService.save(r);
 								moje.add(r);	//korinsnik je napustao i sletio
 							} else {
 								continue; // korisnik jos nije napustao sobu
 							}
 						} else { 
 							r.setAktivnaRezervacija(false);
+							rezervacijaService.save(r);
 							moje.add(r); // korisnik je sletio
 						}
 					}
@@ -287,6 +294,100 @@ public class RezervacijaController {
 			}
 		}
 		return moje;
+	}
+	
+	/* update rezervacije po id-u */
+	@PostMapping(value = "/api/reserve/cancel/{id}",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public ResponseEntity<Rezervacija> cancelRezervacija(
+			@PathVariable(value = "id") Long reservationId,
+			@Valid @RequestBody CancelReservationDTO rezer) {
+		
+		// ha lemondasy valamit számoldd újra az össz valuet cena stb
+		Rezervacija rezervacija = rezervacijaService.findOne(reservationId);
+		if (rezervacija == null) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		boolean e1 = rezer.isFlightID();
+		boolean e2 = rezer.isHotelID();
+		boolean e3 =  rezer.isCarID();
+		
+		if(e1)			//ako je birao let --> brišem celu rezervaciju
+		{
+			for (Sediste s : rezervacija.getOdabranaSedista()) {
+				s.setRezervisano(false);
+			}
+			List<Pozivnica> p =  pozivnicaService.findAll();
+			for (Pozivnica pozivnica : p) {
+				if(pozivnica.getRezervacija().getId() == rezervacija.getId())
+				{
+					pozivnicaService.remove(pozivnica.getId());
+				}
+			}
+			rezervacijaService.remove(rezervacija.getId());
+			return ResponseEntity.ok().body(rezervacija);
+
+		}else if(e2 && e3)			//ako hoće da canceluje smestaj i transport, cena je samo let
+		{
+			rezervacija.getOdabraneSobe().clear();
+			rezervacija.getOdabranaVozila().clear();
+			double cena = 0;
+			for (Sediste s : rezervacija.getOdabranaSedista()) {
+				cena += s.getCena();
+			}
+			rezervacija.setCena(cena);;
+		}else if(e2)		//ako hoće da canceluje smestaj
+		{
+			rezervacija.getOdabraneSobe().clear();
+			double cena = 0;
+			for (Sediste s : rezervacija.getOdabranaSedista()) {
+				cena += s.getCena();
+			}
+			
+			if((rezervacija.getOdabranaVozila()!= null) && (rezervacija.getOdabranaVozila().size()!= 0))
+			{
+				int brojDana = 0;
+				if((rezervacija.getVoziloZauzetoDo() == null) || (rezervacija.getVoziloZauzetoOd() == null))
+				{
+					brojDana = 1;
+				}else{
+				    long diff = rezervacija.getVoziloZauzetoDo().getTime() - rezervacija.getVoziloZauzetoOd().getTime();
+				    brojDana =  (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+				}
+			    for (Vozilo v : rezervacija.getOdabranaVozila()) {
+					cena += v.getCena() * brojDana;
+				}
+			}
+			rezervacija.setCena(cena);
+			
+		}else if(e3)		//ako hoće da canceluje smestaj
+		{
+			rezervacija.getOdabranaVozila().clear();
+			double cena = 0;
+			for (Sediste s : rezervacija.getOdabranaSedista()) {
+				cena += s.getCena();
+			}
+			
+			if((rezervacija.getOdabraneSobe()!= null) && (rezervacija.getOdabraneSobe().size()!= 0))
+			{
+				int brojDana = 0;
+				if((rezervacija.getSobaZauzetaDo() == null) || (rezervacija.getSobaZauzetaOd() == null))
+				{
+					brojDana = 1;
+				}else{
+				    long diff = rezervacija.getSobaZauzetaDo().getTime() - rezervacija.getSobaZauzetaOd().getTime();
+				    brojDana =  (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+				}
+			    for (Soba v : rezervacija.getOdabraneSobe()) {
+					cena += v.getCena() * brojDana;
+				}
+			}
+			rezervacija.setCena(cena);
+		}
+		
+		rezervacijaService.save(rezervacija);
+		return ResponseEntity.ok().body(rezervacija);
 	}
 
 	/* update rezervacije po id-u */
