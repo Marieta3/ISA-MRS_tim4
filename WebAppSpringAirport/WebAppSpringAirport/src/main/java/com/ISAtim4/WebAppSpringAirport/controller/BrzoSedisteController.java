@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.BrzoSediste;
-import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.dto.BrzaRezervacijaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.BrzoSedisteService;
 import com.ISAtim4.WebAppSpringAirport.service.SedisteService;

@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.repository.VoziloRepository;
 
@@ -18,6 +20,9 @@ import com.ISAtim4.WebAppSpringAirport.repository.VoziloRepository;
 public class VoziloService{
 	@Autowired
 	private VoziloRepository voziloRepository;
+
+	@Autowired
+	private RezervacijaService rezervacijaService;
 	
 	public List<Vozilo> findAll(){
 		return voziloRepository.findAll();
@@ -37,8 +42,28 @@ public class VoziloService{
 	}
 
 	@Transactional(readOnly = false)
-	public void remove(Long id) {
-		voziloRepository.deleteById(id);
+	public boolean remove(Long id) {
+
+		Vozilo vozilo = findOne(id);
+
+		if (vozilo != null) {
+			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
+			for (Rezervacija rezervacija : aktivne) {
+				if(rezervacija.getAktivnaRezervacija()){
+					Set<Vozilo>  v= rezervacija.getOdabranaVozila();
+					for (Vozilo vozilo2 : v) {
+						if(vozilo2.getId() == vozilo.getId()){
+							return false;
+					}
+					}
+				}
+			}
+			voziloRepository.deleteById(id);
+			return true;
+		} else {
+			return false;
+		}
+	
 	}
 	
 	/*public void updateCarReservation(List<Long> ids) {
