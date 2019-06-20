@@ -29,6 +29,10 @@ public class RegistrovaniKorisnik extends Korisnik {
 	@JsonIgnoreProperties("putnik")
 	private BrzaSoba brza_soba;
 	
+	@OneToOne(mappedBy="putnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("putnik")
+	private BrzoVozilo brzo_vozilo;
+	
 	public RegistrovaniKorisnik() {
 		super();
 		super.setUlogovanPrviPut(true);

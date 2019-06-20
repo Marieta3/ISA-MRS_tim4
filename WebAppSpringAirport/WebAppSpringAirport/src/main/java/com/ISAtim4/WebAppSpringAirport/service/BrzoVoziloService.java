@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ISAtim4.WebAppSpringAirport.domain.BrzaSoba;
 import com.ISAtim4.WebAppSpringAirport.domain.BrzoVozilo;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.dto.BrzaRezervacijaDTO;
@@ -57,5 +59,9 @@ public class BrzoVoziloService {
 		//TODO: ubaciti proveru da li je mozda rezervisano u tom periodu
 		brzoVozilo.setVozilo(vozilo);
 		return save(brzoVozilo);
+	}
+	
+	public List<BrzoVozilo> getBrzaVozila(Long rentId, Date vreme1, Date vreme2){
+		return brzoVoziloRepository.getBrzaVozila(rentId, vreme1, vreme2);
 	}
 }

@@ -1,5 +1,6 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,11 +24,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ISAtim4.WebAppSpringAirport.domain.BrzaSoba;
+import com.ISAtim4.WebAppSpringAirport.domain.BrzoVozilo;
 import com.ISAtim4.WebAppSpringAirport.domain.Filijala;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
+import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
+import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
+import com.ISAtim4.WebAppSpringAirport.dto.BrzaSobaVoziloDTO;
+import com.ISAtim4.WebAppSpringAirport.dto.SobaPretragaDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.VoziloDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.VoziloPretragaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.FilijalaService;
@@ -55,6 +62,7 @@ public class VoziloController {
 	@Autowired
 	private OcenaService ocenaService;
 
+	
 	/* da snimimo vozilo */
 	@PreAuthorize("hasRole('ROLE_RENT')")
 	@PostMapping(value = "/api/cars", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

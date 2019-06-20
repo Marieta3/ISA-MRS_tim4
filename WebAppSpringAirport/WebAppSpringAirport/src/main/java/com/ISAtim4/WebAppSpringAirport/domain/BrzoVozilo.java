@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -34,6 +35,17 @@ public class BrzoVozilo {
 
 	@Column(nullable=false)
 	private boolean zauzeto=false;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnoreProperties("brzo_vozilo")
+	private Sediste sediste;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnoreProperties("brzo_vozilo")
+	private RegistrovaniKorisnik putnik;
+	
+	@Column(nullable=true)
+	private Date datumRezervacije;
 	
 	public BrzoVozilo() {}
 	
@@ -83,5 +95,29 @@ public class BrzoVozilo {
 
 	public void setZauzeto(boolean zauzeto) {
 		this.zauzeto = zauzeto;
+	}
+
+	public Sediste getSediste() {
+		return sediste;
+	}
+
+	public void setSediste(Sediste sediste) {
+		this.sediste = sediste;
+	}
+
+	public RegistrovaniKorisnik getPutnik() {
+		return putnik;
+	}
+
+	public void setPutnik(RegistrovaniKorisnik putnik) {
+		this.putnik = putnik;
+	}
+
+	public Date getDatumRezervacije() {
+		return datumRezervacije;
+	}
+
+	public void setDatumRezervacije(Date datumRezervacije) {
+		this.datumRezervacije = datumRezervacije;
 	}
 }

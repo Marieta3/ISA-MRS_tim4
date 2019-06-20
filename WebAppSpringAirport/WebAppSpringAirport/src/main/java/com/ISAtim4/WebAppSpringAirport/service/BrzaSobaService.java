@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.BrzaSoba;
+import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.dto.BrzaRezervacijaDTO;
 import com.ISAtim4.WebAppSpringAirport.repository.BrzaSobaRepository;
@@ -22,6 +23,9 @@ public class BrzaSobaService {
 	
 	@Autowired
 	private SobaService sobaService;
+	
+	@Autowired
+	RezervacijaService rezervacijaService;
 	
 	@Transactional(readOnly = false)
 	public BrzaSoba save(BrzaSoba brzaSoba) {
@@ -52,7 +56,26 @@ public class BrzaSobaService {
 		brzaSoba.setStart_date(brzaSobaDTO.getStartDatum());
 		brzaSoba.setEnd_date(brzaSobaDTO.getEndDatum());
 		Soba soba=sobaService.findOne(brzaSobaDTO.getId());
+		Date datum1=brzaSobaDTO.getStartDatum();
+		Date datum2=brzaSobaDTO.getEndDatum();
 		//TODO: ubaciti proveru da li je mozda rezervisana u tom periodu
+		List<Rezervacija> rezervacije=rezervacijaService.findAll();
+		for(Rezervacija r: rezervacije) {
+			//ako se preklapaju datumi
+			if( (r.getSobaZauzetaOd().compareTo(datum1)<=0 && r.getSobaZauzetaDo().compareTo(datum1)>=0) 
+					|| (r.getSobaZauzetaOd().compareTo(datum2)<=0 && r.getSobaZauzetaDo().compareTo(datum2) >= 0) 
+					|| (r.getSobaZauzetaOd().compareTo(datum1)>=0 && r.getSobaZauzetaDo().compareTo(datum2)<=0) ) {
+				System.out.println("+++---***\n\n\t broj soba u rezervaciji: "+r.getOdabraneSobe().size());
+				//za svaku sobu u rezervaciji
+				for(Soba s: r.getOdabraneSobe()) {
+					//ako soba pripada trazenom hotelu
+					if(s.equals(soba)) {
+						
+						throw new RuntimeException("Error: seat already reserved");
+					}
+				}
+			}
+		}
 		brzaSoba.setSoba(soba);
 		return save(brzaSoba);
 	}

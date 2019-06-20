@@ -221,5 +221,49 @@ function renderBrzaVozila(data){
 }
 
 function selektovanoBrzoVozilo(btn){
+	//pokupi sediste i brzu rezervaciju
+	var lista_sedista=$('#selected-seats li');
+	var sediste;
+	if(lista_sedista.length!=1){
+		console.log("broj sedista nije 1!");
+		return;
+	}
+	var broj_dana=$('#broj_dana').val();
+	if(broj_dana==null || broj_dana==0){
+		console.log("izaberite broj dana");
+		return;
+	}
+	var brzo_vozilo_id=$(btn).find('input[type=hidden]').attr('id');
+	$.each(lista_sedista, function(index, item){
+		var tokens=item.id.split('-');
+		sediste=tokens[2];
+	})
 	
+	var let_id=$('#id-odabranog-leta').val();
+	$.ajax({
+		type:'POST',
+		url:'api/brzaVozila/reserve',
+		contentType: 'application/json',
+		dataType : 'json',
+		data : brzoVoziloToJSONsearch(let_id, sediste, brzo_vozilo_id),
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success : function(data){
+			window.location.replace("profilROLE_USER.html");
+		},
+		error:function(data){
+			notify("Reservation failed.", "danger");
+		}
+	})
+	
+}
+
+function brzoVoziloToJSONsearch(let_id, sediste, brzo_vozilo_id){
+	return JSON.stringify({
+		"let_id" : let_id,
+		"brz_id" : brzo_vozilo_id,
+		"row_col":sediste
+	});
 }
