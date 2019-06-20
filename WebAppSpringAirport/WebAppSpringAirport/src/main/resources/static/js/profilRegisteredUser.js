@@ -147,7 +147,7 @@ function renderReservations(data){
 	console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$("#activeReservationsTable").find("tr:gt(0)").remove();
-	$("#activeReservationsTable").find("th:gt(6)").remove();
+	$("#activeReservationsTable").find("th:gt(7)").remove();
 	$.each(list, function(index, rezervacija){
 		var tr=$('<tr id="active_rez_'+rezervacija.id+'"></tr>');
 		if(rezervacija.odabranaSedista.length>0){
@@ -183,7 +183,9 @@ function renderReservations(data){
 		var funDummy = " onclick= \"otvoriModal('id03'), resetCancel()\""
 		tr.append("<td align = 'center' ><form id='formaCancelReservation' onsubmit= 'formaCancelReservation(event,this)'><input type='hidden' value='" + rezervacija.id 
 				+ "'><input type='submit' value='Cancel reservation' " + funDummy + " style=\'margin-left:0px ; margin-top : 0px\'></form> </td>");
-			
+		var funDummy2 = " action='/WebAppSpringAirport/src/main/resources/static/rezervacijaPotvrda.html' ";
+		tr.append("<td align = 'center' ><form id='formaShowReservation' onsubmit= 'formaShowReservation(event,this)'><input type='hidden' value='" + rezervacija.id 
+				+ "'><input type='submit' value='Reservation details' " + funDummy2 + " style=\'margin-left:0px ; margin-top : 0px\'></form> </td>");
 		$("#activeReservationsTable").find("tbody").append(tr);
 	})
 	
@@ -200,11 +202,37 @@ function renderReservations(data){
 	}
 }
 
+function formaShowReservation(e, forma){
+	//e.preventDefault();
+	var id_rezervacija = $(forma).find('input[type=hidden]').val();
+	$("#identifikatorRezervacije").val(id_rezervacija);
+	console.log("Identifikator rezervacije je: " + id_rezervacija);
+	$.ajax({
+		type:"GET",
+		url:"api/reserve/"+id_rezervacija,
+		
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	console.log("Pocetna destinacija je: " + data.odabranaSedista[0].let.pocetnaDestinacija);
+        	var idLet = data.odabranaSedista[0].let.id;
+        	$("#txt1Check").text(data.odabranaSedista[0].let.pocetnaDestinacija+'-'+data.odabranaSedista[0].let.krajnjaDestinacija);
+        	$("#flightCancel").val(data.odabranaSedista[0].let.id);
+    		
+        	//$("#identifikatorRezervacijaUpd").val(id_rezervacija);
+        }
+		
+	})
+	
+}
+
+
 function renderReservationHistory(data){
 	console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$("#reservationHistoryTable").find("tr:gt(0)").remove();
-	$("#reservationHistoryTable").find("th:gt(6)").remove();
+	$("#reservationHistoryTable").find("th:gt(7)").remove();
 	$.each(list, function(index, rezervacija){
 		var tr=$('<tr id="history_rez_'+rezervacija.id+'"></tr>');
 		if(rezervacija.odabranaSedista.length>0){
