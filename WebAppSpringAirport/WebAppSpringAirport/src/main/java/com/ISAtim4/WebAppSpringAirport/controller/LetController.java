@@ -67,53 +67,7 @@ public class LetController {
 		return pronadjeni;
 	}
 	
-	private Set<Sediste> popuniSedista(Let let){
-		Set<Sediste> sedista=new HashSet<>();
-		let.setBrojRedova(let.getBrojRedovaFC()+let.getBrojRedovaEC()+let.getBrojRedovaBC());
-		for(int i = 1; i <= let.getBrojRedovaFC();i++){
-			for (int j=1; j<= let.getBrojKolona();j++){
-				Sediste s = new Sediste();
-				if(i==1 && j>3) {
-					s.setRezervisano(true);
-				}
-				s.setLet(let);
-				s.setBrojReda(i);
-				s.setBrojKolone(j);
-				s.setKlasa("f");
-				s.setRow_col(i+"_"+j);
-				sedista.add(s);
-			}
-		}
-		for(int i = let.getBrojRedovaFC()+1; i <= let.getBrojRedovaFC()+let.getBrojRedovaEC();i++){
-			for (int j=1; j<= let.getBrojKolona();j++){
-				Sediste s = new Sediste();
-				if(i>2 && j%3==0) {
-					s.setRezervisano(true);
-				}
-				s.setLet(let);
-				s.setBrojReda(i);
-				s.setBrojKolone(j);
-				s.setKlasa("e");
-				s.setRow_col(i+"_"+j);
-				sedista.add(s);
-			}
-		}
-		for(int i = let.getBrojRedovaFC()+let.getBrojRedovaEC()+1; i <= let.getBrojRedova();i++){
-			for (int j=1; j<= let.getBrojKolona();j++){
-				Sediste s = new Sediste();
-				if(i%3==1 && j>=2) {
-					s.setRezervisano(true);
-				}
-				s.setLet(let);
-				s.setBrojReda(i);
-				s.setBrojKolone(j);
-				s.setKlasa("b");
-				s.setRow_col(i+"_"+j);
-				sedista.add(s);
-			}
-		}
-		return sedista;
-	}
+	
 	/* PRETRAGA letova, svima dozvoljeno */
 	@PostMapping(value = "/api/let/pretraga", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public List<Let> pretragaLetova(@Valid @RequestBody LetDTO let) {

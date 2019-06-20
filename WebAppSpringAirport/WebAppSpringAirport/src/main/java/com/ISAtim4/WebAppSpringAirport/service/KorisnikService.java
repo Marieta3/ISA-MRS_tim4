@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -32,6 +33,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.RentACar;
+import com.ISAtim4.WebAppSpringAirport.dto.ChangePswDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.KorisnikDTO;
 import com.ISAtim4.WebAppSpringAirport.repository.KorisnikRepository;
 
@@ -267,6 +269,42 @@ public class KorisnikService {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public String changePassword(Principal user, ChangePswDTO dto) {
+		Korisnik k = null;
+		if (user != null) {
+			k = findByKorisnickoIme(user.getName());
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			
+			String hashedPassword = passwordEncoder.encode(dto.getNewPsw());  //uneta novi pw
+			//String oldPsw = passwordEncoder.encode(dto.getOldPsw());		//unteta stari pw
+			
+			
+			if(BCrypt.checkpw(dto.getOldPsw(), k.getLozinka())){
+				System.out.println("Old password is correct!");
+			}else {
+				return ("Old password is not correct!");
+			}
+			
+			if (dto.getOldPsw().equals(dto.getNewPsw())) {
+				return "New and old password should not match!";
+			} else if (!dto.getNewPsw().equals(dto.getConfirmPsw())) {
+				return "Passwords do not match!";
+			} else if (dto.getOldPsw().equals("") || dto.getNewPsw().equals("")
+					|| dto.getConfirmPsw().equals("")) {
+				return "Password should not be empty!";
+			}
+			// provera lozinke(nije jednaka staroj i dve lozinke se poklapaju)
+
+			k.setLozinka(hashedPassword);
+			k.setUlogovanPrviPut(true);
+			save(k);
+			return "OK";
+		} else {
+			return "User not found.";
 		}
 	}
 }

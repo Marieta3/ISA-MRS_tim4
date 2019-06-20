@@ -462,18 +462,12 @@ public class RentACarController {
 			@PathVariable(value = "id") Long rentAcarId,
 			@Valid @RequestBody RentACar rentAcarDetalji) {
 
-		RentACar rentACar = rentACarService.findOne(rentAcarId);
+		RentACar rentACar = rentACarService.update(rentAcarId, rentAcarDetalji);
 		if (rentACar == null) {
 			return ResponseEntity.notFound().build();
 		}
-		rentACar.setNaziv(rentAcarDetalji.getNaziv());
-		rentACar.setAdresa(rentAcarDetalji.getAdresa());
-		rentACar.setOpis(rentAcarDetalji.getOpis());
-		//rentACar.setSlika(rentAcarDetalji.getSlika());
-		rentACar.setCoord1(rentAcarDetalji.getCoord1());
-		rentACar.setCoord2(rentAcarDetalji.getCoord2());
-		RentACar updateRentACar = rentACarService.save(rentACar);
-		return ResponseEntity.ok().body(updateRentACar);
+		
+		return ResponseEntity.ok().body(rentACar);
 	}
 
 	/* brisanje RentAcar */
@@ -481,9 +475,7 @@ public class RentACarController {
 	@RequestMapping(method = RequestMethod.DELETE,value = "/api/rentACars/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> deleteRentAcar(
 			@PathVariable(value = "id") Long rentAcarId) {
-		RentACar rentACar = rentACarService.findOne(rentAcarId);
-		if (rentACar != null) {
-			rentACarService.remove(rentAcarId);
+		if (rentACarService.delete(rentAcarId)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -257,38 +257,7 @@ public class KorisnikController {
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
 	public String updatePassword(Principal user,
 			@Valid @RequestBody ChangePswDTO dto) {
-		Korisnik k = null;
-		if (user != null) {
-			k = this.korisnikService.findByKorisnickoIme(user.getName());
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			
-			String hashedPassword = passwordEncoder.encode(dto.getNewPsw());  //uneta novi pw
-			//String oldPsw = passwordEncoder.encode(dto.getOldPsw());		//unteta stari pw
-			
-			
-			if(BCrypt.checkpw(dto.getOldPsw(), k.getLozinka())){
-				logger.info("Old password is correct!");
-			}else {
-				return ("Old password is not correct!");
-			}
-			
-			if (dto.getOldPsw().equals(dto.getNewPsw())) {
-				return "New and old password should not match!";
-			} else if (!dto.getNewPsw().equals(dto.getConfirmPsw())) {
-				return "Passwords do not match!";
-			} else if (dto.getOldPsw().equals("") || dto.getNewPsw().equals("")
-					|| dto.getConfirmPsw().equals("")) {
-				return "Password should not be empty!";
-			}
-			// provera lozinke(nije jednaka staroj i dve lozinke se poklapaju)
-
-			k.setLozinka(hashedPassword);
-			k.setUlogovanPrviPut(true);
-			korisnikService.save(k);
-			return "OK";
-		} else {
-			return "User not found.";
-		}
+		return korisnikService.changePassword(user, dto);
 
 	}
 
