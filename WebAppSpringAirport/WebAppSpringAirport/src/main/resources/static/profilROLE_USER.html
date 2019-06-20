@@ -47,7 +47,7 @@
 					<!-- slika -->
 				</div>
 				<div class="container-modal" id="div-container-modal">
-					<h1>Are you sure you want to delete room:</h1>
+					<h1>Are you sure you want to delete friend:</h1>
 
 					<button class="deleteSubmitBtn" type="submit">Delete</button>
 					<button type="button" onclick="zatvoriModal('id01')"
@@ -186,9 +186,37 @@
 				<tbody>
 				</tbody> 
 				</table>
+				
+		<!-- za cancel reservation -->
+		<div id="id03" class="modal">
+			<form class="modal-content1 animate" id="cancelReservationForma">
+				<div class="container-modal" id="div-container-modal">
+				
+			      	<div class="modal-header">
+					<h1>Cancel reservation</h1>
+					</div>
+					
+     				<div class="modal-body">
+					<input type="checkbox" id="check1Cancel" name="check1Cancel" ><span id="txt1Check"></span><br>
+					<input type="checkbox" id="check2Cancel" name="check2Cancel" ><span id="txt2Check"></span><br>
+					<input type="checkbox" id="check3Cancel" name="check3Cancel" ><span id="txt3Check"></span><br>
+     				</div>
+					
+					<div class="modal-footer">
+					<button class="deleteSubmitBtn" type="submit">Yes</button>
+					<button type="button" onclick="zatvoriModal('id03')" class="cancelbtn">Cancel</button>
+					</div>
+				</div>
+				<div class="hidden">
+					<input type="hidden" id="identifikatorRezervacijaCancel">
+					<input type="hidden" id="flightCancel">
+					<input type="hidden" id="hotelCancel">
+					<input type="hidden" id="carCancel">
+				</div>
+			</form>
+		</div>	
 			
-			<!-- Update branch modal (id04) -->
-			
+			<!-- Rate services modal (id04) -->
 		<div id="id04" class="modal">
 		<form class="modal-content1 animate" id="rateServicesForma">
 			<div class="container-modal" id="div-container-modal">

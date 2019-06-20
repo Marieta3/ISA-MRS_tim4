@@ -46,41 +46,7 @@ public class LetController {
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_AVIO')")
 	@PostMapping(value = "/api/let", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Let createLet(@Valid @RequestBody Let let) {
-		let.setBrojRedova(let.getBrojRedovaFC()+let.getBrojRedovaEC()+let.getBrojRedovaBC());
-		for(int i = 1; i <= let.getBrojRedovaFC();i++){
-			for (int j=1; j<= let.getBrojKolona();j++){
-				Sediste s = new Sediste();
-				s.setBrojReda(i);
-				s.setBrojKolone(j);
-				s.setKlasa("f");
-				s.setCena(100.0);
-				s.setRow_col(i+"_"+j);
-				let.getSedista().add(s);
-			}
-		}
-		for(int i = let.getBrojRedovaFC()+1; i <= let.getBrojRedovaFC()+let.getBrojRedovaEC();i++){
-			for (int j=1; j<= let.getBrojKolona();j++){
-				Sediste s = new Sediste();
-				s.setBrojReda(i);
-				s.setBrojKolone(j);
-				s.setKlasa("e");
-				s.setCena(40.0);
-				s.setRow_col(i+"_"+j);
-				let.getSedista().add(s);
-			}
-		}
-		for(int i = let.getBrojRedovaFC()+let.getBrojRedovaEC()+1; i <= let.getBrojRedova();i++){
-			for (int j=1; j<= let.getBrojKolona();j++){
-				Sediste s = new Sediste();
-				s.setBrojReda(i);
-				s.setBrojKolone(j);
-				s.setKlasa("b");
-				s.setCena(90.0);
-				s.setRow_col(i+"_"+j);
-				let.getSedista().add(s);
-			}
-		}
-		return letService.save(let);
+		return letService.create(let);
 	}
 
 	/* da uzmemo sve letove, svima dozvoljeno */
@@ -101,53 +67,7 @@ public class LetController {
 		return pronadjeni;
 	}
 	
-	private Set<Sediste> popuniSedista(Let let){
-		Set<Sediste> sedista=new HashSet<>();
-		let.setBrojRedova(let.getBrojRedovaFC()+let.getBrojRedovaEC()+let.getBrojRedovaBC());
-		for(int i = 1; i <= let.getBrojRedovaFC();i++){
-			for (int j=1; j<= let.getBrojKolona();j++){
-				Sediste s = new Sediste();
-				if(i==1 && j>3) {
-					s.setRezervisano(true);
-				}
-				s.setLet(let);
-				s.setBrojReda(i);
-				s.setBrojKolone(j);
-				s.setKlasa("f");
-				s.setRow_col(i+"_"+j);
-				sedista.add(s);
-			}
-		}
-		for(int i = let.getBrojRedovaFC()+1; i <= let.getBrojRedovaFC()+let.getBrojRedovaEC();i++){
-			for (int j=1; j<= let.getBrojKolona();j++){
-				Sediste s = new Sediste();
-				if(i>2 && j%3==0) {
-					s.setRezervisano(true);
-				}
-				s.setLet(let);
-				s.setBrojReda(i);
-				s.setBrojKolone(j);
-				s.setKlasa("e");
-				s.setRow_col(i+"_"+j);
-				sedista.add(s);
-			}
-		}
-		for(int i = let.getBrojRedovaFC()+let.getBrojRedovaEC()+1; i <= let.getBrojRedova();i++){
-			for (int j=1; j<= let.getBrojKolona();j++){
-				Sediste s = new Sediste();
-				if(i%3==1 && j>=2) {
-					s.setRezervisano(true);
-				}
-				s.setLet(let);
-				s.setBrojReda(i);
-				s.setBrojKolone(j);
-				s.setKlasa("b");
-				s.setRow_col(i+"_"+j);
-				sedista.add(s);
-			}
-		}
-		return sedista;
-	}
+	
 	/* PRETRAGA letova, svima dozvoljeno */
 	@PostMapping(value = "/api/let/pretraga", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public List<Let> pretragaLetova(@Valid @RequestBody LetDTO let) {
@@ -171,17 +91,11 @@ public class LetController {
 	@GetMapping(value = "/api/let/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Let> getLet(
 			@PathVariable(value = "id") Long idLeta) {
-		Let let = letService.findOne(idLeta);
+		Let let = letService.getLet(idLeta);
 
 		if (let == null) {
 			return ResponseEntity.notFound().build();
 		}
-		if(let.getSedista().isEmpty()) {
-			let.setSedista(popuniSedista(let));
-			letService.save(let);
-		}
-		List<Ocena> ocene = ocenaService.findAllByLet(let);
-		let.setOcena(Ocena.getProsek(ocene));
 		
 		return ResponseEntity.ok().body(let);
 	}
@@ -206,34 +120,12 @@ public class LetController {
 			@PathVariable(value = "id") Long letId,
 			@Valid @RequestBody Let letDetalji) {
 
-		Let let = letService.findOne(letId);
+		Let let = letService.update(letId, letDetalji);
 		if (let == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		let.setPocetnaDestinacija(letDetalji.getPocetnaDestinacija());
-		let.setKrajnjaDestinacija(letDetalji.getKrajnjaDestinacija());
-		let.setVremePolaska(letDetalji.getVremePolaska());
-		let.setVremeDolaska(letDetalji.getVremeDolaska());
-		let.setDuzinaPutovanja(letDetalji.getDuzinaPutovanja());
-		
-		//ova dva mogu da izazovu problem
-		let.setAvioKompanija(letDetalji.getAvioKompanija()); 
-		let.setSedista(letDetalji.getSedista());
-		
-		
-		let.setModel(letDetalji.getModel());
-		let.setBrojRedova(letDetalji.getBrojRedova());
-		let.setBrojKolona(letDetalji.getBrojKolona());
-		let.setBrojRedovaEC(letDetalji.getBrojRedovaEC());
-		let.setBrojRedovaBC(letDetalji.getBrojRedovaBC());
-		let.setBrojRedovaFC(letDetalji.getBrojRedovaFC());
-		
-		List<Ocena> ocene = ocenaService.findAllByLet(let);
-		let.setOcena(Ocena.getProsek(ocene));
-		
-		Let updateLet = letService.save(let);
-		return ResponseEntity.ok().body(updateLet);
+		return ResponseEntity.ok().body(let);
 	}
 
 	/* brisanje leta */
@@ -241,10 +133,8 @@ public class LetController {
 	@DeleteMapping(value = "/api/let/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Let> deleteLeta(
 			@PathVariable(value = "id") Long letId) {
-		Let let = letService.findOne(letId);
 
-		if (let != null) {
-			letService.remove(letId);
+		if (letService.delete(letId)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

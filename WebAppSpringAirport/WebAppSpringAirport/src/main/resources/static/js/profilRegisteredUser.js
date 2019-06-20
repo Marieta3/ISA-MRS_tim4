@@ -1,7 +1,8 @@
 findAllFriends();
 findAllRequests();
 findAllPotentialFriends();
-findAllReservationHistory();
+findAllReservationHistory();	//posto prvo istoriju ucitam tamo imamo proveru da li je aktivan i setujemo na false
+								//ako nije, tj ne treba provera za aktivne
 findAllReservations();
 findAllInvitations();
 function findAllInvitations(){
@@ -136,6 +137,9 @@ function reagujNaPoziv(e, btn){
 			console.log(data);
 			$('#invitationsTable').DataTable().clear().destroy();
 			findAllInvitations();
+
+			$('#activeReservationsTable').DataTable().clear().destroy();
+			findAllReservations();
 		}
 	});
 }
@@ -143,7 +147,7 @@ function renderReservations(data){
 	console.log(data);
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	$("#activeReservationsTable").find("tr:gt(0)").remove();
-	$("#activeReservationsTable").find("th:gt(5)").remove();
+	$("#activeReservationsTable").find("th:gt(6)").remove();
 	$.each(list, function(index, rezervacija){
 		var tr=$('<tr id="active_rez_'+rezervacija.id+'"></tr>');
 		if(rezervacija.odabranaSedista.length>0){
@@ -176,16 +180,24 @@ function renderReservations(data){
 		td_putnici.append(putnici_list);
 		tr.append(td_putnici);
 		tr.append('<td>'+rezervacija.cena+'</td>');
-		
+		var funDummy = " onclick= \"otvoriModal('id03'), resetCancel()\""
+		tr.append("<td align = 'center' ><form id='formaCancelReservation' onsubmit= 'formaCancelReservation(event,this)'><input type='hidden' value='" + rezervacija.id 
+				+ "'><input type='submit' value='Cancel reservation' " + funDummy + " style=\'margin-left:0px ; margin-top : 0px\'></form> </td>");
+			
 		$("#activeReservationsTable").find("tbody").append(tr);
 	})
-	$('#activeReservationsTable').DataTable({
-	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
-	      "iDisplayLength": 5,
-	      "columnDefs": [
-	                     { "orderable": false, "targets": 4 }
-	                   ]
-	  });
+	
+	if ( ! $.fn.DataTable.isDataTable( '#activeReservationsTable' ) ) {
+		$('#activeReservationsTable').DataTable({
+		      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+		      "iDisplayLength": 5,
+		      "order":[[0,'asc']],
+		      "columnDefs": [
+		                     { "orderable": false, "targets": 4 },
+		                     { "orderable": false, "targets": 6 }
+		                   ]
+		  });
+	}
 }
 
 function renderReservationHistory(data){
@@ -234,6 +246,7 @@ function renderReservationHistory(data){
 	$('#reservationHistoryTable').DataTable({
 	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
 	      "iDisplayLength": 5,
+	      "order":[[0,'asc']],
 	      "columnDefs": [
 	                     { "orderable": false, "targets": 4 },
 	                     { "orderable": false, "targets": 6 }
@@ -278,7 +291,10 @@ function formaRateServices(e, forma){
             	$("#hidden5").val(data.odabranaVozila[0].filijala.rentACar.id);
             	$("#hidden6").val(data.odabranaVozila[0].id);
     		}else{
-    			tr.append('<td>-</td>');
+    			$("#lab5").append('-');
+            	$("#lab6").append('-');
+                $("#rentRating").attr('disabled','disabled');   
+                $("#carRating").attr('disabled','disabled');  
     		}
     		
         	$("#identifikatorRezervacijaUpd").val(id_rezervacija);
@@ -286,6 +302,145 @@ function formaRateServices(e, forma){
 		
 	})
 }
+
+//			hogy kezeld a checkbox változását ha flightot checkeli => id2 id3 checked, disabled 
+$("#cancelReservationForma input:checkbox").change(function() {
+	if ($('#check1Cancel').is(':checked')) {
+        $("#check2Cancel").prop('checked', true);
+        $("#check3Cancel").prop('checked', true);       
+        $("#check2Cancel").attr('disabled','disabled');
+        $("#check3Cancel").attr('disabled','disabled');             
+    }else{  
+    	if($("#txt2Check").text() != '-'){
+    		$("#check2Cancel").removeAttr('disabled');
+    	}else{
+            $("#check2Cancel").prop('checked', false);  
+    	}
+    	if($("#txt3Check").text() != '-'){
+    		$("#check3Cancel").removeAttr('disabled');  
+    	}else{
+            $("#check3Cancel").prop('checked', false);
+    	}
+    }
+  });
+
+function formaCancelReservation(e, forma){
+	e.preventDefault();
+	var id_rezervacija = $(forma).find('input[type=hidden]').val();
+	$("#identifikatorRezervacijaCancel").val(id_rezervacija);
+	$.ajax({
+		type:"GET",
+		url:"api/reserve/"+id_rezervacija,
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+        success:function(data){
+        	console.log(data);
+        	var idLet = data.odabranaSedista[0].let.id;
+        	$("#txt1Check").text(data.odabranaSedista[0].let.pocetnaDestinacija+'-'+data.odabranaSedista[0].let.krajnjaDestinacija);
+        	$("#flightCancel").val(data.odabranaSedista[0].let.id);
+
+    		if(data.odabraneSobe.length>0){
+    			$("#txt2Check").text(data.odabraneSobe[0].hotel.naziv);
+            	$("#hotelCancel").val(data.odabraneSobe[0].id);
+    		}else{
+    			$("#txt2Check").text('-');
+    	        $("#check2Cancel").attr('disabled','disabled');
+    		}
+    		if(data.odabranaVozila.length>0){
+            	$("#txt3Check").text(data.odabranaVozila[0].proizvodjac + " " + data.odabranaVozila[0].model);
+            	$("#carCancel").val(data.odabranaVozila[0].id);
+    		}else{
+    			$("#txt3Check").text('-');
+    	        $("#check3Cancel").attr('disabled','disabled');
+    		}
+    		
+        	$("#identifikatorRezervacijaUpd").val(id_rezervacija);
+        }
+		
+	})
+	
+}
+
+function resetCancel()
+{
+    $("#check1Cancel").prop('checked', false);
+    $("#check2Cancel").prop('checked', false);
+    $("#check3Cancel").prop('checked', false); 
+    $("#check1Cancel").removeAttr('disabled'); 
+    $("#check2Cancel").removeAttr('disabled');
+    $("#check3Cancel").removeAttr('disabled');   
+}
+
+$(document).on('submit', "#cancelReservationForma", function(e){
+	e.preventDefault();
+	var rezId = $("#identifikatorRezervacijaCancel").val();
+	var id1 = $('#check1Cancel').is(':checked');
+	var id2 = $('#check2Cancel').is(':checked');
+	var id3 = $('#check3Cancel').is(':checked');
+	if((id1 + id2 + id3) == 0)	//nista nije checkirano
+	{
+		$("#id03").css("display", "none");
+		$("body").removeClass("modal-open");
+		$.bootstrapGrowl("No service selected to cancel!", {
+			  ele: 'body', // which element to append to
+			  type: 'info', // (null, 'info', 'danger', 'success')
+			  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+			  align: 'right', // ('left', 'right', or 'center')
+			  width: 'auto', // (integer, or 'auto')
+			  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+			  allow_dismiss: false, // If true then will display a cross to close the popup.
+			  stackup_spacing: 10 // spacing between consecutively stacked growls.
+			});
+		resetCancel();
+		return;
+	}
+	
+	$.ajax({
+		type:'POST',
+		url:'/api/reserve/cancel/' + rezId ,
+		dataType:'json',
+		contentType: 'application/json',
+		data : JSON.stringify({"flightID" : id1, "hotelID" : id2, "carID" : id3}),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success: function(data)
+		{
+			$("#id03").css("display", "none");
+			$("body").removeClass("modal-open");
+			resetCancel();
+			$('#activeReservationsTable').DataTable().clear().destroy();
+			findAllReservations();
+			$.bootstrapGrowl("Succesful cancelation!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+		},
+		error:function(){
+
+			$("#id03").css("display", "none");
+			$("body").removeClass("modal-open");
+			resetLabels();
+			$.bootstrapGrowl("Cannot cancel reservation!", {
+				  ele: 'body', // which element to append to
+				  type: 'danger', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'right', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+		}
+	});
+})
 
 function resetLabels()
 {

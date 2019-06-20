@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.BrzoSediste;
-import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
 import com.ISAtim4.WebAppSpringAirport.dto.BrzaRezervacijaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.BrzoSedisteService;
 import com.ISAtim4.WebAppSpringAirport.service.SedisteService;
@@ -32,21 +31,8 @@ public class BrzoSedisteController {
 	@PreAuthorize("hasRole('ROLE_AVIO')")
 	@RequestMapping(value = "/api/quick/seat", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public BrzoSediste createBrzoSediste(@Valid @RequestBody BrzaRezervacijaDTO brzoSedisteDTO) {
-		BrzoSediste brzoSediste = null;
-
-		Sediste sediste = sedisteService.findOneByLetRowCol(brzoSedisteDTO.getId(), brzoSedisteDTO.getRow_col());
-		if (!sediste.isRezervisano()) {
-			brzoSediste = brzoSedisteService.findOneBySediste(sediste);
-			// ne sme biti vise brzih rezervacija za isto sediste
-			if (brzoSediste == null) {
-
-				brzoSediste = new BrzoSediste();
-				brzoSediste.setSediste(sediste);
-				brzoSediste.setNova_cena(brzoSedisteDTO.getNovaCena());
-				return brzoSedisteService.save(brzoSediste);
-			}
-		}
-		return null;
+		
+		return brzoSedisteService.create(brzoSedisteDTO);
 	}
 
 	/* da uzmemo sve usluge, svima dozvoljeno */

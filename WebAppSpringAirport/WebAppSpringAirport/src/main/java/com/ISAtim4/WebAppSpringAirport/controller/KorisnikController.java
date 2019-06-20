@@ -82,66 +82,8 @@ public class KorisnikController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(value = "/api/users",produces= MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
 	public Korisnik createKorisnik(@Valid @RequestBody KorisnikDTO korisnikDTO) {
-		String uloga = korisnikDTO.getUloga();
-		Korisnik k = null;
-		Authority a = null;
-		switch (uloga) {
-		case "avio": {
-			k = new AdminAvio();
-
-			Long id = Long.parseLong(korisnikDTO.adminOf.split("_")[1]);
-			AvioKompanija avio = avioService.findOne(id);
-			((AdminAvio) k).setAvio_kompanija(avio);
-			
-			a = authorityService.findByName("ROLE_AVIO");
-			break;
-		}
-		case "rent": {
-			k = new AdminRent();
-
-			Long id = Long.parseLong(korisnikDTO.adminOf.split("_")[1]);
-			RentACar rent = rentACarService.findOne(id);
-			((AdminRent) k).setrentACar(rent);
-			
-			a = authorityService.findByName("ROLE_RENT");
-			break;
-		}
-		case "hotel": {
-			k = new AdminHotel();
-
-			Long id = Long.parseLong(korisnikDTO.adminOf.split("_")[1]);
-			Hotel hotel = hotelService.findOne(id);
-			((AdminHotel) k).setHotel(hotel);
-			
-			a = authorityService.findByName("ROLE_HOTEL");
-			break;
-		}
-		default:
-			k = new AdminSistem();
-			a = authorityService.findByName("ROLE_ADMIN");
-			break;
-		}
-		// generisanje random sifre
-		String rndLozinka = randomPsw(8, 2, '6');
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-		// hash
-		String hashedPassword = passwordEncoder.encode(rndLozinka);
-
-		k.setIme(korisnikDTO.getIme());
-		k.setPrezime(korisnikDTO.getPrezime());
-		k.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
-		k.setLozinka(hashedPassword);
-		k.setMail(korisnikDTO.getMail());
-		ArrayList<Authority> auth = new ArrayList<>();
-		auth.add(a);
-		k.setAuthorities(auth);
-		try {
-			notificationService.sendPswToAdmin(k, rndLozinka);
-		} catch (MailException ex) {
-			logger.info("Error sending mail: {0}",ex.getMessage());
-		}
-		return korisnikService.save(k);
+		
+		return korisnikService.create(korisnikDTO);
 	}
 
 	private static char randomChar() {
@@ -194,26 +136,14 @@ public class KorisnikController {
 			@PathVariable(value = "id") Long korisnikId,
 			@Valid @RequestBody KorisnikDTO korisnikDetalji) {
 
-		Korisnik korisnik = korisnikService.findOne(korisnikId);
+		Korisnik korisnik = korisnikService.update(korisnikId, korisnikDetalji);
 		if (korisnik == null) {
 			return ResponseEntity.notFound().build();
 		}
-		korisnik.setIme(korisnikDetalji.getIme());
-		korisnik.setPrezime(korisnikDetalji.getPrezime());
-		korisnik.setKorisnickoIme(korisnikDetalji.getKorisnickoIme());
-		// BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		// String hashedPassword =
-		// passwordEncoder.encode(korisnikDetalji.getLozinka());
-		/*
-		 * Marieta: posto trenutno nema izmene lozinke u azuriranju profila
-		 */
-		//korisnik.setLozinka(korisnikDetalji.getLozinka());
-		korisnik.setMail(korisnikDetalji.getMail());
-		korisnik.setSlika(korisnikDetalji.getSlika());
-		korisnik.setAdresa(korisnikDetalji.getAdresa());
-		korisnik.setTelefon(korisnikDetalji.getTelefon());
-		Korisnik updateKorisnik = korisnikService.save(korisnik);
-		return ResponseEntity.ok().body(updateKorisnik);
+
+		
+		return ResponseEntity.ok().body(korisnik);
+
 	}
 
 	/* brisanje korisnika */
@@ -221,20 +151,14 @@ public class KorisnikController {
 	@DeleteMapping(value = "/api/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Korisnik> deleteKorisnika(Principal user,
 			@PathVariable(value = "id") Long korisnikId) {
-		Korisnik korisnik = korisnikService.findOne(korisnikId);
 		
-		Korisnik ulogovanKorisnik = null;
-		if (user != null) {
-			ulogovanKorisnik = this.korisnikService.findByKorisnickoIme(user.getName());
-			if(korisnikId.equals(ulogovanKorisnik.getId())){
-				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-			}
-		}
 		
-		if (korisnik != null) {
-			korisnikService.remove(korisnikId);
+		int flag=korisnikService.delete(user, korisnikId);
+		if(flag==1) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}else if(flag==2) {
 			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
+		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
@@ -242,36 +166,11 @@ public class KorisnikController {
 	@PostMapping(value = "/api/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Korisnik> dodavanjeKorisnikaPriRegistraciji(
 			@Valid @RequestBody KorisnikDTO reg_korisnik) {
-		Korisnik korisnik = korisnikService.findByKorisnickoIme(reg_korisnik
-				.getKorisnickoIme());
-		if (korisnik == null) {
-			RegistrovaniKorisnik reg = new RegistrovaniKorisnik();
-			reg.setIme(reg_korisnik.getIme());
-			reg.setPrezime(reg_korisnik.getPrezime());
-
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			String hashedPassword = passwordEncoder.encode(reg_korisnik
-					.getLozinka());
-			reg.setLozinka(hashedPassword);
-			reg.setKorisnickoIme(reg_korisnik.getKorisnickoIme());
-			reg.setMail(reg_korisnik.getMail());
-			reg.setAdresa(reg_korisnik.getAdresa());
-			reg.setTelefon(reg_korisnik.getTelefon());
-			Authority authority = authorityService.findByName("ROLE_USER");
-			ArrayList<Authority> auth = new ArrayList<>();
-			auth.add(authority);
-			reg.setAuthorities(auth);
-			korisnikService.save(reg);
-
-			// send a notification
-			try {
-				notificationService.sendNotification(reg);
-			} catch (MailException ex) {
-				logger.info("Error sending mail: {0}",ex.getMessage());
-			}
-
+		
+		
+		if(korisnikService.dodavanjeKorisnikaPriRegistraciji(reg_korisnik)) {
 			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
+		}else {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 	}
@@ -360,38 +259,7 @@ public class KorisnikController {
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
 	public String updatePassword(Principal user,
 			@Valid @RequestBody ChangePswDTO dto) {
-		Korisnik k = null;
-		if (user != null) {
-			k = this.korisnikService.findByKorisnickoIme(user.getName());
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			
-			String hashedPassword = passwordEncoder.encode(dto.getNewPsw());  //uneta novi pw
-			//String oldPsw = passwordEncoder.encode(dto.getOldPsw());		//unteta stari pw
-			
-			
-			if(BCrypt.checkpw(dto.getOldPsw(), k.getLozinka())){
-				logger.info("Old password is correct!");
-			}else {
-				return ("Old password is not correct!");
-			}
-			
-			if (dto.getOldPsw().equals(dto.getNewPsw())) {
-				return "New and old password should not match!";
-			} else if (!dto.getNewPsw().equals(dto.getConfirmPsw())) {
-				return "Passwords do not match!";
-			} else if (dto.getOldPsw().equals("") || dto.getNewPsw().equals("")
-					|| dto.getConfirmPsw().equals("")) {
-				return "Password should not be empty!";
-			}
-			// provera lozinke(nije jednaka staroj i dve lozinke se poklapaju)
-
-			k.setLozinka(hashedPassword);
-			k.setUlogovanPrviPut(true);
-			korisnikService.save(k);
-			return "OK";
-		} else {
-			return "User not found.";
-		}
+		return korisnikService.changePassword(user, dto);
 
 	}
 

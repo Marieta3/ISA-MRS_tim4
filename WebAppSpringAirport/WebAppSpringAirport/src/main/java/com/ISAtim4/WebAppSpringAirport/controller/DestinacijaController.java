@@ -71,15 +71,12 @@ public class DestinacijaController {
 			@PathVariable(value = "id") Long destinacijaId,
 			@Valid @RequestBody Destinacija destinacijaDetalji) {
 
-		Destinacija destinacija = destinacijaService.findOne(destinacijaId);
+		Destinacija destinacija = destinacijaService.update(destinacijaId, destinacijaDetalji);
 		if (destinacija == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		destinacija.setAdresa(destinacijaDetalji.getAdresa());
-		destinacija.setSlika(destinacijaDetalji.getSlika());
-		Destinacija updateDestinacije = destinacijaService.save(destinacija);
-		return ResponseEntity.ok().body(updateDestinacije);
+		return ResponseEntity.ok().body(destinacija);
 	}
 
 	/* brisanje destinacije */
@@ -87,9 +84,8 @@ public class DestinacijaController {
 	@DeleteMapping(value = "/api/destinacije/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Destinacija> deleteDestinacije(
 			@PathVariable(value = "id") Long destinacijaId) {
-		Destinacija destinacija = destinacijaService.findOne(destinacijaId);
-
-		if (destinacija != null) {
+		
+		if (destinacijaService.delete(destinacijaId)) {
 			destinacijaService.remove(destinacijaId);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {

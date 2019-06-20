@@ -41,37 +41,16 @@ public class PrijateljstvoController {
 	public ResponseEntity<Prijateljstvo> sendRequest(Principal user,
 			@PathVariable(value = "id") Long korisnikId) {
 
-		RegistrovaniKorisnik me = null;
-		RegistrovaniKorisnik receiver = null;
-		Prijateljstvo request = new Prijateljstvo();
-
-		if (user != null) {
-			me = (RegistrovaniKorisnik) this.korisnikService
-					.findByKorisnickoIme(user.getName());
-		}
-		receiver = (RegistrovaniKorisnik) this.korisnikService.findOneID(korisnikId);
-
-		if (me == null) {
-			logger.info("Sender user is null!");
+		
+		Prijateljstvo request=prijateljstvoService.send(user, korisnikId);
+		if (request == null) {
+			logger.info("Request is null!");
 			return ResponseEntity.notFound().build();
-		} else if (receiver == null) {
-			logger.info("Receiver user is null!");
-			return ResponseEntity.notFound().build();
-
-		} else if (receiver.getId().equals(me.getId())) {
-			logger.info("Cant send request to myself!");
-			return ResponseEntity.badRequest().build();
-
-		} else {
-			logger.info("Sender " + me.getUsername()
-					+ " succesfully sent friend request to "
-					+ receiver.getKorisnickoIme() + "!");
-			request.setAccepted(false);
-			request.setReacted(false);
-			request.setDatum(new Date());
-			request.setReceiver(receiver);
-			request.setSender(me);
-			prijateljstvoService.save(request);
+		} 
+		else {
+			logger.info("Sender " 
+					+ " succesfully sent friend request to receiver" + "!");
+			
 			return ResponseEntity.ok().body(request);
 		}
 	}
@@ -174,24 +153,11 @@ public class PrijateljstvoController {
 	public ResponseEntity<Prijateljstvo> acceptRequest(Principal user,
 			@PathVariable(value = "id") Long friendId) {
 
-		RegistrovaniKorisnik me = null;
-		if (user != null) {
-			me = (RegistrovaniKorisnik) this.korisnikService.findByKorisnickoIme(user.getName());
-		}
-		RegistrovaniKorisnik friend = (RegistrovaniKorisnik) this.korisnikService.findOneID(friendId);
-		if (friend != null && me!= null) {
-			Prijateljstvo p = prijateljstvoService.findOneRequest(me, friend);
-			if(p != null){
-				p.setAccepted(true);
-				p.setReacted(true);
-				System.out.println("Request accepted!");
-				prijateljstvoService.save(p);
-				return ResponseEntity.ok().body(p);
-			}else{
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
-		} else {
+		Prijateljstvo p=prijateljstvoService.accept(user, friendId);
+		if(p==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return ResponseEntity.ok().body(p);
 		}
 	}
 	
@@ -200,25 +166,13 @@ public class PrijateljstvoController {
 	@PutMapping(value = "/api/friendrequests/reject/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Prijateljstvo> rejectRequest(Principal user,
 			@PathVariable(value = "id") Long friendId) {
-		RegistrovaniKorisnik me = null;
-		if (user != null) {
-			me = (RegistrovaniKorisnik) this.korisnikService.findByKorisnickoIme(user.getName());
-		}
-		RegistrovaniKorisnik friend = (RegistrovaniKorisnik) this.korisnikService.findOneID(friendId);
-		if (friend != null && me!= null) {
-			Prijateljstvo p = prijateljstvoService.findOneRequest(me, friend);
-			if(p != null){
-				p.setAccepted(false);
-				p.setReacted(true);
-				System.out.println("Request rejected!");
-				prijateljstvoService.save(p);
-				return ResponseEntity.ok().body(p);
-			}else{
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
-		} else {
+		Prijateljstvo p=prijateljstvoService.reject(user, friendId);
+		if(p==null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}else {
+			return ResponseEntity.ok().body(p);
 		}
+		
 	}
 
 	/* brisanje prijatelja */
@@ -226,24 +180,11 @@ public class PrijateljstvoController {
 	@DeleteMapping(value = "/api/friends/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Prijateljstvo> deleteFriend(Principal user,
 			@PathVariable(value = "id") Long friendId) {
-		System.out.println("Az ID " + friendId);
-		RegistrovaniKorisnik me = null;
-		if (user != null) {
-			me = (RegistrovaniKorisnik) this.korisnikService.findByKorisnickoIme(user.getName());
-		}
-		RegistrovaniKorisnik friend = (RegistrovaniKorisnik) this.korisnikService.findOneID(friendId);
-		if (friend != null && me!= null) {
-			Prijateljstvo p = prijateljstvoService.getOneFriend(me, friend);
-			System.out.println(p != null);
-			if(p != null){
-				prijateljstvoService.remove(p.getId());
-				System.out.println("Succesful deletion!");
-				return ResponseEntity.ok().body(new Prijateljstvo());
-			}else{
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
-		} else {
+		if(prijateljstvoService.delete(user, friendId)) {
+			return ResponseEntity.ok().body(new Prijateljstvo());
+		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		
 	}
 }
