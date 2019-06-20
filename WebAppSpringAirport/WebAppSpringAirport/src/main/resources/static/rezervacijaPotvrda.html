@@ -57,8 +57,8 @@
             width: 173px;
         }
         
-        #seatnumber{
-            width:80px
+        #seatnumber, #roomNumber, #roomServices{
+            width:120px
         }
         
         #flightFrom, #flightTo, #passengers, #seatNumber {
@@ -67,6 +67,102 @@
             
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function() { 
+    		var lokalniID = localStorage.getItem("showRezId");
+    		console.log("Lokalna je: "+ lokalniID);
+    		$.ajax(
+    		        {
+    		            url : 'api/reserve/' + lokalniID,
+    		            type : 'GET',
+    		            success : function(data) 
+    		            {
+    		            	console.log(data);
+    		            	//console.log(data.odabranaSedista[0]);
+    		            	//console.log(data.odabraneSobe[0]);
+    		            	console.log(data.odabranaVozila[0]);
+    		                 console.log("Print neki " + data.odabranaSedista[0].let.pocetnaDestinacija);
+    		                
+    		                 $("#airlineCompany").val(data.odabranaSedista[0].let.avioKompanija.naziv);
+    		                 $("#flightFrom").val(data.odabranaSedista[0].let.pocetnaDestinacija);
+    		                 $("#flightTo").val(data.odabranaSedista[0].let.krajnjaDestinacija);
+    		                 $("#dateOfReservation").val(data.odabranaSedista[0].let.datumRezervacije);
+    		                 $("#price").val(data.odabranaSedista[0].cena  + " $");
+    		                 $("#timeDeparture").val(data.odabranaSedista[0].let.vremePolaska);
+    		                 $("#timeArrival").val(data.odabranaSedista[0].let.vremeDolaska);
+    		                 $("#durationOfFlight").val(data.odabranaSedista[0].let.duzinaPutovanja + "h/min");
+    		                 //$("#seatNumber").val(data.odabranaSedista[0].row_col + ", klasa: " + data.odabranaSedista[0].klasa );
+    		                 if (data.odabranaSedista == null) {
+    		                	 $('#seatNumber').append($('<option>', { 
+	 		                	        text : "Nema podataka"
+	 		                	    }));
+    		                 }
+    		                 else {
+    		                	 $.each(data.odabranaSedista, function (i, item) {
+     		                	    $('#seatNumber').append($('<option>', { 
+     		                	        value: item.value,
+     		                	        text : data.odabranaSedista[0].row_col + ", klasa: " + data.odabranaSedista[0].klasa  
+     		                	    }));
+     		                	});
+    		                 }
+    		                 
+    		                 $("#airplaneModel").val(data.odabranaSedista[0].let.model);
+    		                 
+    		                 if (data.korisnici == null) {
+    		                	 $('#passengers').append($('<option>', { 
+	 		                	        text : "Nema podataka"
+	 		                	    }));
+    		                 } else {
+    		                	 $.each(data.korisnici, function (i, item) {
+    	    		                	
+    	 		                	    $('#passengers').append($('<option>', { 
+    	 		                	        value: item.value,
+    	 		                	        text : item.ime + " " + item.prezime
+    	 		                	    }));
+    	 		                	});
+    		                 }
+    		                 
+    		                 
+    		                 //za hotel
+    		                 $("#hotelName").val(data.odabraneSobe[0].hotel.naziv);
+    		                 $("#reservedFrom").val(data.sobaZauzetaOd);
+    		                 $("#reservedTo").val(data.sobaZauzetaDo);
+    		                 $("#hotelAddress").val(data.odabraneSobe[0].hotel.adresa);
+    		                 //$("#roomNumber").val(data.odabraneSobe[0].cena);
+    		                 $("#bedsNumber").val(data.odabraneSobe[0].brojKreveta);
+    		                 if (data.usluge == null) {
+    		                	 $('#roomServices').append($('<option>', { 
+	 		                	        text : "Nema podataka"
+	 		                	    }));
+    		                 } else {
+    		                	 $.each(data.usluge, function (i, item) {
+    	    		                	
+    	 		                	    $('#roomServices').append($('<option>', { 
+    	 		                	        value: item.value,
+    	 		                	        text : item.naziv
+    	 		                	    }));
+    	 		                	});
+    		                 }
+    		                 $("#price2").val(data.odabraneSobe[0].cena  + " $");
+    		                
+    		                 //za rent-a-car
+    		                 $("#rentCompany").val(data.odabranaVozila[0].filijala.rentACar.naziv);
+    		                 $("#filijala").val(data.odabranaVozila[0].filijala.adresa);
+    		                 //$("#carName").val(data.odabranaVozila[0].filijala.naziv);
+    		                 $("#reservedFrom2").val(data.voziloZauzetoOd);
+    		                 $("#reservedTo2").val(data.voziloZauzetoDo);
+    		                 $("#carName").val(data.odabranaVozila[0].proizvodjac + " " + data.odabranaVozila[0].model);
+    		                 $("#year").val(data.odabranaVozila[0].godina + ". year");
+    		                 $("#price3").val(data.odabranaVozila[0].cena + " $");
+    		                 
+    		            }
+    		});		
+    		
+    		
+    	});
+    </script>
+    
 </head>
 <body>
     
@@ -77,8 +173,8 @@
             <text> Airline company: </text>
             <input type="text" id="airlineCompany" style="margin-left: 60"/>
             <br>
-            <text> Date of reservation:  </text> 
-            <input type="text" id="dateOfReservation" style="margin-left: 42"/>
+            <text> Model of airplane:  </text> 
+            <input type="text" id="airplaneModel" style="margin-left: 52"/>
             <br>
             <text> Flight from: </text>
             <input type="text" id="flightFrom" style="margin-left: 104"/>
@@ -102,16 +198,14 @@
             <input type="text" id="price" style="margin-left: 154">
             <br>
             <text> Passengers: </text>
-            <select id="passengers" style="margin-left: 108"></select>
+            <select id="passengers" style="margin-left: 107"></select>
+            <br>
         </div>
         
         <div id = box2>
             <h2 id = naslov2> Hotel information </h2>
             <text> Hotel name: </text>
             <input type="text" id="hotelName" style="margin-left: 103"/>
-            <br>
-            <text> Date of reservation:  </text> 
-            <input type="text" id="dateOfReservation2" style="margin-left: 42"/>
             <br>
             <text> Reserved from: </text>
             <input type="text" id="reservedFrom" style="margin-left: 77"/>
@@ -122,14 +216,14 @@
             <text> Hotel address: </text>
             <input type="text" id="hotelAddress" style="margin-left: 86"/>
             <br>
-            <text> Room number: </text>
-            <select id="seatNumber" style="margin-left: 80"></select>
+            <text> Number of beds: </text>
+            <input type="text" id="bedsNumber" style="margin-left: 67">
             <br>
             <text> Room services: </text>
-            <select id="seatNumber" style="margin-left: 77"></select>
+            <select id="roomServices" style="margin-left: 77"></select>
             <br>
             <text> Price: </text>
-            <input type="text" id="price" style="margin-left: 154">
+            <input type="text" id="price2" style="margin-left: 154">
             <br>
             
         </div>
@@ -139,14 +233,11 @@
             <text> Rent-a-car company: </text>
             <input type="text" id="rentCompany" style="margin-left: 32"/>
             <br>
-            <text> Branch name: </text>
-            <input type="text" id="filijala" style="margin-left: 88"/>
+            <text> Branch address: </text>
+            <input type="text" id="filijala" style="margin-left: 72"/>
             <br>
             <text> Car name: </text>
-            <input type="text" id="filijala" style="margin-left: 117"/>
-            <br>
-            <text> Date of reservation:  </text> 
-            <input type="text" id="dateOfReservation2" style="margin-left: 42"/>
+            <input type="text" id="carName" style="margin-left: 117"/>
             <br>
             <text> Reserved from: </text>
             <input type="text" id="reservedFrom2" style="margin-left: 77"/>
@@ -154,11 +245,11 @@
             <text> Reserved to: </text>
             <input type="text" id="reservedTo2" style="margin-left: 100"/>
             <br>
-            <text> Rent-a-car address: </text>
-            <input type="text" id="rentAddress" style="margin-left: 46"/>
+            <text> Year of manufacture: </text>
+            <input type="text" id="year" style="margin-left: 32"/>
             <br>
             <text> Price: </text>
-            <input type="text" id="price" style="margin-left: 154">
+            <input type="text" id="price3" style="margin-left: 154">
             <br>
         </div>
         <div class="hidden">
