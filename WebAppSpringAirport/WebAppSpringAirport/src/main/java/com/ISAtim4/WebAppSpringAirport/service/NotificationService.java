@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Authority;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
+import com.ISAtim4.WebAppSpringAirport.domain.NeregistrovaniPutnik;
+import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
 
 @Service
 public class NotificationService {
@@ -34,6 +36,19 @@ public class NotificationService {
 		javaMailSender.send(mail);
 	}
 	
+	public void sendInvitation(Korisnik korisnik, Pozivnica pozivnica) throws MailException{
+		//send email
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(pozivnica.getKomeSalje().getMail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Flight invitation for you ");//+korisnik.getUsername());
+		//String originalInput = "test input";
+		//String uname = Base64.getEncoder().encodeToString(korisnik.getKorisnickoIme().getBytes());
+		mail.setText("Dear, you have invitation for flight with your friend. You can accept or reject the call and also, you can see more travel information at your profile on WebAppSpringAirport app."
+				+ "Link to app: http://localhost:8080/");
+		javaMailSender.send(mail);
+	}
+	
 	public void sendPswToAdmin(Korisnik k, String lozinka)throws MailException {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(k.getMail());
@@ -42,9 +57,18 @@ public class NotificationService {
 		ArrayList<Authority> a=(ArrayList<Authority>) k.getAuthorities();
 		String uloga=a.get(0).getAuthority();
 		mail.setSubject("Verification mail for "+uloga);//+korisnik.getUsername());
-		
-		
 		mail.setText("Your username is " + k.getKorisnickoIme()+ " .Your temporary password is "+lozinka+". Please change this password on your first login.");
+		javaMailSender.send(mail);
+	}
+
+	public void sendInvitationNereg(NeregistrovaniPutnik nereg) throws MailException {
+		SimpleMailMessage mail = new SimpleMailMessage();
+		mail.setTo(nereg.getEmail());
+		mail.setFrom(env.getProperty("spring.mail.username"));
+		mail.setSubject("Flight invitation for you ");//+korisnik.getUsername());
+		//String originalInput = "test input";
+		//String uname = Base64.getEncoder().encodeToString(korisnik.getKorisnickoIme().getBytes());
+		mail.setText("Dear, you have invitation for flight with your friend. You can accept or reject the call and also, you can see more travel information at your profile on WebAppSpringAirport app.");
 		javaMailSender.send(mail);
 	}
 }
