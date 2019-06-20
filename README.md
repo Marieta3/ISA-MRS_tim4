@@ -17,7 +17,7 @@ Za pokretanje aplikacije potrebni su Eclipse, Maven, Apache Tomcat 9.0.21 i inst
 Aplikacija omogućava CRUD operacije sa svim entitetima unutar paketa "com.ISATim4.WebAppSpringAirport.model". 
 ## Deployment aplikacije
 Za deployment aplikacije, korišćen je Heroku servis. 
-## Verzija: 
+## Verzija 
 0.0.1-SNAPSHOT
 ## Developeri
  1. Marieta Rakoš
