@@ -420,7 +420,7 @@ function renderDetaljanLet(){
 						$('.seatCharts-row').remove();
 						//$('.booking-details').empty();
 						
-						var startDate = data.vremePolaska;
+						var startDate = data.vremeDolaska;
 						var arr = startDate.split("T");
 
 					    $("#datepicker2").attr("min",arr[0]);

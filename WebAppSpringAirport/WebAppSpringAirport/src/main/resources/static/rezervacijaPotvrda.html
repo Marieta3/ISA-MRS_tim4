@@ -1,0 +1,166 @@
+<html>
+<head>
+    <title> Reservation </title>
+    <style type="text/css">
+        #naslov{
+            text-align: center;
+            color: white;
+            font-size: 60;
+            margin-bottom: 50;
+        }
+        #largebox  {
+            position: relative;
+            width:100%;
+            height:100%;
+            background: url("slike/pozadina.png");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        #box1 {
+            width:400px;
+            height:450px;
+            background-color: white;
+            float:left;
+            font-size: 20;
+            padding-left: 10px
+        }
+        #naslov2 {
+            text-align: center;
+            font-size: 30;
+            margin-bottom: 30px;
+        }
+        #box2{
+            width:400px;
+            height:450px;
+            background-color: #0F0;
+            float:left;
+            margin-left: 50px;
+            font-size: 20;
+            padding-left: 10px;
+            align-content: center;
+                
+        }
+        #box3{
+            width:400px;
+            height:450px;
+            background-color: #F00;
+            float:right;
+            margin-right: 30px;
+            font-size: 20;
+            padding-left: 10px
+        }
+        #passengers{
+            width: 173px;
+        }
+        
+        #seatnumber{
+            width:80px
+        }
+        
+        #flightFrom, #flightTo, #passengers, #seatNumber {
+            align-content: center;
+            
+            
+        }
+    </style>
+</head>
+<body>
+    
+    <div id = largebox>
+        <h1 id=naslov> Reservation information </h1>
+        <div id = box1>
+            <h2 id = naslov2> Flight information </h2>
+            <text> Airline company: </text>
+            <input type="text" id="airlineCompany" style="margin-left: 60"/>
+            <br>
+            <text> Date of reservation:  </text> 
+            <input type="text" id="dateOfReservation" style="margin-left: 42"/>
+            <br>
+            <text> Flight from: </text>
+            <input type="text" id="flightFrom" style="margin-left: 104"/>
+            <br>
+            <text> Flight to: </text>
+            <input type="text" id="flightTo" style="margin-left: 127"/>
+            <br>
+            <text> Time departure: </text>
+            <input type="text" id="timeDeparture" style="margin-left: 73"/>
+            <br>
+            <text> Time arrival: </text>
+            <input type="text" id="timeArrival" style="margin-left: 97"/>
+            <br>
+            <text> Duration of flight: </text>
+            <input type="text" id="durationOfFlight" style="margin-left: 54"/>
+            <br>
+            <text> Seat number: </text>
+            <select id="seatNumber" style="margin-left: 95"></select>
+            <br>
+            <text> Price: </text>
+            <input type="text" id="price" style="margin-left: 154">
+            <br>
+            <text> Passengers: </text>
+            <select id="passengers" style="margin-left: 108"></select>
+        </div>
+        
+        <div id = box2>
+            <h2 id = naslov2> Hotel information </h2>
+            <text> Hotel name: </text>
+            <input type="text" id="hotelName" style="margin-left: 103"/>
+            <br>
+            <text> Date of reservation:  </text> 
+            <input type="text" id="dateOfReservation2" style="margin-left: 42"/>
+            <br>
+            <text> Reserved from: </text>
+            <input type="text" id="reservedFrom" style="margin-left: 77"/>
+            <br>
+            <text> Reserved to: </text>
+            <input type="text" id="reservedTo" style="margin-left: 100"/>
+            <br>
+            <text> Hotel address: </text>
+            <input type="text" id="hotelAddress" style="margin-left: 86"/>
+            <br>
+            <text> Room number: </text>
+            <select id="seatNumber" style="margin-left: 80"></select>
+            <br>
+            <text> Room services: </text>
+            <select id="seatNumber" style="margin-left: 77"></select>
+            <br>
+            <text> Price: </text>
+            <input type="text" id="price" style="margin-left: 154">
+            <br>
+            
+        </div>
+        
+        <div id = box3>
+            <h2 id = naslov2> Rent-a-car information </h2>
+            <text> Rent-a-car company: </text>
+            <input type="text" id="rentCompany" style="margin-left: 32"/>
+            <br>
+            <text> Branch name: </text>
+            <input type="text" id="filijala" style="margin-left: 88"/>
+            <br>
+            <text> Car name: </text>
+            <input type="text" id="filijala" style="margin-left: 117"/>
+            <br>
+            <text> Date of reservation:  </text> 
+            <input type="text" id="dateOfReservation2" style="margin-left: 42"/>
+            <br>
+            <text> Reserved from: </text>
+            <input type="text" id="reservedFrom2" style="margin-left: 77"/>
+            <br>
+            <text> Reserved to: </text>
+            <input type="text" id="reservedTo2" style="margin-left: 100"/>
+            <br>
+            <text> Rent-a-car address: </text>
+            <input type="text" id="rentAddress" style="margin-left: 46"/>
+            <br>
+            <text> Price: </text>
+            <input type="text" id="price" style="margin-left: 154">
+            <br>
+        </div>
+    </div>
+</body>
+</html>
