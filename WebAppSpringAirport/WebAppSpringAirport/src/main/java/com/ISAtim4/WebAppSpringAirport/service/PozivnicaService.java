@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Bodovanje;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
+import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
 import com.ISAtim4.WebAppSpringAirport.repository.PozivnicaRepository;
 
 @Service
@@ -22,6 +24,12 @@ public class PozivnicaService {
 	
 	@Autowired
 	RezervacijaService rezervacijaService;
+	
+	@Autowired
+	BodovanjeService bodovanjeService;
+	
+	@Autowired
+	KorisnikService korisnikService;
 	
 	@Transactional(readOnly = false)
 	public Pozivnica save(Pozivnica pozivnica) {
@@ -57,6 +65,23 @@ public class PozivnicaService {
 		//dodavanje putnika u rezervaciju
 		//Rezervacija r=rezervacijaService.fin
 		p.getRezervacija().getKorisnici().add(p.getKomeSalje());
+		
+		//dobije bonus poene
+		Bodovanje b = bodovanjeService.findOne(1L);
+		double km = p.getRezervacija().getOdabranaSedista().iterator().next().getLet().getDuzinaPutovanja() *1.0;
+		double bonusPoeni = km / b.getKmZaBroj();
+		
+		RegistrovaniKorisnik me = p.getKomeSalje();
+		
+		double userPoint = me.getBrojPoena();
+		userPoint += bonusPoeni;
+		if(userPoint >= b.getMaxBroj())
+		{
+			userPoint = b.getMaxBroj()*1.0;
+		}
+		me.setBrojPoena(userPoint);
+		korisnikService.save(me);
+		
 		return save(p); 
 	}
 	

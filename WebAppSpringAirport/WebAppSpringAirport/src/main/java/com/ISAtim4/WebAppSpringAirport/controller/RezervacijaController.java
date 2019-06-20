@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Bodovanje;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.NeregistrovaniPutnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
@@ -37,6 +38,7 @@ import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.dto.CancelReservationDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.RezervacijaDTO;
+import com.ISAtim4.WebAppSpringAirport.service.BodovanjeService;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;
 import com.ISAtim4.WebAppSpringAirport.service.PozivnicaService;
@@ -69,6 +71,9 @@ public class RezervacijaController {
 
 	@Autowired
 	PozivnicaService pozivnicaService;
+	
+	@Autowired
+	BodovanjeService bodovanjeService;
 
 	/* da dodamo rezervaciju */
 	@PostMapping(value = "/api/reserve", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
@@ -176,7 +181,11 @@ public class RezervacijaController {
 
 			rezervacija.setOdabranaVozila(vozila);
 			rezervacija.setVoziloZauzetoOd(rezervacijaDTO.getVoziloOD());
-			rezervacija.setVoziloZauzetoDo(rezervacijaDTO.getVoziloDO());
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(rezervacijaDTO.getVoziloOD());
+			cal.add(Calendar.DATE, rezervacijaDTO.getBrojDana());
+			Date voziloRezervisanaDo = cal.getTime();
+			rezervacija.setVoziloZauzetoDo(voziloRezervisanaDo);
 		}
 		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
 		rezervacija.setDatumRezervacije(new Date());
@@ -367,6 +376,25 @@ public class RezervacijaController {
 				{
 					pozivnicaService.remove(pozivnica.getId());
 				}
+			}
+			
+			Bodovanje b = bodovanjeService.findOne(1L);
+			double km = rezervacija.getOdabranaSedista().iterator().next().getLet().getDuzinaPutovanja() *1.0;
+			double bonusPoeni = km / b.getKmZaBroj();
+			
+			for (RegistrovaniKorisnik r : rezervacija.getKorisnici()) {
+				
+				double userPoint = r.getBrojPoena();
+				userPoint -= bonusPoeni;
+				if(userPoint >= b.getMaxBroj())
+				{
+					userPoint = b.getMaxBroj()*1.0;
+				}if(userPoint< 0)
+				{
+					userPoint = 0;
+				}
+				r.setBrojPoena(userPoint);
+				korisnikService.save(r);
 			}
 			rezervacijaService.remove(rezervacija.getId());
 			return ResponseEntity.ok().body(rezervacija);

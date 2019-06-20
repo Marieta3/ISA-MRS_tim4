@@ -139,6 +139,10 @@ public class VoziloController {
 		for (Rezervacija r : rezervacije) {
 			// ako se preklapaju datumi
 			// if v1 <= datum1 and v2 >= datum1
+			if((r.getVoziloZauzetoOd() == null) || (r.getVoziloZauzetoDo() == null) || !r.getAktivnaRezervacija() )
+			{
+				continue;
+			}
 			if ((r.getVoziloZauzetoOd().compareTo(datum1) <= 0 && r
 					.getVoziloZauzetoDo().compareTo(datum1) >= 0)
 			// if v1 <= datum2 and v2 >= datum2

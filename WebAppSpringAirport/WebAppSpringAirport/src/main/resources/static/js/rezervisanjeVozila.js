@@ -137,15 +137,16 @@ function selektovanoVozilo(checkbox){
 	var tokens=checkbox.name.split(', ');
 	var opis= [tokens[0], tokens[1]].join(', ');
 	var cena=tokens[2];
+	var broj_dana=$('#broj_dana').val();
 	console.log(cena);
 	if($(checkbox).prop('checked')==true){
 		$('#counter-cars').text(parseInt($('#counter-cars').text(), 10)+1);
 		$('#selected-cars').append('<li id="cars_lista'+id_vozila+'">Vehicle: '+opis+'</li>');
-		$('#total-cars').text(parseInt($('#total-cars').text(), 10)+parseInt(cena, 10));
+		$('#total-cars').text(parseInt($('#total-cars').text(), 10)+parseInt(cena, 10)* broj_dana);
 		
 	}else{
 		$('#counter-cars').text(parseInt($('#counter-cars').text(), 10)-1);
-		$('#total-cars').text(parseInt($('#total-cars').text(), 10)-cena);
+		$('#total-cars').text(parseInt($('#total-cars').text(), 10)-parseInt(cena, 10)* broj_dana);
 		$('#cars_lista'+id_vozila).remove()
 	}
 	

@@ -76,6 +76,10 @@ public class HotelController {
 		Date kraj=hotel.getDatumDolaska();
 		for(Rezervacija r: rezervacije) {
 			//moze samo ako su oba pre pocetka ili oba posle kraja
+			if((r.getSobaZauzetaOd() == null) || (r.getSobaZauzetaDo() == null) || (r.getAktivnaRezervacija() == false) )
+			{
+				continue;
+			}
 			if( (r.getSobaZauzetaOd().compareTo(pocetak)<=0 && r.getSobaZauzetaDo().compareTo(pocetak)>=0) 
 					|| (r.getSobaZauzetaOd().compareTo(kraj)<=0 && r.getSobaZauzetaDo().compareTo(kraj) >= 0) 
 					|| (r.getSobaZauzetaOd().compareTo(pocetak)>=0 && r.getSobaZauzetaDo().compareTo(kraj)<=0) ) {

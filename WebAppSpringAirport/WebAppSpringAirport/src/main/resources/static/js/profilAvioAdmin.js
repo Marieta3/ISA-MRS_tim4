@@ -5,6 +5,18 @@
 ymaps.ready(init);
 
 $(document).ready(function(){
+
+    var today = new Date();
+    var day=today.getDate()>9?today.getDate():"0"+today.getDate(); // format should be "DD" not "D" e.g 09
+    var month=(today.getMonth()+1)>9?(today.getMonth()+1):"0"+(today.getMonth()+1);
+    var year=today.getFullYear();
+
+    $("#vremePolaska").attr('min', year + "-" + month + "-" + day + "T00:00");
+    $("#vremePolaska").attr('max', "2025-01-01T00:00");
+    $("#vremeDolaska").attr('min', year + "-" + month + "-" + day + "T00:00");
+    $("#vremeDolaska").attr('max', "2025-01-01T00:00");
+    
+    
 	findAll();
 	findAllFlightsByAvio();
 })

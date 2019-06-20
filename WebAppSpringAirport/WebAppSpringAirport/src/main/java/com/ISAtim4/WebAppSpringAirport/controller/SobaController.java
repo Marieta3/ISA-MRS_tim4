@@ -131,6 +131,10 @@ public class SobaController {
 		//za svaku rezervaciju
 		for(Rezervacija r: rezervacije) {
 			//ako se preklapaju datumi
+			if((r.getSobaZauzetaOd() == null) || (r.getSobaZauzetaDo() == null) || (r.getAktivnaRezervacija() == false) )
+			{
+				continue;
+			}
 			if( (r.getSobaZauzetaOd().compareTo(datum1)<=0 && r.getSobaZauzetaDo().compareTo(datum1)>=0) 
 					|| (r.getSobaZauzetaOd().compareTo(datum2)<=0 && r.getSobaZauzetaDo().compareTo(datum2) >= 0) 
 					|| (r.getSobaZauzetaOd().compareTo(datum1)>=0 && r.getSobaZauzetaDo().compareTo(datum2)<=0) ) {
