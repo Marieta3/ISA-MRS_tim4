@@ -37,6 +37,8 @@ insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (10,3,
 insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (11,5,'dobra',2, false, 200);
 insert into soba(id,broj_kreveta,opis,hotel_id, rezervisana, cena) values (12,3,'prelepo',3, false, 400);
 
+insert into brza_soba(id, soba_id, datum_rezervacije, nova_cena, start_date, end_date, zauzeto, putnik_id, sediste_id) values (1, 2, '2019-06-20 18:46:44', 38, '2019-07-20 02:00:00', '2019-07-23 02:00:00', 1, 5, 2);
+insert into brza_soba(id, soba_id, datum_rezervacije, nova_cena, start_date, end_date, zauzeto, putnik_id, sediste_id) values (2, 5, null, 100, '2019-07-20 02:00:00', '2019-07-23 02:00:00', 0, null, null);
 insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 1, 2);
 insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 1, 1);
 insert into ocena(datum_ocenjivanja, soba_id, ocena) values('2019-05-14 23:00:05', 2, 4);

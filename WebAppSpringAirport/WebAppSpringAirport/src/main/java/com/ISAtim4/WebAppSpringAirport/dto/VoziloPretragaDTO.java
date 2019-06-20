@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class VoziloPretragaDTO {
 	private Date vreme1;
-	private Date vreme2;
+	private int brojDana;
 	
 	public VoziloPretragaDTO() {
 		
@@ -18,13 +18,15 @@ public class VoziloPretragaDTO {
 		this.vreme1 = vreme1;
 	}
 
-	public Date getVreme2() {
-		return vreme2;
+	public int getBrojDana() {
+		return brojDana;
 	}
 
-	public void setVreme2(Date vreme2) {
-		this.vreme2 = vreme2;
+	public void setBrojDana(int brojDana) {
+		this.brojDana = brojDana;
 	}
+
+	
 
 	
 }

@@ -1,6 +1,7 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -129,8 +130,10 @@ public class VoziloController {
 		ArrayList<Vozilo> ne_moze = new ArrayList<>();
 		ArrayList<Vozilo> pronadjene = new ArrayList<>();
 		Date datum1 = voziloDTO.getVreme1();
-
-		Date datum2 = voziloDTO.getVreme2();
+		Calendar cal =Calendar.getInstance();
+		cal.setTime(datum1);
+		cal.add(Calendar.DATE, voziloDTO.getBrojDana());
+		Date datum2=cal.getTime();
 		System.out.println("\n\n\t" + datum2);
 		// za svaku rezervaciju
 		for (Rezervacija r : rezervacije) {

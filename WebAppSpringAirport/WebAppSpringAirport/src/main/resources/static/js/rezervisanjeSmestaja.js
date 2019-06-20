@@ -211,7 +211,6 @@ function renderBrzeSobe(data){
 		trow.append('<td align="center" width=100px height=100px><div class="divEntitet"><img class="imgEntitet" src="'+slika+'"></div></td>');
 		trow.append('<td>'+item.soba.brojKreveta+'</td>');
 		trow.append('<td>'+item.soba.opis+'</td>');
-		trow.append('<td>'+item.soba.ocena+'</td>');
 		trow.append('<td>'+item.soba.cena+'</td>');
 		trow.append('<td>'+item.nova_cena+'</td>');
 		trow.append('<td>'+item.start_date+'</td>');
