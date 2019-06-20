@@ -202,30 +202,33 @@ function renderReservations(data){
 	}
 }
 
+
 function formaShowReservation(e, forma){
-	//e.preventDefault();
-	var id_rezervacija = $(forma).find('input[type=hidden]').val();
-	$("#identifikatorRezervacije").val(id_rezervacija);
-	console.log("Identifikator rezervacije je: " + id_rezervacija);
-	$.ajax({
-		type:"GET",
-		url:"api/reserve/"+id_rezervacija,
-		
-		beforeSend: function(request) {
+    e.preventDefault();
+    var id_rezervacija = $(forma).find('input[type=hidden]').val();
+    console.log("Identifikator rezervacije je: " + id_rezervacija);
+    $.ajax({
+        type:"GET",
+        url:"api/reserve/"+id_rezervacija,
+
+        beforeSend: function(request) {
             request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
         },
         success:function(data){
-        	console.log("Pocetna destinacija je: " + data.odabranaSedista[0].let.pocetnaDestinacija);
-        	var idLet = data.odabranaSedista[0].let.id;
-        	$("#txt1Check").text(data.odabranaSedista[0].let.pocetnaDestinacija+'-'+data.odabranaSedista[0].let.krajnjaDestinacija);
-        	$("#flightCancel").val(data.odabranaSedista[0].let.id);
-    		
-        	//$("#identifikatorRezervacijaUpd").val(id_rezervacija);
+            console.log("Pocetna destinacija je: " + data.odabranaSedista[0].let.pocetnaDestinacija);
+            var idLet = data.odabranaSedista[0].let.id;
+            localStorage.setItem('showRezId', id_rezervacija);
+            window.location = "rezervacijaPotvrda.html";
+            //$("#txt1Check").text(data.odabranaSedista[0].let.pocetnaDestinacija+'-'+data.odabranaSedista[0].let.krajnjaDestinacija);
+            //$("#flightCancel").val(data.odabranaSedista[0].let.id);
+
+            //$("#identifikatorRezervacijaUpd").val(id_rezervacija);
         }
-		
-	})
-	
+
+    });
+
 }
+
 
 
 function renderReservationHistory(data){
@@ -839,7 +842,7 @@ function addFriend(id){
 				  stackup_spacing: 10 // spacing between consecutively stacked growls.
 				});
 		}
-	})
+	});
 }
 
 
