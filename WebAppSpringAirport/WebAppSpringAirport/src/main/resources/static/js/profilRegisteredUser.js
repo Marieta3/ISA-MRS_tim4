@@ -137,6 +137,9 @@ function reagujNaPoziv(e, btn){
 			console.log(data);
 			$('#invitationsTable').DataTable().clear().destroy();
 			findAllInvitations();
+
+			$('#activeReservationsTable').DataTable().clear().destroy();
+			findAllReservations();
 		}
 	});
 }
