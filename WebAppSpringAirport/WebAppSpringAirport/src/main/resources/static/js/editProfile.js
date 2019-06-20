@@ -143,7 +143,11 @@ function dobaviPodatkeKorisnika(){
         	}else{
         		$("#profile_img").attr("src", '../slike/avatar.png');
         	}
-        	//uloga= data.authorities[0].authority;
+        	
+        	if(localStorage.getItem('uloga') == 'ROLE_USER')
+        		{
+        			$("#bonus_user").text(data.brojPoena);
+        		}
         	//window.location.replace("profil"+uloga+".html");
         }
 	})
