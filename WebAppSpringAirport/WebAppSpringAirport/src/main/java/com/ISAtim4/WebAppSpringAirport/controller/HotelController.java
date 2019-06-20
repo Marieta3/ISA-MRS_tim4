@@ -60,9 +60,8 @@ public class HotelController {
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Hotel createHotel(@Valid @RequestBody Hotel hotel) {
-		hotel.setCoord1(31.214535);
-		hotel.setCoord2(29.945663);
-		return hotelService.save(hotel);
+		
+		return hotelService.create(hotel);
 	}
 	
 	//za PRETRAGU HOTELA
@@ -505,21 +504,12 @@ public class HotelController {
 			@PathVariable(value = "id") Long hotelId,
 			@Valid @RequestBody Hotel hotelDetalji) {
 
-		Hotel hotel = hotelService.findOne(hotelId);
+		Hotel hotel = hotelService.update(hotelId, hotelDetalji);
 		if (hotel == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		hotel.setNaziv(hotelDetalji.getNaziv());
-		hotel.setAdresa(hotelDetalji.getAdresa());
-		hotel.setOpis(hotelDetalji.getOpis());
-		hotel.setSlika(hotelDetalji.getSlika());
-		hotel.setCoord1(hotelDetalji.getCoord1());
-		hotel.setCoord2(hotelDetalji.getCoord2());
-		List<Ocena> ocene = ocenaService.findAllByHotel(hotel);
-		hotel.setOcena(Ocena.getProsek(ocene));
-		Hotel updateHotel = hotelService.save(hotel);
-		return ResponseEntity.ok().body(updateHotel);
+		return ResponseEntity.ok().body(hotel);
 	}
 
 	/* brisanje hotela */
@@ -527,13 +517,10 @@ public class HotelController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<Hotel> deleteHotel(
 			@PathVariable(value = "id") Long hotelId) {
-		System.out.println("\n\n\t"+hotelId+"\n\n");
-		Hotel hotel = hotelService.findOne(hotelId);
-		System.out.println("\n\n\t"+hotel+"\n\n");
-		if (hotel != null) {
-			System.out.println("\n\n\t"+"nije null hotel"+"\n\n");
-			hotelService.remove(hotelId);
-			logger.info("Hotel " + hotelId + " deleted.");
+		
+		
+		if (hotelService.delete(hotelId)) {
+			
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			logger.error("Hotel not found.");

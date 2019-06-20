@@ -32,14 +32,7 @@ public class BrzoVoziloController {
 	@PreAuthorize("hasRole('ROLE_RENT')")
 	@RequestMapping(value = "/api/quick/car", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public BrzoVozilo createBrzoVozilo(@Valid @RequestBody BrzaRezervacijaDTO brzoVoziloDTO) {
-		BrzoVozilo brzoVozilo=new BrzoVozilo();
-		brzoVozilo.setNova_cena(brzoVoziloDTO.getNovaCena());
-		brzoVozilo.setStart_date(brzoVoziloDTO.getStartDatum());
-		brzoVozilo.setEnd_date(brzoVoziloDTO.getEndDatum());
-		Vozilo vozilo=voziloService.findOne(brzoVoziloDTO.getId());
-		//TODO: ubaciti proveru da li je mozda rezervisano u tom periodu
-		brzoVozilo.setVozilo(vozilo);
-		return brzoVoziloService.save(brzoVozilo);
+		return brzoVoziloService.create(brzoVoziloDTO);
 	}
 
 	/* da uzmemo sve usluge, svima dozvoljeno */

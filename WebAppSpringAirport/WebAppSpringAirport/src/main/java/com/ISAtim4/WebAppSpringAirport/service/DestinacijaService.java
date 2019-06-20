@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Destinacija;
@@ -45,5 +48,30 @@ public class DestinacijaService {
 	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		destinacijaRepository.deleteById(id);
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public Destinacija update(Long destinacijaId,Destinacija destinacijaDetalji) {
+		Destinacija destinacija = findOne(destinacijaId);
+		if (destinacija == null) {
+			return null;
+		}
+
+		destinacija.setAdresa(destinacijaDetalji.getAdresa());
+		destinacija.setSlika(destinacijaDetalji.getSlika());
+		Destinacija updateDestinacije = save(destinacija);
+		return updateDestinacije;
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public boolean delete( Long destinacijaId) {
+		Destinacija destinacija = findOne(destinacijaId);
+
+		if (destinacija != null) {
+			remove(destinacijaId);
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

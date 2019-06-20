@@ -1,12 +1,18 @@
 package com.ISAtim4.WebAppSpringAirport.service;
 
+import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Prijateljstvo;
 import com.ISAtim4.WebAppSpringAirport.domain.RegistrovaniKorisnik;
@@ -18,6 +24,9 @@ public class PrijateljstvoService {
 	@Autowired
 	private PrijateljstvoRepository prijateljstvoRepository;
 
+	@Autowired
+	KorisnikService korisnikService;
+	
 	public List<Prijateljstvo> findAll() {
 		return prijateljstvoRepository.findAll();
 	}
@@ -63,5 +72,113 @@ public class PrijateljstvoService {
 		prijateljstvoRepository.deleteById(id);
 	}
 
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public Prijateljstvo send(Principal user,Long korisnikId) {
+		RegistrovaniKorisnik me = null;
+		RegistrovaniKorisnik receiver = null;
+		Prijateljstvo request = new Prijateljstvo();
 
+		if (user != null) {
+			me = (RegistrovaniKorisnik) this.korisnikService
+					.findByKorisnickoIme(user.getName());
+		}
+		receiver = (RegistrovaniKorisnik) this.korisnikService.findOneID(korisnikId);
+
+		if (me == null) {
+			System.out.println("Sender user is null!");
+			//return ResponseEntity.notFound().build();
+			return null;
+		} else if (receiver == null) {
+			System.out.println("Receiver user is null!");
+			//return ResponseEntity.notFound().build();
+			return null;
+
+		} else if (receiver.getId().equals(me.getId())) {
+			System.out.println("Cant send request to myself!");
+			//return ResponseEntity.badRequest().build();
+			return null;
+
+		} else {
+			System.out.println("Sender " + me.getUsername()
+					+ " succesfully sent friend request to "
+					+ receiver.getKorisnickoIme() + "!");
+			request.setAccepted(false);
+			request.setReacted(false);
+			request.setDatum(new Date());
+			request.setReceiver(receiver);
+			request.setSender(me);
+			save(request);
+			return request;
+		}
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public Prijateljstvo accept(Principal user, Long friendId) {
+		RegistrovaniKorisnik me = null;
+		if (user != null) {
+			me = (RegistrovaniKorisnik) this.korisnikService.findByKorisnickoIme(user.getName());
+		}
+		RegistrovaniKorisnik friend = (RegistrovaniKorisnik) this.korisnikService.findOneID(friendId);
+		if (friend != null && me!= null) {
+			Prijateljstvo p = findOneRequest(me, friend);
+			if(p != null){
+				p.setAccepted(true);
+				p.setReacted(true);
+				System.out.println("Request accepted!");
+				save(p);
+				return p;
+			}else{
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public Prijateljstvo reject(Principal user, Long friendId) {
+		
+		RegistrovaniKorisnik me = null;
+		if (user != null) {
+			me = (RegistrovaniKorisnik) this.korisnikService.findByKorisnickoIme(user.getName());
+		}
+		RegistrovaniKorisnik friend = (RegistrovaniKorisnik) this.korisnikService.findOneID(friendId);
+		if (friend != null && me!= null) {
+			Prijateljstvo p = findOneRequest(me, friend);
+			if(p != null){
+				p.setAccepted(false);
+				p.setReacted(true);
+				System.out.println("Request rejected!");
+				save(p);
+				return p;
+			}else{
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public boolean delete(Principal user,Long friendId) {
+		System.out.println("Az ID " + friendId);
+		RegistrovaniKorisnik me = null;
+		if (user != null) {
+			me = (RegistrovaniKorisnik) this.korisnikService.findByKorisnickoIme(user.getName());
+		}
+		RegistrovaniKorisnik friend = (RegistrovaniKorisnik) this.korisnikService.findOneID(friendId);
+		if (friend != null && me!= null) {
+			Prijateljstvo p = getOneFriend(me, friend);
+			System.out.println(p != null);
+			if(p != null){
+				remove(p.getId());
+				System.out.println("Succesful deletion!");
+				return true;
+			}else{
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 }

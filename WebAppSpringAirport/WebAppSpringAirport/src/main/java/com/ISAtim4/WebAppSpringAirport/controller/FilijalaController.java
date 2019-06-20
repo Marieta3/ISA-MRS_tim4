@@ -50,16 +50,8 @@ public class FilijalaController {
 	@PreAuthorize("hasRole('ROLE_RENT')")
 	@PostMapping(value = "/api/filijala",  produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Filijala createFilijala(@Valid @RequestBody FilijalaDTO filijalaDTO) {
-		Filijala filijala = new Filijala();
-
-		filijala.setAdresa(filijalaDTO.getAdresa());
-		filijala.setTelefon(filijalaDTO.getTelefon());
-		filijala.setOpis(filijalaDTO.getOpis());
-		filijala.setSlika(filijalaDTO.getSlika());
-
-		RentACar rent = rentService.findOne(filijalaDTO.getIdRent());
-		filijala.setRentACar(rent);
-		return filijalaService.save(filijala);
+		
+		return filijalaService.create(filijalaDTO);
 	}
 
 	/* da uzmemo sve filijala, svima dozvoljeno */
@@ -96,18 +88,12 @@ public class FilijalaController {
 			@PathVariable(value = "id") Long filijalaId,
 			@Valid @RequestBody Filijala filijalaDetalji) {
 
-		Filijala filijala = filijalaService.findOne(filijalaId);
+		Filijala filijala = filijalaService.update(filijalaId, filijalaDetalji);
 		if (filijala == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		filijala.setOpis(filijalaDetalji.getOpis());
-		filijala.setAdresa(filijalaDetalji.getAdresa());
-		filijala.setTelefon(filijalaDetalji.getTelefon());
-		filijala.setSlika(filijalaDetalji.getSlika());
-
-		Filijala updateFilijala = filijalaService.save(filijala);
-		return ResponseEntity.ok().body(updateFilijala);
+		return ResponseEntity.ok().body(filijala);
 	}
 
 	/* brisanje filijala */
@@ -115,27 +101,13 @@ public class FilijalaController {
 	@DeleteMapping(value = "/api/filijala/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Filijala> deleteFilijala(
 			@PathVariable(value = "id") Long filijalaId) {
-		Filijala filijala = filijalaService.findOne(filijalaId);
-		ArrayList<Vozilo> carList = (ArrayList<Vozilo>) voziloService.findAll();
-		if (filijala != null) {
-			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
-			for (Rezervacija rezervacija : aktivne) {
-				if(rezervacija.getAktivnaRezervacija()){
-					Set<Vozilo>  v= rezervacija.getOdabranaVozila();
-					for (Vozilo vozilo2 : v) {
-						for (Vozilo vozilo : carList) {		//ne sme brisati filijalu sa rezervisanim vozilama
-							if(vozilo2.getId() == vozilo.getId()){
-								return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-						}
-					}
-					}
-				}
-			}
-			filijalaService.remove(filijalaId);
-			logger.info("Branch with id:" + filijalaId + "deleted.");
+		
+		int flag=filijalaService.delete(filijalaId);
+		if(flag==1) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}else if(flag==2) {
 			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			logger.error("Branch with id:" + filijalaId + "not found.");
+		}else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}

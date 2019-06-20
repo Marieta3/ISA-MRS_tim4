@@ -35,18 +35,13 @@ public class PozivnicaController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PutMapping(value = "/api/pozivi/Accept/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Pozivnica> acceptInvitation(@PathVariable(value = "id") Long pozivId){
-		Pozivnica p=pozivnicaService.findOne(pozivId);
-		p.setReagovanoNaPoziv(true);
-		p.setPrihvacen(true);
-		return ResponseEntity.ok().body(pozivnicaService.save(p)); 
+		
+		return ResponseEntity.ok().body(pozivnicaService.accept(pozivId)); 
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@PutMapping(value = "/api/pozivi/Decline/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Pozivnica> declineInvitation(@PathVariable(value = "id") Long pozivId){
-		Pozivnica p=pozivnicaService.findOne(pozivId);
-		p.setReagovanoNaPoziv(true);
-		p.setPrihvacen(false);
-		return ResponseEntity.ok().body(pozivnicaService.save(p)); 
+		return ResponseEntity.ok().body(pozivnicaService.decline(pozivId));
 	}
 }
