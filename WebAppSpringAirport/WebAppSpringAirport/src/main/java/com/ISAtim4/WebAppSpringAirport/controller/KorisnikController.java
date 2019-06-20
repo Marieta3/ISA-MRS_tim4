@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -167,7 +169,7 @@ public class KorisnikController {
 	/* da uzmemo sve korisnike */
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
-	@GetMapping(value = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/users",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Korisnik> getAllKorisnici() {
 		return korisnikService.findAll();
 	}
