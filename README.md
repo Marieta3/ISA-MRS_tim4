@@ -17,6 +17,8 @@ Za pokretanje aplikacije potrebni su Eclipse, Maven, Apache Tomcat 9.0.21 i inst
 Aplikacija omogućava CRUD operacije nad svim entitetima unutar paketa "com.ISATim4.WebAppSpringAirport.model". 
 ## Deployment aplikacije
 Za deployment aplikacije, korišćen je Heroku servis. Postupak za deployment je sledeći: potrebno je prvo napraviti nalog na sajtu www.heroku.com, nakon toga potrebno je skinuti heroku CLI, onda u korenskom direktorijumu, otvoriti komandnu liniju i kucati sledeće komande: heroku create(kreira se prazan heroku projekat), onda napraviti heroku git repozitorijum naredbom "git init", onda komandama "git add", "git commit" i "git push heroku master" dodati sve fajlove iz korenskog repozitorijuma na heroku git. Pokretanjem poslednje navedene komande, heroku će posle dodavanja na repozitorijum sam pokrenuti Spring Boot aplikaciju, nakon čijeg pokretanja ćete dobiti log(da li je uspešan build ili ne) i link, čijim kopiranjem u browser dobijate početnu stranu Vaše deploy-ovane aplikacije na Heroku server. Link ka aplikaciji na heroku serveru je: https://webspringappairport.herokuapp.com/.
+## Analiza koda
+Na ovom linku se nalazi poslednja verzija analize kvaliteta koda: https://sonarcloud.io/dashboard?id=com.ISAtim4%3AWebAppSpringAirport
 ## Verzija 
 0.0.1-SNAPSHOT
 ## Developeri
