@@ -364,7 +364,7 @@ public class KorisnikController {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			
 			String hashedPassword = passwordEncoder.encode(dto.getNewPsw());  //uneta novi pw
-			String oldPsw = passwordEncoder.encode(dto.getOldPsw());		//unteta stari pw
+			//String oldPsw = passwordEncoder.encode(dto.getOldPsw());		//unteta stari pw
 			
 			
 			if(BCrypt.checkpw(dto.getOldPsw(), k.getLozinka())){

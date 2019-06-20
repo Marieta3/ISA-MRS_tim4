@@ -145,7 +145,7 @@
 	</div>
 	
 	<div id="Branches" class="tabcontent">
-		<div style="margin-left: 10px;">
+		<div style="margin-left: 20px; margin-top: 10">
 		<h1>Branches</h1>
 		<button class="btn btn-primary" value="New Branch" onclick="otvoriModal('id03')">New Branch</button>
 		</div>
@@ -261,7 +261,7 @@
 	</div>
 
 	<div id="Cars" class="tabcontent">
-		<div style="margin-left: 10px;">
+		<div style="margin-left: 20px; margin-top: 10">
 		<h1>Cars</h1>
 		<button class="btn btn-primary" value="New Car" onclick="otvoriModal('id02')">New Car</button>
 		</div>
@@ -341,7 +341,11 @@
 				
 			</div>
 			<div class="container-modal" id="div-container-modal">
+			
+  				<div class="modal-header">
 				<h1> Add new car </h1>
+				</div>
+				<div class="modal-body">
 				<label for="carManufacturer"><b>Manufacturer</b></label> 
 				<input type="text" name="carManufacturer" id="carManufacturer" required>
 				
@@ -364,11 +368,13 @@
 				<select name="branchCar" id="branchCar" required>
 					<option value=""></option>
 				</select>
-				
+				</div>
+				<div class="modal-footer">
 				<button class="addSubmitBtn" type="submit">Add</button>
 				<button type="button"
 					onclick="zatvoriModal('id02')"
 					class="cancelbtn">Cancel</button>
+				</div>
 			</div>
 		</form>
 		</div>

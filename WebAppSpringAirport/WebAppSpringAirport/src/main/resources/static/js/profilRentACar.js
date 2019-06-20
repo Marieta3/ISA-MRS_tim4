@@ -8,7 +8,8 @@ $(document).ready(function () {
 
     $("#startDate").attr('min', year + "-" + month + "-" + day);
     $("#startDate").attr('max', "2025-01-01");
-    
+    $("#endDate").attr('min', year + "-" + month + "-" + day);
+    $("#endDate").attr('max', "2025-01-01");
     
     var rent_id = localStorage.getItem("profil_rent")
     if(rent_id == null){
