@@ -308,10 +308,53 @@ public class RezervacijaController {
 		if (rezervacija == null) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		boolean e1 = rezer.isFlightID();
 		boolean e2 = rezer.isHotelID();
 		boolean e3 =  rezer.isCarID();
+		
+		Calendar nowCal = Calendar.getInstance();
+		Calendar rCal = Calendar.getInstance();
+
+		
+		if(e1)
+		{	//ako ima manje od 3 sata ne moze
+			nowCal.setTime(new Date());
+			rCal.setTime(rezervacija.getOdabranaSedista().iterator().next().getLet().getVremePolaska());
+			//provera 
+			nowCal.add(Calendar.HOUR_OF_DAY, 3);
+			if(nowCal.after(rCal))
+			{
+				System.out.println("Too late to cancel - let:" + rCal.getTime());
+				return ResponseEntity.badRequest().build();
+			}
+		}
+		else if(e2)
+		{	//ako ima manje od 2 dana 
+			nowCal.setTime(new Date());
+			if((rezervacija.getSobaZauzetaOd() != null))
+				rCal.setTime(rezervacija.getSobaZauzetaOd());
+			//provera 
+			nowCal.add(Calendar.DATE, 2);
+			if(nowCal.after(rCal))
+			{
+				System.out.println("Too late to cancel - soba:" + rCal.getTime());
+				return ResponseEntity.badRequest().build();
+			}
+		}else if(e3)
+		{	//ako ima manje od 2 dana 
+			nowCal.setTime(new Date());
+			if((rezervacija.getVoziloZauzetoOd() != null))
+				rCal.setTime(rezervacija.getVoziloZauzetoOd());
+			//provera 
+			nowCal.add(Calendar.DATE, 2);
+			if(nowCal.after(rCal))
+			{
+				System.out.println("Too late to cancel - car:" + rCal.getTime());
+				return ResponseEntity.badRequest().build();
+			}
+		}
+		
 		
 		if(e1)			//ako je birao let --> brišem celu rezervaciju
 		{
