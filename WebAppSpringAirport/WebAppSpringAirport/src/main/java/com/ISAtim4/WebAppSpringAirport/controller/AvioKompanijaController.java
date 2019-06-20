@@ -60,9 +60,7 @@ public class AvioKompanijaController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST,value = "/api/avioKompanije", produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public AvioKompanija createAvioKompanija(@Valid @RequestBody AvioKompanija avioKompanija) {
-		avioKompanija.setCoord1(31.214535);
-		avioKompanija.setCoord2(29.945663);
-		return aviokompanijaService.save(avioKompanija);
+		return aviokompanijaService.create(avioKompanija);
 	}
 
 	/* da uzmemo sve avioKompanije, svima dozvoljeno */
@@ -80,13 +78,10 @@ public class AvioKompanijaController {
 	@RequestMapping(method = RequestMethod.GET,value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> getAvioKompanija(
 			@PathVariable(value = "id") Long idAviokompanije) {
-		AvioKompanija aviokompanija = aviokompanijaService.findOne(idAviokompanije);
-
+		AvioKompanija aviokompanija=aviokompanijaService.getAvioKompanija(idAviokompanije);
 		if (aviokompanija == null) {
 			return ResponseEntity.notFound().build();
 		}
-		List<Ocena> ocene = ocenaService.findAllByAvio(aviokompanija);
-		aviokompanija.setOcena(Ocena.getProsek(ocene));
 		
 		return ResponseEntity.ok().body(aviokompanija);
 	}
@@ -481,23 +476,10 @@ public class AvioKompanijaController {
 			@PathVariable(value = "id") Long aviokompanijaId,
 			@Valid @RequestBody AvioKompanija avioKompanijaDetalji) {
 
-		AvioKompanija avioKompanija = aviokompanijaService.findOne(aviokompanijaId);
-		if (avioKompanija == null) {
+		AvioKompanija updateAviokompanija=aviokompanijaService.update(aviokompanijaId, avioKompanijaDetalji);
+		if (updateAviokompanija == null) {
 			return ResponseEntity.notFound().build();
 		}
-
-		avioKompanija.setNaziv(avioKompanijaDetalji.getNaziv());
-		avioKompanija.setAdmin(avioKompanijaDetalji.getAdmin());
-		avioKompanija.setAdresa(avioKompanijaDetalji.getAdresa());
-		avioKompanija.setOpis(avioKompanijaDetalji.getOpis());
-		avioKompanija.setSlika(avioKompanijaDetalji.getSlika());
-		avioKompanija.setCoord1(avioKompanijaDetalji.getCoord1());
-		avioKompanija.setCoord2(avioKompanijaDetalji.getCoord2());
-		
-		List<Ocena> ocene = ocenaService.findAllByAvio(avioKompanija);
-		avioKompanija.setOcena(Ocena.getProsek(ocene));
-		
-		AvioKompanija updateAviokompanija = aviokompanijaService.save(avioKompanija);
 		return ResponseEntity.ok().body(updateAviokompanija);
 	}
 
@@ -506,10 +488,9 @@ public class AvioKompanijaController {
 	@RequestMapping(method = RequestMethod.DELETE,value = "/api/avioKompanije/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvioKompanija> deleteAviokompanije(
 			@PathVariable(value = "id") Long avioKompanijaId) {
-		AvioKompanija aviokompanija = aviokompanijaService.findOne(avioKompanijaId);
+		
 
-		if (aviokompanija != null) {
-			aviokompanijaService.remove(avioKompanijaId);
+		if (aviokompanijaService.delete(avioKompanijaId)) {
 			logger.info("Brisanje uspesan!");
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {

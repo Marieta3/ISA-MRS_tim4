@@ -6,9 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.BrzoVozilo;
+import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
+import com.ISAtim4.WebAppSpringAirport.dto.BrzaRezervacijaDTO;
+import com.ISAtim4.WebAppSpringAirport.repository.BrzaSobaRepository;
+
 import com.ISAtim4.WebAppSpringAirport.repository.BrzoVoziloRepository;
 
 @Service
@@ -16,6 +21,9 @@ import com.ISAtim4.WebAppSpringAirport.repository.BrzoVoziloRepository;
 public class BrzoVoziloService {
 	@Autowired
 	private BrzoVoziloRepository brzoVoziloRepository;
+	
+	@Autowired
+	private VoziloService voziloService;
 	
 	@Transactional(readOnly = false)
 	public BrzoVozilo save(BrzoVozilo brzoVozilo) {
@@ -37,5 +45,17 @@ public class BrzoVoziloService {
 	@Transactional(readOnly = false)
 	public void remove(Long id) {
 		brzoVoziloRepository.deleteById(id);
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public BrzoVozilo create(BrzaRezervacijaDTO brzoVoziloDTO) {
+		BrzoVozilo brzoVozilo=new BrzoVozilo();
+		brzoVozilo.setNova_cena(brzoVoziloDTO.getNovaCena());
+		brzoVozilo.setStart_date(brzoVoziloDTO.getStartDatum());
+		brzoVozilo.setEnd_date(brzoVoziloDTO.getEndDatum());
+		Vozilo vozilo=voziloService.findOne(brzoVoziloDTO.getId());
+		//TODO: ubaciti proveru da li je mozda rezervisano u tom periodu
+		brzoVozilo.setVozilo(vozilo);
+		return save(brzoVozilo);
 	}
 }
