@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
@@ -43,5 +45,21 @@ public class PozivnicaService {
 	
 	public ArrayList<Pozivnica> findMyInvitations(Korisnik k){
 		return pozivnicaRepository.findMyInvitations(k);
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public Pozivnica accept(Long pozivId) {
+		Pozivnica p=findOne(pozivId);
+		p.setReagovanoNaPoziv(true);
+		p.setPrihvacen(true);
+		return save(p); 
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public Pozivnica decline(Long pozivId) {
+		Pozivnica p=findOne(pozivId);
+		p.setReagovanoNaPoziv(true);
+		p.setPrihvacen(false);
+		return save(p); 
 	}
 }

@@ -26,6 +26,7 @@ $(document).on('submit', "#editProfileForma", function(e){
 	var adresa = $('#address').val();
 	var telefon = $('#telefon').val();
 	var lozinka = $('#lozinka').val();
+	console.log(lozinka);
 	var slika = $('#slikaEdit').val().replace(/C:\\fakepath\\/i,'..\\slike\\');
 	console.log("["+slika+"]");
 	if(slika=="" || slika==null){
@@ -121,6 +122,7 @@ function dobaviPodatkeKorisnika(){
         	$('#ime').val(data.ime);
         	$('#prezime').val(data.prezime);
         	$('#username').val(data.korisnickoIme);
+        	console.log(data.lozinka);
         	$('#lozinka').val(data.lozinka);
         	$('#mail').val(data.mail);
         	if(data.adresa == null){
