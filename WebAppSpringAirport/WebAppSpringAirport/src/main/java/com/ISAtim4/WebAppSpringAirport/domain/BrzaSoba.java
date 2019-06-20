@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -31,7 +32,21 @@ public class BrzaSoba {
 	
 	@Column(nullable=false)
 	private double nova_cena;
+	
+	@Column(nullable=false)
+	private boolean zauzeto=false;
 
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnoreProperties("brza_soba")
+	private Sediste sediste;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnoreProperties("brza_soba")
+	private RegistrovaniKorisnik putnik;
+	
+	@Column(nullable=true)
+	private Date datumRezervacije;
+	
 	public BrzaSoba() {
 		
 	}
@@ -73,6 +88,36 @@ public class BrzaSoba {
 
 	public void setNova_cena(double nova_cena) {
 		this.nova_cena = nova_cena;
+	}
+	public boolean isZauzeto() {
+		return zauzeto;
+	}
+	public void setZauzeto(boolean zauzeto) {
+		this.zauzeto = zauzeto;
+	}
+	public Sediste getSediste() {
+		return sediste;
+	}
+	public void setSediste(Sediste sediste) {
+		this.sediste = sediste;
+	}
+	public RegistrovaniKorisnik getPutnik() {
+		return putnik;
+	}
+	public void setPutnik(RegistrovaniKorisnik putnik) {
+		this.putnik = putnik;
+	}
+	public Date getDatumRezervacije() {
+		return datumRezervacije;
+	}
+	public void setDatumRezervacije(Date datumRezervacije) {
+		this.datumRezervacije = datumRezervacije;
+	}
+	@Override
+	public String toString() {
+		return "BrzaSoba [id=" + id + ", soba=" + soba + ", start_date=" + start_date + ", end_date=" + end_date
+				+ ", nova_cena=" + nova_cena + ", zauzeto=" + zauzeto + ", sediste=" + sediste + ", putnik=" + putnik
+				+ ", datumRezervacije=" + datumRezervacije + "]";
 	}
 	
 	
