@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
@@ -63,7 +65,7 @@ public class SobaController {
 	
 	/* da snimimo sobu */
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
-	@PostMapping(value = "/api/sobe",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,value = "/api/sobe",  produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Soba createSoba(@Valid @RequestBody SobaDTO sobaDTO) {
 		Soba soba=new Soba();
 		soba.setBrojKreveta(sobaDTO.getBrojKreveta());

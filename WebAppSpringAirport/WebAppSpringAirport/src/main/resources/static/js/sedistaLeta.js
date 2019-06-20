@@ -216,7 +216,16 @@ function previewRezervacije(){
 	}).get();
 	
 	var sobeRezervisaneOd=$('#datepicker6').val();
+	if(sobeRezervisaneOd==null || sobeRezervisaneOd==""){
+		console.log("izaberite pocetni datum");
+		return;
+	}
 	var broj_nocenja=$('#broj_nocenja').val();
+	
+	if(broj_nocenja==null || broj_nocenja==0){
+		console.log("izaberite broj nocenja");
+		return;
+	}
 	
 	var vozilaRezervisanaOd=$('#datepicker7').val();
 	var vozilaRezervisanaDo=$('#datepicker8').val();
@@ -273,6 +282,8 @@ function pokupiRezervisanaSedista(e){
 	}
 	
 	
+	
+	
 	var lista_pozvanih=$('#invited-friends li');
 	var lista_nereg=$('#nereg-lista li');
 	if(lista_sedista.length - 1 < lista_pozvanih.length + lista_nereg.length){
@@ -309,7 +320,16 @@ function pokupiRezervisanaSedista(e){
 	console.log('odabrana: vozila: '+vozila);
 	console.log('odabran let: '+let_id);
 	var sobeRezervisaneOd=$('#datepicker6').val();
+	if(sobeRezervisaneOd==null || sobeRezervisaneOd==""){
+		console.log("izaberite pocetni datum");
+		return;
+	}
 	var broj_nocenja=$('#broj_nocenja').val();
+	
+	if(broj_nocenja==null || broj_nocenja==0){
+		console.log("izaberite broj nocenja");
+		return;
+	}
 	//var sobeRezervisaneDo=$('#datepicker3').val();
 	var vozilaRezervisanaOd=$('#datepicker7').val();
 	var vozilaRezervisanaDo=$('#datepicker8').val();
@@ -337,6 +357,10 @@ function pokupiRezervisanaSedista(e){
 		success:function(data){
 			notify("Successful reservation!", 'info');
 			//redirekcija na profil, trebalo bi da defaultni tab bude myreservations
+			window.location.replace("profilROLE_USER.html");
+		},
+		error:function(data){
+			notify("Reservation failed.", "danger");
 		}
 	});
 	//$('#hotels-tab').click();
