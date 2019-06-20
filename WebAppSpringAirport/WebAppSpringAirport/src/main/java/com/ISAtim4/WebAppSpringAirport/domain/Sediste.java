@@ -52,6 +52,10 @@ public class Sediste {
 	@OneToOne(mappedBy="sediste", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("sediste")
 	private BrzoSediste brzo_sediste;
+	
+	@OneToOne(mappedBy="sediste", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("sediste")
+	private BrzaSoba brza_soba;
 
 	public Long getId() {
 		return id;

@@ -105,29 +105,29 @@ var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
 	
 }
 
-$(document).on('submit', '#pretragaVozila', function(e){
+function pretragaVozila(e){
 	e.preventDefault();
 	var dat1=$('#datepicker7').val();
-	var dat2=$('#datepicker8').val();
+	var broj_dana=$('#broj_dana').val();
 	var rent_id=$('#selektovan-rent-id').val();
 	$.ajax({
 		type:'POST',
 		url:'api/voziloRent/pretraga/'+rent_id,
 		contentType: 'application/json',
 		dataType : 'json',
-		data : voziloToJSONsearch(dat1, dat2),
+		data : voziloToJSONsearch(dat1, broj_dana),
 		beforeSend : function(request) {
 			request.setRequestHeader("Authorization", "Bearer "
 					+ localStorage.getItem("accessToken"));
 		},
 		success : renderCars
 	})
-})
+}
 
-function voziloToJSONsearch(dat1, dat2) {
+function voziloToJSONsearch(dat1, broj_dana) {
 	return JSON.stringify({
 		"vreme1" : dat1,
-		"vreme2" : dat2
+		"brojDana" : broj_dana
 	});
 }
 function selektovanoVozilo(checkbox){
@@ -156,4 +156,70 @@ function pokupiRezervisanaVozila(){
 	}).get();
 	console.log(checkedVals);
 	notify("Successful reservation!", 'info');
+}
+
+function selektovanaBrzaRezervacijaVozilo(e){
+	e.preventDefault();
+	var lista_sedista=$('#selected-seats li');
+	if(lista_sedista.length==0){
+		console.log("nece moci");
+		notify("Could not proceed reservation. You should reserve at least one seat!", 'info');
+		return;
+	}else if(lista_sedista.length>1){
+		notify("Could not proceed reservation. You should reserve only one seat!", 'info');
+		return;
+	}
+	var dat1=$('#datepicker7').val();
+	var broj_dana=$('#broj_dana').val();
+	var rent_id=$('#selektovan-rent-id').val();
+	$.ajax({
+		type:'POST',
+		url:'api/brzaVozila/'+rent_id,
+		contentType: 'application/json',
+		dataType : 'json',
+		data : voziloToJSONsearch(dat1, broj_dana),
+		beforeSend : function(request) {
+			request.setRequestHeader("Authorization", "Bearer "
+					+ localStorage.getItem("accessToken"));
+		},
+		success : renderBrzaVozila
+	})
+}
+
+function renderBrzaVozila(data){
+	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
+	uloga=localStorage.getItem("uloga");
+	//$('#selected-rooms').empty();
+	$('#prikazBrzoVoziloTabela').DataTable().clear().destroy();
+	
+	$.each(list, function(index, item){
+		var trow=$('<tr></tr>');
+		var slika=item.vozilo.slika;
+		if(slika==null || slika==""){
+			slika = "../slike/pic1.jpg";
+		}
+		trow.append('<td align="center" width=100px height=100px><div class="divEntitet"><img class="imgEntitet" src="'+slika+'"></div></td>');
+		trow.append('<td>'+item.vozilo.proizvodjac+'</td>');
+		trow.append('<td>'+item.vozilo.model+'</td>');
+		trow.append('<td>'+item.vozilo.tablica+'</td>');
+		trow.append('<td>'+item.vozilo.cena+'</td>');
+		trow.append('<td>'+item.nova_cena+'</td>');
+		trow.append('<td>'+item.start_date+'</td>');
+		trow.append('<td>'+item.end_date+'</td>');
+		trow.append('<td><button onclick="selektovanoBrzoVozilo(this)"><input type="hidden" id="'+item.id+'">Select</button></td>');
+		$('#prikazBrzoVoziloTabela').append(trow);
+	})
+	$('#prikazBrzoVoziloTabela').DataTable({
+	      "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+	      "iDisplayLength": 5,
+	      "order":[[1,'asc']],
+	      "columnDefs": [
+	                     { "orderable": false, "targets": 0 },
+	                     { "orderable": false, "targets": 6 }
+	                   ]
+	  });
+}
+
+function selektovanoBrzoVozilo(btn){
+	
 }

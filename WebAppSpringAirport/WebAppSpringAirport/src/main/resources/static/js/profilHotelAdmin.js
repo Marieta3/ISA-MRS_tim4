@@ -225,7 +225,11 @@ function renderSobe(data){
 	$("#prikazSobaTabela").find("th:gt(8)").remove();
 	$.each(list, function(index, soba){
 		var row=get_row(soba, "room", localStorage.getItem('uloga'), 'id01', 'id04');
-		row.append('<td><button name="'+soba.id+'" id="quick_'+soba.id+'" onclick="selektovanaSobaBrzaRezervacija(this), otvoriModal(\'id07\')">Make Quick</button></td>');
+		if(soba.brojKreveta==1){
+			row.append('<td><button name="'+soba.id+'" id="quick_'+soba.id+'" onclick="selektovanaSobaBrzaRezervacija(this), otvoriModal(\'id07\')">Make Quick</button></td>');
+		}else{
+			row.append('<td>&nbsp;</td>');
+		}
 		$('#prikazSobaTabela').append(row);
 	})
 	$('#prikazSobaTabela').DataTable({
