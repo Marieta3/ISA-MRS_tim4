@@ -35,23 +35,22 @@ import com.ISAtim4.WebAppSpringAirport.service.RentACarService;
 import com.ISAtim4.WebAppSpringAirport.service.RezervacijaService;
 import com.ISAtim4.WebAppSpringAirport.service.VoziloService;
 
-
 @RestController
 public class VoziloController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private VoziloService voziloService;
-	
+
 	@Autowired
 	private RezervacijaService rezervacijaService;
-	
+
 	@Autowired
 	private FilijalaService filijalaService;
-	
+
 	@Autowired
 	private RentACarService rentService;
-	
+
 	@Autowired
 	private OcenaService ocenaService;
 
@@ -71,7 +70,7 @@ public class VoziloController {
 	}
 
 	/* da uzmemo sve vozila, svima dozvoljeno */
-	@GetMapping(value = "/api/cars",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/cars", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Vozilo> getAllCars() {
 		List<Vozilo> cars = voziloService.findAll();
 		for (Vozilo vozilo : cars) {
@@ -81,8 +80,8 @@ public class VoziloController {
 		return cars;
 	}
 
-	/* da uzmemo vozilo po id-u, svima dozvoljeno  */
-	@GetMapping(value = "/api/cars/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
+	/* da uzmemo vozilo po id-u, svima dozvoljeno */
+	@GetMapping(value = "/api/cars/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Vozilo> getCar(
 			@PathVariable(value = "id") Long hotelId) {
 		Vozilo vozilo = voziloService.findOne(hotelId);
@@ -94,84 +93,91 @@ public class VoziloController {
 		vozilo.setOcena(Ocena.getProsek(ocene));
 		return ResponseEntity.ok().body(vozilo);
 	}
-	
+
 	/* da uzmemo sve vozila za neki rent-a-car, svima dozvoljeno */
 	@GetMapping(value = "/api/cars/rent/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Vozilo> getAllCarsByRentACar(
 			@PathVariable(value = "id") Long rentId) {
 		logger.info("ID je " + rentId);
 		RentACar rent = rentService.findOne(rentId);
-		
-		List<Filijala> filijale =  filijalaService.findAllByRentACar(rent);
-		
+
+		List<Filijala> filijale = filijalaService.findAllByRentACar(rent);
+
 		List<Vozilo> cars = new ArrayList<Vozilo>();
-		
+
 		for (Filijala filijala : filijale) {
-			Set<Vozilo> carList =  filijala.getVozila();
+			Set<Vozilo> carList = filijala.getVozila();
 			for (Vozilo v : carList) {
 				cars.add(v);
 				List<Ocena> ocene = ocenaService.findAllByVozilo(v);
 				v.setOcena(Ocena.getProsek(ocene));
 			}
 		}
-		
+
 		return cars;
 	}
-	
 
 	@PostMapping(value = "/api/voziloRent/pretraga/{rent_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Vozilo> getVozilaByRACPretraga(@PathVariable(value = "rent_id") Long rent_id, @Valid @RequestBody VoziloPretragaDTO voziloDTO) {
-		
-		RentACar rentAC = rentService.findOne(rent_id);
-		List<Filijala> filijale =  filijalaService.findAllByRentACar(rentAC);
+	public List<Vozilo> getVozilaByRACPretraga(
+			@PathVariable(value = "rent_id") Long rent_id,
+			@Valid @RequestBody VoziloPretragaDTO voziloDTO) {
 
-		List<Rezervacija> rezervacije=rezervacijaService.findAll();
-		ArrayList<Vozilo> ne_moze=new ArrayList<>();
-		ArrayList<Vozilo> pronadjene=new ArrayList<>();
-		Date datum1=voziloDTO.getVreme1();
-		
-		Date datum2=voziloDTO.getVreme2();
-		System.out.println("\n\n\t"+datum2);
-		//za svaku rezervaciju
-		for(Rezervacija r: rezervacije) {
-			//ako se preklapaju datumi	
-			//  if v1 <= datum1  and   v2 >= datum1
-			if( (r.getVoziloZauzetoOd().compareTo(datum1)<=0 && r.getVoziloZauzetoDo().compareTo(datum1)>=0) 
-					// if v1 <= datum2  and v2 >= datum2
-					|| (r.getVoziloZauzetoOd().compareTo(datum2)<=0 && r.getVoziloZauzetoDo().compareTo(datum2) >= 0) 
+		RentACar rentAC = rentService.findOne(rent_id);
+		List<Filijala> filijale = filijalaService.findAllByRentACar(rentAC);
+
+		List<Rezervacija> rezervacije = rezervacijaService.findAll();
+		ArrayList<Vozilo> ne_moze = new ArrayList<>();
+		ArrayList<Vozilo> pronadjene = new ArrayList<>();
+		Date datum1 = voziloDTO.getVreme1();
+
+		Date datum2 = voziloDTO.getVreme2();
+		System.out.println("\n\n\t" + datum2);
+		// za svaku rezervaciju
+		for (Rezervacija r : rezervacije) {
+			// ako se preklapaju datumi
+			// if v1 <= datum1 and v2 >= datum1
+			if ((r.getVoziloZauzetoOd().compareTo(datum1) <= 0 && r
+					.getVoziloZauzetoDo().compareTo(datum1) >= 0)
+			// if v1 <= datum2 and v2 >= datum2
+					|| (r.getVoziloZauzetoOd().compareTo(datum2) <= 0 && r
+							.getVoziloZauzetoDo().compareTo(datum2) >= 0)
 					// v1 >= datum1 and v2 <= datum2
-					|| (r.getVoziloZauzetoOd().compareTo(datum1)>=0 && r.getVoziloZauzetoDo().compareTo(datum2)<=0) ) {
-				System.out.println("+++---***\n\n\t broj vozila u rezervaciji: "+r.getOdabraneSobe().size());
-				//za svako vozilo u rezervaciji
-				for(Vozilo v: r.getOdabranaVozila()) {
-					//ako soba pripada trazenom hotelu
-					if(v.getFilijala().getRentACar().equals(rentAC)) {
-						System.out.println("------------to je taj RAC "+rentAC.getNaziv());
-						//ako jos nije dodata u listu zauzetih
-						if(!ne_moze.contains(v) ){
-							//dodaj u listu zauzetih
+					|| (r.getVoziloZauzetoOd().compareTo(datum1) >= 0 && r
+							.getVoziloZauzetoDo().compareTo(datum2) <= 0)) {
+				System.out
+						.println("+++---***\n\n\t broj vozila u rezervaciji: "
+								+ r.getOdabraneSobe().size());
+				// za svako vozilo u rezervaciji
+				for (Vozilo v : r.getOdabranaVozila()) {
+					// ako soba pripada trazenom hotelu
+					if (v.getFilijala().getRentACar().equals(rentAC)) {
+						System.out.println("------------to je taj RAC "
+								+ rentAC.getNaziv());
+						// ako jos nije dodata u listu zauzetih
+						if (!ne_moze.contains(v)) {
+							// dodaj u listu zauzetih
 							ne_moze.add(v);
 						}
 					}
 				}
 			}
 		}
-		System.out.println("broj rezervisanih soba: "+ne_moze.size());
+		System.out.println("broj rezervisanih soba: " + ne_moze.size());
 		for (Filijala filijala : filijale) {
-			Set<Vozilo> carList =  filijala.getVozila();
+			Set<Vozilo> carList = filijala.getVozila();
 			for (Vozilo v : carList) {
 				List<Ocena> ocene = ocenaService.findAllByVozilo(v);
 				v.setOcena(Ocena.getProsek(ocene));
 
-				//ako se ne nalazi u listi zauzetih
-				if(!ne_moze.contains(v)) {
-					//dodaj u listu pronadjenih
+				// ako se ne nalazi u listi zauzetih
+				if (!ne_moze.contains(v)) {
+					// dodaj u listu pronadjenih
 					pronadjene.add(v);
 				}
 			}
 		}
 		return pronadjene;
-		
+
 	}
 
 	/* update vozila po id-u */
@@ -184,15 +190,16 @@ public class VoziloController {
 		Vozilo vozilo = voziloService.findOne(carId);
 		if (vozilo == null) {
 			return ResponseEntity.notFound().build();
-		}else{
-			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
+		} else {
+			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService
+					.findAll();
 			for (Rezervacija rezervacija : aktivne) {
-				if(rezervacija.getAktivnaRezervacija()){
-					Set<Vozilo>  v= rezervacija.getOdabranaVozila();
+				if (rezervacija.getAktivnaRezervacija()) {
+					Set<Vozilo> v = rezervacija.getOdabranaVozila();
 					for (Vozilo vozilo2 : v) {
-						if(vozilo2.getId() == vozilo.getId()){
+						if (vozilo2.getId() == vozilo.getId()) {
 							return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-					}
+						}
 					}
 				}
 			}
@@ -212,27 +219,28 @@ public class VoziloController {
 	/* brisanje vozila */
 	@PreAuthorize("hasRole('ROLE_RENT')")
 	@DeleteMapping(value = "/api/cars/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Vozilo> deleteCar(
+	public ResponseEntity<Boolean> deleteCar(
 			@PathVariable(value = "id") Long carId) {
-		Vozilo vozilo = voziloService.findOne(carId);
-
-		if (vozilo != null) {
-			ArrayList<Rezervacija> aktivne = (ArrayList<Rezervacija>) rezervacijaService.findAll();
-			for (Rezervacija rezervacija : aktivne) {
-				if(rezervacija.getAktivnaRezervacija()){
-					Set<Vozilo>  v= rezervacija.getOdabranaVozila();
-					for (Vozilo vozilo2 : v) {
-						if(vozilo2.getId() == vozilo.getId()){
-							return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-					}
-					}
-				}
-			}
-			voziloService.remove(carId);
+		/*
+		 * Vozilo vozilo = voziloService.findOne(carId);
+		 * 
+		 * if (vozilo != null) { ArrayList<Rezervacija> aktivne =
+		 * (ArrayList<Rezervacija>) rezervacijaService.findAll(); for
+		 * (Rezervacija rezervacija : aktivne) {
+		 * if(rezervacija.getAktivnaRezervacija()){ Set<Vozilo> v=
+		 * rezervacija.getOdabranaVozila(); for (Vozilo vozilo2 : v) {
+		 * if(vozilo2.getId() == vozilo.getId()){ return new
+		 * ResponseEntity<>(HttpStatus.FORBIDDEN); } } } }
+		 * voziloService.remove(carId); return new
+		 * ResponseEntity<>(HttpStatus.OK); } else { return new
+		 * ResponseEntity<>(HttpStatus.NOT_FOUND);
+		 */
+		boolean success = voziloService.remove(carId);
+		if (success) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
-	}
 
+	}
 }
