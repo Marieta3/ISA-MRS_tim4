@@ -691,7 +691,9 @@ function renderFlights(data){
 	      "order":[[1,'asc']],
 	      "columnDefs": [
 	                     { "orderable": false, "targets": 0 },
-	                     { "orderable": false, "targets": 7 }
+	                     { "orderable": false, "targets": 7 },
+	                     { "orderable": false, "targets": 8 },
+	                     { "orderable": false, "targets": 9 }
 	                   ]
 	  });
 	}

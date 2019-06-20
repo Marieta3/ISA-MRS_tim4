@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ISAtim4.WebAppSpringAirport.domain.BrzaSoba;
 import com.ISAtim4.WebAppSpringAirport.domain.BrzoVozilo;
 import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.dto.BrzaRezervacijaDTO;
 import com.ISAtim4.WebAppSpringAirport.repository.BrzaSobaRepository;
+
 import com.ISAtim4.WebAppSpringAirport.repository.BrzoVoziloRepository;
 
 @Service

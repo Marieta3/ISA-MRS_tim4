@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AvioKompanija;
-import com.ISAtim4.WebAppSpringAirport.domain.Hotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
-import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 
 public interface LetRepository extends JpaRepository<Let, Long>{
 	

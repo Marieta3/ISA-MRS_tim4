@@ -21,11 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AdminAvio;
-import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
 import com.ISAtim4.WebAppSpringAirport.domain.Let;
 import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.Sediste;
-import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.dto.LetDTO;
 import com.ISAtim4.WebAppSpringAirport.service.KorisnikService;
 import com.ISAtim4.WebAppSpringAirport.service.LetService;

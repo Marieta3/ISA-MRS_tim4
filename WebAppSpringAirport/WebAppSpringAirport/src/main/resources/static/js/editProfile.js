@@ -79,7 +79,7 @@ $(document).on('submit', "#editProfileForma", function(e){
 			//window.location.replace("prikazKorisnika.html");
 		}
 			, error: function(XMLHttpRequest,textStatus, errorThrown) {
-				$.bootstrapGrowl("An error occured!", {
+				$.bootstrapGrowl("Username or email is taken!", {
 					  ele: 'body', // which element to append to
 					  type: 'danger', // (null, 'info', 'danger', 'success')
 					  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
