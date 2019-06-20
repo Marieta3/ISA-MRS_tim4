@@ -12,6 +12,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,9 @@ public class RezervacijaService {
 
 	@Autowired
 	PozivnicaService pozivnicaService;
+	
+	@Autowired
+	NotificationService notificationService;
 
 	@Transactional(readOnly = false)
 	public Rezervacija save(Rezervacija rezervacija) {
@@ -145,6 +149,11 @@ public class RezervacijaService {
 				pozivnica.setPrihvacen(false);
 				pozivnica.setReagovanoNaPoziv(false);
 				pozivnicaService.save(pozivnica);
+				try {
+					notificationService.sendInvitation(me,pozivnica);
+				} catch (MailException ex) {
+					System.out.printf("Error sending mail: {0}",ex.getMessage());
+				}
 			}
 		}
 		
@@ -159,6 +168,11 @@ public class RezervacijaService {
 				nereg.setDatumRodjenja(sdf.parse(tokens[3]));
 				nereg.setEmail(tokens[4]);
 				rezervacija.getNeregistrovani().add(nereg);
+				try {
+					notificationService.sendInvitationNereg(nereg);
+				} catch (MailException ex) {
+					System.out.printf("Error sending mail: {0}",ex.getMessage());
+				}
 			}
 		}
 		System.out.println("\n\n\tservice\n\t" + rezervacija.toString());
