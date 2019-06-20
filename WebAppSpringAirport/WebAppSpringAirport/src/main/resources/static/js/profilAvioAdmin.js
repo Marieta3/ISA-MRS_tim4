@@ -864,7 +864,11 @@ function dodavanjeBrzeRezervacije(e){
         data:brzoSedisteToJSON(let_id, row_col, nova_cena),
         success:function(data){
         	zatvoriModal('id07');
-        	notify("Successfully added quick seat reservation!", 'info');
+        	if(data!=null){
+        		notify("Successfully added quick seat reservation!", 'info');
+        	}else{
+        		notify("Cannot add more than one quick seat reservation to the same seat!", 'warning');
+        	}
         },
         error:function(data){
         	notify("Cannot add more than one quick seat reservation to the same seat!", 'warning');

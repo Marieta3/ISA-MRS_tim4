@@ -13,10 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.domain.Filijala;
@@ -46,7 +48,7 @@ public class FilijalaController {
 	VoziloService voziloService;
 	/* da snimimo filijalu */
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@RequestMapping(value = "/api/filijala", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/filijala",  produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Filijala createFilijala(@Valid @RequestBody FilijalaDTO filijalaDTO) {
 		Filijala filijala = new Filijala();
 
@@ -61,13 +63,13 @@ public class FilijalaController {
 	}
 
 	/* da uzmemo sve filijala, svima dozvoljeno */
-	@RequestMapping(value = "/api/filijala", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/filijala",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Filijala> getAllBranches() {
 		return filijalaService.findAll();
 	}
 
 	/* da uzmemo sve filijala za neki rent-a-car, svima dozvoljeno */
-	@RequestMapping(value = "/api/filijala/rent/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/filijala/rent/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Filijala> getAllBranchesByRentACar(
 			@PathVariable(value = "id") Long rentId) {
 		logger.info("ID je " + rentId);
@@ -76,7 +78,7 @@ public class FilijalaController {
 	}
 
 	/* da uzmemo sobu po id-u, svima dozvoljeno */
-	@RequestMapping(value = "/api/filijala/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/filijala/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Filijala> getFilijala(
 			@PathVariable(value = "id") Long filijalaId) {
 		Filijala filijala = filijalaService.findOne(filijalaId);
@@ -89,7 +91,7 @@ public class FilijalaController {
 
 	/* update filijala po id-u */
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@RequestMapping(value = "/api/filijala/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/filijala/{id}",  produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Filijala> updateBranch(
 			@PathVariable(value = "id") Long filijalaId,
 			@Valid @RequestBody Filijala filijalaDetalji) {
@@ -110,7 +112,7 @@ public class FilijalaController {
 
 	/* brisanje filijala */
 	@PreAuthorize("hasRole('ROLE_RENT')")
-	@RequestMapping(value = "/api/filijala/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/filijala/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Filijala> deleteFilijala(
 			@PathVariable(value = "id") Long filijalaId) {
 		Filijala filijala = filijalaService.findOne(filijalaId);

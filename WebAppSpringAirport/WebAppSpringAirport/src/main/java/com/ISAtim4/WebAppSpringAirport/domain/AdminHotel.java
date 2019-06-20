@@ -7,13 +7,15 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @DiscriminatorValue("hotel")
 public class AdminHotel extends Korisnik {
 	private static final long serialVersionUID = -5299829967225704146L;
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
-	@JsonBackReference
+	@JsonBackReference(value="adminhotela")
+	//@JsonIgnoreProperties("admini_hotela")
 	private Hotel hotel;
 	
 	

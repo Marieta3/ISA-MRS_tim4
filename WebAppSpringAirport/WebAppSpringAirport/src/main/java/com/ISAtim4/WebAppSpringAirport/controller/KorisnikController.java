@@ -1,7 +1,5 @@
 package com.ISAtim4.WebAppSpringAirport.controller;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.security.Principal;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -22,10 +20,12 @@ import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -78,12 +78,11 @@ public class KorisnikController {
 
 	/* da dodamo korisnika */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/api/users", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/users",produces= MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
 	public Korisnik createKorisnik(@Valid @RequestBody KorisnikDTO korisnikDTO) {
 		String uloga = korisnikDTO.getUloga();
 		Korisnik k = null;
 		Authority a = null;
-		System.out.println(korisnikDTO.adminOf.trim());
 		switch (uloga) {
 		case "avio": {
 			k = new AdminAvio();
@@ -132,51 +131,50 @@ public class KorisnikController {
 		k.setKorisnickoIme(korisnikDTO.getKorisnickoIme());
 		k.setLozinka(hashedPassword);
 		k.setMail(korisnikDTO.getMail());
-		ArrayList<Authority> auth = new ArrayList<Authority>();
+		ArrayList<Authority> auth = new ArrayList<>();
 		auth.add(a);
 		k.setAuthorities(auth);
 		try {
 			notificationService.sendPswToAdmin(k, rndLozinka);
 		} catch (MailException ex) {
-			logger.info("Error sending mail: " + ex.getMessage());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			logger.info("Error sending mail: {0}",ex.getMessage());
 		}
 		return korisnikService.save(k);
 	}
 
 	private static char randomChar() {
-		String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		Random rand = new SecureRandom();
-		return ALPHABET.charAt(rand.nextInt(ALPHABET.length()));
+		return alphabet.charAt(rand.nextInt(alphabet.length()));
 	}
 
 	public static String randomPsw(int length, int spacing, char spacerChar) {
-		String str = "";
+		StringBuilder str = new StringBuilder();
+		//String str = "";
 		int spacer = 0;
 		while (length > 0) {
 			if (spacer == spacing) {
-				str += spacerChar;
+				str.append(spacerChar);
 				spacer = 0;
 			}
 			length--;
 			spacer++;
-			str += randomChar();
+			str.append(randomChar());
 		}
-		return str;
+		return str.toString();
 	}
 
 	/* da uzmemo sve korisnike */
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
-	@RequestMapping(value = "/api/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Korisnik> getAllKorisnici() {
 		return korisnikService.findAll();
 	}
 
 	/* da uzmemo korisnika po id-u */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/api/users/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/api/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Korisnik> getKorisnik(
 			@PathVariable(value = "id") Long idKorisnika) {
 		Korisnik korisnik = korisnikService.findOne(idKorisnika);
@@ -189,7 +187,7 @@ public class KorisnikController {
 
 	/* update korisnika po id-u */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_AVIO','ROLE_RENT','ROLE_HOTEL')")
-	@RequestMapping(value = "/api/users/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/users/{id}",  produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Korisnik> updateKorisnika(
 			@PathVariable(value = "id") Long korisnikId,
 			@Valid @RequestBody KorisnikDTO korisnikDetalji) {
@@ -218,7 +216,7 @@ public class KorisnikController {
 
 	/* brisanje korisnika */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/api/users/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/api/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Korisnik> deleteKorisnika(Principal user,
 			@PathVariable(value = "id") Long korisnikId) {
 		Korisnik korisnik = korisnikService.findOne(korisnikId);
@@ -226,7 +224,7 @@ public class KorisnikController {
 		Korisnik ulogovanKorisnik = null;
 		if (user != null) {
 			ulogovanKorisnik = this.korisnikService.findByKorisnickoIme(user.getName());
-			if(korisnikId == ulogovanKorisnik.getId()){
+			if(korisnikId.equals(ulogovanKorisnik.getId())){
 				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 			}
 		}
@@ -239,7 +237,7 @@ public class KorisnikController {
 		}
 	}
 
-	@RequestMapping(value = "/api/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/api/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Korisnik> dodavanjeKorisnikaPriRegistraciji(
 			@Valid @RequestBody KorisnikDTO reg_korisnik) {
 		Korisnik korisnik = korisnikService.findByKorisnickoIme(reg_korisnik
@@ -258,7 +256,7 @@ public class KorisnikController {
 			reg.setAdresa(reg_korisnik.getAdresa());
 			reg.setTelefon(reg_korisnik.getTelefon());
 			Authority authority = authorityService.findByName("ROLE_USER");
-			ArrayList<Authority> auth = new ArrayList<Authority>();
+			ArrayList<Authority> auth = new ArrayList<>();
 			auth.add(authority);
 			reg.setAuthorities(auth);
 			korisnikService.save(reg);
@@ -267,9 +265,7 @@ public class KorisnikController {
 			try {
 				notificationService.sendNotification(reg);
 			} catch (MailException ex) {
-				logger.info("Error sending mail: " + ex.getMessage());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+				logger.info("Error sending mail: {0}",ex.getMessage());
 			}
 
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -278,16 +274,14 @@ public class KorisnikController {
 		}
 	}
 
-	@RequestMapping("/api/whoami")
+	@GetMapping("/api/whoami")
 	// @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
 	public Korisnik korisnik(Principal user) {
 		Korisnik k = null;
 		
 		if (user != null) {
 			k = this.korisnikService.findByKorisnickoIme(user.getName());
-			System.out.println("----------------------------enabled: "
-					+ k.isEnabled());
-			
+			logger.info("----------------------------enabled: {0}",k.isEnabled());
 		}
 		return k;
 	}
@@ -302,45 +296,42 @@ public class KorisnikController {
 		}
 		return rk.getRezervacije();
 	}*/
-	@RequestMapping("/api/hotel_admin")
+	@GetMapping("/api/hotel_admin")
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	public AdminHotel adminHotel(Principal user) {
 		AdminHotel ah=null;
 		if(user!=null) {
 			ah=(AdminHotel) this.korisnikService.findByKorisnickoIme(user.getName());
-			System.out.println("********"+ah.getHotel().getNaziv());
 		}
 		return ah;
 	}
 	
-	@RequestMapping("/api/rent_admin")
+	@GetMapping("/api/rent_admin")
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	public AdminRent adminRent(Principal user) {
 		AdminRent ah=null;
 		if(user!=null) {
 			ah=(AdminRent) this.korisnikService.findByKorisnickoIme(user.getName());
-			System.out.println("********"+ah.getrentACar().getNaziv());
 		}
 		return ah;
 	}
 	
-	@RequestMapping("/api/myhotel")
+	@GetMapping("/api/myhotel")
 	@PreAuthorize("hasRole('ROLE_HOTEL')")
 	public Hotel getMyHotel(Principal user) {
-		AdminHotel ah=null;
+		AdminHotel ah = new AdminHotel();
 		if(user!=null) {
 			ah=(AdminHotel) this.korisnikService.findByKorisnickoIme(user.getName());
-			System.out.println("********"+ah.getHotel().getNaziv());
 			List<Ocena> ocene = ocenaService.findAllByHotel(ah.getHotel());
 			ah.getHotel().setOcena(Ocena.getProsek(ocene));
 		}
 		return ah.getHotel();
 	}
 	
-	@RequestMapping("/api/myavio")
+	@GetMapping("/api/myavio")
 	@PreAuthorize("hasRole('ROLE_AVIO')")
 	public AvioKompanija getMyAvio(Principal user) {
-		AdminAvio aa=null;
+		AdminAvio aa=new AdminAvio();
 		if(user!=null) {
 			aa=(AdminAvio) this.korisnikService.findByKorisnickoIme(user.getName());
 
@@ -350,10 +341,10 @@ public class KorisnikController {
 		return aa.getAvio_kompanija();
 	}
 	
-	@RequestMapping("/api/myrent")
+	@GetMapping("/api/myrent")
 	@PreAuthorize("hasRole('ROLE_RENT')")
 	public RentACar getMyRent(Principal user) {
-		AdminRent ah=null;
+		AdminRent ah=new AdminRent();
 		if(user!=null) {
 			ah=(AdminRent) this.korisnikService.findByKorisnickoIme(user.getName());
 			List<Ocena> ocene = ocenaService.findAllByRent(ah.getrentACar());
@@ -363,7 +354,7 @@ public class KorisnikController {
 	}
 	
 	
-	@RequestMapping(value = "/api/updatePassword", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/api/updatePassword", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_HOTEL', 'ROLE_RENT', 'ROLE_AVIO')")
 	public String updatePassword(Principal user,
 			@Valid @RequestBody ChangePswDTO dto) {
@@ -376,15 +367,11 @@ public class KorisnikController {
 			String oldPsw = passwordEncoder.encode(dto.getOldPsw());		//unteta stari pw
 			
 			
-			System.out.println(k.getLozinka());
-			System.out.println(hashedPassword);
-			System.out.println(oldPsw);
-			
 			if(BCrypt.checkpw(dto.getOldPsw(), k.getLozinka())){
-				System.out.println("Old password is correct!");
+				logger.info("Old password is correct!");
 			}else {
 				return ("Old password is not correct!");
-			};
+			}
 			
 			if (dto.getOldPsw().equals(dto.getNewPsw())) {
 				return "New and old password should not match!";
@@ -407,9 +394,9 @@ public class KorisnikController {
 	}
 
 	/* da registrujemo korisnika sa verifikacionog linka */
-	@RequestMapping(value = "/api/users/enabled/{korIme}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+	@GetMapping(value = "/api/users/enabled/{korIme}", produces = MediaType.TEXT_PLAIN_VALUE)
 	public RedirectView getKorisnikRegistracija(
-			@PathVariable(value = "korIme") String korisnickoIme, RedirectAttributes redirectAttributes, HttpServletResponse resp) throws URISyntaxException, IOException {
+			@PathVariable(value = "korIme") String korisnickoIme, RedirectAttributes redirectAttributes, HttpServletResponse resp){
 
 		// BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 		byte[] decodedBytes = Base64.getDecoder().decode(korisnickoIme);

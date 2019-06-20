@@ -14,7 +14,7 @@ public class AdminAvio extends Korisnik {
 	private static final long serialVersionUID = 7282033796376524253L;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	@JsonBackReference
+	@JsonBackReference(value="adminiavio")
 	private AvioKompanija avio_kompanija; // koje avio kompanije
 
 	public AdminAvio() {
@@ -29,5 +29,4 @@ public class AdminAvio extends Korisnik {
 	public void setAvio_kompanija(AvioKompanija avio_kompanija) {
 		this.avio_kompanija = avio_kompanija;
 	}
-
 }

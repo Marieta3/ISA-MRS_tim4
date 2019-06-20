@@ -22,8 +22,7 @@ public class RentACar {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Version
-	private Long version;
+	
 	
 	@Column(nullable = false)
 	private String naziv;
@@ -45,10 +44,10 @@ public class RentACar {
 	@OneToMany(mappedBy = "rentACar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	//@JsonManagedReference
 	@JsonIgnoreProperties("rentACar")
-	private Set<Filijala> filijale = new HashSet<Filijala>();
+	private Set<Filijala> filijale = new HashSet<>();
 	@OneToMany(mappedBy = "rentACar", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private Set<AdminRent> admini = new HashSet<AdminRent>();
+	@JsonManagedReference(value="adminirentacar")
+	private Set<AdminRent> admini = new HashSet<>();
 
 	public RentACar() {
 	}

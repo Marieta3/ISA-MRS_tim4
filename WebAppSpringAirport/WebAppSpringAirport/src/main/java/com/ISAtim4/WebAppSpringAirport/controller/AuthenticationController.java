@@ -16,9 +16,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ISAtim4.WebAppSpringAirport.common.DeviceProvider;
@@ -47,7 +47,7 @@ public class AuthenticationController {
 	@Autowired
 	private DeviceProvider deviceProvider;
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@PostMapping(value = "/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
 			HttpServletResponse response, Device device) throws AuthenticationException, IOException {
 
@@ -68,16 +68,16 @@ public class AuthenticationController {
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
 	}
 
-	@RequestMapping(value = "/refresh", method = RequestMethod.POST)
+	@PostMapping(value = "/refresh")
 	public ResponseEntity<?> refreshAuthenticationToken(HttpServletRequest request) {
 
 		String token = tokenUtils.getToken(request);
 		String username = this.tokenUtils.getUsernameFromToken(token);
-	    Korisnik Korisnik = (Korisnik) this.userDetailsService.loadUserByUsername(username);
+	    Korisnik korisnik = (Korisnik) this.userDetailsService.loadUserByUsername(username);
 
 		Device device = deviceProvider.getCurrentDevice(request);
 
-		if (this.tokenUtils.canTokenBeRefreshed(token, Korisnik.getLastPasswordResetDate())) {
+		if (this.tokenUtils.canTokenBeRefreshed(token, korisnik.getLastPasswordResetDate())) {
 			String refreshedToken = tokenUtils.refreshToken(token, device);
 			int expiresIn = tokenUtils.getExpiredIn(device);
 
@@ -88,7 +88,7 @@ public class AuthenticationController {
 		}
 	}
 
-	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
+	@PostMapping(value = "/change-password")
 	@PreAuthorize("hasAnyRole('HOTEL_ADMIN', 'RENT_ADMIN', 'AVIO_ADMIN', 'ROLE_ADMIN', 'ROLE_USER')")
 	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
 		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);

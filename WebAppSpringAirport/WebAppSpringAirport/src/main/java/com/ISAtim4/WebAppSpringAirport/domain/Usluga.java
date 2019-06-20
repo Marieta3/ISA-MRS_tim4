@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Usluga {
@@ -24,7 +25,8 @@ public class Usluga {
 	private double cena;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	@JsonBackReference
+	@JsonBackReference(value="uslugahotela")
+	//@JsonIgnoreProperties("usluge")
 	private Hotel hotel;
 	
 	

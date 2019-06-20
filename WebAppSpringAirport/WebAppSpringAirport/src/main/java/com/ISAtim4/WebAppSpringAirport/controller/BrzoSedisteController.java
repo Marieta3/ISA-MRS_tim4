@@ -25,20 +25,28 @@ import com.ISAtim4.WebAppSpringAirport.service.SedisteService;
 public class BrzoSedisteController {
 	@Autowired
 	private BrzoSedisteService brzoSedisteService;
-	
+
 	@Autowired
 	private SedisteService sedisteService;
-	
+
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@RequestMapping(value = "/api/quick/seat", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/quick/seat", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public BrzoSediste createBrzoSediste(@Valid @RequestBody BrzaRezervacijaDTO brzoSedisteDTO) {
-		BrzoSediste brzoSediste=new BrzoSediste();
-		brzoSediste.setNova_cena(brzoSedisteDTO.getNovaCena());
-		
-		Sediste sediste=sedisteService.findOneByLetRowCol(brzoSedisteDTO.getId(), brzoSedisteDTO.getRow_col());
-		//TODO: ubaciti proveru da li je mozda rezervisano u tom periodu
-		brzoSediste.setSediste(sediste);
-		return brzoSedisteService.save(brzoSediste);
+		BrzoSediste brzoSediste = null;
+
+		Sediste sediste = sedisteService.findOneByLetRowCol(brzoSedisteDTO.getId(), brzoSedisteDTO.getRow_col());
+		if (!sediste.isRezervisano()) {
+			brzoSediste = brzoSedisteService.findOneBySediste(sediste);
+			// ne sme biti vise brzih rezervacija za isto sediste
+			if (brzoSediste == null) {
+
+				brzoSediste = new BrzoSediste();
+				brzoSediste.setSediste(sediste);
+				brzoSediste.setNova_cena(brzoSedisteDTO.getNovaCena());
+				return brzoSedisteService.save(brzoSediste);
+			}
+		}
+		return null;
 	}
 
 	/* da uzmemo sve usluge, svima dozvoljeno */
@@ -46,12 +54,10 @@ public class BrzoSedisteController {
 	public List<BrzoSediste> getAllBrzaVozila() {
 		return brzoSedisteService.findAll();
 	}
-	
-	
+
 	/* da uzmemo uslugu po id-u, svima dozvoljeno */
 	@RequestMapping(value = "/api/quick/seat/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BrzoSediste> getBrzoSediste(
-			@PathVariable(value = "id") Long brzoSedisteId) {
+	public ResponseEntity<BrzoSediste> getBrzoSediste(@PathVariable(value = "id") Long brzoSedisteId) {
 		BrzoSediste brzoSediste = brzoSedisteService.findOne(brzoSedisteId);
 
 		if (brzoSediste == null) {
@@ -62,9 +68,8 @@ public class BrzoSedisteController {
 
 	/* update usluge po id-u */
 	@PreAuthorize("hasRole('ROLE_AVIO')")
-	@RequestMapping(value = "/api/quick/seat/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE,consumes= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BrzoSediste> updateBrzoSediste(
-			@PathVariable(value = "id") Long brzoSedisteId,
+	@RequestMapping(value = "/api/quick/seat/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<BrzoSediste> updateBrzoSediste(@PathVariable(value = "id") Long brzoSedisteId,
 			@Valid @RequestBody BrzoSediste brzoSedisteDetalji) {
 
 		BrzoSediste brzoSediste = brzoSedisteService.findOne(brzoSedisteId);
@@ -73,15 +78,14 @@ public class BrzoSedisteController {
 		}
 
 		BrzoSediste updateBrzoSediste = brzoSedisteService.save(brzoSediste);
-		
+
 		return ResponseEntity.ok().body(updateBrzoSediste);
 	}
 
 	/* brisanje usluge */
 	@PreAuthorize("hasRole('ROLE_AVIO')")
 	@RequestMapping(value = "/api/quick/seat/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BrzoSediste> deleteBrzoSediste(
-			@PathVariable(value = "id") Long brzoSedisteId) {
+	public ResponseEntity<BrzoSediste> deleteBrzoSediste(@PathVariable(value = "id") Long brzoSedisteId) {
 		BrzoSediste brzoSediste = brzoSedisteService.findOne(brzoSedisteId);
 
 		if (brzoSediste != null) {

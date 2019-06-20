@@ -24,7 +24,7 @@ public class AvioKompanija {
 	private String naziv;
 
 	@OneToMany(mappedBy="avio_kompanija",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonManagedReference(value="adminiavio")
 	private Set<AdminAvio> admin= new HashSet<>();
 	
 	@Column(nullable = false)

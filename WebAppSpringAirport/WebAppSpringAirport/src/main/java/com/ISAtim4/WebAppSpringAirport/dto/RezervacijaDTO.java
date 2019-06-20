@@ -15,6 +15,7 @@ public class RezervacijaDTO {
 	private ArrayList<Long> sobe=new ArrayList<>();
 	private ArrayList<Long> vozila=new ArrayList<>();
 	private ArrayList<Long> pozvani_prijatelji=new ArrayList<>();
+	private ArrayList<String> neregistrovani=new ArrayList<>();
 	
 	private double ukupnaCena=0.0;
 	private Date sobaOD;
@@ -85,6 +86,12 @@ public class RezervacijaDTO {
 		return "RezervacijaDTO [id_leta=" + id_leta + ", sedista=" + sedista + ", sobe=" + sobe + ", vozila=" + vozila
 				+ ", pozvani_prijatelji=" + pozvani_prijatelji + ", ukupnaCena=" + ukupnaCena + ", sobaOD=" + sobaOD
 				+ ", brojNocenja=" + brojNocenja + ", voziloOD=" + voziloOD + ", voziloDO=" + voziloDO + "]";
+	}
+	public ArrayList<String> getNeregistrovani() {
+		return neregistrovani;
+	}
+	public void setNeregistrovani(ArrayList<String> neregistrovani) {
+		this.neregistrovani = neregistrovani;
 	}
 	
 	
