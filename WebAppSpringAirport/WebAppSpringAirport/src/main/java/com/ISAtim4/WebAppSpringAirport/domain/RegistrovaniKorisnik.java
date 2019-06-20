@@ -3,6 +3,7 @@ package com.ISAtim4.WebAppSpringAirport.domain;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -20,10 +21,14 @@ public class RegistrovaniKorisnik extends Korisnik {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	List<Pozivnica> listaPozivnica;
+
+	@Column(nullable = true)
+	private double brojPoena; // mora prvi put da izmeni lozinku, posle
 	
 	public RegistrovaniKorisnik() {
 		super();
 		super.setUlogovanPrviPut(true);
+		this.brojPoena = 0;
 	}
 
 	public List<Prijateljstvo> getListaPrijatelja() {
@@ -42,7 +47,20 @@ public class RegistrovaniKorisnik extends Korisnik {
 		this.listaOcena = listaOcena;
 	}
 
-	
-	
+	public List<Pozivnica> getListaPozivnica() {
+		return listaPozivnica;
+	}
+
+	public void setListaPozivnica(List<Pozivnica> listaPozivnica) {
+		this.listaPozivnica = listaPozivnica;
+	}
+
+	public double getBrojPoena() {
+		return brojPoena;
+	}
+
+	public void setBrojPoena(double brojPoena) {
+		this.brojPoena = brojPoena;
+	}
 
 }

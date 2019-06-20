@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ISAtim4.WebAppSpringAirport.domain.Bodovanje;
 import com.ISAtim4.WebAppSpringAirport.domain.Korisnik;
 import com.ISAtim4.WebAppSpringAirport.domain.NeregistrovaniPutnik;
 import com.ISAtim4.WebAppSpringAirport.domain.Pozivnica;
@@ -50,6 +51,9 @@ public class RezervacijaService {
 
 	@Autowired
 	PozivnicaService pozivnicaService;
+	
+	@Autowired
+	BodovanjeService bodovanjeService;
 
 	@Transactional(readOnly = false)
 	public Rezervacija save(Rezervacija rezervacija) {
@@ -132,6 +136,18 @@ public class RezervacijaService {
 		rezervacija.setDatumRezervacije(new Date());
 		// me.getRezervacije().add(rezervacija);
 
+		Bodovanje b = bodovanjeService.findOne(1L);
+		double km = rezervacija.getOdabranaSedista().iterator().next().getLet().getDuzinaPutovanja() *1.0;
+		double bonusPoeni = km / b.getKmZaBroj();
+		
+		double userPoint = me.getBrojPoena();
+		userPoint += bonusPoeni;
+		if(userPoint >= b.getMaxBroj())
+		{
+			userPoint = b.getMaxBroj()*1.0;
+		}
+		me.setBrojPoena(userPoint);
+		korisnikService.save(me);
 		// pozivnice
 		if (!rezervacijaDTO.getPozvani_prijatelji().isEmpty()) {
 			ArrayList<Korisnik> pozvani = korisnikService.findAllIds(rezervacijaDTO.getPozvani_prijatelji());
@@ -145,8 +161,10 @@ public class RezervacijaService {
 				pozivnica.setPrihvacen(false);
 				pozivnica.setReagovanoNaPoziv(false);
 				pozivnicaService.save(pozivnica);
+				
 			}
 		}
+
 		
 		if(!rezervacijaDTO.getNeregistrovani().isEmpty()) {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");

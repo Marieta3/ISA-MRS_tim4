@@ -7,21 +7,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ISAtim4.WebAppSpringAirport.domain.AdminAvio;
 import com.ISAtim4.WebAppSpringAirport.domain.AdminHotel;
@@ -253,6 +247,7 @@ public class KorisnikService {
 			reg.setMail(reg_korisnik.getMail());
 			reg.setAdresa(reg_korisnik.getAdresa());
 			reg.setTelefon(reg_korisnik.getTelefon());
+			reg.setBrojPoena(0);
 			Authority authority = authorityService.findByName("ROLE_USER");
 			ArrayList<Authority> auth = new ArrayList<>();
 			auth.add(authority);

@@ -7,9 +7,11 @@ $(document).ready(function(){
 	uloga=localStorage.getItem("uloga");
 	if(uloga=="ROLE_ADMIN"){
 		$("#nav-bar").append('<li><button class="dodajKorisnikaBtn" onclick="otvoriModal(\'id03\')">New Admin</button></li>');
+
+		findAll();
+		findPoints();
 	}
 });
-findAll();
 function findAll(){
 	$.ajax({
 		type:'GET',
@@ -21,6 +23,52 @@ function findAll(){
 		success:renderKorisnici
 	})
 }
+
+$(document).on('submit', "#userPointsForma", function(e){
+	e.preventDefault();
+	var max = $("#maxPoints").val();
+	var km =  $("#kmForPoints").val();
+	$.ajax({
+		type:'POST',
+		url:'/api/points/',
+		dataType:'json',
+		contentType: 'application/json',
+		data : JSON.stringify({"kmZaBroj" : km, "maxBroj" : max}),
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success: function(data)
+        {
+			$.bootstrapGrowl("Bonus point logic changed succesfully!", {
+				  ele: 'body', // which element to append to
+				  type: 'success', // (null, 'info', 'danger', 'success')
+				  offset: {from: 'top', amount: 20}, // 'top', or 'bottom'
+				  align: 'center', // ('left', 'right', or 'center')
+				  width: 'auto', // (integer, or 'auto')
+				  delay: 3000, // Time while the message will be displayed. It's not equivalent to the demo timeOut!
+				  allow_dismiss: false, // If true then will display a cross to close the popup.
+				  stackup_spacing: 10 // spacing between consecutively stacked growls.
+				});
+        }
+	})
+})
+
+function findPoints(){
+	$.ajax({
+		type:'GET',
+		url:'/api/points/',
+		dataType:'json',
+		beforeSend: function(request) {
+            request.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("accessToken"));
+        },
+		success: function(data)
+        {
+			$("#maxPoints").val(data.maxBroj);
+			$("#kmForPoints").val(data.kmZaBroj);
+        }
+	})
+}
+
 
 function renderKorisnici(data){
 	var list = data == null ? [] : (data instanceof Array ? data : [ data ]);
