@@ -130,7 +130,12 @@ public class RezervacijaService {
 			}
 			rezervacija.setOdabranaVozila(vozila);
 			rezervacija.setVoziloZauzetoOd(rezervacijaDTO.getVoziloOD());
-			rezervacija.setVoziloZauzetoDo(rezervacijaDTO.getVoziloDO());
+			rezervacija.setVoziloZauzetoOd(rezervacijaDTO.getVoziloOD());
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(rezervacijaDTO.getVoziloOD());
+			cal.add(Calendar.DATE, rezervacijaDTO.getBrojDana());
+			Date voziloRezervisanaDo = cal.getTime();
+			rezervacija.setVoziloZauzetoDo(voziloRezervisanaDo);
 		}
 		rezervacija.setCena(rezervacijaDTO.getUkupnaCena());
 		rezervacija.setDatumRezervacije(new Date());
