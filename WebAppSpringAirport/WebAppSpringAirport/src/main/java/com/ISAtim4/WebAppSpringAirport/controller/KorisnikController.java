@@ -205,7 +205,7 @@ public class KorisnikController {
 		/*
 		 * Marieta: posto trenutno nema izmene lozinke u azuriranju profila
 		 */
-		korisnik.setLozinka(korisnikDetalji.getLozinka());
+		//korisnik.setLozinka(korisnikDetalji.getLozinka());
 		korisnik.setMail(korisnikDetalji.getMail());
 		korisnik.setSlika(korisnikDetalji.getSlika());
 		korisnik.setAdresa(korisnikDetalji.getAdresa());
@@ -364,7 +364,7 @@ public class KorisnikController {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			
 			String hashedPassword = passwordEncoder.encode(dto.getNewPsw());  //uneta novi pw
-			String oldPsw = passwordEncoder.encode(dto.getOldPsw());		//unteta stari pw
+			//String oldPsw = passwordEncoder.encode(dto.getOldPsw());		//unteta stari pw
 			
 			
 			if(BCrypt.checkpw(dto.getOldPsw(), k.getLozinka())){

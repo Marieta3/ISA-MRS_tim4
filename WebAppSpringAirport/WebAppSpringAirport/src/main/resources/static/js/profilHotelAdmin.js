@@ -2,6 +2,16 @@
  * 
  */
 $(document).ready(function(){
+    var today = new Date();
+    var day=today.getDate()>9?today.getDate():"0"+today.getDate(); // format should be "DD" not "D" e.g 09
+    var month=(today.getMonth()+1)>9?(today.getMonth()+1):"0"+(today.getMonth()+1);
+    var year=today.getFullYear();
+
+    $("#quick-room-start").attr('min', year + "-" + month + "-" + day);
+    $("#quick-room-start").attr('max', "2025-01-01");
+    $("#quick-room-end").attr('min', year + "-" + month + "-" + day);
+    $("#quick-room-end").attr('max', "2025-01-01");
+    
 	findAllByHotel();
 	findAllUslugeByHotel();
 	ymaps.ready(init);

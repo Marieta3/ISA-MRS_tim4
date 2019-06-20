@@ -1,10 +1,23 @@
 /**
  * 
  */
-ymaps.ready(init);
 $(document).on('click', '#btnBranchList', findAllBranchesByRent)
 $(document).on('click', '#btnCarList', findBranchAddresses)
 $(document).on('click', '#btnCarList', findAllCarsByRent)
+
+$(document).ready(function () {
+        var today = new Date();
+        var day=today.getDate()>9?today.getDate():"0"+today.getDate(); // format should be "DD" not "D" e.g 09
+        var month=(today.getMonth()+1)>9?(today.getMonth()+1):"0"+(today.getMonth()+1);
+        var year=today.getFullYear();
+
+        $("#quick-car-start").attr('min', year + "-" + month + "-" + day);
+        $("#quick-car-start").attr('max', "2025-01-01");
+        $("#quick-car-end").attr('min', year + "-" + month + "-" + day);
+        $("#quick-car-end").attr('max', "2025-01-01");
+        
+    	ymaps.ready(init);
+});
 
 function init(){
 	//pokupiti koordinate iz hidden polja

@@ -30,7 +30,6 @@ import com.ISAtim4.WebAppSpringAirport.domain.Ocena;
 import com.ISAtim4.WebAppSpringAirport.domain.Rezervacija;
 import com.ISAtim4.WebAppSpringAirport.domain.Soba;
 import com.ISAtim4.WebAppSpringAirport.domain.Usluga;
-import com.ISAtim4.WebAppSpringAirport.domain.Vozilo;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaDTO;
 import com.ISAtim4.WebAppSpringAirport.dto.SobaPretragaDTO;
 import com.ISAtim4.WebAppSpringAirport.service.HotelService;
